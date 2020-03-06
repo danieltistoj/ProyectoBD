@@ -5,10 +5,17 @@
  */
 package proyectobd;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author Usuario
  */
-public class ConexionMySQL {
+public class ConexionMySQL extends ConexionDB {
+    
+    public ConexionMySQL(String host, String puerto,String baseDatos,String usuario,String password){
+     super("com:mysql.cj.jdbc.Driver","jdbc:mysql://"+host+":"+puerto+"/"+baseDatos,usuario,password);  
+    }
+    
     
 }

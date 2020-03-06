@@ -32,6 +32,9 @@ public class ProyectoBD {
                 System.out.println(resultSet.getString("Telefono")+" "+resultSet.getString("Nombre"));
                
             }
+            resultSet.close();
+            sentencia.close();
+            
         } catch (ClassNotFoundException | SQLException ex) {
             System.out.println(ex.getMessage());
         }
