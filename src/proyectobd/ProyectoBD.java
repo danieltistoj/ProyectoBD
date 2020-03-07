@@ -21,7 +21,9 @@ public class ProyectoBD {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        /*
         try {
+            
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3305/databrevista","root","xela2020");
             
@@ -37,6 +39,18 @@ public class ProyectoBD {
             
         } catch (ClassNotFoundException | SQLException ex) {
             System.out.println(ex.getMessage());
+        }
+*/
+        try {
+            ConexionMySQL conexion = new ConexionMySQL("localhost","3305","databrevista","root","xela2020");
+            conexion.EjecutarConsulta("select * from Estudiante");
+            ResultSet rs = conexion.getResulSet();
+            while(rs.next()){
+                System.out.println(rs.getString("Nombre"));
+            }
+            
+        } catch (SQLException ex) {
+             System.out.println(ex.getMessage());
         }
     }
     

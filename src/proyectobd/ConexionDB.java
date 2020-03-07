@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Logger;
 
 /**
  *
@@ -42,5 +43,38 @@ public class ConexionDB {
         }
     }
     
+    public void EjecutarConsulta(String consulta){
+        try {
+        sentencia = conexion.createStatement();
+        resulSet = sentencia.executeQuery(consulta);
+        
+        } catch (SQLException ex) {
+            System.out.println("Error en la consulta");
+            System.out.println(ex.getMessage());
+        }  
+    }
+    
+    public void EjecutarInstruccion(String Instruccion){
+        int filas = 0;
+        try {
+            sentencia = conexion.createStatement();
+            filas = sentencia.executeUpdate(Instruccion);
+        } catch (SQLException ex) {
+            System.out.println("Error en la instruccion");
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public Connection getConexion() {
+        return conexion;
+    }
+
+    public Statement getSentencia() {
+        return sentencia;
+    }
+
+    public ResultSet getResulSet() {
+        return resulSet;
+    }
     
 }
