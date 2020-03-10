@@ -40,7 +40,7 @@ public class ProyectoBD {
         } catch (ClassNotFoundException | SQLException ex) {
             System.out.println(ex.getMessage());
         }
-*/
+*/   
         try {
             ConexionMySQL conexion = new ConexionMySQL("localhost","3305","databrevista","root","xela2020");
             conexion.EjecutarConsulta("select * from Estudiante");
