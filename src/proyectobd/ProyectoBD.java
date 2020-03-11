@@ -21,6 +21,8 @@ public class ProyectoBD {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Material material = new Material();
+        material.setVisible(true);
         /*
         try {
             
@@ -41,17 +43,20 @@ public class ProyectoBD {
             System.out.println(ex.getMessage());
         }
 */   
+        
+        /*
         try {
-            ConexionMySQL conexion = new ConexionMySQL("localhost","3305","databrevista","root","xela2020");
-            conexion.EjecutarConsulta("select * from Estudiante");
+            ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd2","root","xela2020");
+            conexion.EjecutarConsulta("SELECT * FROM material");
             ResultSet rs = conexion.getResulSet();
             while(rs.next()){
-                System.out.println(rs.getString("Nombre"));
+                System.out.println(rs.getString("tipo"));
             }
             
         } catch (SQLException ex) {
              System.out.println(ex.getMessage());
         }
+*/
     }
     
 }
