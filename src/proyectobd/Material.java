@@ -17,16 +17,14 @@ import javax.swing.table.DefaultTableModel;
  * @author Usuario
  */
 public class Material extends javax.swing.JFrame {
-
-    /**
-     * Creates new form Material
-     */
-    public Material() {
+     
+     private  String[]  titulos = {"Id","Nombre","Alto","Ancho","Cantidad","Color","Tipo"};
+     
+     public Material() {
         initComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setTitle("Material");
-        LlenarTabla();
        // setVisible(true);
     }
 
@@ -44,8 +42,9 @@ public class Material extends javax.swing.JFrame {
         tablaMateriales = new javax.swing.JTable();
         botonNuevo = new javax.swing.JButton();
         botonEliminar = new javax.swing.JButton();
-        botonBuscar = new javax.swing.JButton();
         cuadroTexto = new javax.swing.JTextField();
+        botonCargar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,7 +70,20 @@ public class Material extends javax.swing.JFrame {
 
         botonEliminar.setText("Eliminar");
 
-        botonBuscar.setText("Buscar");
+        cuadroTexto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cuadroTextoKeyPressed(evt);
+            }
+        });
+
+        botonCargar.setText("Cargar");
+        botonCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCargarActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Id / Nombre");
 
         javax.swing.GroupLayout panelMaterialLayout = new javax.swing.GroupLayout(panelMaterial);
         panelMaterial.setLayout(panelMaterialLayout);
@@ -82,10 +94,13 @@ public class Material extends javax.swing.JFrame {
                 .addGroup(panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
                     .addGroup(panelMaterialLayout.createSequentialGroup()
-                        .addComponent(botonBuscar)
-                        .addGap(18, 18, 18)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cuadroTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(botonCargar)
+                        .addGap(18, 18, 18)
                         .addComponent(botonNuevo)
                         .addGap(22, 22, 22)
                         .addComponent(botonEliminar)))
@@ -98,8 +113,9 @@ public class Material extends javax.swing.JFrame {
                 .addGroup(panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonEliminar)
                     .addComponent(botonNuevo)
-                    .addComponent(botonBuscar)
-                    .addComponent(cuadroTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(botonCargar)
+                    .addComponent(cuadroTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -118,26 +134,54 @@ public class Material extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-public void LlenarTabla(){
-    try {
-        DefaultTableModel modelo = new DefaultTableModel();
-        tablaMateriales.setModel(modelo);
+
+    private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonNuevoActionPerformed
+//Buscacr un registro
+    private void cuadroTextoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cuadroTextoKeyPressed
+      /*
+      String [] registro = new String[50];
+      String sql = "SELECT * FROM material WHERE id = '"+cuadroTexto.getText()+"' OR nombre = '"+cuadroTexto.getText()+"'";
+      DefaultTableModel modelo = new DefaultTableModel(null,titulos);
+        try {
+             ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+             conexion.EjecutarConsulta(sql);
+             ResultSet rs = conexion.getResulSet();
+             while(rs.next()){
+                 registro[0] = rs.getString("id");
+                 registro[1] = rs.getString("nombre");
+                 registro[2] = rs.getString("alto");
+                 registro[3] = rs.getString("ancho");
+                 registro[4] = rs.getString("cantidad");
+                 registro[5] = rs.getString("color");
+                 registro[6] = rs.getString("tipo");
+                 modelo.addRow(registro);
+             }
+            tablaMateriales.setModel(modelo);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane,"Error de conexion","Error",JOptionPane.ERROR_MESSAGE);
+         System.out.println(ex.getMessage());
+        }
+        */
+    }//GEN-LAST:event_cuadroTextoKeyPressed
+
+    private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
+       String campo = cuadroTexto.getText();
+        String where = "";
+        if(!"".equals(campo)){
+            where = "WHERE id = '"+campo+"' OR nombre = '"+campo+"'";
+        }
+         try {
+         DefaultTableModel modelo = new DefaultTableModel(null,titulos);
+         tablaMateriales.setModel(modelo);
          ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
-            conexion.EjecutarConsulta("SELECT id, nombre, alto, ancho, cantidad, color, tipo FROM material");
+         conexion.EjecutarConsulta("SELECT id, nombre, alto, ancho, cantidad, color, tipo FROM material "+where);
             
             ResultSet rs = conexion.getResulSet();
             ResultSetMetaData rsMd = rs.getMetaData();
             int cantidadColumnas = rsMd.getColumnCount();
-            
-            modelo.addColumn("Id");
-            modelo.addColumn("Nombre");
-            modelo.addColumn("Alto");
-            modelo.addColumn("Ancho");
-            modelo.addColumn("Cantidad");
-            modelo.addColumn("Color");
-            modelo.addColumn("Tipo");
-            
-            
+              
             while(rs.next()){
                 Object[] fila = new Object[cantidadColumnas];
                 for(int i=0; i <cantidadColumnas ; i++){
@@ -150,10 +194,7 @@ public void LlenarTabla(){
          System.out.println(ex.getMessage());
         
     }
-}
-    private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botonNuevoActionPerformed
+    }//GEN-LAST:event_botonCargarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -191,10 +232,11 @@ public void LlenarTabla(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botonBuscar;
+    private javax.swing.JButton botonCargar;
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonNuevo;
     private javax.swing.JTextField cuadroTexto;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelMaterial;
     private javax.swing.JTable tablaMateriales;
