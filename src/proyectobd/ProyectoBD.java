@@ -22,7 +22,7 @@ public class ProyectoBD {
      */
     public static void main(String[] args) {
         Material material = new Material();
-       // material.setVisible(true);
+        material.setVisible(true);
         /*
         try {
             
@@ -44,7 +44,7 @@ public class ProyectoBD {
         }
 */   
         
-        
+        /*
         try {
             ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd2","root","xela2020");
             conexion.EjecutarConsulta("SELECT * FROM material");
@@ -56,6 +56,7 @@ public class ProyectoBD {
         } catch (SQLException ex) {
              System.out.println(ex.getMessage());
         }
+        */
 
         /*
         

@@ -5,6 +5,7 @@
  */
 package proyectobd;
 
+import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -25,6 +26,10 @@ public class Material extends javax.swing.JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setTitle("Material");
+        
+        ventanaNuevo.setTitle("Nuevo Material");
+        ventanaNuevo.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+       
        // setVisible(true);
     }
 
@@ -38,6 +43,17 @@ public class Material extends javax.swing.JFrame {
     private void initComponents() {
 
         ventanaNuevo = new javax.swing.JDialog();
+        panelNuevo = new javax.swing.JPanel();
+        txtNombre = new javax.swing.JTextField();
+        txtCantidad = new javax.swing.JTextField();
+        txtColor = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        botonAceptarD = new javax.swing.JButton();
+        botonCancelarD = new javax.swing.JButton();
+        comboTipo = new javax.swing.JComboBox<>();
+        botonRadio = new javax.swing.JRadioButton();
         panelMaterial = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaMateriales = new javax.swing.JTable();
@@ -47,15 +63,108 @@ public class Material extends javax.swing.JFrame {
         botonCargar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
+        ventanaNuevo.setSize(new java.awt.Dimension(404, 522));
+
+        panelNuevo.setPreferredSize(new java.awt.Dimension(404, 522));
+
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyTyped(evt);
+            }
+        });
+
+        jLabel2.setText("Nombre");
+
+        jLabel5.setText("Cantidad");
+
+        jLabel6.setText("Color");
+
+        botonAceptarD.setText("Aceptar");
+        botonAceptarD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAceptarDActionPerformed(evt);
+            }
+        });
+
+        botonCancelarD.setText("Cancelar ");
+        botonCancelarD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCancelarDActionPerformed(evt);
+            }
+        });
+
+        comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Carta", "Oficio" }));
+
+        botonRadio.setText("Tipo");
+
+        javax.swing.GroupLayout panelNuevoLayout = new javax.swing.GroupLayout(panelNuevo);
+        panelNuevo.setLayout(panelNuevoLayout);
+        panelNuevoLayout.setHorizontalGroup(
+            panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNuevoLayout.createSequentialGroup()
+                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelNuevoLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNuevoLayout.createSequentialGroup()
+                                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNuevoLayout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(6, 6, 6)))
+                                .addGap(62, 62, 62))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNuevoLayout.createSequentialGroup()
+                                .addComponent(botonRadio)
+                                .addGap(32, 32, 32)))
+                        .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtColor)
+                            .addComponent(txtNombre)
+                            .addComponent(txtCantidad)
+                            .addComponent(comboTipo, 0, 158, Short.MAX_VALUE)))
+                    .addGroup(panelNuevoLayout.createSequentialGroup()
+                        .addGap(83, 83, 83)
+                        .addComponent(botonAceptarD)
+                        .addGap(54, 54, 54)
+                        .addComponent(botonCancelarD)
+                        .addGap(0, 57, Short.MAX_VALUE)))
+                .addGap(43, 43, 43))
+        );
+        panelNuevoLayout.setVerticalGroup(
+            panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelNuevoLayout.createSequentialGroup()
+                .addGap(73, 73, 73)
+                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(31, 31, 31)
+                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(45, 45, 45)
+                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(46, 46, 46)
+                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonRadio))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonAceptarD)
+                    .addComponent(botonCancelarD))
+                .addGap(79, 79, 79))
+        );
+
         javax.swing.GroupLayout ventanaNuevoLayout = new javax.swing.GroupLayout(ventanaNuevo.getContentPane());
         ventanaNuevo.getContentPane().setLayout(ventanaNuevoLayout);
         ventanaNuevoLayout.setHorizontalGroup(
             ventanaNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 404, Short.MAX_VALUE)
+            .addComponent(panelNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         ventanaNuevoLayout.setVerticalGroup(
             ventanaNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 297, Short.MAX_VALUE)
+            .addComponent(panelNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -148,7 +257,8 @@ public class Material extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
-        // TODO add your handling code here:
+        ventanaNuevo.setVisible(true);
+        ventanaNuevo.setLocationRelativeTo(null);
     }//GEN-LAST:event_botonNuevoActionPerformed
 //Buscacr un registro
     private void cuadroTextoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cuadroTextoKeyPressed
@@ -177,7 +287,7 @@ public class Material extends javax.swing.JFrame {
         }
         */
     }//GEN-LAST:event_cuadroTextoKeyPressed
-
+//Cargar la base de datos en la tabla de la ventana. 
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
        String campo = cuadroTexto.getText();
         String where = "";
@@ -207,6 +317,64 @@ public class Material extends javax.swing.JFrame {
         
     }
     }//GEN-LAST:event_botonCargarActionPerformed
+private void cerrarDialogNuevo(){
+     ventanaNuevo.setVisible(false);
+      txtNombre.setText("");
+      txtCantidad.setText("");
+      txtColor.setText("");
+      ventanaNuevo.dispose();
+}
+//boton cancelar dialog
+    private void botonCancelarDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarDActionPerformed
+      cerrarDialogNuevo();
+    }//GEN-LAST:event_botonCancelarDActionPerformed
+//Haceptar solo numeros 
+    private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
+      char validar = evt.getKeyChar();
+      if(Character.isLetter(validar)){
+          getToolkit().beep();
+          evt.consume();
+          JOptionPane.showMessageDialog(rootPane,"Solo ingrese numeros","Error",JOptionPane.ERROR_MESSAGE);
+      }
+    }//GEN-LAST:event_txtCantidadKeyTyped
+//Boton aceptar nuevo material 
+    private void botonAceptarDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarDActionPerformed
+        float alto, ancho; 
+        String tipo;
+        
+            if(txtNombre.getText().length() == 0 || txtCantidad.getText().length() == 0){ // ver si los campos nombre y cantidad estan llenos 
+                JOptionPane.showMessageDialog(rootPane,"Llene los campos obligatorios","Error",JOptionPane.ERROR_MESSAGE);
+            }
+            else{//si los campos obligatorios estan llenos.  
+                if(botonRadio.isSelected()){//Si la opcion tipo est habilitada
+                   if(comboTipo.getSelectedIndex() == 0){// si es carta 
+                       alto = (float) 27.94;
+                       ancho = (float) 21.59;
+                       tipo = "Carta";
+                   } 
+                   else{// si es oficio
+                       alto = (float) 33;
+                       ancho = (float) 21.64;
+                       tipo = "Oficio";     
+                   }
+                    
+                     ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+                     conexion.EjecutarInstruccion("INSERT INTO material(nombre,alto,ancho,cantidad,color,tipo)"
+                             + "VALUES ('"+txtNombre.getText()+"',"+alto+","+ancho+","+txtCantidad.getText()+",'"+txtColor.getText()+"' ,'"+tipo+"')");
+                   
+                }
+                else{// si la opcion tipo, no esta habilitada 
+                   ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+                     conexion.EjecutarInstruccion("INSERT INTO material(nombre,alto,ancho,cantidad,color,tipo)"
+                             + "VALUES ('"+txtNombre.getText()+"',"+"NULL"+","+"NULL"+","+txtCantidad.getText()+",'"+txtColor.getText()+"' ,'"+"NULL"+"')"); 
+                }
+                JOptionPane.showMessageDialog(rootPane,"Material Ingresado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+                cerrarDialogNuevo();
+            }
+              
+         
+          
+    }//GEN-LAST:event_botonAceptarDActionPerformed
 
     /**
      * @param args the command line arguments
@@ -244,14 +412,25 @@ public class Material extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonAceptarD;
+    private javax.swing.JButton botonCancelarD;
     private javax.swing.JButton botonCargar;
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonNuevo;
+    private javax.swing.JRadioButton botonRadio;
+    private javax.swing.JComboBox<String> comboTipo;
     private javax.swing.JTextField cuadroTexto;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelMaterial;
+    private javax.swing.JPanel panelNuevo;
     private javax.swing.JTable tablaMateriales;
+    private javax.swing.JTextField txtCantidad;
+    private javax.swing.JTextField txtColor;
+    private javax.swing.JTextField txtNombre;
     private javax.swing.JDialog ventanaNuevo;
     // End of variables declaration//GEN-END:variables
 }
