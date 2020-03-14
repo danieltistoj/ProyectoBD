@@ -37,6 +37,7 @@ public class Material extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        ventanaNuevo = new javax.swing.JDialog();
         panelMaterial = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaMateriales = new javax.swing.JTable();
@@ -45,6 +46,17 @@ public class Material extends javax.swing.JFrame {
         cuadroTexto = new javax.swing.JTextField();
         botonCargar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+
+        javax.swing.GroupLayout ventanaNuevoLayout = new javax.swing.GroupLayout(ventanaNuevo.getContentPane());
+        ventanaNuevo.getContentPane().setLayout(ventanaNuevoLayout);
+        ventanaNuevoLayout.setHorizontalGroup(
+            ventanaNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 404, Short.MAX_VALUE)
+        );
+        ventanaNuevoLayout.setVerticalGroup(
+            ventanaNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 297, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -240,5 +252,6 @@ public class Material extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelMaterial;
     private javax.swing.JTable tablaMateriales;
+    private javax.swing.JDialog ventanaNuevo;
     // End of variables declaration//GEN-END:variables
 }
