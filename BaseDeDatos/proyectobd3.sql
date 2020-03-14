@@ -48,12 +48,12 @@ USE `proyectobd3`;
 /*!40000 ALTER TABLE `factura_has_pago` DISABLE KEYS */;
 /*!40000 ALTER TABLE `factura_has_pago` ENABLE KEYS */;
 
--- Volcando datos para la tabla proyectobd3.material: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla proyectobd3.material: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `material` DISABLE KEYS */;
 INSERT INTO `material` (`id`, `nombre`, `alto`, `ancho`, `cantidad`, `color`, `tipo`) VALUES
-	(1, 'periodico', 27.94, 21.59, 4, 'gris', 'carta'),
-	(2, 'bond', 33, 21.6, 5, 'blanco', 'oficio'),
-	(3, 'cauche', 27.94, 21.59, 6, 'blanco', 'carta');
+	(1, 'Periodico', 27.94, 21.59, 4, 'Gris', 'Carta'),
+	(2, 'Bond', 27.94, 21.59, 4, 'blanco', 'Carta'),
+	(3, 'Cauche', 33, 21.64, 5, 'Blanco', 'Oficio');
 /*!40000 ALTER TABLE `material` ENABLE KEYS */;
 
 -- Volcando datos para la tabla proyectobd3.pago: ~0 rows (aproximadamente)
