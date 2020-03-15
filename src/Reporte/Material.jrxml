@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Material" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="56b204c1-ca14-40a6-9046-b3c5c7e0a157">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+     material.`id` AS material_id,
+     material.`nombre` AS material_nombre,
+     material.`alto` AS material_alto,
+     material.`ancho` AS material_ancho,
+     material.`cantidad` AS material_cantidad,
+     material.`color` AS material_color,
+     material.`tipo` AS material_tipo
+FROM
+     `material` material]]>
+	</queryString>
+	<field name="material_id" class="java.lang.Integer"/>
+	<field name="material_nombre" class="java.lang.String"/>
+	<field name="material_alto" class="java.lang.Float"/>
+	<field name="material_ancho" class="java.lang.Float"/>
+	<field name="material_cantidad" class="java.lang.Integer"/>
+	<field name="material_color" class="java.lang.String"/>
+	<field name="material_tipo" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="160" y="0" width="245" height="42" uuid="75a2ab56-a342-418c-9434-c4f2ce04e5f8"/>
+				<textElement textAlignment="Center">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Reporte Materiales]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="249" y="59" width="100" height="20" uuid="22cb9803-c3a4-479e-947f-51b50aa0382a"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="49" height="20" uuid="96e728d9-60b8-41fa-b317-51249f3868d1"/>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="49" y="0" width="100" height="20" uuid="4e08be46-2116-4e96-83f5-4104bbe90b08"/>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="149" y="0" width="100" height="20" uuid="2c182ded-342a-4acc-aa25-4a727928d86e"/>
+				<text><![CDATA[Alto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="249" y="0" width="78" height="20" uuid="ea5ff6d2-1b18-4200-8517-39e810e98ba5"/>
+				<text><![CDATA[Ancho]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="327" y="0" width="56" height="20" uuid="fc36bafe-825a-4105-afa3-d4bbbcf2b9f7"/>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="0" width="73" height="20" uuid="b3e4fa12-9ea8-4959-92a9-bd747cedfc4d"/>
+				<text><![CDATA[Color]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="478" y="0" width="94" height="20" uuid="269e356a-1f3e-4003-8038-e4c37319392a"/>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="43" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="49" height="20" uuid="6401c81f-14c1-4e6c-8aa5-38148e7883de"/>
+				<textFieldExpression><![CDATA[$F{material_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="49" y="0" width="100" height="20" uuid="e2021dfd-83a1-406c-a9fe-6856da6992a9"/>
+				<textFieldExpression><![CDATA[$F{material_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="149" y="0" width="100" height="20" uuid="9092c706-1342-42db-be13-b21f65fed07f"/>
+				<textFieldExpression><![CDATA[$F{material_alto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="249" y="0" width="100" height="20" uuid="c5c84e27-ed08-40d1-a48a-03a7133af049"/>
+				<textFieldExpression><![CDATA[$F{material_ancho}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="349" y="0" width="56" height="20" uuid="9c2f7782-ec69-4de0-93fe-4f6293e9e22d"/>
+				<textFieldExpression><![CDATA[$F{material_cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="405" y="0" width="73" height="20" uuid="a191480a-51d1-4d6e-8e5a-dc0ff6a6737c"/>
+				<textFieldExpression><![CDATA[$F{material_color}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="478" y="0" width="94" height="20" uuid="7b980ff7-7cfd-48eb-8bd0-fde10060717d"/>
+				<textFieldExpression><![CDATA[$F{material_tipo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="8" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="52" splitType="Stretch">
+			<textField>
+				<reportElement x="214" y="16" width="80" height="20" uuid="61d96f22-433f-44d5-8847-cfe5c316d637"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="305" y="16" width="40" height="20" uuid="79040a7c-a94d-4e39-934a-54bf4fc3dc2f"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

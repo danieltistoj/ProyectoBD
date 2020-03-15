@@ -28,7 +28,9 @@ public class ConexionDB {
             //conexion.setAutoCommit(false);
             
         } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println("error");
             System.out.println(ex.getMessage());
+            
         }
     }
     
@@ -39,7 +41,9 @@ public class ConexionDB {
             //conexion.setAutoCommit(false);
             
         } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println("error");
             System.out.println(ex.getMessage());
+           
         }
     }
     

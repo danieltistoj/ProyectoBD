@@ -6,12 +6,25 @@
 package proyectobd;
 
 import java.awt.event.WindowEvent;
+import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -54,6 +67,8 @@ public class Material extends javax.swing.JFrame {
         botonCancelarD = new javax.swing.JButton();
         comboTipo = new javax.swing.JComboBox<>();
         botonRadio = new javax.swing.JRadioButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         panelMaterial = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaMateriales = new javax.swing.JTable();
@@ -62,6 +77,7 @@ public class Material extends javax.swing.JFrame {
         cuadroTexto = new javax.swing.JTextField();
         botonCargar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        botonReporte = new javax.swing.JButton();
 
         ventanaNuevo.setSize(new java.awt.Dimension(404, 522));
 
@@ -97,6 +113,12 @@ public class Material extends javax.swing.JFrame {
 
         botonRadio.setText("Tipo");
 
+        jLabel3.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel3.setText("Obligatorio");
+
+        jLabel4.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel4.setText("Obligatorio");
+
         javax.swing.GroupLayout panelNuevoLayout = new javax.swing.GroupLayout(panelNuevo);
         panelNuevo.setLayout(panelNuevoLayout);
         panelNuevoLayout.setHorizontalGroup(
@@ -104,30 +126,30 @@ public class Material extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNuevoLayout.createSequentialGroup()
                 .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelNuevoLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNuevoLayout.createSequentialGroup()
-                                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNuevoLayout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(6, 6, 6)))
-                                .addGap(62, 62, 62))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNuevoLayout.createSequentialGroup()
-                                .addComponent(botonRadio)
-                                .addGap(32, 32, 32)))
-                        .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtColor)
-                            .addComponent(txtNombre)
-                            .addComponent(txtCantidad)
-                            .addComponent(comboTipo, 0, 158, Short.MAX_VALUE)))
-                    .addGroup(panelNuevoLayout.createSequentialGroup()
                         .addGap(83, 83, 83)
                         .addComponent(botonAceptarD)
                         .addGap(54, 54, 54)
                         .addComponent(botonCancelarD)
-                        .addGap(0, 57, Short.MAX_VALUE)))
+                        .addGap(0, 57, Short.MAX_VALUE))
+                    .addGroup(panelNuevoLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(panelNuevoLayout.createSequentialGroup()
+                                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel2))
+                                .addGap(31, 31, 31)
+                                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addComponent(botonRadio)
+                            .addComponent(jLabel6))
+                        .addGap(32, 32, 32)
+                        .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtColor)
+                            .addComponent(txtNombre)
+                            .addComponent(txtCantidad)
+                            .addComponent(comboTipo, 0, 158, Short.MAX_VALUE))))
                 .addGap(43, 43, 43))
         );
         panelNuevoLayout.setVerticalGroup(
@@ -136,11 +158,13 @@ public class Material extends javax.swing.JFrame {
                 .addGap(73, 73, 73)
                 .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
                 .addGap(31, 31, 31)
                 .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4))
                 .addGap(45, 45, 45)
                 .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -206,6 +230,13 @@ public class Material extends javax.swing.JFrame {
 
         jLabel1.setText("Id / Nombre");
 
+        botonReporte.setText("Reporte");
+        botonReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonReporteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelMaterialLayout = new javax.swing.GroupLayout(panelMaterial);
         panelMaterial.setLayout(panelMaterialLayout);
         panelMaterialLayout.setHorizontalGroup(
@@ -214,23 +245,28 @@ public class Material extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
-                    .addGroup(panelMaterialLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMaterialLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cuadroTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(botonCargar)
-                        .addGap(18, 18, 18)
-                        .addComponent(botonNuevo)
-                        .addGap(22, 22, 22)
-                        .addComponent(botonEliminar)))
+                        .addGroup(panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMaterialLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cuadroTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(botonCargar)
+                                .addGap(18, 18, 18)
+                                .addComponent(botonNuevo)
+                                .addGap(22, 22, 22)
+                                .addComponent(botonEliminar))
+                            .addComponent(botonReporte, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         panelMaterialLayout.setVerticalGroup(
             panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMaterialLayout.createSequentialGroup()
-                .addContainerGap(52, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(botonReporte)
+                .addGap(18, 18, 18)
                 .addGroup(panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonEliminar)
                     .addComponent(botonNuevo)
@@ -376,6 +412,22 @@ private void cerrarDialogNuevo(){
           
     }//GEN-LAST:event_botonAceptarDActionPerformed
 
+    private void botonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteActionPerformed
+        
+         try {
+              ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+              Connection con = conexion.getConexion();
+             InputStream archivo=getClass().getResourceAsStream("/Reporte/Material.jrxml");
+             JasperDesign dise = JRXmlLoader.load(archivo);
+             JasperReport jr = JasperCompileManager.compileReport(dise);
+             JasperPrint jp = JasperFillManager.fillReport(jr,null,con);
+             JasperViewer.viewReport(jp); 
+         } catch (JRException ex) {
+             Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        
+    }//GEN-LAST:event_botonReporteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -418,10 +470,13 @@ private void cerrarDialogNuevo(){
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonNuevo;
     private javax.swing.JRadioButton botonRadio;
+    private javax.swing.JButton botonReporte;
     private javax.swing.JComboBox<String> comboTipo;
     private javax.swing.JTextField cuadroTexto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
