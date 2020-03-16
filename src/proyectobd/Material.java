@@ -39,9 +39,12 @@ public class Material extends javax.swing.JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setTitle("Material");
-        
+         
         ventanaNuevo.setTitle("Nuevo Material");
         ventanaNuevo.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        
+        ventanaEliminar.setTitle("Eliminar Material");
+        ventanaEliminar.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
        
        // setVisible(true);
     }
@@ -69,6 +72,11 @@ public class Material extends javax.swing.JFrame {
         botonRadio = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        ventanaEliminar = new javax.swing.JDialog();
+        txtIDE = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        botonAceptarE = new javax.swing.JButton();
+        botonCancelarE = new javax.swing.JButton();
         panelMaterial = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaMateriales = new javax.swing.JTable();
@@ -191,6 +199,62 @@ public class Material extends javax.swing.JFrame {
             .addComponent(panelNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
         );
 
+        ventanaEliminar.setSize(new java.awt.Dimension(400, 210));
+
+        txtIDE.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIDEKeyTyped(evt);
+            }
+        });
+
+        jLabel7.setText("ID material");
+
+        botonAceptarE.setText("Aceptar");
+        botonAceptarE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAceptarEActionPerformed(evt);
+            }
+        });
+
+        botonCancelarE.setText("Cancelar");
+        botonCancelarE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCancelarEActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout ventanaEliminarLayout = new javax.swing.GroupLayout(ventanaEliminar.getContentPane());
+        ventanaEliminar.getContentPane().setLayout(ventanaEliminarLayout);
+        ventanaEliminarLayout.setHorizontalGroup(
+            ventanaEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ventanaEliminarLayout.createSequentialGroup()
+                .addGroup(ventanaEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ventanaEliminarLayout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(jLabel7)
+                        .addGap(31, 31, 31)
+                        .addComponent(txtIDE, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ventanaEliminarLayout.createSequentialGroup()
+                        .addGap(79, 79, 79)
+                        .addComponent(botonAceptarE)
+                        .addGap(81, 81, 81)
+                        .addComponent(botonCancelarE)))
+                .addContainerGap(67, Short.MAX_VALUE))
+        );
+        ventanaEliminarLayout.setVerticalGroup(
+            ventanaEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ventanaEliminarLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(ventanaEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtIDE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(49, 49, 49)
+                .addGroup(ventanaEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonAceptarE)
+                    .addComponent(botonCancelarE))
+                .addContainerGap(56, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tablaMateriales.setModel(new javax.swing.table.DefaultTableModel(
@@ -214,6 +278,11 @@ public class Material extends javax.swing.JFrame {
         });
 
         botonEliminar.setText("Eliminar");
+        botonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarActionPerformed(evt);
+            }
+        });
 
         cuadroTexto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -291,7 +360,7 @@ public class Material extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+//Boton ingresar un nuevo material
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
         ventanaNuevo.setVisible(true);
         ventanaNuevo.setLocationRelativeTo(null);
@@ -427,6 +496,66 @@ private void cerrarDialogNuevo(){
          }
         
     }//GEN-LAST:event_botonReporteActionPerformed
+//boton eliminar 
+    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+       ventanaEliminar.setVisible(true);
+       ventanaEliminar.setLocationRelativeTo(null);
+    }//GEN-LAST:event_botonEliminarActionPerformed
+//Funcion para cerrar la ventana de eliminar material
+private void CerrarVentanaEliminar(){
+    ventanaEliminar.setVisible(false);
+    txtIDE.setText("");
+    ventanaEliminar.dispose();
+}
+//boton cancelar, de la ventana dialog eliminar 
+    private void botonCancelarEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarEActionPerformed
+       CerrarVentanaEliminar();
+    }//GEN-LAST:event_botonCancelarEActionPerformed
+//solo numeros en el cuadro de texto de la ventana de eliminar 
+    private void txtIDEKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIDEKeyTyped
+        char validar = evt.getKeyChar();
+      if(Character.isLetter(validar)){
+          getToolkit().beep();
+          evt.consume();
+          JOptionPane.showMessageDialog(rootPane,"Solo ingrese numeros","Error",JOptionPane.ERROR_MESSAGE);
+      }
+    }//GEN-LAST:event_txtIDEKeyTyped
+//accion boton aceptar de la ventana de dialogo eliminar 
+    private void botonAceptarEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarEActionPerformed
+        String nombre="",alto="",ancho="", cantidad="",color="",tipo="", id="";
+        ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+        conexion.EjecutarConsulta("SELECT * FROM material WHERE id = "+txtIDE.getText());
+        ResultSet rs = conexion.getResulSet();
+         try {
+             
+             while(rs.next()){
+                 id = rs.getString("id");
+                 nombre = rs.getString("nombre");
+                 alto = rs.getString("alto");
+                 ancho = rs.getString("ancho");
+                 cantidad = rs.getString("cantidad");
+                 color = rs.getString("color");
+                 tipo = rs.getString("tipo");
+             }
+             if(id!=""){
+               int resp = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar? \n"+"Nombre: "+nombre+"\n"
+             +"Alto: "+alto+"\n"+"Ancho: "+ancho+"\n"+"Cantidad: "+cantidad+"\n"+"Color: "+color+"\n"+"Tipo: "+tipo,"Advertencia",JOptionPane.YES_NO_OPTION);   
+             if(resp == 0){// si acepta que se elimine el material
+                 conexion.EjecutarInstruccion("DELETE FROM material WHERE id = "+id);
+                 CerrarVentanaEliminar();    
+             }
+            
+             }
+             else{
+                 JOptionPane.showMessageDialog(rootPane,"El material no existe","Error",JOptionPane.ERROR_MESSAGE);
+             }
+            
+             
+         } catch (SQLException ex) {
+             Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        //conexion.EjecutarInstruccion("DELETE FROM material WHERE = "+txtIDE.getText());
+    }//GEN-LAST:event_botonAceptarEActionPerformed
 
     /**
      * @param args the command line arguments
@@ -465,7 +594,9 @@ private void cerrarDialogNuevo(){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAceptarD;
+    private javax.swing.JButton botonAceptarE;
     private javax.swing.JButton botonCancelarD;
+    private javax.swing.JButton botonCancelarE;
     private javax.swing.JButton botonCargar;
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonNuevo;
@@ -479,13 +610,16 @@ private void cerrarDialogNuevo(){
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelMaterial;
     private javax.swing.JPanel panelNuevo;
     private javax.swing.JTable tablaMateriales;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtColor;
+    private javax.swing.JTextField txtIDE;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JDialog ventanaEliminar;
     private javax.swing.JDialog ventanaNuevo;
     // End of variables declaration//GEN-END:variables
 }

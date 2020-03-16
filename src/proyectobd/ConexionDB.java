@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -53,7 +54,7 @@ public class ConexionDB {
         resulSet = sentencia.executeQuery(consulta);
         
         } catch (SQLException ex) {
-            System.out.println("Error en la consulta");
+            JOptionPane.showMessageDialog(null,"Error de conexion","Error",JOptionPane.ERROR_MESSAGE);
             System.out.println(ex.getMessage());
         }  
     }
@@ -64,7 +65,7 @@ public class ConexionDB {
             sentencia = conexion.createStatement();
             filas = sentencia.executeUpdate(Instruccion);
         } catch (SQLException ex) {
-            System.out.println("Error en la instruccion");
+           JOptionPane.showMessageDialog(null,"Error de conexion","Error",JOptionPane.ERROR_MESSAGE);
             System.out.println(ex.getMessage());
         }
     }
