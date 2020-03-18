@@ -13,7 +13,9 @@
      material.`color` AS material_color,
      material.`tipo` AS material_tipo
 FROM
-     `material` material]]>
+     `material` material 
+ORDER BY 
+   material_cantidad]]>
 	</queryString>
 	<field name="material_id" class="java.lang.Integer"/>
 	<field name="material_nombre" class="java.lang.String"/>

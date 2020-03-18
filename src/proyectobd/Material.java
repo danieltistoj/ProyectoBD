@@ -33,6 +33,7 @@ import net.sf.jasperreports.view.JasperViewer;
 public class Material extends javax.swing.JFrame {
      
      private  String[]  titulos = {"Id","Nombre","Alto","Ancho","Cantidad","Color","Tipo"};
+     private String ID = "";
      
      public Material() {
         initComponents();
@@ -42,10 +43,6 @@ public class Material extends javax.swing.JFrame {
          
         ventanaNuevo.setTitle("Nuevo Material");
         ventanaNuevo.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        
-        ventanaEliminar.setTitle("Eliminar Material");
-        ventanaEliminar.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-       
        // setVisible(true);
     }
 
@@ -72,11 +69,6 @@ public class Material extends javax.swing.JFrame {
         botonRadio = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        ventanaEliminar = new javax.swing.JDialog();
-        txtIDE = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        botonAceptarE = new javax.swing.JButton();
-        botonCancelarE = new javax.swing.JButton();
         panelMaterial = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaMateriales = new javax.swing.JTable();
@@ -86,6 +78,7 @@ public class Material extends javax.swing.JFrame {
         botonCargar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         botonReporte = new javax.swing.JButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         ventanaNuevo.setSize(new java.awt.Dimension(404, 522));
 
@@ -199,62 +192,6 @@ public class Material extends javax.swing.JFrame {
             .addComponent(panelNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
         );
 
-        ventanaEliminar.setSize(new java.awt.Dimension(400, 210));
-
-        txtIDE.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtIDEKeyTyped(evt);
-            }
-        });
-
-        jLabel7.setText("ID material");
-
-        botonAceptarE.setText("Aceptar");
-        botonAceptarE.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonAceptarEActionPerformed(evt);
-            }
-        });
-
-        botonCancelarE.setText("Cancelar");
-        botonCancelarE.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonCancelarEActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout ventanaEliminarLayout = new javax.swing.GroupLayout(ventanaEliminar.getContentPane());
-        ventanaEliminar.getContentPane().setLayout(ventanaEliminarLayout);
-        ventanaEliminarLayout.setHorizontalGroup(
-            ventanaEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ventanaEliminarLayout.createSequentialGroup()
-                .addGroup(ventanaEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(ventanaEliminarLayout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(jLabel7)
-                        .addGap(31, 31, 31)
-                        .addComponent(txtIDE, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(ventanaEliminarLayout.createSequentialGroup()
-                        .addGap(79, 79, 79)
-                        .addComponent(botonAceptarE)
-                        .addGap(81, 81, 81)
-                        .addComponent(botonCancelarE)))
-                .addContainerGap(67, Short.MAX_VALUE))
-        );
-        ventanaEliminarLayout.setVerticalGroup(
-            ventanaEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ventanaEliminarLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(ventanaEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtIDE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
-                .addGap(49, 49, 49)
-                .addGroup(ventanaEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonAceptarE)
-                    .addComponent(botonCancelarE))
-                .addContainerGap(56, Short.MAX_VALUE))
-        );
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tablaMateriales.setModel(new javax.swing.table.DefaultTableModel(
@@ -268,6 +205,11 @@ public class Material extends javax.swing.JFrame {
 
             }
         ));
+        tablaMateriales.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMaterialesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaMateriales);
 
         botonNuevo.setText("Nuevo");
@@ -306,6 +248,8 @@ public class Material extends javax.swing.JFrame {
             }
         });
 
+        jToggleButton1.setText("Editar");
+
         javax.swing.GroupLayout panelMaterialLayout = new javax.swing.GroupLayout(panelMaterial);
         panelMaterial.setLayout(panelMaterialLayout);
         panelMaterialLayout.setHorizontalGroup(
@@ -313,35 +257,43 @@ public class Material extends javax.swing.JFrame {
             .addGroup(panelMaterialLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMaterialLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMaterialLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(3, 3, 3)
+                        .addComponent(botonCargar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(panelMaterialLayout.createSequentialGroup()
                                 .addComponent(cuadroTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(botonCargar)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                                 .addComponent(botonNuevo)
-                                .addGap(22, 22, 22)
+                                .addGap(27, 27, 27)
+                                .addComponent(jToggleButton1)
+                                .addGap(18, 18, 18)
                                 .addComponent(botonEliminar))
-                            .addComponent(botonReporte, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addGroup(panelMaterialLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(botonReporte)))))
                 .addContainerGap())
         );
         panelMaterialLayout.setVerticalGroup(
             panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMaterialLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(botonReporte)
-                .addGap(18, 18, 18)
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addGroup(panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMaterialLayout.createSequentialGroup()
+                        .addComponent(botonReporte)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMaterialLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(2, 2, 2)))
                 .addGroup(panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonEliminar)
                     .addComponent(botonNuevo)
                     .addComponent(botonCargar)
                     .addComponent(cuadroTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(jToggleButton1))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -365,32 +317,9 @@ public class Material extends javax.swing.JFrame {
         ventanaNuevo.setVisible(true);
         ventanaNuevo.setLocationRelativeTo(null);
     }//GEN-LAST:event_botonNuevoActionPerformed
-//Buscacr un registro
+
     private void cuadroTextoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cuadroTextoKeyPressed
-      /*
-      String [] registro = new String[50];
-      String sql = "SELECT * FROM material WHERE id = '"+cuadroTexto.getText()+"' OR nombre = '"+cuadroTexto.getText()+"'";
-      DefaultTableModel modelo = new DefaultTableModel(null,titulos);
-        try {
-             ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
-             conexion.EjecutarConsulta(sql);
-             ResultSet rs = conexion.getResulSet();
-             while(rs.next()){
-                 registro[0] = rs.getString("id");
-                 registro[1] = rs.getString("nombre");
-                 registro[2] = rs.getString("alto");
-                 registro[3] = rs.getString("ancho");
-                 registro[4] = rs.getString("cantidad");
-                 registro[5] = rs.getString("color");
-                 registro[6] = rs.getString("tipo");
-                 modelo.addRow(registro);
-             }
-            tablaMateriales.setModel(modelo);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane,"Error de conexion","Error",JOptionPane.ERROR_MESSAGE);
-         System.out.println(ex.getMessage());
-        }
-        */
+
     }//GEN-LAST:event_cuadroTextoKeyPressed
 //Cargar la base de datos en la tabla de la ventana. 
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
@@ -403,7 +332,7 @@ public class Material extends javax.swing.JFrame {
          DefaultTableModel modelo = new DefaultTableModel(null,titulos);
          tablaMateriales.setModel(modelo);
          ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
-         conexion.EjecutarConsulta("SELECT id, nombre, alto, ancho, cantidad, color, tipo FROM material "+where);
+         conexion.EjecutarConsulta("SELECT id, nombre, alto, ancho, cantidad, color, tipo FROM material "+where+" "+"ORDER BY cantidad");
             
             ResultSet rs = conexion.getResulSet();
             ResultSetMetaData rsMd = rs.getMetaData();
@@ -442,16 +371,28 @@ private void cerrarDialogNuevo(){
           JOptionPane.showMessageDialog(rootPane,"Solo ingrese numeros","Error",JOptionPane.ERROR_MESSAGE);
       }
     }//GEN-LAST:event_txtCantidadKeyTyped
-//Boton aceptar nuevo material 
+//Boton aceptar de la ventana nuevo
     private void botonAceptarDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarDActionPerformed
         float alto, ancho; 
-        String tipo;
+        String tipo, nombre = "";
         
             if(txtNombre.getText().length() == 0 || txtCantidad.getText().length() == 0){ // ver si los campos nombre y cantidad estan llenos 
                 JOptionPane.showMessageDialog(rootPane,"Llene los campos obligatorios","Error",JOptionPane.ERROR_MESSAGE);
             }
             else{//si los campos obligatorios estan llenos.  
-                if(botonRadio.isSelected()){//Si la opcion tipo est habilitada
+            //se hace la consulta para ver si el nombre del producto que estan ingresando ya existe
+            ConexionMySQL conexion1 = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+            conexion1.EjecutarConsulta("SELECT * FROM material WHERE nombre ="+"'"+txtNombre.getText()+"'");
+            ResultSet rs = conexion1.getResulSet();
+            try {
+                while(rs.next()){
+                  nombre = rs.getString("nombre");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                if(nombre == ""){//si el nombre del material no existe
+                  if(botonRadio.isSelected()){//Si la opcion tipo est habilitada
                    if(comboTipo.getSelectedIndex() == 0){// si es carta 
                        alto = (float) 27.94;
                        ancho = (float) 21.59;
@@ -462,25 +403,46 @@ private void cerrarDialogNuevo(){
                        ancho = (float) 21.64;
                        tipo = "Oficio";     
                    }
-                    
+                   //se pregunta si esta deacuerdo con los datos del material
+                   int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta deacuerdo con el material? \n"+"Nombre: "+txtNombre.getText()
+                    +"\nCantidad: "+txtCantidad.getText()+"\nColor: "+txtColor.getText()+"\nTipo: "+tipo+"\nDimensiones: "+alto+"cm x "+ancho+"cm","Advertencia",
+                    JOptionPane.YES_NO_OPTION);
+                   if(res == 0){//si esta deacuerdo con los datos del material 
+                     //se inserta el material en la base de datos.
                      ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
-                     conexion.EjecutarInstruccion("INSERT INTO material(nombre,alto,ancho,cantidad,color,tipo)"
-                             + "VALUES ('"+txtNombre.getText()+"',"+alto+","+ancho+","+txtCantidad.getText()+",'"+txtColor.getText()+"' ,'"+tipo+"')");
-                   
+                     conexion.EjecutarInstruccion("INSERT INTO material(nombre,alto,ancho,cantidad,color,tipo)"  
+                             + "VALUES ('"+txtNombre.getText()+"',"+alto+","+ancho+","+txtCantidad.getText()+",'"+txtColor.getText()+"' ,'"+tipo+"')"); 
+                
+                //Mensaje que describe que el material ingreso en el sistema      
+                JOptionPane.showMessageDialog(rootPane,"Material Ingresado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+                cerrarDialogNuevo(); 
+                   }
+                    
                 }
                 else{// si la opcion tipo, no esta habilitada 
-                   ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
-                     conexion.EjecutarInstruccion("INSERT INTO material(nombre,alto,ancho,cantidad,color,tipo)"
+                    //se pregunta si esta deacuerdo con los datos del material  
+                    int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta deacuerdo con el material? \n"+"Nombre: "+txtNombre.getText()
+                    +"\nCantidad: "+txtCantidad.getText()+"\nColor: "+txtColor.getText(),"Advertencia",
+                    JOptionPane.YES_NO_OPTION);
+                     if(res == 0){ // si esta deacuerdo con los datos del material 
+                     //se inserta el material en la base de datos 
+                     ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+                     conexion.EjecutarInstruccion("INSERT INTO material(nombre,alto,ancho,cantidad,color,tipo)" 
                              + "VALUES ('"+txtNombre.getText()+"',"+"NULL"+","+"NULL"+","+txtCantidad.getText()+",'"+txtColor.getText()+"' ,'"+"NULL"+"')"); 
-                }
+               //Mensaje que describe que el material ingreso en el sistema 
                 JOptionPane.showMessageDialog(rootPane,"Material Ingresado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
                 cerrarDialogNuevo();
-            }
-              
-         
-          
+                     }
+                   
+                }  
+                }//fin del if(nombre == "")
+                else{
+                    JOptionPane.showMessageDialog(rootPane,"El nombre del producto ya existe","Error",JOptionPane.ERROR_MESSAGE);
+                }
+                    
+            }        
     }//GEN-LAST:event_botonAceptarDActionPerformed
-
+//Se hace el reporte de la tabla del modulo de material
     private void botonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteActionPerformed
         
          try {
@@ -498,33 +460,13 @@ private void cerrarDialogNuevo(){
     }//GEN-LAST:event_botonReporteActionPerformed
 //boton eliminar 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-       ventanaEliminar.setVisible(true);
-       ventanaEliminar.setLocationRelativeTo(null);
-    }//GEN-LAST:event_botonEliminarActionPerformed
-//Funcion para cerrar la ventana de eliminar material
-private void CerrarVentanaEliminar(){
-    ventanaEliminar.setVisible(false);
-    txtIDE.setText("");
-    ventanaEliminar.dispose();
-}
-//boton cancelar, de la ventana dialog eliminar 
-    private void botonCancelarEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarEActionPerformed
-       CerrarVentanaEliminar();
-    }//GEN-LAST:event_botonCancelarEActionPerformed
-//solo numeros en el cuadro de texto de la ventana de eliminar 
-    private void txtIDEKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIDEKeyTyped
-        char validar = evt.getKeyChar();
-      if(Character.isLetter(validar)){
-          getToolkit().beep();
-          evt.consume();
-          JOptionPane.showMessageDialog(rootPane,"Solo ingrese numeros","Error",JOptionPane.ERROR_MESSAGE);
-      }
-    }//GEN-LAST:event_txtIDEKeyTyped
-//accion boton aceptar de la ventana de dialogo eliminar 
-    private void botonAceptarEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarEActionPerformed
-        String nombre="",alto="",ancho="", cantidad="",color="",tipo="", id="";
+           if(ID == ""){
+            JOptionPane.showMessageDialog(rootPane,"Seleccione un producto","Error",JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            String nombre="",alto="",ancho="", cantidad="",color="",tipo="", id="";
         ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
-        conexion.EjecutarConsulta("SELECT * FROM material WHERE id = "+txtIDE.getText());
+        conexion.EjecutarConsulta("SELECT * FROM material WHERE id = "+ID);
         ResultSet rs = conexion.getResulSet();
          try {
              
@@ -537,25 +479,26 @@ private void CerrarVentanaEliminar(){
                  color = rs.getString("color");
                  tipo = rs.getString("tipo");
              }
-             if(id!=""){
+             
                int resp = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar? \n"+"Nombre: "+nombre+"\n"
              +"Alto: "+alto+"\n"+"Ancho: "+ancho+"\n"+"Cantidad: "+cantidad+"\n"+"Color: "+color+"\n"+"Tipo: "+tipo,"Advertencia",JOptionPane.YES_NO_OPTION);   
              if(resp == 0){// si acepta que se elimine el material
                  conexion.EjecutarInstruccion("DELETE FROM material WHERE id = "+id);
-                 CerrarVentanaEliminar();    
+                 JOptionPane.showMessageDialog(rootPane,"El producto se elimino","Mensaje",JOptionPane.INFORMATION_MESSAGE);    
              }
-            
-             }
-             else{
-                 JOptionPane.showMessageDialog(rootPane,"El material no existe","Error",JOptionPane.ERROR_MESSAGE);
-             }
-            
-             
+              ID = ""; 
          } catch (SQLException ex) {
              Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
          }
-        //conexion.EjecutarInstruccion("DELETE FROM material WHERE = "+txtIDE.getText());
-    }//GEN-LAST:event_botonAceptarEActionPerformed
+        }// fin del elese principal
+    }//GEN-LAST:event_botonEliminarActionPerformed
+
+//accion boton aceptar de la ventana de dialogo eliminar 
+    private void tablaMaterialesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMaterialesMouseClicked
+      ID = "";
+      int seleccion = tablaMateriales.rowAtPoint(evt.getPoint());
+      ID = String.valueOf(tablaMateriales.getValueAt(seleccion,0));
+    }//GEN-LAST:event_tablaMaterialesMouseClicked
 
     /**
      * @param args the command line arguments
@@ -594,9 +537,7 @@ private void CerrarVentanaEliminar(){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAceptarD;
-    private javax.swing.JButton botonAceptarE;
     private javax.swing.JButton botonCancelarD;
-    private javax.swing.JButton botonCancelarE;
     private javax.swing.JButton botonCargar;
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonNuevo;
@@ -610,16 +551,14 @@ private void CerrarVentanaEliminar(){
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JPanel panelMaterial;
     private javax.swing.JPanel panelNuevo;
     private javax.swing.JTable tablaMateriales;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtColor;
-    private javax.swing.JTextField txtIDE;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JDialog ventanaEliminar;
     private javax.swing.JDialog ventanaNuevo;
     // End of variables declaration//GEN-END:variables
 }

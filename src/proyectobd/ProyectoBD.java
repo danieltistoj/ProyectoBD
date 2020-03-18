@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -64,8 +66,18 @@ public class ProyectoBD {
              conexion.EjecutarInstruccion("INSERT INTO estudiante(Nombre,Telefono, Facultad, Carrera, Edad, Carnet, Admi) "+
                      "VALUES ('Estudiante6','11111111','Ingenieria','Sistemas',20,'99989',0)");
            */
-      
-        
+        /*
+                  ConexionMySQL conexion1 = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+            conexion1.EjecutarConsulta("SELECT * FROM material WHERE nombre ="+"'Periodico'");
+            ResultSet rs = conexion1.getResulSet();
+            try {
+                while(rs.next()){
+                    System.out.println( rs.getString("nombre"));
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        */
     }
     
 }
