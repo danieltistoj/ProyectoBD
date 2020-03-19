@@ -33,7 +33,9 @@ import net.sf.jasperreports.view.JasperViewer;
 public class Material extends javax.swing.JFrame {
      
      private  String[]  titulos = {"Id","Nombre","Alto","Ancho","Cantidad","Color","Tipo"};
-     private String ID = "";
+     private String ID = "", Tipo = "",Alto1 ="",nombreTemp = "";
+     private int opcion;
+     private float Alto;
      
      public Material() {
         initComponents();
@@ -63,25 +65,29 @@ public class Material extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        botonAceptarD = new javax.swing.JButton();
-        botonCancelarD = new javax.swing.JButton();
-        comboTipo = new javax.swing.JComboBox<>();
-        botonRadio = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        botonAceptarD = new javax.swing.JButton();
+        botonCancelarD = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        botonRadio = new javax.swing.JRadioButton();
+        comboTipo = new javax.swing.JComboBox<>();
         panelMaterial = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaMateriales = new javax.swing.JTable();
-        botonNuevo = new javax.swing.JButton();
-        botonEliminar = new javax.swing.JButton();
-        cuadroTexto = new javax.swing.JTextField();
+        PanelMaterial2 = new javax.swing.JPanel();
         botonCargar = new javax.swing.JButton();
+        cuadroTexto = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        botonNuevo = new javax.swing.JButton();
+        botonEditar = new javax.swing.JToggleButton();
+        botonEliminar = new javax.swing.JButton();
         botonReporte = new javax.swing.JButton();
-        jToggleButton1 = new javax.swing.JToggleButton();
 
-        ventanaNuevo.setSize(new java.awt.Dimension(404, 522));
+        ventanaNuevo.setSize(new java.awt.Dimension(498, 410));
 
+        panelNuevo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         panelNuevo.setPreferredSize(new java.awt.Dimension(404, 522));
 
         txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -95,6 +101,58 @@ public class Material extends javax.swing.JFrame {
         jLabel5.setText("Cantidad");
 
         jLabel6.setText("Color");
+
+        jLabel3.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel3.setText("Obligatorio");
+
+        jLabel4.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel4.setText("Obligatorio");
+
+        javax.swing.GroupLayout panelNuevoLayout = new javax.swing.GroupLayout(panelNuevo);
+        panelNuevo.setLayout(panelNuevoLayout);
+        panelNuevoLayout.setHorizontalGroup(
+            panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNuevoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNuevoLayout.createSequentialGroup()
+                        .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel2))
+                        .addGap(36, 36, 36)
+                        .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addGap(32, 32, 32)
+                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtColor, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                    .addComponent(txtNombre)
+                    .addComponent(txtCantidad))
+                .addGap(43, 43, 43))
+        );
+        panelNuevoLayout.setVerticalGroup(
+            panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelNuevoLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel2)))
+                .addGap(37, 37, 37)
+                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtColor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21))
+        );
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         botonAceptarD.setText("Aceptar");
         botonAceptarD.addActionListener(new java.awt.event.ActionListener() {
@@ -110,89 +168,81 @@ public class Material extends javax.swing.JFrame {
             }
         });
 
-        comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Carta", "Oficio" }));
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(112, 112, 112)
+                .addComponent(botonAceptarD)
+                .addGap(72, 72, 72)
+                .addComponent(botonCancelarD)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonCancelarD)
+                    .addComponent(botonAceptarD))
+                .addContainerGap())
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         botonRadio.setText("Tipo");
 
-        jLabel3.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel3.setText("Obligatorio");
+        comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Carta", "Oficio" }));
 
-        jLabel4.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel4.setText("Obligatorio");
-
-        javax.swing.GroupLayout panelNuevoLayout = new javax.swing.GroupLayout(panelNuevo);
-        panelNuevo.setLayout(panelNuevoLayout);
-        panelNuevoLayout.setHorizontalGroup(
-            panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNuevoLayout.createSequentialGroup()
-                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelNuevoLayout.createSequentialGroup()
-                        .addGap(83, 83, 83)
-                        .addComponent(botonAceptarD)
-                        .addGap(54, 54, 54)
-                        .addComponent(botonCancelarD)
-                        .addGap(0, 57, Short.MAX_VALUE))
-                    .addGroup(panelNuevoLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(panelNuevoLayout.createSequentialGroup()
-                                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel2))
-                                .addGap(31, 31, 31)
-                                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addComponent(botonRadio)
-                            .addComponent(jLabel6))
-                        .addGap(32, 32, 32)
-                        .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtColor)
-                            .addComponent(txtNombre)
-                            .addComponent(txtCantidad)
-                            .addComponent(comboTipo, 0, 158, Short.MAX_VALUE))))
-                .addGap(43, 43, 43))
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(85, 85, 85)
+                .addComponent(botonRadio)
+                .addGap(92, 92, 92)
+                .addComponent(comboTipo, 0, 158, Short.MAX_VALUE)
+                .addGap(86, 86, 86))
         );
-        panelNuevoLayout.setVerticalGroup(
-            panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelNuevoLayout.createSequentialGroup()
-                .addGap(73, 73, 73)
-                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addGap(31, 31, 31)
-                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4))
-                .addGap(45, 45, 45)
-                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addGap(46, 46, 46)
-                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(21, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonRadio))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
-                .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonAceptarD)
-                    .addComponent(botonCancelarD))
-                .addGap(79, 79, 79))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout ventanaNuevoLayout = new javax.swing.GroupLayout(ventanaNuevo.getContentPane());
         ventanaNuevo.getContentPane().setLayout(ventanaNuevoLayout);
         ventanaNuevoLayout.setHorizontalGroup(
             ventanaNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(ventanaNuevoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ventanaNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE))
+                .addContainerGap())
         );
         ventanaNuevoLayout.setVerticalGroup(
             ventanaNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+            .addGroup(ventanaNuevoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        panelMaterial.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         tablaMateriales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -212,10 +262,51 @@ public class Material extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tablaMateriales);
 
+        javax.swing.GroupLayout panelMaterialLayout = new javax.swing.GroupLayout(panelMaterial);
+        panelMaterial.setLayout(panelMaterialLayout);
+        panelMaterialLayout.setHorizontalGroup(
+            panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelMaterialLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+        );
+        panelMaterialLayout.setVerticalGroup(
+            panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMaterialLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        PanelMaterial2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        botonCargar.setText("Cargar");
+        botonCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCargarActionPerformed(evt);
+            }
+        });
+
+        cuadroTexto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cuadroTextoKeyPressed(evt);
+            }
+        });
+
+        jLabel1.setText("Id / Nombre");
+
         botonNuevo.setText("Nuevo");
         botonNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonNuevoActionPerformed(evt);
+            }
+        });
+
+        botonEditar.setText("Editar");
+        botonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEditarActionPerformed(evt);
             }
         });
 
@@ -226,21 +317,6 @@ public class Material extends javax.swing.JFrame {
             }
         });
 
-        cuadroTexto.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                cuadroTextoKeyPressed(evt);
-            }
-        });
-
-        botonCargar.setText("Cargar");
-        botonCargar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonCargarActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Id / Nombre");
-
         botonReporte.setText("Reporte");
         botonReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -248,74 +324,79 @@ public class Material extends javax.swing.JFrame {
             }
         });
 
-        jToggleButton1.setText("Editar");
-
-        javax.swing.GroupLayout panelMaterialLayout = new javax.swing.GroupLayout(panelMaterial);
-        panelMaterial.setLayout(panelMaterialLayout);
-        panelMaterialLayout.setHorizontalGroup(
-            panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelMaterialLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMaterialLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(botonCargar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(panelMaterialLayout.createSequentialGroup()
-                                .addComponent(cuadroTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                                .addComponent(botonNuevo)
-                                .addGap(27, 27, 27)
-                                .addComponent(jToggleButton1)
-                                .addGap(18, 18, 18)
-                                .addComponent(botonEliminar))
-                            .addGroup(panelMaterialLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(botonReporte)))))
+        javax.swing.GroupLayout PanelMaterial2Layout = new javax.swing.GroupLayout(PanelMaterial2);
+        PanelMaterial2.setLayout(PanelMaterial2Layout);
+        PanelMaterial2Layout.setHorizontalGroup(
+            PanelMaterial2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelMaterial2Layout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(botonCargar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelMaterial2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelMaterial2Layout.createSequentialGroup()
+                        .addComponent(cuadroTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                        .addComponent(botonNuevo)
+                        .addGap(18, 18, 18)
+                        .addComponent(botonEditar)
+                        .addGap(18, 18, 18)
+                        .addComponent(botonEliminar))
+                    .addGroup(PanelMaterial2Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonReporte)))
                 .addContainerGap())
         );
-        panelMaterialLayout.setVerticalGroup(
-            panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelMaterialLayout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
-                .addGroup(panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMaterialLayout.createSequentialGroup()
-                        .addComponent(botonReporte)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMaterialLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(2, 2, 2)))
-                .addGroup(panelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonEliminar)
-                    .addComponent(botonNuevo)
-                    .addComponent(botonCargar)
+        PanelMaterial2Layout.setVerticalGroup(
+            PanelMaterial2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelMaterial2Layout.createSequentialGroup()
+                .addGroup(PanelMaterial2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelMaterial2Layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(jLabel1))
+                    .addGroup(PanelMaterial2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(botonReporte)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelMaterial2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cuadroTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton1))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                    .addComponent(botonNuevo)
+                    .addComponent(botonEditar)
+                    .addComponent(botonEliminar)
+                    .addComponent(botonCargar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelMaterial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panelMaterial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelMaterial2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelMaterial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(PanelMaterial2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(panelMaterial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 //Boton ingresar un nuevo material
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
+        opcion = 1;
         ventanaNuevo.setVisible(true);
         ventanaNuevo.setLocationRelativeTo(null);
+        ventanaNuevo.setTitle("Nuevo material");
+        limpiarTxt();
     }//GEN-LAST:event_botonNuevoActionPerformed
 
     private void cuadroTextoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cuadroTextoKeyPressed
@@ -351,13 +432,66 @@ public class Material extends javax.swing.JFrame {
         
     }
     }//GEN-LAST:event_botonCargarActionPerformed
-private void cerrarDialogNuevo(){
-     ventanaNuevo.setVisible(false);
+private void limpiarTxt(){
       txtNombre.setText("");
       txtCantidad.setText("");
       txtColor.setText("");
+      Tipo = "";
+      botonRadio.setSelected(false);
+      comboTipo.setSelectedIndex(0);
+}
+ private void cerrarDialogNuevo(){
+     ventanaNuevo.setVisible(false);
+      limpiarTxt();
+      ID = "";
       ventanaNuevo.dispose();
 }
+ private int existePorNombre(String nombreBuscar){
+        int id = -1;
+     ConexionMySQL conexion1 = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+            conexion1.EjecutarConsulta("SELECT * FROM material WHERE nombre ="+"'"+nombreBuscar+"'");
+            ResultSet rs = conexion1.getResulSet();
+            try {
+                while(rs.next()){
+                  id = Integer.parseInt(rs.getString("id"));
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+            }
+     return id;
+ }
+ private void insertarMaterial(String nombre, String alto, String ancho, String cantidad, String color, String tipo){
+     //se pregunta si esta deacuerdo con los datos del material
+                   int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta deacuerdo con el material? \n"+"Nombre: "+nombre
+                    +"\nCantidad: "+cantidad+"\nColor: "+color+"\nTipo: "+tipo+"\nDimensiones: "+alto+"cm x "+ancho+"cm","Advertencia",
+                    JOptionPane.YES_NO_OPTION);
+                   if(res == 0){//si esta deacuerdo con los datos del material 
+                     //se inserta el material en la base de datos.
+                     ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+                     conexion.EjecutarInstruccion("INSERT INTO material(nombre,alto,ancho,cantidad,color,tipo)"  
+                             + "VALUES ('"+nombre+"',"+alto+","+ancho+","+cantidad+",'"+color+"' ,'"+tipo+"')"); 
+                
+                //Mensaje que describe que el material ingreso en el sistema      
+                JOptionPane.showMessageDialog(rootPane,"Material Ingresado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+                cerrarDialogNuevo(); 
+                   }
+ }
+ private void modificarMaterial(String nombre, String alto, String ancho, String cantidad, String color, String tipo){
+     //se pregunta si esta deacuerdo con los datos del material
+                   int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta deacuerdo con la modificacion del material? \n"+"Nombre: "+nombre
+                    +"\nCantidad: "+cantidad+"\nColor: "+color+"\nTipo: "+tipo+"\nDimensiones: "+alto+"cm x "+ancho+"cm","Advertencia",
+                    JOptionPane.YES_NO_OPTION);
+                   if(res == 0){//si esta deacuerdo con los datos del material 
+                     //se inserta el material en la base de datos.
+                     ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+                     conexion.EjecutarInstruccion("UPDATE material SET nombre = '"+nombre+"',"+"alto = "+alto+","+
+                             "ancho = "+ancho+",cantidad = "+cantidad+",color = '"+color+"',tipo = '"+tipo+"'"+"WHERE id = "+ID); 
+                
+                //Mensaje que describe que el material ingreso en el sistema      
+                JOptionPane.showMessageDialog(rootPane,"Material Modificado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+                cerrarDialogNuevo(); 
+                   }
+ }
 //boton cancelar dialog
     private void botonCancelarDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarDActionPerformed
       cerrarDialogNuevo();
@@ -371,76 +505,67 @@ private void cerrarDialogNuevo(){
           JOptionPane.showMessageDialog(rootPane,"Solo ingrese numeros","Error",JOptionPane.ERROR_MESSAGE);
       }
     }//GEN-LAST:event_txtCantidadKeyTyped
-//Boton aceptar de la ventana nuevo
-    private void botonAceptarDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarDActionPerformed
-        float alto, ancho; 
-        String tipo, nombre = "";
-        
-            if(txtNombre.getText().length() == 0 || txtCantidad.getText().length() == 0){ // ver si los campos nombre y cantidad estan llenos 
+private void aceptarBoton(int opcion1){
+        String tipo="NULL", nombre = "",alto = "NULL",ancho ="NULL";
+        int idNombreActual, idNombreAnterior;
+            if(txtNombre.getText().length() == 0 || txtCantidad.getText().length() == 0 ){ // ver si los campos nombre y cantidad estan llenos 
                 JOptionPane.showMessageDialog(rootPane,"Llene los campos obligatorios","Error",JOptionPane.ERROR_MESSAGE);
             }
             else{//si los campos obligatorios estan llenos.  
-            //se hace la consulta para ver si el nombre del producto que estan ingresando ya existe
-            ConexionMySQL conexion1 = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
-            conexion1.EjecutarConsulta("SELECT * FROM material WHERE nombre ="+"'"+txtNombre.getText()+"'");
-            ResultSet rs = conexion1.getResulSet();
-            try {
-                while(rs.next()){
-                  nombre = rs.getString("nombre");
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                if(nombre == ""){//si el nombre del material no existe
-                  if(botonRadio.isSelected()){//Si la opcion tipo est habilitada
+                idNombreActual = existePorNombre(txtNombre.getText());
+                // si la opcion es de insertar un nuevo material
+               if(opcion == 1){
+                  if(idNombreActual < 0){//si el nombre del material no existe
+                  if(botonRadio.isSelected()){//Si la opcion tipo esta habilitada
                    if(comboTipo.getSelectedIndex() == 0){// si es carta 
-                       alto = (float) 27.94;
-                       ancho = (float) 21.59;
+                       alto ="27.94";
+                       ancho ="21.59";
                        tipo = "Carta";
                    } 
                    else{// si es oficio
-                       alto = (float) 33;
-                       ancho = (float) 21.64;
+                       alto ="33";
+                       ancho ="21.64";
                        tipo = "Oficio";     
-                   }
-                   //se pregunta si esta deacuerdo con los datos del material
-                   int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta deacuerdo con el material? \n"+"Nombre: "+txtNombre.getText()
-                    +"\nCantidad: "+txtCantidad.getText()+"\nColor: "+txtColor.getText()+"\nTipo: "+tipo+"\nDimensiones: "+alto+"cm x "+ancho+"cm","Advertencia",
-                    JOptionPane.YES_NO_OPTION);
-                   if(res == 0){//si esta deacuerdo con los datos del material 
-                     //se inserta el material en la base de datos.
-                     ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
-                     conexion.EjecutarInstruccion("INSERT INTO material(nombre,alto,ancho,cantidad,color,tipo)"  
-                             + "VALUES ('"+txtNombre.getText()+"',"+alto+","+ancho+","+txtCantidad.getText()+",'"+txtColor.getText()+"' ,'"+tipo+"')"); 
-                
-                //Mensaje que describe que el material ingreso en el sistema      
-                JOptionPane.showMessageDialog(rootPane,"Material Ingresado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
-                cerrarDialogNuevo(); 
                    }
                     
                 }
-                else{// si la opcion tipo, no esta habilitada 
-                    //se pregunta si esta deacuerdo con los datos del material  
-                    int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta deacuerdo con el material? \n"+"Nombre: "+txtNombre.getText()
-                    +"\nCantidad: "+txtCantidad.getText()+"\nColor: "+txtColor.getText(),"Advertencia",
-                    JOptionPane.YES_NO_OPTION);
-                     if(res == 0){ // si esta deacuerdo con los datos del material 
-                     //se inserta el material en la base de datos 
-                     ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
-                     conexion.EjecutarInstruccion("INSERT INTO material(nombre,alto,ancho,cantidad,color,tipo)" 
-                             + "VALUES ('"+txtNombre.getText()+"',"+"NULL"+","+"NULL"+","+txtCantidad.getText()+",'"+txtColor.getText()+"' ,'"+"NULL"+"')"); 
-               //Mensaje que describe que el material ingreso en el sistema 
-                JOptionPane.showMessageDialog(rootPane,"Material Ingresado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
-                cerrarDialogNuevo();
-                     }
-                   
-                }  
+                  
+                       insertarMaterial(txtNombre.getText(), alto, ancho, txtCantidad.getText(),txtColor.getText(), tipo);//insertamos los materiales 
+                }//fin del if(nombre == "")
+                else{
+                    JOptionPane.showMessageDialog(rootPane,"El nombre del producto ya existe","Error",JOptionPane.ERROR_MESSAGE);
+                } 
+               }//fin del if(opcion ==1)
+               else{
+                   idNombreAnterior = existePorNombre(nombreTemp);
+                 if((idNombreAnterior == idNombreActual) || (idNombreAnterior!=idNombreActual && idNombreActual <0)){//si el nombre del material no existe
+                  if(botonRadio.isSelected()){//Si la opcion tipo esta habilitada
+                   if(comboTipo.getSelectedIndex() == 0){// si es carta 
+                       alto ="27.94";
+                       ancho ="21.59";
+                       tipo = "Carta";
+                   } 
+                   else{// si es oficio
+                       alto ="33";
+                       ancho ="21.64";
+                       tipo = "Oficio";     
+                   }
+                    
+                }
+                  
+                   modificarMaterial(txtNombre.getText(), alto, ancho, txtCantidad.getText(),txtColor.getText(), tipo);//insertamos los materiales 
                 }//fin del if(nombre == "")
                 else{
                     JOptionPane.showMessageDialog(rootPane,"El nombre del producto ya existe","Error",JOptionPane.ERROR_MESSAGE);
                 }
-                    
-            }        
+               }
+                 
+                      
+            } //fin del else de los campos llenos 
+}
+//Boton aceptar de la ventana nuevo
+    private void botonAceptarDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarDActionPerformed
+              aceptarBoton(opcion);
     }//GEN-LAST:event_botonAceptarDActionPerformed
 //Se hace el reporte de la tabla del modulo de material
     private void botonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteActionPerformed
@@ -495,10 +620,44 @@ private void cerrarDialogNuevo(){
 
 //accion boton aceptar de la ventana de dialogo eliminar 
     private void tablaMaterialesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMaterialesMouseClicked
-      ID = "";
+
       int seleccion = tablaMateriales.rowAtPoint(evt.getPoint());
       ID = String.valueOf(tablaMateriales.getValueAt(seleccion,0));
+      txtNombre.setText(String.valueOf(tablaMateriales.getValueAt(seleccion,1)));
+      nombreTemp = String.valueOf(tablaMateriales.getValueAt(seleccion,1));//se hace una copia del nombre, anterior a la edicion 
+      txtCantidad.setText(String.valueOf(tablaMateriales.getValueAt(seleccion,4)));
+      txtColor.setText(String.valueOf(tablaMateriales.getValueAt(seleccion,5)));
+      Tipo = String.valueOf(tablaMateriales.getValueAt(seleccion,6));
+      Alto1 = String.valueOf(tablaMateriales.getValueAt(seleccion,2));
+      if(Alto1 != "null"){
+          Alto = (float) tablaMateriales.getValueAt(seleccion,2);
+      }
+      else{
+          Alto = 0;
+      }
     }//GEN-LAST:event_tablaMaterialesMouseClicked
+
+    private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
+        System.out.println(ID);
+        if(ID!=""){
+       opcion = 0;
+       ventanaNuevo.setVisible(true);
+       ventanaNuevo.setLocationRelativeTo(null);
+       ventanaNuevo.setTitle("Editar Material");
+           //System.out.println(Tipo);
+           //System.out.println(Alto);
+           if(Alto !=0){
+               botonRadio.setSelected(true);
+               if(Alto == 33.0){
+                   comboTipo.setSelectedIndex(1);
+               }
+           }
+       }
+       else{
+           JOptionPane.showMessageDialog(rootPane,"Seleccione un material","Error",JOptionPane.ERROR_MESSAGE);
+       }
+       
+    }//GEN-LAST:event_botonEditarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -536,9 +695,11 @@ private void cerrarDialogNuevo(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PanelMaterial2;
     private javax.swing.JButton botonAceptarD;
     private javax.swing.JButton botonCancelarD;
     private javax.swing.JButton botonCargar;
+    private javax.swing.JToggleButton botonEditar;
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonNuevo;
     private javax.swing.JRadioButton botonRadio;
@@ -551,8 +712,9 @@ private void cerrarDialogNuevo(){
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JPanel panelMaterial;
     private javax.swing.JPanel panelNuevo;
     private javax.swing.JTable tablaMateriales;

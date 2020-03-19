@@ -44,7 +44,7 @@ public class ProyectoBD {
         } catch (ClassNotFoundException | SQLException ex) {
             System.out.println(ex.getMessage());
         }
-*/   
+ */
         
         /*
         try {
