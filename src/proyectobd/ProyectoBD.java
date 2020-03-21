@@ -23,8 +23,17 @@ public class ProyectoBD {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        //VENTANA MATERIAL
+        /*
         Material material = new Material();
         material.setVisible(true);
+        */
+        
+        Producto producto = new Producto();
+        producto.setVisible(true);
+        
+        
+        
         /*
         try {
             

@@ -5,7 +5,12 @@
  */
 package proyectobd;
 
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,9 +18,7 @@ import javax.swing.JFrame;
  */
 public class Producto extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Producto
-     */
+    private  String[]  titulos = {"Id","Nombre","Descripcion","Productos a utilizar"};
     public Producto() {
         initComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,6 +67,11 @@ public class Producto extends javax.swing.JFrame {
         });
 
         botonCargar.setText("Cargar");
+        botonCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCargarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -166,6 +174,38 @@ public class Producto extends javax.swing.JFrame {
     private void botonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_botonReporteActionPerformed
+
+    private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
+      String campo = txtCargar.getText();
+        String where = "";
+        if(!"".equals(campo)){
+            where = "WHERE P.id = '"+campo+"' OR P.nombre = '"+campo+"'";
+        }
+         try {
+         DefaultTableModel modelo = new DefaultTableModel(null,titulos);
+         tablaPrincipal.setModel(modelo);
+         ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+         conexion.EjecutarConsulta("SELECT PM.producto_id As id_Producto,P.nombre As nombre_Producto,P.descripcion,COUNT(*) Total_Materiales FROM producto_has_material PM\n" +
+"INNER JOIN producto P ON PM.producto_id = P.id\n" +
+"INNER JOIN material M ON PM.material_id = M.id "+where+" "+" GROUP BY P.id");
+            
+            ResultSet rs = conexion.getResulSet();
+            ResultSetMetaData rsMd = rs.getMetaData();
+            int cantidadColumnas = rsMd.getColumnCount();
+              
+            while(rs.next()){
+                Object[] fila = new Object[cantidadColumnas];
+                for(int i=0; i <cantidadColumnas ; i++){
+                    fila[i]=rs.getObject(i+1);
+                }
+                modelo.addRow(fila);
+            }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(rootPane,"Error de conexion","Error",JOptionPane.ERROR_MESSAGE);
+         System.out.println(ex.getMessage());
+        
+    }
+    }//GEN-LAST:event_botonCargarActionPerformed
 
     /**
      * @param args the command line arguments
