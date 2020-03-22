@@ -175,6 +175,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="A&#xf1;adir"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAdanirActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JToggleButton" name="botonEliminarNue">
               <Properties>
@@ -252,6 +255,10 @@
                       <Table columnCount="0" rowCount="4"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaMaterialMouseClicked"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tablaMaterialKeyTyped"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

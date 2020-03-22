@@ -19,13 +19,18 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Producto extends javax.swing.JFrame {
 
-    private  String[]  titulos = {"Id","Nombre","Descripcion","Productos a utilizar"}, tituloMaterial ={"Id","Nombre","Cantidad","Tipo"} ;
+    private  String[]  titulos = {"Id","Nombre","Descripcion","Productos a utilizar"}, tituloMaterial ={"Id","Nombre","Cantidad","Tipo"}, tituloMaterialUtil = {"Id","Nombre","Tipo","Cantidad"};
+    private DefaultTableModel  modeloTabla;
+    private String iD = "",nombre1 =  "",tipo1 = "";
     public Producto() {
         initComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setTitle("Producto");
         dialogNuevoPro.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        modeloTabla = new DefaultTableModel(null,tituloMaterialUtil);
+        this.tablaMaterialProduc.setModel(modeloTabla);
+        
     }
 
     /**
@@ -128,6 +133,11 @@ public class Producto extends javax.swing.JFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         botonAdanir.setText("Añadir");
+        botonAdanir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAdanirActionPerformed(evt);
+            }
+        });
 
         botonEliminarNue.setText("Eliminar ");
 
@@ -173,6 +183,16 @@ public class Producto extends javax.swing.JFrame {
 
             }
         ));
+        tablaMaterial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMaterialMouseClicked(evt);
+            }
+        });
+        tablaMaterial.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tablaMaterialKeyTyped(evt);
+            }
+        });
         jScrollPane3.setViewportView(tablaMaterial);
 
         tablaMaterialProduc.setModel(new javax.swing.table.DefaultTableModel(
@@ -416,7 +436,7 @@ public class Producto extends javax.swing.JFrame {
     }//GEN-LAST:event_botonReporteActionPerformed
 
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
-        String consulta = "SELECT PM.producto_id As id_Producto,P.nombre As nombre_Producto,P.descripcion,COUNT(*) Total_Materiales FROM producto_has_material PM\n" +
+      String consulta = "SELECT PM.producto_id As id_Producto,P.nombre As nombre_Producto,P.descripcion,COUNT(*) Total_Materiales FROM producto_has_material PM\n" +
 "INNER JOIN producto P ON PM.producto_id = P.id\n" +
 "INNER JOIN material M ON PM.material_id = M.id ";
         cargarTabla(consulta, txtCargar.getText(),"P.nombre","P.id","GROUP BY P.id", tablaPrincipal, titulos);
@@ -467,6 +487,60 @@ private void cargarTabla(String consulta, String txt, String nombre, String id, 
         dialogNuevoPro.setVisible(false);
         dialogNuevoPro.dispose();
     }//GEN-LAST:event_botonCancelarActionPerformed
+
+    private void tablaMaterialKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaMaterialKeyTyped
+        
+    }//GEN-LAST:event_tablaMaterialKeyTyped
+
+    private void tablaMaterialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMaterialMouseClicked
+       int seleccion = tablaMaterial.rowAtPoint(evt.getPoint());
+       iD = String.valueOf(tablaMaterial.getValueAt(seleccion,0));
+       nombre1 = String.valueOf(tablaMaterial.getValueAt(seleccion, 1));
+       tipo1 = String.valueOf(tablaMaterial.getValueAt(seleccion, 3));
+        System.out.println(iD);
+    }//GEN-LAST:event_tablaMaterialMouseClicked
+    //ve si existe ya el material en la tabla de materiales destinada al producto nuevo
+    private boolean buscarMaterial(int id){
+        boolean existe = false;
+        
+        for(int i = 0; i<tablaMaterialProduc.getRowCount();i++){
+            if(id == Integer.parseInt(String.valueOf(tablaMaterialProduc.getValueAt(i,0))) ){
+                existe = true;
+            }
+        }
+        return existe;
+    }
+    //boton anadir material a la tabla, para los productos que necesita el producto 
+    private void botonAdanirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdanirActionPerformed
+       String []info =new String[3];
+        if(iD != ""){
+            System.out.println(iD);
+            System.out.println(tablaMaterialProduc.getRowCount());
+           if(tablaMaterialProduc.getRowCount() == 0){
+               info[0] = iD;
+               info[1] = nombre1;
+               info[2] = tipo1;
+               modeloTabla.addRow(info);
+           }
+           else{
+               
+               if(!buscarMaterial(Integer.parseInt(iD))){
+                   info[0] = iD;
+                   info[1] = nombre1;
+                   info[2] = tipo1;
+                   modeloTabla.addRow(info);
+               }
+               else{
+                   JOptionPane.showMessageDialog(rootPane,"Ya tiene añadido el material","Error",JOptionPane.ERROR_MESSAGE);
+               }
+               
+           }
+       }
+        else{
+            JOptionPane.showMessageDialog(rootPane,"Selecione un material","Error",JOptionPane.ERROR_MESSAGE);
+        }
+        iD = "";
+    }//GEN-LAST:event_botonAdanirActionPerformed
 
     /**
      * @param args the command line arguments

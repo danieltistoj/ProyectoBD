@@ -638,7 +638,7 @@ private void aceptarBoton(int opcion1){
     }//GEN-LAST:event_tablaMaterialesMouseClicked
 
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
-        System.out.println(ID);
+       // System.out.println(ID);
         if(ID!=""){
        opcion = 0;
        ventanaNuevo.setVisible(true);
