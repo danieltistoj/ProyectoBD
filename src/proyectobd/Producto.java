@@ -10,6 +10,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,12 +19,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Producto extends javax.swing.JFrame {
 
-    private  String[]  titulos = {"Id","Nombre","Descripcion","Productos a utilizar"};
+    private  String[]  titulos = {"Id","Nombre","Descripcion","Productos a utilizar"}, tituloMaterial ={"Id","Nombre","Cantidad","Tipo"} ;
     public Producto() {
         initComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setTitle("Producto");
+        dialogNuevoPro.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
 
     /**
@@ -46,7 +48,7 @@ public class Producto extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         botonAdanir = new javax.swing.JToggleButton();
         botonEliminarNue = new javax.swing.JToggleButton();
-        jTextField2 = new javax.swing.JTextField();
+        txtCargarNuevoPro = new javax.swing.JTextField();
         botonCargarNue = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -69,6 +71,8 @@ public class Producto extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaPrincipal = new javax.swing.JTable();
+
+        dialogNuevoPro.setSize(new java.awt.Dimension(695, 580));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -137,7 +141,7 @@ public class Producto extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(botonCargarNue)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCargarNuevoPro, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(botonAdanir, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
@@ -151,7 +155,7 @@ public class Producto extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonAdanir)
                     .addComponent(botonEliminarNue)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCargarNuevoPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonCargarNue))
                 .addContainerGap())
         );
@@ -224,6 +228,11 @@ public class Producto extends javax.swing.JFrame {
         botonAceptar.setText("Aceptar");
 
         botonCancelar.setText("Cancelar");
+        botonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -278,6 +287,11 @@ public class Producto extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         botonNuevo.setText("Nuevo");
+        botonNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonNuevoActionPerformed(evt);
+            }
+        });
 
         botonEditar.setText("Editar");
 
@@ -402,18 +416,26 @@ public class Producto extends javax.swing.JFrame {
     }//GEN-LAST:event_botonReporteActionPerformed
 
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
-      String campo = txtCargar.getText();
+        String consulta = "SELECT PM.producto_id As id_Producto,P.nombre As nombre_Producto,P.descripcion,COUNT(*) Total_Materiales FROM producto_has_material PM\n" +
+"INNER JOIN producto P ON PM.producto_id = P.id\n" +
+"INNER JOIN material M ON PM.material_id = M.id ";
+        cargarTabla(consulta, txtCargar.getText(),"P.nombre","P.id","GROUP BY P.id", tablaPrincipal, titulos);
+    }//GEN-LAST:event_botonCargarActionPerformed
+
+    private void txtNombreNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreNuevoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreNuevoActionPerformed
+private void cargarTabla(String consulta, String txt, String nombre, String id, String extra, JTable tabla, String[] titulo){
+    String campo = txt;
         String where = "";
         if(!"".equals(campo)){
-            where = "WHERE P.id = '"+campo+"' OR P.nombre = '"+campo+"'";
+            where = "WHERE "+id+ "= '"+campo+"' OR "+nombre+"= '"+campo+"'";
         }
          try {
-         DefaultTableModel modelo = new DefaultTableModel(null,titulos);
-         tablaPrincipal.setModel(modelo);
+         DefaultTableModel modelo = new DefaultTableModel(null,titulo);
+         tabla.setModel(modelo);
          ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
-         conexion.EjecutarConsulta("SELECT PM.producto_id As id_Producto,P.nombre As nombre_Producto,P.descripcion,COUNT(*) Total_Materiales FROM producto_has_material PM\n" +
-"INNER JOIN producto P ON PM.producto_id = P.id\n" +
-"INNER JOIN material M ON PM.material_id = M.id "+where+" "+" GROUP BY P.id");
+         conexion.EjecutarConsulta(consulta+where+" "+extra);
             
             ResultSet rs = conexion.getResulSet();
             ResultSetMetaData rsMd = rs.getMetaData();
@@ -431,11 +453,20 @@ public class Producto extends javax.swing.JFrame {
          System.out.println(ex.getMessage());
         
     }
-    }//GEN-LAST:event_botonCargarActionPerformed
-
-    private void txtNombreNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreNuevoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreNuevoActionPerformed
+}
+//Nuevo producto 
+    private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
+    String consulta =  "SELECT id,nombre,cantidad,tipo FROM material ";
+     dialogNuevoPro.setVisible(true);
+     dialogNuevoPro.setLocationRelativeTo(null);
+     dialogNuevoPro.setTitle("Nuevo Producto");
+     cargarTabla(consulta,txtCargarNuevoPro.getText(),"nombre","id","ORDER BY cantidad",tablaMaterial,tituloMaterial);
+    }//GEN-LAST:event_botonNuevoActionPerformed
+//Cancelar dialog nuevo material
+    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
+        dialogNuevoPro.setVisible(false);
+        dialogNuevoPro.dispose();
+    }//GEN-LAST:event_botonCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -501,11 +532,11 @@ public class Producto extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTable tablaMaterial;
     private javax.swing.JTable tablaMaterialProduc;
     private javax.swing.JTable tablaPrincipal;
     private javax.swing.JTextField txtCargar;
+    private javax.swing.JTextField txtCargarNuevoPro;
     private javax.swing.JTextField txtNombreNuevo;
     // End of variables declaration//GEN-END:variables
 }
