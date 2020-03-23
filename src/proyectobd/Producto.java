@@ -140,8 +140,18 @@ public class Producto extends javax.swing.JFrame {
         });
 
         botonEliminarNue.setText("Eliminar ");
+        botonEliminarNue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarNueActionPerformed(evt);
+            }
+        });
 
         botonCargarNue.setText("Cargar");
+        botonCargarNue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCargarNueActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -246,6 +256,11 @@ public class Producto extends javax.swing.JFrame {
         jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         botonAceptar.setText("Aceptar");
+        botonAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAceptarActionPerformed(evt);
+            }
+        });
 
         botonCancelar.setText("Cancelar");
         botonCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -482,10 +497,20 @@ private void cargarTabla(String consulta, String txt, String nombre, String id, 
      dialogNuevoPro.setTitle("Nuevo Producto");
      cargarTabla(consulta,txtCargarNuevoPro.getText(),"nombre","id","ORDER BY cantidad",tablaMaterial,tituloMaterial);
     }//GEN-LAST:event_botonNuevoActionPerformed
+private void limpiarDialogNuevo(){
+    txtCargarNuevoPro.setText("");
+    txtNombreNuevo.setText("");
+    areaDescrip.setText("");
+    int fila = tablaMaterialProduc.getRowCount();
+    for(int i = fila-1;i>=0;i--){
+        modeloTabla.removeRow(i);
+    }
+}
 //Cancelar dialog nuevo material
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
         dialogNuevoPro.setVisible(false);
         dialogNuevoPro.dispose();
+        limpiarDialogNuevo();
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void tablaMaterialKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaMaterialKeyTyped
@@ -497,7 +522,7 @@ private void cargarTabla(String consulta, String txt, String nombre, String id, 
        iD = String.valueOf(tablaMaterial.getValueAt(seleccion,0));
        nombre1 = String.valueOf(tablaMaterial.getValueAt(seleccion, 1));
        tipo1 = String.valueOf(tablaMaterial.getValueAt(seleccion, 3));
-        System.out.println(iD);
+        //System.out.println(iD);
     }//GEN-LAST:event_tablaMaterialMouseClicked
     //ve si existe ya el material en la tabla de materiales destinada al producto nuevo
     private boolean buscarMaterial(int id){
@@ -510,37 +535,77 @@ private void cargarTabla(String consulta, String txt, String nombre, String id, 
         }
         return existe;
     }
+    private void insertarEnTabla(String id, String nombre, String tipo){
+        String []info =new String[4];
+        try {
+             String cantidad = JOptionPane.showInputDialog("Ingrese la cantidad que necesita:");
+                   if(cantidad.length() == 0){
+                       JOptionPane.showMessageDialog(null,"Ingrese un valor","Error",JOptionPane.ERROR_MESSAGE);
+                   }
+                   else{
+                       int numCanti = Integer.parseInt(cantidad);
+                        info[0] = id;
+                        info[1] = nombre;
+                        info[2] = tipo;
+                        info[3] = Integer.toString(numCanti);
+                        modeloTabla.addRow(info);
+                   }  
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Ingrese solo digitos","Error",JOptionPane.ERROR_MESSAGE);
+        }
+             
+    }
     //boton anadir material a la tabla, para los productos que necesita el producto 
     private void botonAdanirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdanirActionPerformed
-       String []info =new String[3];
         if(iD != ""){
-            System.out.println(iD);
-            System.out.println(tablaMaterialProduc.getRowCount());
            if(tablaMaterialProduc.getRowCount() == 0){
-               info[0] = iD;
-               info[1] = nombre1;
-               info[2] = tipo1;
-               modeloTabla.addRow(info);
+               insertarEnTabla(iD, nombre1, tipo1);
            }
            else{
                
                if(!buscarMaterial(Integer.parseInt(iD))){
-                   info[0] = iD;
-                   info[1] = nombre1;
-                   info[2] = tipo1;
-                   modeloTabla.addRow(info);
+                   insertarEnTabla(iD, nombre1, tipo1);
                }
                else{
-                   JOptionPane.showMessageDialog(rootPane,"Ya tiene añadido el material","Error",JOptionPane.ERROR_MESSAGE);
+                   JOptionPane.showMessageDialog(null,"Ya tiene añadido el material","Error",JOptionPane.ERROR_MESSAGE);
                }
                
            }
        }
         else{
-            JOptionPane.showMessageDialog(rootPane,"Selecione un material","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Seleccione un material","Error",JOptionPane.ERROR_MESSAGE);
         }
         iD = "";
     }//GEN-LAST:event_botonAdanirActionPerformed
+//para cargar la tabla de materiales o buscar un material
+    private void botonCargarNueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarNueActionPerformed
+         String consulta =  "SELECT id,nombre,cantidad,tipo FROM material ";
+        cargarTabla(consulta,txtCargarNuevoPro.getText(),"nombre","id","ORDER BY cantidad",tablaMaterial,tituloMaterial);
+    }//GEN-LAST:event_botonCargarNueActionPerformed
+//eliminar un material de la tabla derecha
+    private void botonEliminarNueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarNueActionPerformed
+        int fila = tablaMaterialProduc.getSelectedRow();
+        if(fila>=0){
+            modeloTabla.removeRow(fila);
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Seleccione una fila","Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_botonEliminarNueActionPerformed
+private int buscarPorNombre(String nombre){
+    int id = -1;
+    
+    return id;
+}
+//boton haceptar 
+    private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
+      if(txtNombreNuevo.getText() != "" && tablaMaterialProduc.getRowCount() > 0){
+          
+      }
+      else{
+          JOptionPane.showMessageDialog(null,"Llene los campos obligatorios","Error",JOptionPane.ERROR_MESSAGE);
+      }
+    }//GEN-LAST:event_botonAceptarActionPerformed
 
     /**
      * @param args the command line arguments

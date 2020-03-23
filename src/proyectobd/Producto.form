@@ -183,6 +183,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Eliminar "/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonEliminarNueActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtCargarNuevoPro">
             </Component>
@@ -190,6 +193,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cargar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCargarNueActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -329,6 +335,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Aceptar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAceptarActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botonCancelar">
               <Properties>

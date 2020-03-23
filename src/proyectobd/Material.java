@@ -472,7 +472,7 @@ private void limpiarTxt(){
                              + "VALUES ('"+nombre+"',"+alto+","+ancho+","+cantidad+",'"+color+"' ,'"+tipo+"')"); 
                 
                 //Mensaje que describe que el material ingreso en el sistema      
-                JOptionPane.showMessageDialog(rootPane,"Material Ingresado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Material Ingresado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
                 cerrarDialogNuevo(); 
                    }
  }
@@ -488,7 +488,7 @@ private void limpiarTxt(){
                              "ancho = "+ancho+",cantidad = "+cantidad+",color = '"+color+"',tipo = '"+tipo+"'"+"WHERE id = "+ID); 
                 
                 //Mensaje que describe que el material ingreso en el sistema      
-                JOptionPane.showMessageDialog(rootPane,"Material Modificado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Material Modificado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
                 cerrarDialogNuevo(); 
                    }
  }
@@ -502,14 +502,14 @@ private void limpiarTxt(){
       if(Character.isLetter(validar)){
           getToolkit().beep();
           evt.consume();
-          JOptionPane.showMessageDialog(rootPane,"Solo ingrese numeros","Error",JOptionPane.ERROR_MESSAGE);
+          JOptionPane.showMessageDialog(null,"Solo ingrese numeros","Error",JOptionPane.ERROR_MESSAGE);
       }
     }//GEN-LAST:event_txtCantidadKeyTyped
 private void aceptarBoton(int opcion1){
         String tipo="NULL", nombre = "",alto = "NULL",ancho ="NULL";
         int idNombreActual, idNombreAnterior;
             if(txtNombre.getText().length() == 0 || txtCantidad.getText().length() == 0 ){ // ver si los campos nombre y cantidad estan llenos 
-                JOptionPane.showMessageDialog(rootPane,"Llene los campos obligatorios","Error",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Llene los campos obligatorios","Error",JOptionPane.ERROR_MESSAGE);
             }
             else{//si los campos obligatorios estan llenos.  
                 idNombreActual = existePorNombre(txtNombre.getText());
@@ -533,7 +533,7 @@ private void aceptarBoton(int opcion1){
                        insertarMaterial(txtNombre.getText(), alto, ancho, txtCantidad.getText(),txtColor.getText(), tipo);//insertamos los materiales 
                 }//fin del if(nombre == "")
                 else{
-                    JOptionPane.showMessageDialog(rootPane,"El nombre del producto ya existe","Error",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"El nombre del producto ya existe","Error",JOptionPane.ERROR_MESSAGE);
                 } 
                }//fin del if(opcion ==1)
                else{
@@ -556,7 +556,7 @@ private void aceptarBoton(int opcion1){
                    modificarMaterial(txtNombre.getText(), alto, ancho, txtCantidad.getText(),txtColor.getText(), tipo);//insertamos los materiales 
                 }//fin del if(nombre == "")
                 else{
-                    JOptionPane.showMessageDialog(rootPane,"El nombre del producto ya existe","Error",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"El nombre del producto ya existe","Error",JOptionPane.ERROR_MESSAGE);
                 }
                }
                  
