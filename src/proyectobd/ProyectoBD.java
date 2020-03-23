@@ -24,14 +24,14 @@ public class ProyectoBD {
      */
     public static void main(String[] args) {
         //VENTANA MATERIAL
-        
+        /*
         Material material = new Material();
         material.setVisible(true);
+        */
         
-        /*
         Producto producto = new Producto();
         producto.setVisible(true);
-        */
+        
         
         
         /*
