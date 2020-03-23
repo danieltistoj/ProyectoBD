@@ -22,7 +22,7 @@ public class Producto extends javax.swing.JFrame {
     private  String[]  titulos = {"Id","Nombre","Descripcion","Productos a utilizar"}, tituloMaterial ={"Id","Nombre","Cantidad","Tipo"}, tituloMaterialUtil = {"Id","Nombre","Tipo","Cantidad"};
     private DefaultTableModel  modeloTabla;
     private String iD = "",nombre1 =  "",tipo1 = "",localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
-             usuario ="root",contra = "xela2020";;
+             usuario ="root",contra = "xela2020";
     public Producto() {
         initComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
