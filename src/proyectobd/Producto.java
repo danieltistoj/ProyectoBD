@@ -21,7 +21,8 @@ public class Producto extends javax.swing.JFrame {
 
     private  String[]  titulos = {"Id","Nombre","Descripcion","Productos a utilizar"}, tituloMaterial ={"Id","Nombre","Cantidad","Tipo"}, tituloMaterialUtil = {"Id","Nombre","Tipo","Cantidad"};
     private DefaultTableModel  modeloTabla;
-    private String iD = "",nombre1 =  "",tipo1 = "";
+    private String iD = "",nombre1 =  "",tipo1 = "",localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
+             usuario ="root",contra = "xela2020";;
     public Producto() {
         initComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -469,7 +470,7 @@ private void cargarTabla(String consulta, String txt, String nombre, String id, 
          try {
          DefaultTableModel modelo = new DefaultTableModel(null,titulo);
          tabla.setModel(modelo);
-         ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+         ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
          conexion.EjecutarConsulta(consulta+where+" "+extra);
             
             ResultSet rs = conexion.getResulSet();

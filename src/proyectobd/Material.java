@@ -33,7 +33,8 @@ import net.sf.jasperreports.view.JasperViewer;
 public class Material extends javax.swing.JFrame {
      
      private  String[]  titulos = {"Id","Nombre","Alto","Ancho","Cantidad","Color","Tipo"};
-     private String ID = "", Tipo = "",Alto1 ="",nombreTemp = "";
+     private String ID = "", Tipo = "",Alto1 ="",nombreTemp = "", localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
+             usuario ="root",contra = "xela2020";
      private int opcion;
      private float Alto;
      
@@ -412,7 +413,7 @@ public class Material extends javax.swing.JFrame {
          try {
          DefaultTableModel modelo = new DefaultTableModel(null,titulos);
          tablaMateriales.setModel(modelo);
-         ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+         ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
          conexion.EjecutarConsulta("SELECT id, nombre, alto, ancho, cantidad, color, tipo FROM material "+where+" "+"ORDER BY cantidad");
             
             ResultSet rs = conexion.getResulSet();
@@ -448,7 +449,7 @@ private void limpiarTxt(){
 }
  private int existePorNombre(String nombreBuscar){
         int id = -1;
-     ConexionMySQL conexion1 = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+    ConexionMySQL conexion1 = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
             conexion1.EjecutarConsulta("SELECT * FROM material WHERE nombre ="+"'"+nombreBuscar+"'");
             ResultSet rs = conexion1.getResulSet();
             try {
@@ -467,7 +468,7 @@ private void limpiarTxt(){
                     JOptionPane.YES_NO_OPTION);
                    if(res == 0){//si esta deacuerdo con los datos del material 
                      //se inserta el material en la base de datos.
-                     ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+                    ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
                      conexion.EjecutarInstruccion("INSERT INTO material(nombre,alto,ancho,cantidad,color,tipo)"  
                              + "VALUES ('"+nombre+"',"+alto+","+ancho+","+cantidad+",'"+color+"' ,'"+tipo+"')"); 
                 
@@ -483,7 +484,7 @@ private void limpiarTxt(){
                     JOptionPane.YES_NO_OPTION);
                    if(res == 0){//si esta deacuerdo con los datos del material 
                      //se inserta el material en la base de datos.
-                     ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+                    ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
                      conexion.EjecutarInstruccion("UPDATE material SET nombre = '"+nombre+"',"+"alto = "+alto+","+
                              "ancho = "+ancho+",cantidad = "+cantidad+",color = '"+color+"',tipo = '"+tipo+"'"+"WHERE id = "+ID); 
                 
@@ -571,7 +572,7 @@ private void aceptarBoton(int opcion1){
     private void botonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteActionPerformed
         
          try {
-              ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
               Connection con = conexion.getConexion();
              InputStream archivo=getClass().getResourceAsStream("/Reporte/Material.jrxml");
              JasperDesign dise = JRXmlLoader.load(archivo);
@@ -590,7 +591,7 @@ private void aceptarBoton(int opcion1){
         }
         else{
             String nombre="",alto="",ancho="", cantidad="",color="",tipo="", id="";
-        ConexionMySQL conexion = new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+       ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
         conexion.EjecutarConsulta("SELECT * FROM material WHERE id = "+ID);
         ResultSet rs = conexion.getResulSet();
          try {
