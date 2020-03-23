@@ -48,24 +48,49 @@ USE `proyectobd3`;
 /*!40000 ALTER TABLE `factura_has_pago` DISABLE KEYS */;
 /*!40000 ALTER TABLE `factura_has_pago` ENABLE KEYS */;
 
--- Volcando datos para la tabla proyectobd3.material: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla proyectobd3.material: ~15 rows (aproximadamente)
 /*!40000 ALTER TABLE `material` DISABLE KEYS */;
 INSERT INTO `material` (`id`, `nombre`, `alto`, `ancho`, `cantidad`, `color`, `tipo`) VALUES
 	(1, 'Periodico', 27.94, 21.59, 4, 'Gris', 'Carta'),
 	(2, 'Bond', 27.94, 21.59, 4, 'blanco', 'Carta'),
-	(3, 'Cauche', 33, 21.64, 5, 'Blanco', 'Oficio');
+	(3, 'Cauche', 33, 21.64, 5, 'Blanco', 'Oficio'),
+	(4, 'Bond color', 27.94, 21.59, 3, 'azul', 'Carta'),
+	(6, 'adhesivo', 33, 21.64, 5, 'blanco', 'Oficio'),
+	(7, 'Cartulina Manila', 27.94, 21.59, 10, '', 'Carta'),
+	(8, 'Cremy', 33, 21.64, 10, 'blanco', 'Oficio'),
+	(9, 'Cartulina Lino', 27.94, 21.59, 12, '', 'Carta'),
+	(11, 'Cartulina Opalina', 33, 21.64, 7, 'blanco', 'Oficio'),
+	(12, 'Clip', NULL, NULL, 10, '', 'NULL'),
+	(13, 'Bond color 2', 27.94, 21.59, 11, 'morado', 'Carta'),
+	(14, 'gancho', NULL, NULL, 10, '', 'NULL'),
+	(15, 'grapas', NULL, NULL, 120, '', 'NULL'),
+	(16, 'Papel sensibilizado ', NULL, NULL, 20, 'blanco ', 'NULL'),
+	(17, 'Papel sensibilizado2', NULL, NULL, 20, 'amarillo ', 'NULL');
 /*!40000 ALTER TABLE `material` ENABLE KEYS */;
 
 -- Volcando datos para la tabla proyectobd3.pago: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `pago` DISABLE KEYS */;
 /*!40000 ALTER TABLE `pago` ENABLE KEYS */;
 
--- Volcando datos para la tabla proyectobd3.producto: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla proyectobd3.producto: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `producto` DISABLE KEYS */;
+INSERT INTO `producto` (`id`, `descripcion`, `nombre`) VALUES
+	(1, 'Descripcion Factura', 'Factura'),
+	(2, 'Descripcion Recibo', 'Recibo'),
+	(3, 'Descripcion Notas de envio', 'Notas de envio'),
+	(4, 'descripcion 4', 'Producto 4');
 /*!40000 ALTER TABLE `producto` ENABLE KEYS */;
 
--- Volcando datos para la tabla proyectobd3.producto_has_material: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla proyectobd3.producto_has_material: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `producto_has_material` DISABLE KEYS */;
+INSERT INTO `producto_has_material` (`producto_id`, `material_id`, `Cantidad`) VALUES
+	(1, 16, 1),
+	(1, 17, 1),
+	(2, 2, 1),
+	(2, 16, 1),
+	(3, 2, 2),
+	(3, 16, 2),
+	(4, 16, 3);
 /*!40000 ALTER TABLE `producto_has_material` ENABLE KEYS */;
 
 -- Volcando datos para la tabla proyectobd3.proveedor: ~0 rows (aproximadamente)
