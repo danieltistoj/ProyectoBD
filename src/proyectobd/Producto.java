@@ -23,7 +23,7 @@ public class Producto extends javax.swing.JFrame {
 
     private  String[]  titulos = {"Id","Nombre","Descripcion","Productos a utilizar"}, tituloMaterial ={"Id","Nombre","Cantidad","Tipo"}, tituloMaterialUtil = {"Id","Nombre","Tipo","Cantidad"};
     private DefaultTableModel  modeloTabla;
-    private String iD = "",nombre1 =  "",tipo1 = "",localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
+    private String iD = "",nombre1 =  "",tipo1 = "",descripcion = "",localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
              usuario ="root",contra = "xela2020";
     public Producto() {
         initComponents();
@@ -31,6 +31,9 @@ public class Producto extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setTitle("Producto");
         dialogNuevoPro.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        dialogDetalle.setTitle("Detalle");
+        txtNombreDetalle.setEditable(false);
+        areaDetalle.setEnabled(false);
         modeloTabla = new DefaultTableModel(null,tituloMaterialUtil);
         this.tablaMaterialProduc.setModel(modeloTabla);
         
@@ -69,6 +72,17 @@ public class Producto extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         botonAceptar = new javax.swing.JButton();
         botonCancelar = new javax.swing.JButton();
+        dialogDetalle = new javax.swing.JDialog();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        txtNombreDetalle = new javax.swing.JTextField();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        areaDetalle = new javax.swing.JTextArea();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tablaDetalle = new javax.swing.JTable();
+        jLabel9 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         txtCargar = new javax.swing.JTextField();
         botonNuevo = new javax.swing.JButton();
@@ -328,6 +342,118 @@ public class Producto extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        dialogDetalle.setSize(new java.awt.Dimension(456, 490));
+        dialogDetalle.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                dialogDetalleWindowClosing(evt);
+            }
+        });
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel7.setText("Nombre");
+
+        areaDetalle.setColumns(20);
+        areaDetalle.setRows(5);
+        jScrollPane5.setViewportView(areaDetalle);
+
+        jLabel8.setText("Descripcion");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtNombreDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(77, 77, 77))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(164, 164, 164))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(156, 156, 156))))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtNombreDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6))
+        );
+
+        jPanel8.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        tablaDetalle.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane6.setViewportView(tablaDetalle);
+
+        jLabel9.setText("Materiales para el producto");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap(36, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(111, 111, 111))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29))))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout dialogDetalleLayout = new javax.swing.GroupLayout(dialogDetalle.getContentPane());
+        dialogDetalle.getContentPane().setLayout(dialogDetalleLayout);
+        dialogDetalleLayout.setHorizontalGroup(
+            dialogDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialogDetalleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(dialogDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        dialogDetalleLayout.setVerticalGroup(
+            dialogDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialogDetalleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -342,8 +468,18 @@ public class Producto extends javax.swing.JFrame {
         botonEditar.setText("Editar");
 
         botonDetalle.setText("Detalle");
+        botonDetalle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonDetalleActionPerformed(evt);
+            }
+        });
 
         botonEliminar.setText("Eliminar");
+        botonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarActionPerformed(evt);
+            }
+        });
 
         botonReporte.setText("Reporte");
         botonReporte.addActionListener(new java.awt.event.ActionListener() {
@@ -414,6 +550,11 @@ public class Producto extends javax.swing.JFrame {
 
             }
         ));
+        tablaPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaPrincipalMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaPrincipal);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -475,7 +616,8 @@ private void cargarTabla(String consulta, String txt, String nombre, String id, 
     String campo = txt;
         String where = "";
         if(!"".equals(campo)){
-            where = "WHERE "+id+ "= '"+campo+"' OR "+nombre+"= '"+campo+"'";
+            System.out.println(campo);
+            where = "WHERE "+id+ "= "+campo+" OR "+nombre+"= '"+campo+"'";
         }
          try {
          DefaultTableModel modelo = new DefaultTableModel(null,titulo);
@@ -605,7 +747,7 @@ private void limpiarDialogNuevo(){
     }//GEN-LAST:event_botonEliminarNueActionPerformed
 private int buscarPorNombre(String nombre){
     int id = -1;
-    ConexionMySQL conexion1 = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+            ConexionMySQL conexion1 = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
             conexion1.EjecutarConsulta("SELECT * FROM producto WHERE nombre ="+"'"+nombre+"'");
             ResultSet rs = conexion1.getResulSet();
             try {
@@ -621,7 +763,7 @@ private int buscarPorNombre(String nombre){
 }
 private boolean insertarProducto(String nombre, String descripcion){
     boolean ingresado = false;
-    int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta seguro de ingresar un producto nuevo?","Advertencia",JOptionPane.YES_NO_OPTION);//verificamos que el usuario esta de acuerdo con los datos ingresados para el material
+    int res = JOptionPane.showConfirmDialog(null,"¿Esta seguro de ingresar un producto nuevo?","Advertencia",JOptionPane.YES_NO_OPTION);//verificamos que el usuario esta de acuerdo con los datos ingresados para el material
     if(res == 0){// si dice que si, ingresamos el prducto, y se retorna un true 
         ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
                      conexion.EjecutarInstruccion("INSERT INTO producto(descripcion,nombre)"  
@@ -649,6 +791,9 @@ private void relacionMaterialProducto(String idProducto,int fila){
                       relacionMaterialProducto(iD,i);
                   }
                   JOptionPane.showMessageDialog(null,"Producto ingresado correctamente","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+                  limpiarDialogNuevo();
+                  dialogNuevoPro.setVisible(false);
+                  dialogNuevoPro.dispose();
               }
              
           }
@@ -662,6 +807,86 @@ private void relacionMaterialProducto(String idProducto,int fila){
       }
       iD = "";
     }//GEN-LAST:event_botonAceptarActionPerformed
+private void limpiarDialogDetalle(){
+    txtNombreDetalle.setText("");
+    areaDetalle.setText("");
+    iD = "";
+    nombre1 = "";
+    descripcion = "";
+}
+    private void botonDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDetalleActionPerformed
+     if(iD!=""){
+         String[] tituloDetalle = {"Id","Nombre","Cantidad"};
+         txtNombreDetalle.setText(nombre1);
+         areaDetalle.setText(descripcion);
+        String consulta =  "SELECT M.id, M.nombre,PM.Cantidad FROM producto_has_material PM\n" +
+"INNER JOIN producto P ON PM.producto_id = P.id\n" +
+"INNER JOIN material M ON PM.material_id = M.id ";
+     dialogDetalle.setVisible(true);
+     dialogDetalle.setLocationRelativeTo(null);
+     dialogNuevoPro.setTitle("Nuevo Producto");
+     cargarTabla(consulta,iD,"P.nombre","P.id","",tablaDetalle,tituloDetalle); 
+     } 
+     else{
+         JOptionPane.showMessageDialog(rootPane,"Seleccione un producto","Error",JOptionPane.ERROR_MESSAGE);
+     }
+     
+    }//GEN-LAST:event_botonDetalleActionPerformed
+
+    private void tablaPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPrincipalMouseClicked
+        int seleccion = tablaPrincipal.rowAtPoint(evt.getPoint());
+        iD = String.valueOf(tablaPrincipal.getValueAt(seleccion,0));
+        nombre1 =  String.valueOf(tablaPrincipal.getValueAt(seleccion,1));
+        descripcion = String.valueOf(tablaPrincipal.getValueAt(seleccion,2));
+    }//GEN-LAST:event_tablaPrincipalMouseClicked
+
+    private void dialogDetalleWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_dialogDetalleWindowClosing
+       limpiarDialogDetalle();
+    }//GEN-LAST:event_dialogDetalleWindowClosing
+private void eliminarProducto(String id, String tabla,String idTabla){
+    ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+     conexion.EjecutarInstruccion("DELETE FROM "+tabla+" WHERE "+idTabla+" = "+id);
+    
+}
+private boolean buscarProductoEnTabla(String tabla, String idTabla, String id){
+    boolean existe = false;
+    int existeId = -1;
+            ConexionMySQL conexion1 = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+            conexion1.EjecutarConsulta("SELECT * FROM "+tabla+" WHERE "+idTabla+" = "+id);
+            ResultSet rs = conexion1.getResulSet();
+            try {
+                while(rs.next()){
+                  existeId = Integer.parseInt(rs.getString(idTabla));
+                }
+                if(existeId>0){
+                    existe = true;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    
+    return existe;
+}
+    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+       if(iD!=""){
+        int res = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar el producto: "+nombre1+" ?","Advertencia",JOptionPane.YES_NO_OPTION);
+        if(res == 0){
+            if(buscarProductoEnTabla("detalle_pro","producto_id", iD)){
+                eliminarProducto(iD,"detalle_pro","producto_id");
+            }
+            if(buscarProductoEnTabla("producto_has_material","producto_id", iD)){
+                eliminarProducto(iD,"producto_has_material","producto_id"); 
+            }
+            if(buscarProductoEnTabla("producto","id", iD)){
+                eliminarProducto(iD,"producto","id");
+            }
+            JOptionPane.showMessageDialog(rootPane,"El producto se elimino","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+        }
+       }
+       else{
+           JOptionPane.showMessageDialog(rootPane,"Seleccione un material","Error",JOptionPane.ERROR_MESSAGE);
+       }
+    }//GEN-LAST:event_botonEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -700,6 +925,7 @@ private void relacionMaterialProducto(String idProducto,int fila){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaDescrip;
+    private javax.swing.JTextArea areaDetalle;
     private javax.swing.JButton botonAceptar;
     private javax.swing.JToggleButton botonAdanir;
     private javax.swing.JButton botonCancelar;
@@ -711,6 +937,7 @@ private void relacionMaterialProducto(String idProducto,int fila){
     private javax.swing.JToggleButton botonEliminarNue;
     private javax.swing.JButton botonNuevo;
     private javax.swing.JButton botonReporte;
+    private javax.swing.JDialog dialogDetalle;
     private javax.swing.JDialog dialogNuevoPro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -718,21 +945,30 @@ private void relacionMaterialProducto(String idProducto,int fila){
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JTable tablaDetalle;
     private javax.swing.JTable tablaMaterial;
     private javax.swing.JTable tablaMaterialProduc;
     private javax.swing.JTable tablaPrincipal;
     private javax.swing.JTextField txtCargar;
     private javax.swing.JTextField txtCargarNuevoPro;
+    private javax.swing.JTextField txtNombreDetalle;
     private javax.swing.JTextField txtNombreNuevo;
     // End of variables declaration//GEN-END:variables
 }
