@@ -8,6 +8,8 @@ package proyectobd;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -63,6 +65,7 @@ public class Producto extends javax.swing.JFrame {
         tablaMaterialProduc = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         botonAceptar = new javax.swing.JButton();
         botonCancelar = new javax.swing.JButton();
@@ -223,6 +226,9 @@ public class Producto extends javax.swing.JFrame {
 
         jLabel4.setText("Materiales");
 
+        jLabel6.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel6.setText("(Obligatorio)");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -230,14 +236,17 @@ public class Producto extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel4)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel6)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -246,7 +255,8 @@ public class Producto extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -595,17 +605,62 @@ private void limpiarDialogNuevo(){
     }//GEN-LAST:event_botonEliminarNueActionPerformed
 private int buscarPorNombre(String nombre){
     int id = -1;
+    ConexionMySQL conexion1 = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+            conexion1.EjecutarConsulta("SELECT * FROM producto WHERE nombre ="+"'"+nombre+"'");
+            ResultSet rs = conexion1.getResulSet();
+            try {
+                while(rs.next()){
+                  id = Integer.parseInt(rs.getString("id"));
+                  iD = rs.getString("id");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+            }
     
     return id;
 }
+private boolean insertarProducto(String nombre, String descripcion){
+    boolean ingresado = false;
+    int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta seguro de ingresar un producto nuevo?","Advertencia",JOptionPane.YES_NO_OPTION);//verificamos que el usuario esta de acuerdo con los datos ingresados para el material
+    if(res == 0){// si dice que si, ingresamos el prducto, y se retorna un true 
+        ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+                     conexion.EjecutarInstruccion("INSERT INTO producto(descripcion,nombre)"  
+                             + "VALUES ('"+descripcion+"' ,'"+nombre+"')"); 
+            ingresado = true;
+            buscarPorNombre(nombre);//buscamos el nombre recien ingresado para utilizarlo en la relacion de productos 
+    }
+    return ingresado;
+}
+//relacion de material con producto tabla: producto_has_material
+private void relacionMaterialProducto(String idProducto,int fila){
+    String idMaterial,cantidad;
+    idMaterial = String.valueOf(tablaMaterialProduc.getValueAt(fila,0));
+    cantidad = String.valueOf(tablaMaterialProduc.getValueAt(fila,3));
+    ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+    conexion.EjecutarInstruccion("INSERT INTO producto_has_material(producto_id,material_id,Cantidad)"  
+                             + "VALUES ("+idProducto+" ,"+idMaterial+" ,"+cantidad+")"); 
+}
 //boton haceptar 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
-      if(txtNombreNuevo.getText() != "" && tablaMaterialProduc.getRowCount() > 0){
+      if(txtNombreNuevo.getText() != "" && tablaMaterialProduc.getRowCount() > 0){//vemos que los compos obligatorios esten llenos 
+          if(buscarPorNombre(txtNombreNuevo.getText())<0){//verificamos que el nombre del producto a ingresar no este en la base de datos 
+              if(insertarProducto(txtNombreNuevo.getText(),areaDescrip.getText())){//ingresamos el porducto en la base de datos, pero verificando que el usuario esta deacuerdo, ya que la funcion retorna un boolean
+                  for(int i = 0; i<tablaMaterialProduc.getRowCount();i++){//relacionamos los materiales con el producto. 
+                      relacionMaterialProducto(iD,i);
+                  }
+                  JOptionPane.showMessageDialog(null,"Producto ingresado correctamente","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+              }
+             
+          }
+          else{
+              JOptionPane.showMessageDialog(null,"El nombre del producto ya existe","Error",JOptionPane.ERROR_MESSAGE);
+          }
           
       }
       else{
           JOptionPane.showMessageDialog(null,"Llene los campos obligatorios","Error",JOptionPane.ERROR_MESSAGE);
       }
+      iD = "";
     }//GEN-LAST:event_botonAceptarActionPerformed
 
     /**
@@ -662,6 +717,7 @@ private int buscarPorNombre(String nombre){
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
