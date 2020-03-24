@@ -32,7 +32,10 @@ public class ProyectoBD {
         Producto producto = new Producto();
         producto.setVisible(true);
         
-        
+        /*
+        Venta venta = new Venta();
+        venta.setVisible(true);
+        *
         
         /*
         try {
