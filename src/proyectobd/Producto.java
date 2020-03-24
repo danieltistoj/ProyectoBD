@@ -8,6 +8,7 @@ package proyectobd;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -22,9 +23,10 @@ import javax.swing.table.DefaultTableModel;
 public class Producto extends javax.swing.JFrame {
 
     private  String[]  titulos = {"Id","Nombre","Descripcion","Productos a utilizar"}, tituloMaterial ={"Id","Nombre","Cantidad","Tipo"}, tituloMaterialUtil = {"Id","Nombre","Tipo","Cantidad"};
-    private DefaultTableModel  modeloTabla;
+    private DefaultTableModel  modeloTabla,modeloTablaEditar;
     private String iD = "",nombre1 =  "",tipo1 = "",descripcion = "",localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
              usuario ="root",contra = "xela2020";
+    private ArrayList<Integer> materialEliminar;
     public Producto() {
         initComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,6 +34,7 @@ public class Producto extends javax.swing.JFrame {
         setTitle("Producto");
         dialogNuevoPro.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         dialogDetalle.setTitle("Detalle");
+        dialogEditar.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         txtNombreDetalle.setEditable(false);
         areaDetalle.setEnabled(false);
         modeloTabla = new DefaultTableModel(null,tituloMaterialUtil);
@@ -83,6 +86,30 @@ public class Producto extends javax.swing.JFrame {
         jScrollPane6 = new javax.swing.JScrollPane();
         tablaDetalle = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
+        dialogEditar = new javax.swing.JDialog();
+        jPanel9 = new javax.swing.JPanel();
+        txtNombreEditar = new javax.swing.JTextField();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        areaEditar = new javax.swing.JTextArea();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        botonAnadirEditar = new javax.swing.JButton();
+        botonEliminarEditar = new javax.swing.JButton();
+        txtCargarEditar = new javax.swing.JTextField();
+        botonCargarEditar = new javax.swing.JButton();
+        jPanel11 = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tablaMaterialEditarBD = new javax.swing.JTable();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        tablaMaterialesEditar = new javax.swing.JTable();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        botonAceptarEditar = new javax.swing.JButton();
+        botonCandelarEditar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         txtCargar = new javax.swing.JTextField();
         botonNuevo = new javax.swing.JButton();
@@ -454,6 +481,227 @@ public class Producto extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        dialogEditar.setSize(new java.awt.Dimension(622, 633));
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        areaEditar.setColumns(20);
+        areaEditar.setRows(5);
+        jScrollPane9.setViewportView(areaEditar);
+
+        jLabel10.setText("Nombre");
+
+        jLabel11.setText("Descripcion");
+
+        jLabel12.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel12.setText("(Obligatorio)");
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(35, 35, 35)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                    .addComponent(txtNombreEditar))
+                .addGap(51, 51, 51))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNombreEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel12))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane9)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        jPanel10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        botonAnadirEditar.setText("Añadir");
+        botonAnadirEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAnadirEditarActionPerformed(evt);
+            }
+        });
+
+        botonEliminarEditar.setText("Eliminar");
+
+        botonCargarEditar.setText("Cargar");
+        botonCargarEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCargarEditarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(botonCargarEditar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtCargarEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(botonAnadirEditar)
+                .addGap(18, 18, 18)
+                .addComponent(botonEliminarEditar)
+                .addContainerGap())
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonAnadirEditar)
+                    .addComponent(botonEliminarEditar)
+                    .addComponent(txtCargarEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonCargarEditar))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        jPanel11.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        tablaMaterialEditarBD.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane7.setViewportView(tablaMaterialEditarBD);
+
+        tablaMaterialesEditar.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane8.setViewportView(tablaMaterialesEditar);
+
+        jLabel13.setText("Materiales ");
+
+        jLabel14.setText("Matriales del producto");
+
+        jLabel15.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel15.setText("(Obligatorio)");
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addGap(34, 34, 34)
+                        .addComponent(jLabel15))
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                .addContainerGap(52, Short.MAX_VALUE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel15))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jPanel12.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        botonAceptarEditar.setText("Aceptar");
+
+        botonCandelarEditar.setText("Cancelar");
+        botonCandelarEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCandelarEditarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGap(180, 180, 180)
+                .addComponent(botonAceptarEditar)
+                .addGap(36, 36, 36)
+                .addComponent(botonCandelarEditar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonAceptarEditar)
+                    .addComponent(botonCandelarEditar))
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout dialogEditarLayout = new javax.swing.GroupLayout(dialogEditar.getContentPane());
+        dialogEditar.getContentPane().setLayout(dialogEditarLayout);
+        dialogEditarLayout.setHorizontalGroup(
+            dialogEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialogEditarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(dialogEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        dialogEditarLayout.setVerticalGroup(
+            dialogEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialogEditarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -466,6 +714,11 @@ public class Producto extends javax.swing.JFrame {
         });
 
         botonEditar.setText("Editar");
+        botonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEditarActionPerformed(evt);
+            }
+        });
 
         botonDetalle.setText("Detalle");
         botonDetalle.addActionListener(new java.awt.event.ActionListener() {
@@ -654,9 +907,12 @@ private void limpiarDialogNuevo(){
     txtCargarNuevoPro.setText("");
     txtNombreNuevo.setText("");
     areaDescrip.setText("");
-    int fila = tablaMaterialProduc.getRowCount();
+    limpiarTabla(modeloTabla, tablaMaterialProduc);
+}
+private void limpiarTabla(DefaultTableModel modelo, JTable tabla){
+    int fila = tabla.getRowCount();
     for(int i = fila-1;i>=0;i--){
-        modeloTabla.removeRow(i);
+        modelo.removeRow(i);
     }
 }
 //Cancelar dialog nuevo material
@@ -688,7 +944,7 @@ private void limpiarDialogNuevo(){
         }
         return existe;
     }
-    private void insertarEnTabla(String id, String nombre, String tipo){
+    private void insertarEnTabla(String id, String nombre, String tipo, DefaultTableModel modelo){
         String []info =new String[4];
         try {
              String cantidad = JOptionPane.showInputDialog("Ingrese la cantidad que necesita:");
@@ -701,23 +957,27 @@ private void limpiarDialogNuevo(){
                         info[1] = nombre;
                         info[2] = tipo;
                         info[3] = Integer.toString(numCanti);
-                        modeloTabla.addRow(info);
+                        modelo.addRow(info);
                    }  
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,"Ingrese solo digitos","Error",JOptionPane.ERROR_MESSAGE);
         }
              
     }
-    //boton anadir material a la tabla, para los productos que necesita el producto 
-    private void botonAdanirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdanirActionPerformed
-        if(iD != ""){
-           if(tablaMaterialProduc.getRowCount() == 0){
-               insertarEnTabla(iD, nombre1, tipo1);
+    private void anadirMaterialTabla(JTable tabla,JTable tablaSeleccionada,DefaultTableModel modelo ){
+        String id, nombre, tipo;
+        int fila = tablaSeleccionada.getSelectedRow();
+        id = String.valueOf(tablaSeleccionada.getValueAt(fila,0));
+        nombre = String.valueOf(tablaSeleccionada.getValueAt(fila, 1));
+        tipo =  String.valueOf(tablaSeleccionada.getValueAt(fila, 3));
+        if(fila >= 0){
+           if(tabla.getRowCount() == 0){
+               insertarEnTabla(id,nombre,tipo,modelo); 
            }
            else{
                
-               if(!buscarMaterial(Integer.parseInt(iD))){
-                   insertarEnTabla(iD, nombre1, tipo1);
+               if(!buscarMaterial(Integer.parseInt(id))){
+                   insertarEnTabla(id,nombre,tipo,modelo);
                }
                else{
                    JOptionPane.showMessageDialog(null,"Ya tiene añadido el material","Error",JOptionPane.ERROR_MESSAGE);
@@ -729,21 +989,28 @@ private void limpiarDialogNuevo(){
             JOptionPane.showMessageDialog(null,"Seleccione un material","Error",JOptionPane.ERROR_MESSAGE);
         }
         iD = "";
+    }
+    //boton anadir material a la tabla, para los productos que necesita el producto 
+    private void botonAdanirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdanirActionPerformed
+        anadirMaterialTabla(tablaMaterialProduc,tablaMaterial, modeloTabla);
     }//GEN-LAST:event_botonAdanirActionPerformed
 //para cargar la tabla de materiales o buscar un material
     private void botonCargarNueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarNueActionPerformed
          String consulta =  "SELECT id,nombre,cantidad,tipo FROM material ";
         cargarTabla(consulta,txtCargarNuevoPro.getText(),"nombre","id","ORDER BY cantidad",tablaMaterial,tituloMaterial);
     }//GEN-LAST:event_botonCargarNueActionPerformed
-//eliminar un material de la tabla derecha
-    private void botonEliminarNueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarNueActionPerformed
-        int fila = tablaMaterialProduc.getSelectedRow();
+private void eliminarTablaProducto(JTable tabla,DefaultTableModel modelo ){
+    int fila = tabla.getSelectedRow();
         if(fila>=0){
-            modeloTabla.removeRow(fila);
+            modelo.removeRow(fila);
         }
         else{
             JOptionPane.showMessageDialog(null,"Seleccione una fila","Error",JOptionPane.ERROR_MESSAGE);
         }
+}
+//eliminar un material de la tabla derecha
+    private void botonEliminarNueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarNueActionPerformed
+        eliminarTablaProducto(tablaMaterialProduc, modeloTabla);
     }//GEN-LAST:event_botonEliminarNueActionPerformed
 private int buscarPorNombre(String nombre){
     int id = -1;
@@ -753,7 +1020,7 @@ private int buscarPorNombre(String nombre){
             try {
                 while(rs.next()){
                   id = Integer.parseInt(rs.getString("id"));
-                  iD = rs.getString("id");
+                  //iD = rs.getString("id");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
@@ -774,7 +1041,7 @@ private boolean insertarProducto(String nombre, String descripcion){
     return ingresado;
 }
 //relacion de material con producto tabla: producto_has_material
-private void relacionMaterialProducto(String idProducto,int fila){
+private void relacionMaterialProducto(int idProducto,int fila){
     String idMaterial,cantidad;
     idMaterial = String.valueOf(tablaMaterialProduc.getValueAt(fila,0));
     cantidad = String.valueOf(tablaMaterialProduc.getValueAt(fila,3));
@@ -784,11 +1051,13 @@ private void relacionMaterialProducto(String idProducto,int fila){
 }
 //boton haceptar 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
-      if(txtNombreNuevo.getText() != "" && tablaMaterialProduc.getRowCount() > 0){//vemos que los compos obligatorios esten llenos 
+      int id = -1;
+        if(txtNombreNuevo.getText() != "" && tablaMaterialProduc.getRowCount() > 0){//vemos que los compos obligatorios esten llenos 
           if(buscarPorNombre(txtNombreNuevo.getText())<0){//verificamos que el nombre del producto a ingresar no este en la base de datos 
               if(insertarProducto(txtNombreNuevo.getText(),areaDescrip.getText())){//ingresamos el porducto en la base de datos, pero verificando que el usuario esta deacuerdo, ya que la funcion retorna un boolean
+                 id = buscarPorNombre(txtNombreNuevo.getText());
                   for(int i = 0; i<tablaMaterialProduc.getRowCount();i++){//relacionamos los materiales con el producto. 
-                      relacionMaterialProducto(iD,i);
+                      relacionMaterialProducto(id,i);
                   }
                   JOptionPane.showMessageDialog(null,"Producto ingresado correctamente","Mensaje",JOptionPane.INFORMATION_MESSAGE);
                   limpiarDialogNuevo();
@@ -816,16 +1085,16 @@ private void limpiarDialogDetalle(){
 }
     private void botonDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDetalleActionPerformed
      if(iD!=""){
-         String[] tituloDetalle = {"Id","Nombre","Cantidad"};
+         
          txtNombreDetalle.setText(nombre1);
          areaDetalle.setText(descripcion);
-        String consulta =  "SELECT M.id, M.nombre,PM.Cantidad FROM producto_has_material PM\n" +
+        String consulta =  "SELECT M.id, M.nombre,M.tipo ,PM.Cantidad FROM producto_has_material PM\n" +
 "INNER JOIN producto P ON PM.producto_id = P.id\n" +
 "INNER JOIN material M ON PM.material_id = M.id ";
      dialogDetalle.setVisible(true);
      dialogDetalle.setLocationRelativeTo(null);
      dialogNuevoPro.setTitle("Nuevo Producto");
-     cargarTabla(consulta,iD,"P.nombre","P.id","",tablaDetalle,tituloDetalle); 
+     cargarTabla(consulta,iD,"P.nombre","P.id","",tablaDetalle,tituloMaterialUtil); 
      } 
      else{
          JOptionPane.showMessageDialog(rootPane,"Seleccione un producto","Error",JOptionPane.ERROR_MESSAGE);
@@ -888,6 +1157,44 @@ private boolean buscarProductoEnTabla(String tabla, String idTabla, String id){
        }
     }//GEN-LAST:event_botonEliminarActionPerformed
 
+    private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
+            if(iD !=""){
+                txtNombreEditar.setText(nombre1);
+                areaEditar.setText(descripcion);
+                materialEliminar = new ArrayList<Integer>();
+                
+             String consulta =  "SELECT id,nombre,cantidad,tipo FROM material ";
+                    dialogEditar.setVisible(true);
+                    dialogEditar.setLocationRelativeTo(null);
+                    dialogEditar.setTitle("Editar");
+                    cargarTabla(consulta,txtCargarEditar.getText(),"nombre","id","ORDER BY cantidad",tablaMaterialesEditar,tituloMaterial);
+                   
+         txtNombreDetalle.setText(nombre1);
+         areaDetalle.setText(descripcion);
+         consulta =  "SELECT M.id, M.nombre,M.tipo ,PM.Cantidad FROM producto_has_material PM\n" +
+         "INNER JOIN producto P ON PM.producto_id = P.id\n" +
+         "INNER JOIN material M ON PM.material_id = M.id ";
+         cargarTabla(consulta,iD,"P.nombre","P.id","",tablaMaterialesEditar,tituloMaterialUtil); 
+            }
+            else{
+                JOptionPane.showMessageDialog(rootPane,"Seleccione un producto","Error",JOptionPane.ERROR_MESSAGE);
+            }                   
+    }//GEN-LAST:event_botonEditarActionPerformed
+
+    private void botonAnadirEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnadirEditarActionPerformed
+       
+    }//GEN-LAST:event_botonAnadirEditarActionPerformed
+
+    private void botonCargarEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarEditarActionPerformed
+      String consulta =  "SELECT id,nombre,cantidad,tipo FROM material ";
+      cargarTabla(consulta,txtCargarEditar.getText(),"nombre","id","ORDER BY cantidad",tablaMaterialEditarBD,tituloMaterial);
+    }//GEN-LAST:event_botonCargarEditarActionPerformed
+
+    private void botonCandelarEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCandelarEditarActionPerformed
+      dialogEditar.setVisible(false);
+      dialogEditar.dispose();
+    }//GEN-LAST:event_botonCandelarEditarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -926,20 +1233,33 @@ private boolean buscarProductoEnTabla(String tabla, String idTabla, String id){
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaDescrip;
     private javax.swing.JTextArea areaDetalle;
+    private javax.swing.JTextArea areaEditar;
     private javax.swing.JButton botonAceptar;
+    private javax.swing.JButton botonAceptarEditar;
     private javax.swing.JToggleButton botonAdanir;
+    private javax.swing.JButton botonAnadirEditar;
     private javax.swing.JButton botonCancelar;
+    private javax.swing.JButton botonCandelarEditar;
     private javax.swing.JButton botonCargar;
+    private javax.swing.JButton botonCargarEditar;
     private javax.swing.JButton botonCargarNue;
     private javax.swing.JButton botonDetalle;
     private javax.swing.JButton botonEditar;
     private javax.swing.JButton botonEliminar;
+    private javax.swing.JButton botonEliminarEditar;
     private javax.swing.JToggleButton botonEliminarNue;
     private javax.swing.JButton botonNuevo;
     private javax.swing.JButton botonReporte;
     private javax.swing.JDialog dialogDetalle;
+    private javax.swing.JDialog dialogEditar;
     private javax.swing.JDialog dialogNuevoPro;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -949,6 +1269,9 @@ private boolean buscarProductoEnTabla(String tabla, String idTabla, String id){
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -956,19 +1279,27 @@ private boolean buscarProductoEnTabla(String tabla, String idTabla, String id){
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTable tablaDetalle;
     private javax.swing.JTable tablaMaterial;
+    private javax.swing.JTable tablaMaterialEditarBD;
     private javax.swing.JTable tablaMaterialProduc;
+    private javax.swing.JTable tablaMaterialesEditar;
     private javax.swing.JTable tablaPrincipal;
     private javax.swing.JTextField txtCargar;
+    private javax.swing.JTextField txtCargarEditar;
     private javax.swing.JTextField txtCargarNuevoPro;
     private javax.swing.JTextField txtNombreDetalle;
+    private javax.swing.JTextField txtNombreEditar;
     private javax.swing.JTextField txtNombreNuevo;
     // End of variables declaration//GEN-END:variables
 }
