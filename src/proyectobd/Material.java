@@ -85,6 +85,7 @@ public class Material extends javax.swing.JFrame {
         botonEditar = new javax.swing.JToggleButton();
         botonEliminar = new javax.swing.JButton();
         botonReporte = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         ventanaNuevo.setSize(new java.awt.Dimension(498, 410));
 
@@ -325,6 +326,15 @@ public class Material extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setBackground(new java.awt.Color(204, 0, 0));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Menu");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanelMaterial2Layout = new javax.swing.GroupLayout(PanelMaterial2);
         PanelMaterial2.setLayout(PanelMaterial2Layout);
         PanelMaterial2Layout.setHorizontalGroup(
@@ -343,8 +353,14 @@ public class Material extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(botonEliminar))
                     .addGroup(PanelMaterial2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(PanelMaterial2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelMaterial2Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelMaterial2Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jButton1)))
+                        .addGap(18, 18, 18)
                         .addComponent(botonReporte)))
                 .addContainerGap())
         );
@@ -357,7 +373,9 @@ public class Material extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(PanelMaterial2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(botonReporte)))
+                        .addGroup(PanelMaterial2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(botonReporte)
+                            .addComponent(jButton1))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelMaterial2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cuadroTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -660,6 +678,12 @@ private void aceptarBoton(int opcion1){
        
     }//GEN-LAST:event_botonEditarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Menu ventana=new Menu();
+        ventana.show();
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -707,6 +731,7 @@ private void aceptarBoton(int opcion1){
     private javax.swing.JButton botonReporte;
     private javax.swing.JComboBox<String> comboTipo;
     private javax.swing.JTextField cuadroTexto;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
