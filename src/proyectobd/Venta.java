@@ -372,11 +372,50 @@ public class Venta extends javax.swing.JFrame {
         dialogProducto.setLocationRelativeTo(null);
         dialogProducto.setTitle("Producto");
     }//GEN-LAST:event_botonBuscarActionPerformed
-
+private boolean comprabarExistenciasM(int cantidad,int id){
+    boolean existencia = true;
+    int cantiRequerida, existenciasM;// cantidad que se requiere para hacer un producto / numero de existencias del material
+    try {
+            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+            conexion.EjecutarConsulta("SELECT M.id,M.cantidad As num_existencias ,PM.Cantidad As contidad_requerida FROM producto_has_material PM\n" +
+"INNER JOIN producto P ON PM.producto_id = P.id\n" +
+"INNER JOIN material M ON PM.material_id = M.id WHERE P.id = "+id);
+            ResultSet rs = conexion.getResulSet();
+            while(rs.next()){
+                cantiRequerida = Integer.parseInt(rs.getString("contidad_requerida"));//cantidad de un producto para hacer cierto material
+                existenciasM = Integer.parseInt(rs.getString("num_existencias"));//cantidad del material (lo que tenemos en existencia de ese material)
+                /*
+                si la cantidad de un material para hacer un producto multiplicado por la cantidad de productos que se solicitan, 
+                es mayor a los productos en existencia, el pedido no podra realizarce
+                */
+                if(existenciasM<(cantiRequerida*cantidad)){
+                    existencia = false;
+                }
+                
+            }
+            
+        } catch (SQLException ex) {
+             System.out.println(ex.getMessage());
+        }
+    return existencia;
+}
     private void botonAgregarProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarProActionPerformed
-      int fila = tablaProducto.getSelectedRow();
+      int fila = tablaProducto.getSelectedRow(), idProducto;
       if(fila>=0){
-          
+          String cantidad = JOptionPane.showInputDialog("Ingrese la cantidad");//obtenemos la cantidad de productos que se van hacer de uno en especifico
+          idProducto = Integer.parseInt(String.valueOf(tablaProducto.getValueAt(fila,0)));//obtenemos el id
+          System.out.println(idProducto);
+          try {
+              int canti = Integer.parseInt(cantidad);
+              if(comprabarExistenciasM(canti, idProducto)){
+                  JOptionPane.showMessageDialog(null,"Hay materiales para el pedido","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+              }
+              else{
+                  JOptionPane.showMessageDialog(null,"No hay materiales para el pedido","Advertencia",JOptionPane.WARNING_MESSAGE);
+              }
+          } catch (Exception e) {
+              JOptionPane.showMessageDialog(null,"Ingrese solo digitos","Advertencia",JOptionPane.WARNING_MESSAGE);
+          }
       }
       else{
           JOptionPane.showMessageDialog(null,"Seleccione un producto","Error",JOptionPane.ERROR_MESSAGE);
