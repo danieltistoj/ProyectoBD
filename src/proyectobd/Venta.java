@@ -22,9 +22,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Venta extends javax.swing.JFrame {
     private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",usuario ="root",contra = "xela2020";
-    Date date;
     public Venta() {
-        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+       
         initComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -375,12 +374,18 @@ public class Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_botonBuscarActionPerformed
 
     private void botonAgregarProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarProActionPerformed
-      
+      int fila = tablaProducto.getSelectedRow();
+      if(fila>=0){
+          
+      }
+      else{
+          JOptionPane.showMessageDialog(null,"Seleccione un producto","Error",JOptionPane.ERROR_MESSAGE);
+      }
     }//GEN-LAST:event_botonAgregarProActionPerformed
 
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
-       String[]  titulos = {"Id","Nombre","Descripcion","Productos a utilizar"};
-        String consulta = "SELECT PM.producto_id As id_Producto,P.nombre As nombre_Producto,P.descripcion,COUNT(*) Total_Materiales FROM producto_has_material PM\n" +
+       String[]  titulos = {"Id","Nombre","Descripcion","Precio","Productos a utilizar"};
+        String consulta = "SELECT PM.producto_id As id_Producto,P.nombre As nombre_Producto,P.descripcion,P.precio,COUNT(*) Total_Materiales FROM producto_has_material PM\n" +
 "INNER JOIN producto P ON PM.producto_id = P.id\n" +
 "INNER JOIN material M ON PM.material_id = M.id ";
         cargarTabla(consulta, txtCargar.getText(),"P.nombre","P.id","GROUP BY P.id", tablaProducto, titulos);

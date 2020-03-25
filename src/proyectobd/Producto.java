@@ -1075,7 +1075,7 @@ private boolean insertarProducto(String nombre, String descripcion,String precio
     if(res == 0){// si dice que si, ingresamos el prducto, y se retorna un true 
         ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
                      conexion.EjecutarInstruccion("INSERT INTO producto(descripcion,nombre,precio)"  
-                             + "VALUES ('"+descripcion+"' ,'"+nombre+"')"); 
+                             + "VALUES ('"+descripcion+"' ,'"+nombre+"',"+precio+")"); 
             ingresado = true;
             buscarPorNombre(nombre);//buscamos el nombre recien ingresado para utilizarlo en la relacion de productos 
     }
@@ -1097,9 +1097,11 @@ private void relacionMaterialProducto(int idProducto,int fila){
           if(buscarPorNombre(txtNombreNuevo.getText())<0){//verificamos que el nombre del producto a ingresar no este en la base de datos 
               if(insertarProducto(txtNombreNuevo.getText(),areaDescrip.getText(),txtPrecio.getText())){//ingresamos el porducto en la base de datos, pero verificando que el usuario esta deacuerdo, ya que la funcion retorna un boolean
                  id = buscarPorNombre(txtNombreNuevo.getText());
-                  for(int i = 0; i<tablaMaterialProduc.getRowCount();i++){//relacionamos los materiales con el producto. 
+                  
+                 for(int i = 0; i<tablaMaterialProduc.getRowCount();i++){//relacionamos los materiales con el producto. 
                       relacionMaterialProducto(id,i);
                   }
+                 
                   JOptionPane.showMessageDialog(null,"Producto ingresado correctamente","Mensaje",JOptionPane.INFORMATION_MESSAGE);
                   limpiarDialogNuevo();
                   dialogNuevoPro.setVisible(false);
