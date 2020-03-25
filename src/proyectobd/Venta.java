@@ -586,6 +586,12 @@ public class Venta extends javax.swing.JFrame {
         txtNit.setText("");
         txtAbono.setText("");
     }
+    private void limpiarTabla(){
+        int filas = tablaProV.getRowCount();
+        for(int i=filas-1;i>=0;i--){
+            quitarProducto(i);
+        }
+    }
     private void obtenerTotal(){
         float total = 0;
         int fila = tablaProV.getRowCount();
@@ -754,6 +760,83 @@ public class Venta extends javax.swing.JFrame {
        "VALUES ('"+nombre+"','"+apellido+"','"+nit+"','"+telefono+"','"+correo+"')");
         
     }
+    private String getIdCliente(String nit){//retorna el id del cliente
+        String id = "";
+       try {
+            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+            conexion.EjecutarConsulta("SELECT id FROM cliente WHERE nit = '"+nit+"'");
+            ResultSet rs = conexion.getResulSet();
+            while(rs.next()){
+                id = rs.getString("id");
+            }
+            
+        } catch (SQLException ex) {
+             System.out.println(ex.getMessage());
+        }
+        return id;
+    }
+    private String getIdFactura(){//retorna el id de la ultima factura ingresada
+        String id = "";
+       try {
+            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+            conexion.EjecutarConsulta("SELECT MAX(id)As ultimo FROM factura");
+            ResultSet rs = conexion.getResulSet();
+            while(rs.next()){
+                id = rs.getString("ultimo");
+            }
+            
+        } catch (SQLException ex) {
+             System.out.println(ex.getMessage());
+        }
+        return id;
+        
+    }
+    private String getIdPago(){//retorna el id del ultimo pago
+        String id = "";
+       try {
+            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+            conexion.EjecutarConsulta("SELECT MAX(id)As ultimo FROM pago");
+            ResultSet rs = conexion.getResulSet();
+            while(rs.next()){
+                id = rs.getString("ultimo");
+            }
+            
+        } catch (SQLException ex) {
+             System.out.println(ex.getMessage());
+        }
+        return id;
+    }
+    private void insertarDetalle_Pro(String idFactura,String idProducto, String cantidad, String precio, String total){//hace la relacion entre la factura y cada producto
+       ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+       conexion.EjecutarInstruccion("INSERT INTO detalle_pro(cantidad, precio, factura_id, producto_id, total)\n" +
+       "VALUES ("+cantidad+","+precio+","+idFactura+","+idProducto+","+total+")");
+    }
+    
+    private void nuevaFactura(float total,String nit,String id_cliente){//ingresa una nueva factura 
+        ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+       conexion.EjecutarInstruccion("INSERT INTO factura(fecha,total, nit,cliente_id)\n" +
+       "VALUES ('"+fecha()+"',"+total+",'"+nit+"',"+id_cliente+")");
+    }
+    private void relacionProductoFactura(String idFactura){//va relacionando los productos que tenemos en la tabla con la factura
+        int fila = tablaProV.getRowCount();
+        for(int i =0; i<fila;i++){  
+                                //id_factura            //id_producto                              //cantidad             
+            insertarDetalle_Pro(idFactura,String.valueOf(tablaProV.getValueAt(i,0)), String.valueOf(tablaProV.getValueAt(i,2))
+                      //precio                                 //total   
+                    , String.valueOf(tablaProV.getValueAt(i,3)),String.valueOf(tablaProV.getValueAt(i,0)));
+        }
+    }
+    private void nuevoPago(String id_cliente,float abono){
+        ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+       conexion.EjecutarInstruccion("INSERT INTO pago(abono,cliente_id, fecha)\n" +
+       "VALUES ("+abono+","+id_cliente+",'"+fecha()+"')");
+        
+    }
+    private void relacionPagoFactura(String id_factura,String id_Pago){
+        ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+       conexion.EjecutarInstruccion("INSERT INTO factura_has_pago(factura_id,pago_id)\n" +
+       "VALUES ("+id_factura+","+id_Pago+")");
+    }
  //buscar producto, es para agregar un producto a la venta.
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         dialogProducto.setVisible(true);
@@ -864,18 +947,34 @@ public class Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void botonFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonFinalizarActionPerformed
-       int idFactura, IdPago;
+       int idFactura, IdPago,idCliente;       
        float total, cambio, abono;
-       /*1) */ if((txtNit.getText().length()>0&&tablaProV.getRowCount()>0&&txtAbono.getText().length()>0)){//ver que cada campo este lleno
-            nitCli = txtNit.getText();
+        int res = JOptionPane.showConfirmDialog(null,"Desea continuar con la venta","Alerta",JOptionPane.YES_NO_OPTION);
+       if(res == 0){
+            /*1) */ if((txtNit.getText().length()>0&&tablaProV.getRowCount()>0&&txtAbono.getText().length()>0)){//ver que cada campo este lleno
+           
+           nitCli = txtNit.getText();
             abono=Float.parseFloat(txtAbono.getText());
             total = Float.parseFloat(labelTotal.getText());
+            cambio = Float.parseFloat(labelCambio.getText());
             if(abono >=(total/2)){
                 if(!existeCliente(txtNit.getText())){//si el cliente no existe 
-                    System.out.println("el cliente no existe");
                     dialogClienteNuevo.setVisible(true);//nuevo cliente 
             }
-           
+                nuevaFactura(total, nitCli,getIdCliente(nitCli));//crear la factura
+                System.out.println("nueva factura");
+                
+                relacionProductoFactura(getIdFactura());//relacionamos los productos con la factura
+                System.out.println("relacion producto factura");
+                
+                nuevoPago(getIdCliente(nitCli),abono);//realizamos el primer pago
+                System.out.println("primer pago");
+                
+                relacionPagoFactura(getIdFactura(),getIdPago());//relacionamos el primer pago con la factura
+                System.out.println("relacion primer pago con factura");
+                
+                limpiarTabla();   
+                limpiarVentana();
             }
             else{
                 JOptionPane.showMessageDialog(null,"El bono inicial debe de ser mayor o igual al 50% del total");
@@ -885,6 +984,8 @@ public class Venta extends javax.swing.JFrame {
         else{
             JOptionPane.showMessageDialog(null,"Ingrese los datos obligatorios");
         }
+       }
+      
     }//GEN-LAST:event_botonFinalizarActionPerformed
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
