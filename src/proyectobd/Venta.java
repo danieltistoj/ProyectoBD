@@ -11,23 +11,37 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import org.codehaus.groovy.tools.shell.util.SimpleCompletor;
 
 /**
  *
  * @author Usuario
  */
 public class Venta extends javax.swing.JFrame {
-    private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",usuario ="root",contra = "xela2020";
+    private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",usuario ="root",contra = "xela2020", consulta1;
+    private  String[]  titulo = {"Id","Nombre","Cantidad","Precio","Total"};
+    private DefaultTableModel  modeloTabla;
+  
     public Venta() {
        
         initComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setTitle("Venta");
+        
+        modeloTabla = new DefaultTableModel(null,titulo);
+        this.tablaProV.setModel(modeloTabla);
+        labelFecha.setText(fecha());
+        
+        consulta1 = "SELECT M.id,M.cantidad As num_existencias ,PM.Cantidad As contidad_requerida FROM producto_has_material PM\n" +
+            "INNER JOIN producto P ON PM.producto_id = P.id\n" +
+            "INNER JOIN material M ON PM.material_id = M.id WHERE P.id = ";
       
     }
 
@@ -51,7 +65,7 @@ public class Venta extends javax.swing.JFrame {
         botonAgregarPro = new javax.swing.JToggleButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaProV = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         botonFinalizar = new javax.swing.JButton();
         botonQuitar = new javax.swing.JButton();
@@ -181,7 +195,7 @@ public class Venta extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaProV.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -192,7 +206,7 @@ public class Venta extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaProV);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -216,6 +230,11 @@ public class Venta extends javax.swing.JFrame {
         botonFinalizar.setText("Finalizar");
 
         botonQuitar.setText("Quitar");
+        botonQuitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonQuitarActionPerformed(evt);
+            }
+        });
 
         botonCancelar.setText("Cancelar");
 
@@ -262,7 +281,7 @@ public class Venta extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel2.setText("Total");
 
-        labelFecha.setText("jLabel3");
+        labelFecha.setText("fecha");
 
         labelTotal.setText("0");
 
@@ -271,23 +290,18 @@ public class Venta extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(246, 246, 246)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(246, 246, 246)
                         .addComponent(botonBuscar)
                         .addGap(63, 63, 63)
                         .addComponent(jLabel2))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(labelFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(labelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22))))
+                    .addComponent(labelTotal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelFecha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -336,6 +350,11 @@ public class Venta extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private String fecha(){
+    LocalDate fecha1 = LocalDate.now();
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    return fecha1.format(dtf);
+    }
     private void cargarTabla(String consulta, String txt, String nombre, String id, String extra, JTable tabla, String[] titulo){
     String campo = txt;
         String where = "";
@@ -367,19 +386,73 @@ public class Venta extends javax.swing.JFrame {
     }
 
 }
-    private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
-        dialogProducto.setVisible(true);
-        dialogProducto.setLocationRelativeTo(null);
-        dialogProducto.setTitle("Producto");
-    }//GEN-LAST:event_botonBuscarActionPerformed
-private boolean comprabarExistenciasM(int cantidad,int id){
+    private boolean buscarMaterial(int id){
+        boolean existe = false;
+        
+        for(int i = 0; i<tablaProV.getRowCount();i++){
+            if(id == Integer.parseInt(String.valueOf(tablaProV.getValueAt(i,0))) ){
+                existe = true;
+            }
+        }
+        return existe;
+    }
+    //insertar en la tabla, productos a vender 
+    private void insertarEnTabla(int id, String nombre,int cantidad,float precio,float total ,DefaultTableModel modelo){
+        String []info =new String[5];
+                        info[0] = Integer.toString(id);
+                        info[1] = nombre;
+                        info[2] = Integer.toString(cantidad);
+                        info[3] = Float.toString(precio);
+                        info[4] = Float.toString(total);
+                        modelo.addRow(info); 
+    }
+    private void sumarCantidadMaterial(int idProducto,int cantidad){
+       int cantiRequerida, existenciasM, cantidadModificada, idMaterial;
+        try {
+            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+            conexion.EjecutarConsulta(consulta1+idProducto);
+            ResultSet rs = conexion.getResulSet();
+            while(rs.next()){
+                cantiRequerida = Integer.parseInt(rs.getString("contidad_requerida"));//cantidad de un producto para hacer cierto material
+                existenciasM = Integer.parseInt(rs.getString("num_existencias"));//cantidad del material (lo que tenemos en existencia de ese material)
+                idMaterial = Integer.parseInt(rs.getString("M.id"));
+                cantidadModificada = existenciasM+(cantiRequerida*cantidad);
+                //System.out.println("id material: "+idMaterial+" cantidad para el pedido: "+(cantiRequerida*cantidad)+" Cantidad del Material: "+existenciasM+" Cantidad modificada: "+cantidadModificada);
+                editarCantidadMaterial(idMaterial, cantidadModificada);
+            } 
+        } catch (SQLException ex) {
+             System.out.println(ex.getMessage());
+        } 
+    }
+    private void restarCantidadMaterial(int idProducto,int cantidad){
+        int cantiRequerida, existenciasM, cantidadModificada, idMaterial;
+        try {
+            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+            conexion.EjecutarConsulta(consulta1+idProducto);
+            ResultSet rs = conexion.getResulSet();
+            while(rs.next()){
+                cantiRequerida = Integer.parseInt(rs.getString("contidad_requerida"));//cantidad de un producto para hacer cierto material
+                existenciasM = Integer.parseInt(rs.getString("num_existencias"));//cantidad del material (lo que tenemos en existencia de ese material)
+                idMaterial = Integer.parseInt(rs.getString("M.id"));
+                cantidadModificada = existenciasM-(cantiRequerida*cantidad);
+                //System.out.println("id material: "+idMaterial+" cantidad para el pedido: "+(cantiRequerida*cantidad)+" Cantidad del Material: "+existenciasM+" Cantidad modificada: "+cantidadModificada);
+                editarCantidadMaterial(idMaterial, cantidadModificada);
+            } 
+        } catch (SQLException ex) {
+             System.out.println(ex.getMessage());
+        }
+    }
+    private void editarCantidadMaterial(int idMaterial, int cantidad){
+         ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+         conexion.EjecutarInstruccion("UPDATE material SET cantidad = "+ cantidad+" WHERE id = "+idMaterial);
+    }
+    //Comprobar que el pedido con el producto se puede realizar
+    private boolean comprabarExistenciasM(int cantidad,int id){
     boolean existencia = true;
     int cantiRequerida, existenciasM;// cantidad que se requiere para hacer un producto / numero de existencias del material
     try {
             ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
-            conexion.EjecutarConsulta("SELECT M.id,M.cantidad As num_existencias ,PM.Cantidad As contidad_requerida FROM producto_has_material PM\n" +
-"INNER JOIN producto P ON PM.producto_id = P.id\n" +
-"INNER JOIN material M ON PM.material_id = M.id WHERE P.id = "+id);
+            conexion.EjecutarConsulta(consulta1+id);
             ResultSet rs = conexion.getResulSet();
             while(rs.next()){
                 cantiRequerida = Integer.parseInt(rs.getString("contidad_requerida"));//cantidad de un producto para hacer cierto material
@@ -388,7 +461,7 @@ private boolean comprabarExistenciasM(int cantidad,int id){
                 si la cantidad de un material para hacer un producto multiplicado por la cantidad de productos que se solicitan, 
                 es mayor a los productos en existencia, el pedido no podra realizarce
                 */
-                if(existenciasM<(cantiRequerida*cantidad)){
+                if(existenciasM<=(cantiRequerida*cantidad)){
                     existencia = false;
                 }
                 
@@ -399,29 +472,52 @@ private boolean comprabarExistenciasM(int cantidad,int id){
         }
     return existencia;
 }
+ //buscar producto, es para agregar un producto a la venta.
+    private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
+        dialogProducto.setVisible(true);
+        dialogProducto.setLocationRelativeTo(null);
+        dialogProducto.setTitle("Producto");
+    }//GEN-LAST:event_botonBuscarActionPerformed
+//boton que agrega un producto a la venta 
     private void botonAgregarProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarProActionPerformed
       int fila = tablaProducto.getSelectedRow(), idProducto;
+      String nombre;
+      float precio, total;
       if(fila>=0){
           String cantidad = JOptionPane.showInputDialog("Ingrese la cantidad");//obtenemos la cantidad de productos que se van hacer de uno en especifico
-          idProducto = Integer.parseInt(String.valueOf(tablaProducto.getValueAt(fila,0)));//obtenemos el id
-          System.out.println(idProducto);
-          try {
+          if(cantidad.length()!=0){
+              idProducto = Integer.parseInt(String.valueOf(tablaProducto.getValueAt(fila,0)));//obtenemos el id
+          nombre = String.valueOf(tablaProducto.getValueAt(fila,1));
+          precio = Float.parseFloat(String.valueOf(tablaProducto.getValueAt(fila,3)));
+          total = Float.parseFloat(cantidad)*precio;
+          if(buscarMaterial(idProducto)){//si ya agrego el producto para vender 
+             JOptionPane.showMessageDialog(null,"Ya ingreso el producto","Advertencia",JOptionPane.WARNING_MESSAGE);
+          }
+          else{
+              try {
               int canti = Integer.parseInt(cantidad);
-              if(comprabarExistenciasM(canti, idProducto)){
-                  JOptionPane.showMessageDialog(null,"Hay materiales para el pedido","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+              if(comprabarExistenciasM(canti, idProducto)){//vemos que existan materiales para realiar el producto
+                  insertarEnTabla(idProducto,nombre, canti, precio,total, modeloTabla);
+                  restarCantidadMaterial(idProducto, canti);
               }
               else{
                   JOptionPane.showMessageDialog(null,"No hay materiales para el pedido","Advertencia",JOptionPane.WARNING_MESSAGE);
               }
           } catch (Exception e) {
               JOptionPane.showMessageDialog(null,"Ingrese solo digitos","Advertencia",JOptionPane.WARNING_MESSAGE);
+          } 
           }
+          }
+          else{
+              JOptionPane.showMessageDialog(null,"Ingrese un digito","Advertencia",JOptionPane.WARNING_MESSAGE);
+          }
+          
       }
       else{
           JOptionPane.showMessageDialog(null,"Seleccione un producto","Error",JOptionPane.ERROR_MESSAGE);
       }
     }//GEN-LAST:event_botonAgregarProActionPerformed
-
+//cargar los productos 
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
        String[]  titulos = {"Id","Nombre","Descripcion","Precio","Productos a utilizar"};
         String consulta = "SELECT PM.producto_id As id_Producto,P.nombre As nombre_Producto,P.descripcion,P.precio,COUNT(*) Total_Materiales FROM producto_has_material PM\n" +
@@ -429,6 +525,19 @@ private boolean comprabarExistenciasM(int cantidad,int id){
 "INNER JOIN material M ON PM.material_id = M.id ";
         cargarTabla(consulta, txtCargar.getText(),"P.nombre","P.id","GROUP BY P.id", tablaProducto, titulos);
     }//GEN-LAST:event_botonCargarActionPerformed
+
+    private void botonQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonQuitarActionPerformed
+        int fila = tablaProV.getSelectedRow(), id, cantidad;
+        if(fila>=0){
+            id = Integer.parseInt(String.valueOf(tablaProV.getValueAt(fila,0)));
+            cantidad = Integer.parseInt(String.valueOf(tablaProV.getValueAt(fila,2)));
+            modeloTabla.removeRow(fila);
+            sumarCantidadMaterial(id, cantidad);
+        }
+        else{
+            JOptionPane.showMessageDialog(rootPane,"Seleccione un producto","Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_botonQuitarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -483,9 +592,9 @@ private boolean comprabarExistenciasM(int cantidad,int id){
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelFecha;
     private javax.swing.JLabel labelTotal;
+    private javax.swing.JTable tablaProV;
     private javax.swing.JTable tablaProducto;
     private javax.swing.JTextField txtCargar;
     // End of variables declaration//GEN-END:variables
