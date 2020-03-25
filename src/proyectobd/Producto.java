@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Producto extends javax.swing.JFrame {
 
-    private  String[]  titulos = {"Id","Nombre","Descripcion","Productos a utilizar"}, tituloMaterial ={"Id","Nombre","Cantidad","Tipo"}, tituloMaterialUtil = {"Id","Nombre","Tipo","Cantidad"};
+    private  String[]  titulos = {"Id","Nombre","Descripcion","Precio","Productos a utilizar"}, tituloMaterial ={"Id","Nombre","Cantidad","Tipo"}, tituloMaterialUtil = {"Id","Nombre","Tipo","Cantidad"};
     private DefaultTableModel  modeloTabla,modeloTablaEditar;
     private String iD = "",nombre1 =  "",tipo1 = "",descripcion = "",localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
              usuario ="root",contra = "xela2020";
@@ -59,6 +59,9 @@ public class Producto extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        txtPrecio = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         botonAdanir = new javax.swing.JToggleButton();
         botonEliminarNue = new javax.swing.JToggleButton();
@@ -122,7 +125,8 @@ public class Producto extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaPrincipal = new javax.swing.JTable();
 
-        dialogNuevoPro.setSize(new java.awt.Dimension(695, 580));
+        dialogNuevoPro.setPreferredSize(new java.awt.Dimension(692, 627));
+        dialogNuevoPro.setSize(new java.awt.Dimension(727, 638));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -143,19 +147,38 @@ public class Producto extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 0, 0));
         jLabel5.setText("(Obligatorio)");
 
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioKeyTyped(evt);
+            }
+        });
+
+        jLabel16.setText("Precio");
+
+        jLabel17.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel17.setText("(Obligatorio)");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(72, 72, 72)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel2)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel17)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtPrecio)
                     .addComponent(jScrollPane2)
                     .addComponent(txtNombreNuevo))
                 .addGap(182, 182, 182))
@@ -168,11 +191,16 @@ public class Producto extends javax.swing.JFrame {
                     .addComponent(txtNombreNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel17))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -277,32 +305,32 @@ public class Producto extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel4)))
+                        .addComponent(jLabel4)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel6)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel6))
+                .addContainerGap(27, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -359,14 +387,14 @@ public class Producto extends javax.swing.JFrame {
             dialogNuevoProLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dialogNuevoProLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         dialogDetalle.setSize(new java.awt.Dimension(456, 490));
@@ -856,7 +884,7 @@ public class Producto extends javax.swing.JFrame {
     }//GEN-LAST:event_botonReporteActionPerformed
 
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
-      String consulta = "SELECT PM.producto_id As id_Producto,P.nombre As nombre_Producto,P.descripcion,COUNT(*) Total_Materiales FROM producto_has_material PM\n" +
+      String consulta = "SELECT PM.producto_id As id_Producto,P.nombre As nombre_Producto,P.descripcion,P.precio,COUNT(*) Total_Materiales FROM producto_has_material PM\n" +
 "INNER JOIN producto P ON PM.producto_id = P.id\n" +
 "INNER JOIN material M ON PM.material_id = M.id ";
         cargarTabla(consulta, txtCargar.getText(),"P.nombre","P.id","GROUP BY P.id", tablaPrincipal, titulos);
@@ -1028,12 +1056,12 @@ private int buscarPorNombre(String nombre){
     
     return id;
 }
-private boolean insertarProducto(String nombre, String descripcion){
+private boolean insertarProducto(String nombre, String descripcion,String precio){
     boolean ingresado = false;
     int res = JOptionPane.showConfirmDialog(null,"¿Esta seguro de ingresar un producto nuevo?","Advertencia",JOptionPane.YES_NO_OPTION);//verificamos que el usuario esta de acuerdo con los datos ingresados para el material
     if(res == 0){// si dice que si, ingresamos el prducto, y se retorna un true 
         ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
-                     conexion.EjecutarInstruccion("INSERT INTO producto(descripcion,nombre)"  
+                     conexion.EjecutarInstruccion("INSERT INTO producto(descripcion,nombre,precio)"  
                              + "VALUES ('"+descripcion+"' ,'"+nombre+"')"); 
             ingresado = true;
             buscarPorNombre(nombre);//buscamos el nombre recien ingresado para utilizarlo en la relacion de productos 
@@ -1051,10 +1079,10 @@ private void relacionMaterialProducto(int idProducto,int fila){
 }
 //boton haceptar 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
-      int id = -1;
-        if(txtNombreNuevo.getText() != "" && tablaMaterialProduc.getRowCount() > 0){//vemos que los compos obligatorios esten llenos 
+        int id = -1;
+        if((txtNombreNuevo.getText() != "" && tablaMaterialProduc.getRowCount() > 0)&&txtPrecio.getText()!=""){//vemos que los compos obligatorios esten llenos 
           if(buscarPorNombre(txtNombreNuevo.getText())<0){//verificamos que el nombre del producto a ingresar no este en la base de datos 
-              if(insertarProducto(txtNombreNuevo.getText(),areaDescrip.getText())){//ingresamos el porducto en la base de datos, pero verificando que el usuario esta deacuerdo, ya que la funcion retorna un boolean
+              if(insertarProducto(txtNombreNuevo.getText(),areaDescrip.getText(),txtPrecio.getText())){//ingresamos el porducto en la base de datos, pero verificando que el usuario esta deacuerdo, ya que la funcion retorna un boolean
                  id = buscarPorNombre(txtNombreNuevo.getText());
                   for(int i = 0; i<tablaMaterialProduc.getRowCount();i++){//relacionamos los materiales con el producto. 
                       relacionMaterialProducto(id,i);
@@ -1195,6 +1223,15 @@ private boolean buscarProductoEnTabla(String tabla, String idTabla, String id){
       dialogEditar.dispose();
     }//GEN-LAST:event_botonCandelarEditarActionPerformed
 
+    private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
+       char validar = evt.getKeyChar();
+       if(Character.isLetter(validar)){
+           getToolkit().beep();
+           evt.consume();
+           JOptionPane.showMessageDialog(null,"Ingrese solo digitos","Advertencia",JOptionPane.WARNING_MESSAGE);
+       }
+    }//GEN-LAST:event_txtPrecioKeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -1260,6 +1297,8 @@ private boolean buscarProductoEnTabla(String tabla, String idTabla, String id){
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1301,5 +1340,6 @@ private boolean buscarProductoEnTabla(String tabla, String idTabla, String id){
     private javax.swing.JTextField txtNombreDetalle;
     private javax.swing.JTextField txtNombreEditar;
     private javax.swing.JTextField txtNombreNuevo;
+    private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
 }
