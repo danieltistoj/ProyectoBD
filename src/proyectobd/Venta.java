@@ -26,7 +26,7 @@ import org.codehaus.groovy.tools.shell.util.SimpleCompletor;
  * @author Usuario
  */
 public class Venta extends javax.swing.JFrame {
-    private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",usuario ="root",contra = "xela2020", consulta1;
+    private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",usuario ="root",contra = "xela2020", consulta1,nitCli;
     private  String[]  titulo = {"Id","Nombre","Cantidad","Precio","Total"};
     private DefaultTableModel  modeloTabla;
   
@@ -35,12 +35,15 @@ public class Venta extends javax.swing.JFrame {
         initComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        //setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setTitle("Venta");
         
         modeloTabla = new DefaultTableModel(null,titulo);
         this.tablaProV.setModel(modeloTabla);
         labelFecha.setText(fecha());
+        dialogClienteNuevo.setLocationRelativeTo(null);
+        dialogClienteNuevo.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        dialogClienteNuevo.setTitle("Nuevo Cliente");
         
         consulta1 = "SELECT M.id,M.cantidad As num_existencias ,PM.Cantidad As contidad_requerida FROM producto_has_material PM\n" +
             "INNER JOIN producto P ON PM.producto_id = P.id\n" +
@@ -66,6 +69,20 @@ public class Venta extends javax.swing.JFrame {
         botonCargar = new javax.swing.JToggleButton();
         jPanel6 = new javax.swing.JPanel();
         botonAgregarPro = new javax.swing.JToggleButton();
+        dialogClienteNuevo = new javax.swing.JDialog();
+        jPanel8 = new javax.swing.JPanel();
+        txtNombreCliente = new javax.swing.JTextField();
+        txtApellidoCliente = new javax.swing.JTextField();
+        txtTelefonoCliente = new javax.swing.JTextField();
+        txtCorreoCliente = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        Apellido = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        botonAceptar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaProV = new javax.swing.JTable();
@@ -201,7 +218,131 @@ public class Venta extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        dialogClienteNuevo.setSize(new java.awt.Dimension(450, 349));
+
+        jPanel8.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel6.setText("Nombre");
+
+        Apellido.setText("Apellido");
+
+        jLabel8.setText("Telefono");
+
+        jLabel9.setText("Correo");
+
+        jLabel10.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel10.setText("(Obligatorio)");
+
+        jLabel11.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel11.setText("(Obligatorio)");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addComponent(Apellido)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel11))
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel10))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(txtCorreoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                    .addComponent(txtTelefonoCliente)
+                    .addComponent(txtApellidoCliente)
+                    .addComponent(txtNombreCliente))
+                .addGap(32, 32, 32))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel10))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtApellidoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Apellido)
+                    .addComponent(jLabel11))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTelefonoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCorreoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        botonAceptar.setText("Aceptar");
+        botonAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAceptarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(146, 146, 146)
+                .addComponent(botonAceptar)
+                .addContainerGap(197, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addComponent(botonAceptar)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout dialogClienteNuevoLayout = new javax.swing.GroupLayout(dialogClienteNuevo.getContentPane());
+        dialogClienteNuevo.getContentPane().setLayout(dialogClienteNuevoLayout);
+        dialogClienteNuevoLayout.setHorizontalGroup(
+            dialogClienteNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialogClienteNuevoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(dialogClienteNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        dialogClienteNuevoLayout.setVerticalGroup(
+            dialogClienteNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialogClienteNuevoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -238,6 +379,11 @@ public class Venta extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         botonFinalizar.setText("Finalizar");
+        botonFinalizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonFinalizarActionPerformed(evt);
+            }
+        });
 
         botonQuitar.setText("Quitar");
         botonQuitar.addActionListener(new java.awt.event.ActionListener() {
@@ -438,6 +584,7 @@ public class Venta extends javax.swing.JFrame {
         labelTotal.setText("0");
         txtCargar.setText("");
         txtNit.setText("");
+        txtAbono.setText("");
     }
     private void obtenerTotal(){
         float total = 0;
@@ -573,6 +720,40 @@ public class Venta extends javax.swing.JFrame {
     private void quitarProducto(int fila){
       modeloTabla.removeRow(fila);
     }
+    private void cancelarVenta(){
+        int filas = tablaProV.getRowCount(), id,cantidad;
+        if(filas>0){
+            for(int i=filas-1;i>=0;i--){
+                id = Integer.parseInt(String.valueOf(tablaProV.getValueAt(i,0)));
+                cantidad = Integer.parseInt(String.valueOf(tablaProV.getValueAt(i,2)));
+                quitarProducto(i);
+                sumarCantidadMaterial(id, cantidad);
+            }
+       }
+       limpiarVentana();
+    }
+    private boolean existeCliente(String nit){
+        boolean existe = false;
+        try {
+            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+            conexion.EjecutarConsulta("SELECT COUNT(*) FROM cliente WHERE nit = '"+nit+"'");
+            ResultSet rs = conexion.getResulSet();
+            rs.next();
+            if(rs.getInt(1)>0){
+                existe = true;
+            }   
+        } catch (SQLException ex) {
+             System.out.println(ex.getMessage());
+        }
+        return existe;   
+    }
+    //nuevo cliente 
+    private void nuevoCliente(String nit, String nombre, String apellido, String telefono, String correo){
+       ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+       conexion.EjecutarInstruccion("INSERT INTO cliente(nombre, apellido, nit, telefono, correo)\n" +
+       "VALUES ('"+nombre+"','"+apellido+"','"+nit+"','"+telefono+"','"+correo+"')");
+        
+    }
  //buscar producto, es para agregar un producto a la venta.
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         dialogProducto.setVisible(true);
@@ -644,16 +825,11 @@ public class Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_botonQuitarActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
-       int filas = tablaProV.getRowCount(), id,cantidad;
-        if(filas>0){
-            for(int i=filas-1;i>=0;i--){
-                id = Integer.parseInt(String.valueOf(tablaProV.getValueAt(i,0)));
-                cantidad = Integer.parseInt(String.valueOf(tablaProV.getValueAt(i,2)));
-                quitarProducto(i);
-                sumarCantidadMaterial(id, cantidad);
-            }
-       }
-       limpiarVentana();
+        int res = JOptionPane.showConfirmDialog(null,"Desea cancelar la venta","Alerta",JOptionPane.YES_NO_OPTION);
+        if(res==0){
+          cancelarVenta();  
+        }
+        
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void txtAbonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAbonoKeyTyped
@@ -676,6 +852,52 @@ public class Venta extends javax.swing.JFrame {
             labelCambio.setText("0.0");
         }
     }//GEN-LAST:event_txtAbonoKeyReleased
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+       int res = JOptionPane.showConfirmDialog(null,"¿Desea cerrar el modulo de venta?","Alerta", JOptionPane.YES_NO_OPTION);
+        if(res == 0){
+           cancelarVenta();
+            setVisible(false);
+            dispose();
+            System.exit(0);
+       }
+    }//GEN-LAST:event_formWindowClosing
+
+    private void botonFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonFinalizarActionPerformed
+       int idFactura, IdPago;
+       float total, cambio, abono;
+       /*1) */ if((txtNit.getText().length()>0&&tablaProV.getRowCount()>0&&txtAbono.getText().length()>0)){//ver que cada campo este lleno
+            nitCli = txtNit.getText();
+            abono=Float.parseFloat(txtAbono.getText());
+            total = Float.parseFloat(labelTotal.getText());
+            if(abono >=(total/2)){
+                if(!existeCliente(txtNit.getText())){//si el cliente no existe 
+                    System.out.println("el cliente no existe");
+                    dialogClienteNuevo.setVisible(true);//nuevo cliente 
+            }
+           
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"El bono inicial debe de ser mayor o igual al 50% del total");
+            }
+            
+       }
+        else{
+            JOptionPane.showMessageDialog(null,"Ingrese los datos obligatorios");
+        }
+    }//GEN-LAST:event_botonFinalizarActionPerformed
+
+    private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
+        if(txtNombreCliente.getText().length()>0&&txtApellidoCliente.getText().length()>0){
+            nuevoCliente(nitCli,txtNombreCliente.getText(),txtApellidoCliente.getText(),txtTelefonoCliente.getText(),txtCorreoCliente.getText());
+        JOptionPane.showMessageDialog(null,"Cliente ingresado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+        dialogClienteNuevo.setVisible(false);
+        dialogClienteNuevo.dispose();
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Llene los campos obligatorio","Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_botonAceptarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -713,18 +935,26 @@ public class Venta extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Apellido;
+    private javax.swing.JButton botonAceptar;
     private javax.swing.JToggleButton botonAgregarPro;
     private javax.swing.JToggleButton botonBuscar;
     private javax.swing.JButton botonCancelar;
     private javax.swing.JToggleButton botonCargar;
     private javax.swing.JButton botonFinalizar;
     private javax.swing.JButton botonQuitar;
+    private javax.swing.JDialog dialogClienteNuevo;
     private javax.swing.JDialog dialogProducto;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -732,6 +962,8 @@ public class Venta extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelCambio;
@@ -740,7 +972,11 @@ public class Venta extends javax.swing.JFrame {
     private javax.swing.JTable tablaProV;
     private javax.swing.JTable tablaProducto;
     private javax.swing.JTextField txtAbono;
+    private javax.swing.JTextField txtApellidoCliente;
     private javax.swing.JTextField txtCargar;
+    private javax.swing.JTextField txtCorreoCliente;
     private javax.swing.JTextField txtNit;
+    private javax.swing.JTextField txtNombreCliente;
+    private javax.swing.JTextField txtTelefonoCliente;
     // End of variables declaration//GEN-END:variables
 }
