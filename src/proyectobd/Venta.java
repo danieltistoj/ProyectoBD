@@ -722,12 +722,14 @@ public class Venta extends javax.swing.JFrame {
             ResultSet rs = conexion.getResulSet();
             while(rs.next()){
                 cantiRequerida = Integer.parseInt(rs.getString("contidad_requerida"));//cantidad de un producto para hacer cierto material
+               
                 existenciasM = Integer.parseInt(rs.getString("num_existencias"));//cantidad del material (lo que tenemos en existencia de ese material)
+                System.out.println("cantidad requerida: "+cantiRequerida+"cantidad existencia: "+existenciasM);
                 /*
                 si la cantidad de un material para hacer un producto multiplicado por la cantidad de productos que se solicitan, 
                 es mayor a los productos en existencia, el pedido no podra realizarce
                 */
-                if(existenciasM<=(cantiRequerida*cantidad)){
+                if(existenciasM<(cantiRequerida*cantidad)){
                     existencia = false;
                 }
                 
@@ -976,7 +978,8 @@ public class Venta extends javax.swing.JFrame {
                 if(!existeCliente(txtNit.getText())){//si el cliente no existe 
                     dialogClienteNuevo.setVisible(true);//nuevo cliente 
             }
-                nuevaFactura(total, nitCli,getIdCliente(nitCli));//crear la factura
+                else{
+                     nuevaFactura(total, nitCli,getIdCliente(nitCli));//crear la factura
                 System.out.println("nueva factura");
                 
                 relacionProductoFactura(getIdFactura());//relacionamos los productos con la factura
@@ -996,7 +999,9 @@ public class Venta extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null,"Factura en deuda\n"+"Deuda: "+cambio,"Mensaje",JOptionPane.INFORMATION_MESSAGE);
                 }
                 limpiarTabla();   
-                limpiarVentana();
+                limpiarVentana(); 
+                }
+              
             }
             else{
                 JOptionPane.showMessageDialog(null,"El bono inicial debe de ser mayor o igual al 50% del total");

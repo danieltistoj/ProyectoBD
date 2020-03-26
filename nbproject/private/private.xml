@@ -3,14 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Jose-PC/Documents/Proyecto1/ProyectoBD/src/proyectobd/ConexionDB.java</file>
-            <file>file:/C:/Users/Jose-PC/Documents/Proyecto1/ProyectoBD/src/proyectobd/Producto.java</file>
-            <file>file:/C:/Users/Jose-PC/Documents/Proyecto1/ProyectoBD/src/proyectobd/Venta.java</file>
-            <file>file:/C:/Users/Jose-PC/Documents/Proyecto1/ProyectoBD/src/proyectobd/ProyectoBD.java</file>
-            <file>file:/C:/Users/Jose-PC/Documents/Proyecto1/ProyectoBD/src/proyectobd/Login.java</file>
-            <file>file:/C:/Users/Jose-PC/Documents/Proyecto1/ProyectoBD/src/proyectobd/Deudor.java</file>
-            <file>file:/C:/Users/Jose-PC/Documents/Proyecto1/ProyectoBD/src/proyectobd/Material.java</file>
-            <file>file:/C:/Users/Jose-PC/Documents/Proyecto1/ProyectoBD/src/proyectobd/Menu.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/ConexionDB.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/Producto.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/Deudor.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/Venta.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/Material.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/Login.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/ProyectoBD.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/Menu.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/ConexionMySQL.java</file>
         </group>
     </open-files>
 </project-private>
