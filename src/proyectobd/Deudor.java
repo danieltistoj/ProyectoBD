@@ -10,6 +10,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -22,11 +23,15 @@ import javax.swing.table.DefaultTableModel;
 public class Deudor extends javax.swing.JFrame {
 
     private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",usuario ="root",contra = "xela2020";
+    ButtonGroup grupoDeRadio;
     public Deudor() {
         initComponents();
          setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setTitle("Deudores");
+        grupoDeRadio = new ButtonGroup();
+        grupoDeRadio.add(radioSaldado);
+        grupoDeRadio.add(radioDeudor);
     }
 
     /**
@@ -56,6 +61,8 @@ public class Deudor extends javax.swing.JFrame {
         txtCargar = new javax.swing.JTextField();
         botonAbono = new javax.swing.JButton();
         botonDetalle = new javax.swing.JButton();
+        radioDeudor = new javax.swing.JRadioButton();
+        radioSaldado = new javax.swing.JRadioButton();
 
         dialogDetalle.setSize(new java.awt.Dimension(775, 430));
 
@@ -183,14 +190,14 @@ public class Deudor extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -217,41 +224,49 @@ public class Deudor extends javax.swing.JFrame {
             }
         });
 
+        radioDeudor.setText("Deudores");
+
+        radioSaldado.setText("Saldado");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(botonCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(radioDeudor, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(radioSaldado, javax.swing.GroupLayout.Alignment.LEADING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(botonCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(botonDetalle))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(txtCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botonAbono)))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(botonDetalle, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(botonAbono, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(botonAbono)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonAbono)
+                    .addComponent(radioDeudor))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(botonCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(botonDetalle)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(botonDetalle)
+                            .addComponent(radioSaldado))
+                        .addGap(0, 47, Short.MAX_VALUE)))
                 .addGap(28, 28, 28))
         );
 
@@ -270,9 +285,9 @@ public class Deudor extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -365,12 +380,21 @@ private void relacionPagoFactura(String id_factura,String id_Pago){
        "VALUES ("+id_factura+","+id_Pago+")");
     }
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
-      String[] titulo = {"Id Factura","Id cliente","Fecha","Total","Pagos","Total Abonos"};
-      String consulta = "SELECT F.id AS idFactura,C.id As cliente1,F.fecha,F.total As total, COUNT(P.id) AS numBonos,SUM(P.abono)suma FROM factura_has_pago FP\n" +
+      String[] titulo = {"Id Factura","Id cliente","Fecha","Total","Pagos","Importe"};
+      String consulta;
+      consulta = "SELECT F.id AS idFactura,C.id As cliente1,F.fecha,F.total As total, COUNT(P.id) AS numBonos,SUM(P.abono)suma FROM factura_has_pago FP\n" +
 "INNER JOIN factura F ON FP.factura_id = F.id\n" +
 "INNER JOIN pago P ON FP.pago_id = P.id   \n" +
 "INNER JOIN cliente C ON F.cliente_id = C.id ";
-      cargarTabla(consulta, txtCargar.getText(),"C.nit","C.id","GROUP BY F.id HAVING total > suma", tablaHistorial, titulo);
+        if(radioDeudor.isSelected()){
+      cargarTabla(consulta, txtCargar.getText(),"C.nit","C.id","GROUP BY F.id HAVING total > suma", tablaHistorial, titulo); 
+      botonAbono.setEnabled(true);
+      }
+      if(radioSaldado.isSelected()){
+          cargarTabla(consulta,txtCargar.getText(),"C.nit","C.id" , "GROUP BY F.id HAVING total <= suma", tablaHistorial, titulo);
+          botonAbono.setEnabled(false);
+      }
+        
     }//GEN-LAST:event_botonCargarActionPerformed
 
     private void botonDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDetalleActionPerformed
@@ -382,7 +406,7 @@ private void relacionPagoFactura(String id_factura,String id_Pago){
 "INNER JOIN factura F ON FP.factura_id = F.id\n" +
 "INNER JOIN pago P ON FP.pago_id = P.id   \n" +
 "INNER JOIN cliente C ON F.cliente_id = C.id WHERE F.id ="+ idFactura+"\n" +
-"GROUP BY F.id";
+"GROUP BY P.id";
             cargarTablaDialog(consulta1, tituloAbonos, tablaAbonos);
             consulta2 = "SELECT P.id, P.nombre,D.cantidad,D.precio,D.total FROM detalle_pro D\n" +
 "INNER JOIN factura F ON D.factura_id = F.id\n" +
@@ -484,6 +508,8 @@ private void relacionPagoFactura(String id_factura,String id_Pago){
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JRadioButton radioDeudor;
+    private javax.swing.JRadioButton radioSaldado;
     private javax.swing.JTable tablaAbonos;
     private javax.swing.JTable tablaHistorial;
     private javax.swing.JTable tablaProductos;
