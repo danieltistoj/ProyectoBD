@@ -13,10 +13,6 @@ import java.sql.Statement;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Usuario
- */
 public class ConexionDB {
     protected Connection conexion;
     protected Statement sentencia;

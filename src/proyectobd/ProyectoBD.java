@@ -33,13 +33,13 @@ public class ProyectoBD {
         producto.setVisible(false);
          
         Menu menu=new Menu();
-        menu.setVisible(false);
+        menu.setVisible(true);
         
         Venta venta = new Venta();
         venta.setVisible(false);
         
         Deudor deudor = new Deudor();
-        deudor.setVisible(true);
+        deudor.setVisible(false);
         
         
         /*
