@@ -116,10 +116,8 @@ public class Producto extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         txtCargar = new javax.swing.JTextField();
         botonNuevo = new javax.swing.JButton();
-        botonEditar = new javax.swing.JButton();
         botonDetalle = new javax.swing.JButton();
         botonEliminar = new javax.swing.JButton();
-        botonReporte = new javax.swing.JButton();
         botonCargar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -741,13 +739,6 @@ public class Producto extends javax.swing.JFrame {
             }
         });
 
-        botonEditar.setText("Editar");
-        botonEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonEditarActionPerformed(evt);
-            }
-        });
-
         botonDetalle.setText("Detalle");
         botonDetalle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -759,13 +750,6 @@ public class Producto extends javax.swing.JFrame {
         botonEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEliminarActionPerformed(evt);
-            }
-        });
-
-        botonReporte.setText("Reporte");
-        botonReporte.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonReporteActionPerformed(evt);
             }
         });
 
@@ -789,40 +773,30 @@ public class Producto extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(botonCargar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(botonNuevo)
+                .addGap(18, 18, 18)
+                .addComponent(botonDetalle)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(botonCargar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                        .addComponent(botonNuevo)
-                        .addGap(18, 18, 18)
-                        .addComponent(botonEditar)
-                        .addGap(18, 18, 18)
-                        .addComponent(botonDetalle)
-                        .addGap(18, 18, 18)
-                        .addComponent(botonEliminar))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(botonReporte)))
+                    .addComponent(jButton1)
+                    .addComponent(botonEliminar))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonReporte)
-                    .addComponent(jButton1))
+                .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(botonNuevo)
-                        .addComponent(botonEditar)
                         .addComponent(botonDetalle)
                         .addComponent(botonEliminar))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -857,7 +831,7 @@ public class Producto extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -891,10 +865,6 @@ public class Producto extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void botonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botonReporteActionPerformed
 
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
       String consulta = "SELECT PM.producto_id As id_Producto,P.nombre As nombre_Producto,P.descripcion,P.precio,COUNT(*) Total_Materiales FROM producto_has_material PM\n" +
@@ -1200,30 +1170,6 @@ private boolean buscarProductoEnTabla(String tabla, String idTabla, String id){
        }
     }//GEN-LAST:event_botonEliminarActionPerformed
 
-    private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
-            if(iD !=""){
-                txtNombreEditar.setText(nombre1);
-                areaEditar.setText(descripcion);
-                materialEliminar = new ArrayList<Integer>();
-                
-             String consulta =  "SELECT id,nombre,cantidad,tipo FROM material ";
-                    dialogEditar.setVisible(true);
-                    dialogEditar.setLocationRelativeTo(null);
-                    dialogEditar.setTitle("Editar");
-                    cargarTabla(consulta,txtCargarEditar.getText(),"nombre","id","ORDER BY cantidad",tablaMaterialesEditar,tituloMaterial);
-                   
-         txtNombreDetalle.setText(nombre1);
-         areaDetalle.setText(descripcion);
-         consulta =  "SELECT M.id, M.nombre,M.tipo ,PM.Cantidad FROM producto_has_material PM\n" +
-         "INNER JOIN producto P ON PM.producto_id = P.id\n" +
-         "INNER JOIN material M ON PM.material_id = M.id ";
-         cargarTabla(consulta,iD,"P.nombre","P.id","",tablaMaterialesEditar,tituloMaterialUtil); 
-            }
-            else{
-                JOptionPane.showMessageDialog(rootPane,"Seleccione un producto","Error",JOptionPane.ERROR_MESSAGE);
-            }                   
-    }//GEN-LAST:event_botonEditarActionPerformed
-
     private void botonAnadirEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnadirEditarActionPerformed
        
     }//GEN-LAST:event_botonAnadirEditarActionPerformed
@@ -1302,12 +1248,10 @@ private boolean buscarProductoEnTabla(String tabla, String idTabla, String id){
     private javax.swing.JButton botonCargarEditar;
     private javax.swing.JButton botonCargarNue;
     private javax.swing.JButton botonDetalle;
-    private javax.swing.JButton botonEditar;
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonEliminarEditar;
     private javax.swing.JToggleButton botonEliminarNue;
     private javax.swing.JButton botonNuevo;
-    private javax.swing.JButton botonReporte;
     private javax.swing.JDialog dialogDetalle;
     private javax.swing.JDialog dialogEditar;
     private javax.swing.JDialog dialogNuevoPro;
