@@ -378,7 +378,7 @@ public class Venta extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        botonFinalizar.setText("Finalizar");
+        botonFinalizar.setText("Finalizar Venta");
         botonFinalizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonFinalizarActionPerformed(evt);
@@ -823,7 +823,7 @@ public class Venta extends javax.swing.JFrame {
                                 //id_factura            //id_producto                              //cantidad             
             insertarDetalle_Pro(idFactura,String.valueOf(tablaProV.getValueAt(i,0)), String.valueOf(tablaProV.getValueAt(i,2))
                       //precio                                 //total   
-                    , String.valueOf(tablaProV.getValueAt(i,3)),String.valueOf(tablaProV.getValueAt(i,0)));
+                    , String.valueOf(tablaProV.getValueAt(i,3)),String.valueOf(tablaProV.getValueAt(i,4)));
         }
     }
     private void nuevoPago(String id_cliente,float abono){
@@ -973,6 +973,13 @@ public class Venta extends javax.swing.JFrame {
                 relacionPagoFactura(getIdFactura(),getIdPago());//relacionamos el primer pago con la factura
                 System.out.println("relacion primer pago con factura");
                 
+                if(abono>=total){
+                    JOptionPane.showMessageDialog(null,"Factura cancelada\n"+"Cambio: "+cambio,"Mensaje",JOptionPane.INFORMATION_MESSAGE);
+                }
+                if(abono<total){
+                    cambio = total - abono;
+                    JOptionPane.showMessageDialog(null,"Factura en deuda\n"+"Deuda: "+cambio,"Mensaje",JOptionPane.INFORMATION_MESSAGE);
+                }
                 limpiarTabla();   
                 limpiarVentana();
             }

@@ -36,7 +36,10 @@ public class ProyectoBD {
         menu.setVisible(false);
         
         Venta venta = new Venta();
-        venta.setVisible(true);
+        venta.setVisible(false);
+        
+        Deudor deudor = new Deudor();
+        deudor.setVisible(true);
         
         
         /*
