@@ -206,7 +206,20 @@ private boolean existeMaterial(String idMaterial,String tabla, String formaId){
 }
     private void botonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBorrarActionPerformed
         int fila = tablaMaterial.getSelectedRow();
+        String idMaterial = String.valueOf(tablaMaterial.getValueAt(fila,0));
         if(fila>=0){
+            if(existeMaterial(idMaterial,"material","id")){
+                if(existeMaterial(idMaterial, "detalle_compra", "material_id")){
+                JOptionPane.showConfirmDialog(null,"El material esta vinculado con uno a mas productos.\n"+"¿Desea eliminar este producto?");
+            }
+                else{
+                    JOptionPane.showConfirmDialog(null,"El material se eliminara del inventario y de el registro de compras. ¿desea eliminar?");
+                }
+                    
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"El material no existe","Error",JOptionPane.ERROR_MESSAGE);
+            }
             
         }
         else{
