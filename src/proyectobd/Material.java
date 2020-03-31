@@ -596,7 +596,7 @@ private void aceptarBoton(int opcion1){
              JasperDesign dise = JRXmlLoader.load(archivo);
              JasperReport jr = JasperCompileManager.compileReport(dise);
              JasperPrint jp = JasperFillManager.fillReport(jr,null,con);
-             JasperViewer.viewReport(jp); 
+             JasperViewer.viewReport(jp,false); 
          } catch (JRException ex) {
              Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
          }
