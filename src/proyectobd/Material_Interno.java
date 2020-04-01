@@ -5,22 +5,36 @@
  */
 package proyectobd;
 
+import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
- * @author Usuario
+ * @author Usuarios
  */
 public class Material_Interno extends javax.swing.JInternalFrame {
     private  String[]  titulos = {"Id","Nombre","Alto","Ancho","Cantidad","Color","Tipo"};
     private String ID = "", Tipo = "",Alto1 ="",nombreTemp = "", localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
              usuario ="root",contra = "xela2020";
+    private ConexionMySQL conexion;
     public Material_Interno() {
         initComponents();
+        conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
     }
 
     /**
@@ -32,6 +46,10 @@ public class Material_Interno extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dialogNuevo = new javax.swing.JDialog();
+        jPanel4 = new javax.swing.JPanel();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        enviar1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaMaterial = new javax.swing.JTable();
@@ -42,6 +60,37 @@ public class Material_Interno extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         botonCargar = new javax.swing.JButton();
         txtCargar = new javax.swing.JTextField();
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 376, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 146, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout dialogNuevoLayout = new javax.swing.GroupLayout(dialogNuevo.getContentPane());
+        dialogNuevo.getContentPane().setLayout(dialogNuevoLayout);
+        dialogNuevoLayout.setHorizontalGroup(
+            dialogNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialogNuevoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        dialogNuevoLayout.setVerticalGroup(
+            dialogNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialogNuevoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(142, Short.MAX_VALUE))
+        );
+
+        enviar1.setText("enviar");
+        jPopupMenu1.add(enviar1);
 
         setClosable(true);
         setIconifiable(true);
@@ -204,16 +253,28 @@ private boolean existeMaterial(String idMaterial,String tabla, String formaId){
         }
         return existe;   
 }
+private void eliminarMaterial(String idMaterial,String tabla, String formaId){
+     conexion.EjecutarInstruccion("DELETE FROM "+tabla+" WHERE "+formaId+" = "+idMaterial);
+}
     private void botonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBorrarActionPerformed
-        int fila = tablaMaterial.getSelectedRow();
-        String idMaterial = String.valueOf(tablaMaterial.getValueAt(fila,0));
+        int fila = tablaMaterial.getSelectedRow(), respuesta = 0;
+       
         if(fila>=0){
+            String idMaterial = String.valueOf(tablaMaterial.getValueAt(fila,0));
             if(existeMaterial(idMaterial,"material","id")){
                 if(existeMaterial(idMaterial, "detalle_compra", "material_id")){
-                JOptionPane.showConfirmDialog(null,"El material esta vinculado con uno a mas productos.\n"+"¿Desea eliminar este producto?");
+               respuesta = JOptionPane.showConfirmDialog(null,"El material esta vinculado con uno a mas productos.\n"+"¿Desea eliminar este producto?","Advertencia",JOptionPane.YES_NO_OPTION);
+                
             }
                 else{
-                    JOptionPane.showConfirmDialog(null,"El material se eliminara del inventario y de el registro de compras. ¿desea eliminar?");
+                  respuesta =  JOptionPane.showConfirmDialog(null,"El material se eliminara del inventario y de el registro de compras. ¿desea eliminar?","Advertencia",JOptionPane.YES_NO_OPTION);
+                    
+                }
+                if(respuesta == 0){
+                    eliminarMaterial(idMaterial,"producto_has_material","material_id");
+                    eliminarMaterial(idMaterial,"detalle_compra","material_id");
+                    eliminarMaterial(idMaterial,"material","id");
+                    JOptionPane.showMessageDialog(null,"Material eliminado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
                 }
                     
             }
@@ -228,11 +289,27 @@ private boolean existeMaterial(String idMaterial,String tabla, String formaId){
     }//GEN-LAST:event_botonBorrarActionPerformed
 
     private void bootonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bootonEditarActionPerformed
-        // TODO add your handling code here:
+        int fila = tablaMaterial.getSelectedRow();
+        if(fila>=0){
+            
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Seleccione un material","Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_bootonEditarActionPerformed
 
     private void botonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteActionPerformed
-        // TODO add your handling code here:
+       try {
+            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+              Connection con = conexion.getConexion();
+             InputStream archivo=getClass().getResourceAsStream("/Reporte/Material.jrxml");
+             JasperDesign dise = JRXmlLoader.load(archivo);
+             JasperReport jr = JasperCompileManager.compileReport(dise);
+             JasperPrint jp = JasperFillManager.fillReport(jr,null,con);
+             JasperViewer.viewReport(jp,false); 
+         } catch (JRException ex) {
+             Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+         }
     }//GEN-LAST:event_botonReporteActionPerformed
 
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
@@ -271,9 +348,13 @@ private boolean existeMaterial(String idMaterial,String tabla, String formaId){
     private javax.swing.JButton botonBorrar;
     private javax.swing.JButton botonCargar;
     private javax.swing.JButton botonReporte;
+    private javax.swing.JDialog dialogNuevo;
+    private javax.swing.JMenuItem enviar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaMaterial;
     private javax.swing.JTextField txtCargar;
