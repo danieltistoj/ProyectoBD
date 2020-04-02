@@ -406,6 +406,7 @@ public class Material_Interno extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
 private void limpiarPanel(){
     txtColor.setText("");
     txtCosto.setText("");
@@ -428,7 +429,7 @@ private void limpiarPanel(){
      radioTipo.setSelected(false);
      comboTipo.setSelectedIndex(0);
     
-}
+} //Limpiar el panel de nuevo y editar 
 private void activarBotones(){
      botonNuevo.setEnabled(false);
      botonReporte.setEnabled(false);
@@ -437,7 +438,7 @@ private void activarBotones(){
      
      botonCancelar.setEnabled(true);
      botonGuardar.setEnabled(true);
-}
+} // activar los botones guardar y cancelar 
 private int getId(String nombreBuscar){
         int id = -1;
     ConexionMySQL conexion1 = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
@@ -451,7 +452,7 @@ private int getId(String nombreBuscar){
                 Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
             }
      return id;
- }
+ } // retorna el id del material
 private boolean existeMaterial(String parametro,String tabla, String formaParametro){
     boolean existe = false;
   
@@ -467,10 +468,10 @@ private boolean existeMaterial(String parametro,String tabla, String formaParame
              System.out.println(ex.getMessage());
         }
         return existe;   
-}
+}//retorna booleano que nos indica si existe o no el material
 private void eliminarMaterial(String idMaterial,String tabla, String formaId){
      conexion.EjecutarInstruccion("DELETE FROM "+tabla+" WHERE "+formaId+" = "+idMaterial);
-}
+}// eliminamos los registros en donde este el material
 private void nuevoMaterial(String nombre, String alto, String ancho, String color, String tipo, String costo){//nuevo registro material 
     //se pregunta si esta deacuerdo con los datos del material
                    int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta deacuerdo con el material? \n"+"Nombre: "+nombre
@@ -486,7 +487,7 @@ private void nuevoMaterial(String nombre, String alto, String ancho, String colo
                 limpiarPanel();
                    }
     
-}
+}//insertamos un nuevo registro de material
 private void modificarMaterial(String nombre, String alto, String ancho, String color, String tipo, String costo){//modificar un registtro de material
     //se pregunta si esta deacuerdo con los datos del material
                    int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta deacuerdo con la modificacion del material? \n"+"Nombre: "+nombre
@@ -503,7 +504,7 @@ private void modificarMaterial(String nombre, String alto, String ancho, String 
                 limpiarPanel();
                    }
     
-}
+}//se modifica el registro del material seleccionado
 private void guardarNuevoMaterial(){
     String tipo="NULL", nombre = "",alto = "NULL",ancho ="NULL";
         int idNombreActual, idNombreAnterior;
@@ -533,7 +534,7 @@ private void guardarNuevoMaterial(){
                     JOptionPane.showMessageDialog(null,"El nombre del producto ya existe","Error",JOptionPane.WARNING_MESSAGE);
                 } 
                }
-}
+}//la accion que hace el boton guardar si se quiere un nuevo material
 private void guardarEdicionMaterial(){
      int idNombreActual, idNombreAnterior;
        String tipo="NULL", nombre = "",alto = "NULL",ancho ="NULL";
@@ -566,7 +567,8 @@ private void guardarEdicionMaterial(){
                 }
        }
     
-}
+}//la accion que hace el boton guardar si modificamos un registro de material
+//boton borrar 
     private void botonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBorrarActionPerformed
         int fila = tablaMaterial.getSelectedRow(), respuesta = 0;
        
@@ -598,7 +600,7 @@ private void guardarEdicionMaterial(){
             JOptionPane.showMessageDialog(null,"Seleccione un material","Advertencia",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_botonBorrarActionPerformed
-
+//boton editar
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
         int fila = tablaMaterial.getSelectedRow();
         float alto1;
@@ -638,7 +640,7 @@ private void guardarEdicionMaterial(){
     }
         
     }//GEN-LAST:event_botonEditarActionPerformed
-
+//boton de reporte 
     private void botonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteActionPerformed
        try {
             ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
@@ -652,7 +654,7 @@ private void guardarEdicionMaterial(){
              Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
          }
     }//GEN-LAST:event_botonReporteActionPerformed
-
+// boton cargar 
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
          String campo = txtCargar.getText();
         String where = "";
@@ -681,7 +683,7 @@ private void guardarEdicionMaterial(){
         
     }
     }//GEN-LAST:event_botonCargarActionPerformed
-
+// boton nuevo
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
        opcion = 1;
        tabbed.setSelectedIndex(1);
@@ -690,7 +692,7 @@ private void guardarEdicionMaterial(){
        activarBotones();
    
     }//GEN-LAST:event_botonNuevoActionPerformed
-
+//boton guardar
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
         if(opcion == 1){
             guardarNuevoMaterial();
@@ -700,12 +702,12 @@ private void guardarEdicionMaterial(){
             
         }
     }//GEN-LAST:event_botonGuardarActionPerformed
-
+//boton cancelar 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
        tabbed.setSelectedIndex(0);
        limpiarPanel();
     }//GEN-LAST:event_botonCancelarActionPerformed
-
+//accion cuando ingresamos letras en la caja de costo
     private void txtCostoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCostoKeyTyped
          char validar = evt.getKeyChar();
       if(Character.isLetter(validar)){
