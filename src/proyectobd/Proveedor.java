@@ -8,6 +8,8 @@ package proyectobd;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -20,7 +22,7 @@ public class Proveedor extends javax.swing.JInternalFrame {
 
     private ConexionMySQL conexion;
     private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
-             usuario ="root",contra = "xela2020";
+             usuario ="root",contra = "xela2020", nombreAnterior, idProveedor;
     private  String[] titulos = {"Id","Nombre","Telefono","Celular","Direccion","Correo","No. Cuenta"};
     private int opcion;
     public Proveedor() {
@@ -426,6 +428,20 @@ private boolean existeProveedor(String parametro,String tabla, String formaParam
         }
         return existe;   
 }
+private int getId(String nombreBuscar){
+        int id = -1;
+    ConexionMySQL conexion1 = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+            conexion1.EjecutarConsulta("SELECT * FROM proveedor WHERE nombre ="+"'"+nombreBuscar+"'");
+            ResultSet rs = conexion1.getResulSet();
+            try {
+                while(rs.next()){
+                  id = Integer.parseInt(rs.getString("id"));
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+            }
+     return id;
+ }
 private void nuevoProveedor(String nombre, String telefono, String celular, String direccion, String correo, String num_cuenta){
     //se pregunta si esta deacuerdo con los datos del proveedor
                    int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta deacuerdo con el proveedor? \n"+"Nombre: "+nombre
@@ -438,6 +454,22 @@ private void nuevoProveedor(String nombre, String telefono, String celular, Stri
                   
                 //Mensaje que describe que el proveedor ingreso en el sistema      
                 JOptionPane.showMessageDialog(null,"Material Ingresado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+                limpiarPanel();
+                   }
+}
+private void modificarProveedor(String nombre, String telefono, String celular, String direccion, String correo, String num_cuenta){
+     //se pregunta si esta deacuerdo con los datos del material
+                   int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta deacuerdo con la modificacion del proveedor? \n"+"Nombre: "+nombre
+                    +"\nTelefono: "+telefono+"\nCelular: "+celular+"\nDireccion: "+direccion+"\nCorreo: "+correo+"\nNo. Cuenta: "+num_cuenta,"Advertencia",
+                    JOptionPane.YES_NO_OPTION);
+                   if(res == 0){//si esta deacuerdo con los datos del material 
+                     //se inserta el material en la base de datos.
+                  
+                     conexion.EjecutarInstruccion("UPDATE proveedor SET nombre = '"+nombre+"',"+"telefono = '"+telefono+"',"+
+                             "celular = '"+celular+"',direccion = '"+direccion+"',correo = '"+correo+"', num_cuenta = '"+num_cuenta+"' WHERE id = "+idProveedor); 
+                
+                //Mensaje que describe que el material ingreso en el sistema      
+                JOptionPane.showMessageDialog(null,"Material Modificado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
                 limpiarPanel();
                    }
 }
@@ -455,7 +487,25 @@ private void guardarNuevo(){
     }
 }
 private void guardarEdicion(){
+         int idNombreActual, idNombreAnterior;
+      
+       if(txtNombre.getText().length() == 0 ){ // ver si los campos nombre y costo estan llenos 
+                JOptionPane.showMessageDialog(null,"Llene los campos obligatorios","Advertencia",JOptionPane.WARNING_MESSAGE);
+            }
+       else{
+     idNombreAnterior = getId(nombreAnterior);
+     idNombreActual = getId(txtNombre.getText());
+     
+                 if((idNombreAnterior == idNombreActual) || (idNombreAnterior!=idNombreActual && idNombreActual <0)){//si el nombre del material no existe
+                  
+                     modificarProveedor(txtNombre.getText(),txtTelefono.getText(),txtCelular.getText(),txtDireccion.getText(),txtCorreo.getText(),txtNumCuenta.getText());//insertamos los materiales 
+                }//fin del if(nombre == "")
+                else{
+                    JOptionPane.showMessageDialog(null,"El nombre del producto ya existe","Error",JOptionPane.WARNING_MESSAGE);
+                }
+       }
     
+
 }
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
         String consulta = "SELECT * FROM proveedor";
@@ -479,12 +529,38 @@ private void guardarEdicion(){
             guardarNuevo();
         }
         else{
-            
+            guardarEdicion();
         }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
        opcion = 0;
+       int fila = tablaProveedor.getSelectedRow();
+       if(fila>=0){
+           if(existeProveedor("'"+String.valueOf(tablaProveedor.getValueAt(fila,0))+"'","proveedor","id")){
+                tabbed.setSelectedIndex(1);
+                tabbed.setEnabledAt(1,true);
+                tabbed.setEnabledAt(0,false);
+                activarBotones();   
+                
+                idProveedor = String.valueOf(tablaProveedor.getValueAt(fila,0));
+                txtNombre.setText(String.valueOf(tablaProveedor.getValueAt(fila,1)));
+                nombreAnterior = txtNombre.getText();
+                txtTelefono.setText(String.valueOf(tablaProveedor.getValueAt(fila,2)));
+                txtCelular.setText(String.valueOf(tablaProveedor.getValueAt(fila,3)));
+                txtDireccion.setText(String.valueOf(tablaProveedor.getValueAt(fila,4)));
+                txtCorreo.setText(String.valueOf(tablaProveedor.getValueAt(fila,5)));
+                txtNumCuenta.setText(String.valueOf(tablaProveedor.getValueAt(fila,6)));
+           }
+           else{
+                JOptionPane.showMessageDialog(null,"El proveedor no existe","Advertencia",JOptionPane.WARNING_MESSAGE);
+           }
+        
+       }
+       else{
+           JOptionPane.showMessageDialog(null,"Seleccione un proveedor","Advertencia",JOptionPane.WARNING_MESSAGE);
+       }
+       
     }//GEN-LAST:event_botonEditarActionPerformed
 
 
