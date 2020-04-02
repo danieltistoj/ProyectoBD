@@ -424,6 +424,9 @@ private void limpiarPanel(){
      tabbed.setEnabledAt(1,false);
      tabbed.setEnabledAt(0,true);
      tabbed.setSelectedIndex(0);
+     
+     radioTipo.setSelected(false);
+     comboTipo.setSelectedIndex(0);
     
 }
 private void activarBotones(){
@@ -493,7 +496,7 @@ private void modificarMaterial(String nombre, String alto, String ancho, String 
                      //se inserta el material en la base de datos.
                   
                      conexion.EjecutarInstruccion("UPDATE material SET nombre = '"+nombre+"',"+"alto = "+alto+","+
-                             "ancho = "+ancho+",color = '"+color+"',tipo = '"+tipo+"', costo: "+costo+" WHERE id = "+ID); 
+                             "ancho = "+ancho+",color = '"+color+"',tipo = '"+tipo+"', costo = "+costo+" WHERE id = "+ID); 
                 
                 //Mensaje que describe que el material ingreso en el sistema      
                 JOptionPane.showMessageDialog(null,"Material Modificado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
@@ -559,7 +562,7 @@ private void guardarEdicionMaterial(){
                    modificarMaterial(txtNombre.getText(), alto, ancho,txtColor.getText(), tipo,txtCosto.getText());//insertamos los materiales 
                 }//fin del if(nombre == "")
                 else{
-                    JOptionPane.showMessageDialog(null,"El nombre del producto ya existe","Error",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"El nombre del producto ya existe","Error",JOptionPane.WARNING_MESSAGE);
                 }
        }
     
@@ -602,10 +605,13 @@ private void guardarEdicionMaterial(){
         String alto;
         opcion = 0;
         if(fila>=0){
+            
          ID = String.valueOf(tablaMaterial.getValueAt(fila,0));
-         nombreTemp = String.valueOf(tablaMaterial.getValueAt(fila,1));
+         if(existeMaterial(ID,"material","id")){// ver que el material exista
+              nombreTemp = String.valueOf(tablaMaterial.getValueAt(fila,1));
          txtNombre.setText(nombreTemp);
          txtColor.setText(String.valueOf(tablaMaterial.getValueAt(fila,5)));
+         txtCosto.setText(String.valueOf(tablaMaterial.getValueAt(fila,7)));
          alto = String.valueOf(tablaMaterial.getValueAt(fila,2));
          
       if(alto != "null"){
@@ -622,6 +628,10 @@ private void guardarEdicionMaterial(){
         tabbed.setEnabledAt(1,true);
         tabbed.setEnabledAt(0,false);
         activarBotones();
+         }
+         else{
+             JOptionPane.showMessageDialog(null,"El material no existe","Advertencia",JOptionPane.WARNING_MESSAGE);
+         }
         }
         else{
             JOptionPane.showMessageDialog(null,"Seleccione un material","Advertencia",JOptionPane.WARNING_MESSAGE);
@@ -686,7 +696,7 @@ private void guardarEdicionMaterial(){
             guardarNuevoMaterial();
         }
         else{
-           
+           guardarEdicionMaterial();
             
         }
     }//GEN-LAST:event_botonGuardarActionPerformed
