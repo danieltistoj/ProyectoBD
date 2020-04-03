@@ -386,13 +386,11 @@ private void cargarTabla(String consulta, String txt, String nombre, String id, 
     String campo = txt;
         String where = "";
         if(!"".equals(campo)){
-            System.out.println(campo);
-            where = "WHERE "+id+ "= "+campo+" OR "+nombre+"= '"+campo+"'";
+            where = " WHERE "+id+ "= "+campo+" OR "+nombre+"= '"+campo+"'";
         }
          try {
          DefaultTableModel modelo = new DefaultTableModel(null,titulo);
          tabla.setModel(modelo);
-         ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
          conexion.EjecutarConsulta(consulta+where+" "+extra);
             
             ResultSet rs = conexion.getResulSet();
