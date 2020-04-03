@@ -47,7 +47,8 @@ public class Compra extends javax.swing.JInternalFrame {
         botonCargarPro.setEnabled(false);
         botonQuitar.setEnabled(false);
         botonCancelar.setEnabled(false);
-        
+        botonRemoverMaterial.setEnabled(false);
+        botonRemoverProveedor.setEnabled(false);
         modelo = new DefaultTableModel(null,titulos);
         this.tablaMat1.setModel(modelo);
     }
@@ -70,6 +71,7 @@ public class Compra extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         txtNombreProveedor = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        botonRemoverProveedor = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         botonNuevo = new javax.swing.JButton();
         botonGuardar = new javax.swing.JButton();
@@ -87,6 +89,7 @@ public class Compra extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         botonCargarMat = new javax.swing.JButton();
+        botonRemoverMaterial = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         txtCantidad = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -128,6 +131,13 @@ public class Compra extends javax.swing.JInternalFrame {
 
         jLabel11.setText("NOMBRE PROVEEDOR");
 
+        botonRemoverProveedor.setText("Remover");
+        botonRemoverProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRemoverProveedorActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -138,12 +148,14 @@ public class Compra extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 232, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(botonCargarPro)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonCargarPro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(44, 44, 44)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -151,9 +163,12 @@ public class Compra extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNombreProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtNombreProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(botonRemoverProveedor))
                     .addComponent(jLabel11))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(217, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,15 +180,17 @@ public class Compra extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(botonCargarPro)
-                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(botonCargarPro))
+                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtNombreProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNombreProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonRemoverProveedor))
+                .addGap(21, 21, 21))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -216,7 +233,7 @@ public class Compra extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 29, Short.MAX_VALUE)
+                .addGap(0, 27, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(botonCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
                     .addComponent(botonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
@@ -264,6 +281,13 @@ public class Compra extends javax.swing.JInternalFrame {
             }
         });
 
+        botonRemoverMaterial.setText("Remover");
+        botonRemoverMaterial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRemoverMaterialActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -278,19 +302,18 @@ public class Compra extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtIdMaterial)
                     .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(botonCargarMat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botonRemoverMaterial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(botonCargarMat)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(txtExistencias, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel7)
+                        .addComponent(txtExistencias, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -313,7 +336,8 @@ public class Compra extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombre)
-                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonRemoverMaterial))
                 .addContainerGap())
         );
 
@@ -321,6 +345,9 @@ public class Compra extends javax.swing.JInternalFrame {
 
         txtCantidad.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtCantidadKeyTyped(evt);
             }
@@ -333,8 +360,18 @@ public class Compra extends javax.swing.JInternalFrame {
         txtTotal.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
         botonAnadir.setText("Añadir");
+        botonAnadir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAnadirActionPerformed(evt);
+            }
+        });
 
         botonQuitar.setText("Quitar");
+        botonQuitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonQuitarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -395,7 +432,7 @@ public class Compra extends javax.swing.JInternalFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -446,7 +483,6 @@ private String fecha(){
     return fecha1.format(dtf);
     }
 private void activarBasico(){
-    txtCantidad.setEnabled(true);
     txtIdMaterial.setEnabled(true);
     txtIdProveedor.setEnabled(true);
     
@@ -456,6 +492,9 @@ private void activarBasico(){
     botonGuardar.setEnabled(true);
     botonAnadir.setEnabled(true);
     botonQuitar.setEnabled(true);
+    botonRemoverMaterial.setEnabled(true);
+    botonRemoverProveedor.setEnabled(true);
+    
     botonNuevo.setEnabled(false);
 }
 private void limpiarPanel(){
@@ -479,6 +518,9 @@ private void limpiarPanel(){
     botonGuardar.setEnabled(false);
      botonAnadir.setEnabled(false);
     botonQuitar.setEnabled(false);
+    botonRemoverMaterial.setEnabled(false);
+    botonRemoverProveedor.setEnabled(false);
+    
     botonNuevo.setEnabled(true);
 }
 private void limpiarTabla(DefaultTableModel modelo, JTable tabla){
@@ -486,6 +528,17 @@ private void limpiarTabla(DefaultTableModel modelo, JTable tabla){
     for(int i = fila-1;i>=0;i--){
         modelo.removeRow(i);
     }
+}
+private void limpiarAreaMaterial(){
+        txtIdMaterial.setEnabled(true);
+        txtIdMaterial.setText("");
+        txtNombre.setText("");
+        
+        txtCantidad.setText("");
+        txtCantidad.setEnabled(false);
+        txtTotal.setText("");
+        txtPrecio.setText("");
+        txtExistencias.setText("");
 }
 private  boolean esEntero(String id){
     boolean entero = false;
@@ -498,13 +551,39 @@ private  boolean esEntero(String id){
 }
 private void eliminarRegistroTabla(JTable tabla,DefaultTableModel modelo ){
     int fila = tabla.getSelectedRow();
+    float total = Float.parseFloat(txtTotal2.getText()),subTotal;
         if(fila>=0){
+            subTotal = Float.parseFloat(String.valueOf(tablaMat1.getValueAt(fila,4)));
             modelo.removeRow(fila);
+            total = total - subTotal;
+            txtTotal2.setText(""+total);
         }
         else{
-            JOptionPane.showMessageDialog(null,"Seleccione una fila","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Seleccione un material","Advertencia",JOptionPane.WARNING_MESSAGE);
         }
 }
+private void insertarEnTabla(String id, String nombre, String precio, String cantidad, String total){
+     String []info =new String[5];
+                        info[0] = id;
+                        info[1] = nombre;
+                        info[2] = precio;
+                        info[3] = cantidad;
+                        info[4] = total;
+                        modelo.addRow(info);
+        
+}
+private boolean existeEnTabla(String id){
+     boolean existe = false;
+     int iD;
+     iD = Integer.parseInt(id);
+        for(int i = 0; i<tablaMat1.getRowCount();i++){
+            if(iD == Integer.parseInt(String.valueOf(tablaMat1.getValueAt(i,0))) ){
+                existe = true;
+            }
+        }
+        return existe;
+}
+
 private boolean existeRegistro(String parametro,String tabla, String formaParametro){
     boolean existe = false;
   
@@ -540,6 +619,7 @@ private String getDato(String formaId, String id, String tabla, String parametro
           if(esEntero(txtIdProveedor.getText())){
                if(existeRegistro(txtIdProveedor.getText(),"proveedor","id")){
                txtNombreProveedor.setText(getDato("id",txtIdProveedor.getText(),"proveedor","nombre"));
+               txtIdProveedor.setEnabled(false);
           }
                else{
                    JOptionPane.showMessageDialog(null,"El proveedor no existe","Advertencia",JOptionPane.WARNING_MESSAGE);
@@ -555,7 +635,7 @@ private String getDato(String formaId, String id, String tabla, String parametro
     }//GEN-LAST:event_botonCargarProActionPerformed
 
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
-       activarBasico();
+        activarBasico();       
     }//GEN-LAST:event_botonNuevoActionPerformed
 
     private void botonCargarMatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarMatActionPerformed
@@ -565,9 +645,12 @@ private String getDato(String formaId, String id, String tabla, String parametro
                txtNombre.setText(getDato("id",txtIdMaterial.getText(),"material","nombre"));
                txtExistencias.setText(getDato("id",txtIdMaterial.getText(),"material","cantidad"));
                txtPrecio.setText(getDato("id",txtIdMaterial.getText(),"material","costo"));
+               
+               txtIdMaterial.setEnabled(false);
+               txtCantidad.setEnabled(true);
           }
                else{
-                   JOptionPane.showMessageDialog(null,"El proveedor no existe","Advertencia",JOptionPane.WARNING_MESSAGE);
+                   JOptionPane.showMessageDialog(null,"El material no existe","Advertencia",JOptionPane.WARNING_MESSAGE);
                }
           }
           else{
@@ -615,6 +698,72 @@ private String getDato(String formaId, String id, String tabla, String parametro
       }
     }//GEN-LAST:event_txtCantidadKeyTyped
 
+    private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
+       float total;
+        if(txtCantidad.getText().equals("")==false){
+            if(esEntero(txtCantidad.getText())){
+            total= Float.parseFloat(txtCantidad.getText())*Float.parseFloat(txtPrecio.getText());
+            txtTotal.setText(total+"");
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Ingrese solo varoles enteros","Advertencia",JOptionPane.WARNING_MESSAGE);
+                txtCantidad.setText("");
+            }
+        }
+        else{
+            txtTotal.setText("");
+        }
+    }//GEN-LAST:event_txtCantidadKeyReleased
+
+    private void botonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnadirActionPerformed
+        float total = Float.parseFloat(txtTotal2.getText()), subTotal;
+        if((txtNombre.getText().length()>0&&txtCantidad.getText().length()>0)&&(txtIdMaterial.getText().length()>0)){
+            if(Float.parseFloat(txtTotal.getText())>0){//ve que el subTotal sea mayor a ceo
+                if(tablaMat1.getRowCount()>0){//vemos si ya hay algun material en la tabla
+                    
+                    if(!existeEnTabla(txtIdMaterial.getText())){//si el material no existe en la tabla lo insertamos 
+                subTotal = Float.parseFloat(txtTotal.getText());
+                insertarEnTabla(txtIdMaterial.getText(),txtNombre.getText(), txtPrecio.getText(),txtCantidad.getText(),txtTotal.getText());
+                total = total + subTotal;
+                txtTotal2.setText(""+total);
+                limpiarAreaMaterial();
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null,"El material ya esta en la tabla","Advertencia",JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+                else{//si la tabla esta vacia insertamos directamente 
+                     subTotal = Float.parseFloat(txtTotal.getText());
+                insertarEnTabla(txtIdMaterial.getText(),txtNombre.getText(), txtPrecio.getText(),txtCantidad.getText(),txtTotal.getText());
+                total = total + subTotal;
+                txtTotal2.setText(""+total);
+                limpiarAreaMaterial();
+                }
+                
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"El total del material debe de ser mayor a cero","Advertencia",JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Por favor llene los campos de nombre del material y cantidad","Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_botonAnadirActionPerformed
+
+    private void botonRemoverMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRemoverMaterialActionPerformed
+       limpiarAreaMaterial();
+    }//GEN-LAST:event_botonRemoverMaterialActionPerformed
+
+    private void botonRemoverProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRemoverProveedorActionPerformed
+      txtIdProveedor.setEnabled(true);
+      txtIdProveedor.setText("");
+      txtNombreProveedor.setText("");
+    }//GEN-LAST:event_botonRemoverProveedorActionPerformed
+
+    private void botonQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonQuitarActionPerformed
+        eliminarRegistroTabla(tablaMat1, modelo);
+    }//GEN-LAST:event_botonQuitarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAnadir;
@@ -624,6 +773,8 @@ private String getDato(String formaId, String id, String tabla, String parametro
     private javax.swing.JButton botonGuardar;
     private javax.swing.JButton botonNuevo;
     private javax.swing.JButton botonQuitar;
+    private javax.swing.JButton botonRemoverMaterial;
+    private javax.swing.JButton botonRemoverProveedor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

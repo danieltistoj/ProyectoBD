@@ -460,6 +460,11 @@ public class Venta extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel3.setText("NIT");
 
+        txtAbono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAbonoActionPerformed(evt);
+            }
+        });
         txtAbono.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtAbonoKeyReleased(evt);
@@ -1032,6 +1037,10 @@ public class Venta extends javax.swing.JFrame {
         ventana.show();
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtAbonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAbonoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAbonoActionPerformed
 
     /**
      * @param args the command line arguments
