@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -41,8 +43,8 @@ public class Compra extends javax.swing.JInternalFrame {
         
         botonAnadir.setEnabled(false);
         botonGuardar.setEnabled(false);
-        botonBuscarMat.setEnabled(false);
-        botonBuscarPro.setEnabled(false);
+        botonCargarMat.setEnabled(false);
+        botonCargarPro.setEnabled(false);
         botonQuitar.setEnabled(false);
         botonCancelar.setEnabled(false);
         
@@ -64,7 +66,7 @@ public class Compra extends javax.swing.JInternalFrame {
         txtIdProveedor = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtFecha = new javax.swing.JTextField();
-        botonBuscarPro = new javax.swing.JButton();
+        botonCargarPro = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         txtNombreProveedor = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
@@ -84,7 +86,7 @@ public class Compra extends javax.swing.JInternalFrame {
         txtPrecio = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        botonBuscarMat = new javax.swing.JButton();
+        botonCargarMat = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         txtCantidad = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -105,14 +107,20 @@ public class Compra extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Datos de la compra");
 
+        txtIdProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIdProveedorKeyTyped(evt);
+            }
+        });
+
         jLabel2.setText("ID PROVEEDOR");
 
         txtFecha.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
-        botonBuscarPro.setText("Buscar");
-        botonBuscarPro.addActionListener(new java.awt.event.ActionListener() {
+        botonCargarPro.setText("Cargar");
+        botonCargarPro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonBuscarProActionPerformed(evt);
+                botonCargarProActionPerformed(evt);
             }
         });
 
@@ -134,7 +142,7 @@ public class Compra extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(botonBuscarPro)))
+                        .addComponent(botonCargarPro)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
@@ -159,7 +167,7 @@ public class Compra extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(botonBuscarPro)
+                        .addComponent(botonCargarPro)
                         .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel11)
@@ -235,6 +243,12 @@ public class Compra extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Datos del material");
 
+        txtIdMaterial.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIdMaterialKeyTyped(evt);
+            }
+        });
+
         jLabel5.setText("ID DEL MATERIAL");
 
         jLabel6.setText("NOMBRE");
@@ -243,10 +257,10 @@ public class Compra extends javax.swing.JInternalFrame {
 
         jLabel8.setText("PRECIO");
 
-        botonBuscarMat.setText("Buscar");
-        botonBuscarMat.addActionListener(new java.awt.event.ActionListener() {
+        botonCargarMat.setText("Cargar");
+        botonCargarMat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonBuscarMatActionPerformed(evt);
+                botonCargarMatActionPerformed(evt);
             }
         });
 
@@ -272,7 +286,7 @@ public class Compra extends javax.swing.JInternalFrame {
                             .addComponent(jLabel8)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
-                        .addComponent(botonBuscarMat)
+                        .addComponent(botonCargarMat)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
@@ -290,7 +304,7 @@ public class Compra extends javax.swing.JInternalFrame {
                 .addGap(9, 9, 9)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtIdMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonBuscarMat)
+                    .addComponent(botonCargarMat)
                     .addComponent(txtExistencias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -306,6 +320,11 @@ public class Compra extends javax.swing.JInternalFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         txtCantidad.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyTyped(evt);
+            }
+        });
 
         jLabel9.setText("CANTIDAD");
 
@@ -431,10 +450,12 @@ private void activarBasico(){
     txtIdMaterial.setEnabled(true);
     txtIdProveedor.setEnabled(true);
     
-    botonBuscarMat.setEnabled(true);
-    botonBuscarPro.setEnabled(true);
+    botonCargarMat.setEnabled(true);
+    botonCargarPro.setEnabled(true);
     botonCancelar.setEnabled(true);
     botonGuardar.setEnabled(true);
+    botonAnadir.setEnabled(true);
+    botonQuitar.setEnabled(true);
     botonNuevo.setEnabled(false);
 }
 private void limpiarPanel(){
@@ -452,10 +473,12 @@ private void limpiarPanel(){
     txtNombreProveedor.setText("");
     txtTotal2.setText("0.0");
     
-    botonBuscarMat.setEnabled(false);
-    botonBuscarPro.setEnabled(false);
+    botonCargarMat.setEnabled(false);
+    botonCargarPro.setEnabled(false);
     botonCancelar.setEnabled(false);
     botonGuardar.setEnabled(false);
+     botonAnadir.setEnabled(false);
+    botonQuitar.setEnabled(false);
     botonNuevo.setEnabled(true);
 }
 private void limpiarTabla(DefaultTableModel modelo, JTable tabla){
@@ -463,6 +486,15 @@ private void limpiarTabla(DefaultTableModel modelo, JTable tabla){
     for(int i = fila-1;i>=0;i--){
         modelo.removeRow(i);
     }
+}
+private  boolean esEntero(String id){
+    boolean entero = false;
+    try {
+        Integer.parseInt(id);
+        entero = true;
+    } catch (Exception e) {
+    }
+    return entero;
 }
 private void eliminarRegistroTabla(JTable tabla,DefaultTableModel modelo ){
     int fila = tabla.getSelectedRow();
@@ -477,7 +509,6 @@ private boolean existeRegistro(String parametro,String tabla, String formaParame
     boolean existe = false;
   
         try {
-           
             conexion.EjecutarConsulta("SELECT COUNT(*) FROM "+tabla +" WHERE "+formaParametro+" = "+parametro+"");
             ResultSet rs = conexion.getResulSet();
             rs.next();
@@ -489,17 +520,64 @@ private boolean existeRegistro(String parametro,String tabla, String formaParame
         }
         return existe;   
 }
-    private void botonBuscarProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarProActionPerformed
-      
-    }//GEN-LAST:event_botonBuscarProActionPerformed
+
+private String getDato(String formaId, String id, String tabla, String parametro){
+    String dato = "";
+    ConexionMySQL conexion1 = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+            conexion1.EjecutarConsulta("SELECT * FROM "+tabla+" WHERE "+formaId+" = "+id);
+            ResultSet rs = conexion1.getResulSet();
+            try {
+                while(rs.next()){
+                  dato = rs.getString(parametro);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    return dato; 
+}
+    private void botonCargarProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarProActionPerformed
+      if(txtIdProveedor.getText().length()>0){
+          if(esEntero(txtIdProveedor.getText())){
+               if(existeRegistro(txtIdProveedor.getText(),"proveedor","id")){
+               txtNombreProveedor.setText(getDato("id",txtIdProveedor.getText(),"proveedor","nombre"));
+          }
+               else{
+                   JOptionPane.showMessageDialog(null,"El proveedor no existe","Advertencia",JOptionPane.WARNING_MESSAGE);
+               }
+          }
+          else{
+              JOptionPane.showMessageDialog(null,"Ingrese solo valores enteros","Advertencia",JOptionPane.WARNING_MESSAGE);
+          }
+      }
+      else{
+          JOptionPane.showMessageDialog(null,"Llene el campo de texto","Advertencia",JOptionPane.WARNING_MESSAGE);
+      }
+    }//GEN-LAST:event_botonCargarProActionPerformed
 
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
        activarBasico();
     }//GEN-LAST:event_botonNuevoActionPerformed
 
-    private void botonBuscarMatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarMatActionPerformed
-      
-    }//GEN-LAST:event_botonBuscarMatActionPerformed
+    private void botonCargarMatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarMatActionPerformed
+      if(txtIdMaterial.getText().length()>0){
+          if(esEntero(txtIdMaterial.getText())){
+               if(existeRegistro(txtIdMaterial.getText(),"material","id")){
+               txtNombre.setText(getDato("id",txtIdMaterial.getText(),"material","nombre"));
+               txtExistencias.setText(getDato("id",txtIdMaterial.getText(),"material","cantidad"));
+               txtPrecio.setText(getDato("id",txtIdMaterial.getText(),"material","costo"));
+          }
+               else{
+                   JOptionPane.showMessageDialog(null,"El proveedor no existe","Advertencia",JOptionPane.WARNING_MESSAGE);
+               }
+          }
+          else{
+              JOptionPane.showMessageDialog(null,"Ingrese solo valores enteros","Advertencia",JOptionPane.WARNING_MESSAGE);
+          }
+      }
+      else{
+          JOptionPane.showMessageDialog(null,"Llene el campo de texto","Advertencia",JOptionPane.WARNING_MESSAGE);
+      }
+    }//GEN-LAST:event_botonCargarMatActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
         int numFilas = tablaMat1.getRowCount();
@@ -510,12 +588,39 @@ private boolean existeRegistro(String parametro,String tabla, String formaParame
         
     }//GEN-LAST:event_botonCancelarActionPerformed
 
+    private void txtIdProveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdProveedorKeyTyped
+         char validar = evt.getKeyChar();
+      if(Character.isLetter(validar)){
+          getToolkit().beep();
+          evt.consume();
+          JOptionPane.showMessageDialog(null,"Solo ingrese numeros","Advertencia",JOptionPane.WARNING_MESSAGE);
+      }
+    }//GEN-LAST:event_txtIdProveedorKeyTyped
+
+    private void txtIdMaterialKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdMaterialKeyTyped
+        char validar = evt.getKeyChar();
+      if(Character.isLetter(validar)){
+          getToolkit().beep();
+          evt.consume();
+          JOptionPane.showMessageDialog(null,"Solo ingrese numeros","Advertencia",JOptionPane.WARNING_MESSAGE);
+      }
+    }//GEN-LAST:event_txtIdMaterialKeyTyped
+
+    private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
+        char validar = evt.getKeyChar();
+      if(Character.isLetter(validar)){
+          getToolkit().beep();
+          evt.consume();
+          JOptionPane.showMessageDialog(null,"Solo ingrese numeros","Advertencia",JOptionPane.WARNING_MESSAGE);
+      }
+    }//GEN-LAST:event_txtCantidadKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAnadir;
-    private javax.swing.JButton botonBuscarMat;
-    private javax.swing.JButton botonBuscarPro;
     private javax.swing.JButton botonCancelar;
+    private javax.swing.JButton botonCargarMat;
+    private javax.swing.JButton botonCargarPro;
     private javax.swing.JButton botonGuardar;
     private javax.swing.JButton botonNuevo;
     private javax.swing.JButton botonQuitar;

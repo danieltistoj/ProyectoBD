@@ -84,7 +84,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="txtIdProveedor" min="-2" pref="176" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="botonBuscarPro" min="-2" max="-2" attributes="0"/>
+                          <Component id="botonCargarPro" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
@@ -117,7 +117,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="txtIdProveedor" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="botonBuscarPro" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="botonCargarPro" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtFecha" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -137,6 +137,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtIdProveedor">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtIdProveedorKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
@@ -150,12 +153,12 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="botonBuscarPro">
+        <Component class="javax.swing.JButton" name="botonCargarPro">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Buscar"/>
+            <Property name="text" type="java.lang.String" value="Cargar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonBuscarProActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCargarProActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
@@ -304,7 +307,7 @@
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="botonBuscarMat" min="-2" max="-2" attributes="0"/>
+                          <Component id="botonCargarMat" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
@@ -328,7 +331,7 @@
                   <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="txtIdMaterial" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="botonBuscarMat" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="botonCargarMat" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtExistencias" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -353,6 +356,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtIdMaterial">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtIdMaterialKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
@@ -380,12 +386,12 @@
             <Property name="text" type="java.lang.String" value="PRECIO"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="botonBuscarMat">
+        <Component class="javax.swing.JButton" name="botonCargarMat">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Buscar"/>
+            <Property name="text" type="java.lang.String" value="Cargar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonBuscarMatActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCargarMatActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
@@ -452,6 +458,9 @@
               <Font name="Dialog" size="18" style="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCantidadKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel9">
           <Properties>
