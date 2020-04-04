@@ -4,6 +4,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/Producto.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/ConexionDB.java</file>
             <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/Material_Interno.java</file>
             <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/Proveedor.java</file>
             <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/Menu2.java</file>
@@ -11,6 +12,7 @@
             <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/Venta.java</file>
             <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/Material.java</file>
             <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/Compra.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/Codigo.java</file>
         </group>
     </open-files>
 </project-private>

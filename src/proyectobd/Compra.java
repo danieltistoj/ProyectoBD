@@ -718,6 +718,82 @@ private void crearCompra(String fecha, String total, String codigo, String idPro
     conexion.EjecutarInstruccion("insert into compra(fecha,total,no_factura,proveedor_id)\n"+
             "values('"+fecha+"',"+total+",'"+codigo+"',"+idProveedor+")");
 }
+private void crearDetalleCompra(String precio, String cantidad, String idCompra,String idMaterial){
+    conexion.EjecutarInstruccion("insert into detalle_compra(precio,cantidad,compra_id,material_id)\n"+
+              "values("+precio+","+cantidad+","+idCompra+","+idMaterial+")");
+    
+}
+private void crearCredito_has_compra(String idCompra,String idCredito){
+    conexion.EjecutarInstruccion("insert into credito_has_compra(credito_id,compra_id)\n"+
+            "values("+idCredito+","+idCompra+")");
+}
+private void crearCredito(String abono, String fecha, String idProveedor){
+    conexion.EjecutarInstruccion("insert into credito(abono,fecha,proveedor_id)\n"+
+            "values("+abono+",'"+fecha+"',"+idProveedor+")");
+}
+private String getUltimoIdCompra(){
+    String id = "";
+       try {
+            conexion.EjecutarConsulta("SELECT MAX(id)As ultimo FROM compra");
+            ResultSet rs = conexion.getResulSet();
+            while(rs.next()){
+                id = rs.getString("ultimo");
+            }
+            
+        } catch (SQLException ex) {
+             System.out.println(ex.getMessage());
+        }
+        return id;
+}
+private String getUltimoIdCredito(){
+  String id = "";
+       try {
+            conexion.EjecutarConsulta("SELECT MAX(id)As ultimo FROM credito");
+            ResultSet rs = conexion.getResulSet();
+            while(rs.next()){
+                id = rs.getString("ultimo");
+            }
+            
+        } catch (SQLException ex) {
+             System.out.println(ex.getMessage());
+        }
+        return id;
+}
+private String getCantidadMaterial(String idMaterial){
+    String id = "";
+       try {
+            conexion.EjecutarConsulta("select M.cantidad as cantidad from material M where id = "+idMaterial);
+            ResultSet rs = conexion.getResulSet();
+            while(rs.next()){
+                id = rs.getString("cantidad");
+            }
+            
+        } catch (SQLException ex) {
+             System.out.println(ex.getMessage());
+        }
+        return id;
+    
+}
+private void relacionMaterialDetalle(String idCompra){
+    int fila = tablaMat1.getRowCount();
+        for(int i =0; i<fila;i++){  
+                                               //id_material                                        //cantidad                                           
+            crearDetalleCompra(String.valueOf(tablaMat1.getValueAt(i,2)), String.valueOf(tablaMat1.getValueAt(i,3)),
+                      //idCompra                                //idMaterial   
+                    idCompra, String.valueOf(tablaMat1.getValueAt(i,0)));
+            modificarCantidadMaterial(String.valueOf(tablaMat1.getValueAt(i,0)),String.valueOf(tablaMat1.getValueAt(i,3)));
+        }
+    
+}
+private void modificarCantidadMaterial(String idMaterial, String cantidad){
+    int cantiIngresar,ultimaCantidad,canti;
+    ultimaCantidad = Integer.parseInt(getCantidadMaterial(idMaterial));
+    cantiIngresar = Integer.parseInt(cantidad);
+    canti = ultimaCantidad+cantiIngresar;
+    
+    conexion.EjecutarInstruccion("UPDATE material SET cantidad = "+ canti+" WHERE id = "+idMaterial);
+    
+}
     private void botonCargarProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarProActionPerformed
       if(txtIdProveedor.getText().length()>0){
           if(esEntero(txtIdProveedor.getText())){
@@ -869,7 +945,7 @@ private void crearCompra(String fecha, String total, String codigo, String idPro
     }//GEN-LAST:event_botonQuitarActionPerformed
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-     String fecha, total, codigo, iDproveedor;
+     String fecha, total, codigo, iDproveedor, idCompra,idCredito;
         if(tablaMat1.getRowCount()>0 && txtNombreProveedor.getText().length()>0&&txtPrimerPago.getText().length()>0){//comprobamos que los campos importante esten llenos 
           int respuesta = JOptionPane.showConfirmDialog(null,"¿Desea completar la compra?","",JOptionPane.YES_NO_OPTION);//le preguntamos si esta de acuerdo en continuar la compra
           if(respuesta == 0){
@@ -877,9 +953,19 @@ private void crearCompra(String fecha, String total, String codigo, String idPro
               total = txtTotal2.getText();
               codigo = labelCodigoCompra.getText();
               iDproveedor = txtIdProveedor.getText();
-              //crearCompra(fecha, total, codigo, iDproveedor);//  #1  primera fase 
               
+              crearCompra(fecha, total, codigo, iDproveedor);//  #1  primera fase 
               
+              idCompra = getUltimoIdCompra();
+              relacionMaterialDetalle(idCompra);  //#2   segunda fase relacion material con compra
+              crearCredito(txtPrimerPago.getText(),fecha, iDproveedor);//#3  tercera fase crear el primer credito.
+              
+              idCredito = getUltimoIdCredito();
+              crearCredito_has_compra(idCompra, idCredito);//relacion credito con la compra 
+              limpiarPanel();
+              limpiarTabla(modelo, tablaMat1);
+              JOptionPane.showMessageDialog(null,"Compra realizada correctamente","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+              generarCodigo();
           }
           
       }
