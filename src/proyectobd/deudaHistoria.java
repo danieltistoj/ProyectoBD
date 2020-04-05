@@ -8,6 +8,10 @@ package proyectobd;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -19,7 +23,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class deudaHistoria extends javax.swing.JInternalFrame {
 
-      private  String[]  titulos = {"Id","Fecha","Total","No. Compra","id Proveedor","Total Pagos","Total pagado"};
+      private  String[]  titulos = {"Id","Fecha","Total","No. Compra","id Proveedor","Total Pagos","Total pagado"},
+              titulosMat = {"Id","Nombre","Alto","Ancho","Cantidad","Color","Tipo","Costo","Cantidad Comprada"},
+              tituloCredito = {"Id","Pago","Fecha"};
      private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",usuario ="root",contra = "xela2020";
      private ButtonGroup grupoDeRadio;
      private ConexionMySQL conexion;
@@ -29,7 +35,8 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
         grupoDeRadio = new ButtonGroup();
         grupoDeRadio.add(radioDeuda);
         grupoDeRadio.add(radioSaldo);
-        radioDeuda.setSelected(true);
+        radioSaldo.setSelected(true);
+      
         
         botonPagar.setEnabled(false);
         botonRegresar.setEnabled(false);
@@ -38,7 +45,7 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
         txtFechaI.setEnabled(false);
         botonCragarFecha.setEnabled(false);
         
-         tabbedCompra.setEnabledAt(1,false);
+       tabbedCompra.setEnabledAt(1,false);
     }
 
     /**
@@ -51,6 +58,8 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
         tabbedCompra = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -88,6 +97,8 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
         labelNumCuenta = new javax.swing.JLabel();
         labelCelular = new javax.swing.JLabel();
         labelCorreo = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        labelIdProveedor = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaMat = new javax.swing.JTable();
@@ -96,10 +107,22 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaPago = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        labelSubTotal = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        lableIdCompra = new javax.swing.JLabel();
+        labelFechaC = new javax.swing.JLabel();
+        labelTotal = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         botonDetalle = new javax.swing.JButton();
         botonPagar = new javax.swing.JButton();
         botonRegresar = new javax.swing.JButton();
+
+        jScrollPane4.setViewportView(jTextPane1);
 
         setClosable(true);
         setIconifiable(true);
@@ -286,15 +309,14 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -327,85 +349,94 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
         jLabel15.setText("No. CUENTA:");
 
         labelNombre.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelNombre.setText("nombre");
 
         labelTelefono.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelTelefono.setText("telefono");
 
         labelDireccion.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelDireccion.setText("direccion");
 
         labelNumCuenta.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelNumCuenta.setText("num");
 
         labelCelular.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelCelular.setText("Celular");
 
         labelCorreo.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelCorreo.setText("correo");
+
+        jLabel20.setText("ID PROVEEDOR");
+
+        labelIdProveedor.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelIdProveedor.setText("jLabel21");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel11)
-                        .addGroup(jPanel7Layout.createSequentialGroup()
-                            .addComponent(jLabel7)
-                            .addGap(67, 67, 67)
-                            .addComponent(jLabel10)))
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel10)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(105, 105, 105)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel15)
-                            .addComponent(jLabel13))))
+                        .addComponent(jLabel7)
+                        .addGap(39, 39, 39)
+                        .addComponent(jLabel20))
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(labelDireccion)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(jLabel14)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(labelCorreo))
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addGap(18, 18, 18)
-                                .addComponent(labelCelular)))
-                        .addGap(89, 89, 89))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelNombre)
-                            .addComponent(labelTelefono))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(labelNumCuenta)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(labelNombre)
+                    .addComponent(labelIdProveedor)
+                    .addComponent(labelTelefono)
+                    .addComponent(labelDireccion))
+                .addGap(61, 61, 61)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel14)
+                        .addComponent(jLabel12))
+                    .addComponent(jLabel15))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelCelular)
+                    .addComponent(labelCorreo)
+                    .addComponent(labelNumCuenta))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(labelNombre))))
-                .addGap(28, 28, 28)
+                .addComponent(jLabel7)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addComponent(labelIdProveedor)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(labelNombre))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jLabel12)
-                    .addComponent(labelTelefono)
-                    .addComponent(labelCelular))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                    .addComponent(labelTelefono))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(jLabel14)
                     .addComponent(labelDireccion)
+                    .addComponent(jLabel14)
                     .addComponent(labelCorreo))
-                .addGap(40, 40, 40)
+                .addGap(26, 26, 26))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
+                    .addComponent(jLabel20)
                     .addComponent(labelNumCuenta))
-                .addGap(30, 30, 30))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(labelCelular))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -463,25 +494,96 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
 
         jLabel9.setText("Pagos");
 
+        jLabel21.setText("TOTAL DE PAGOS ");
+
+        labelSubTotal.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelSubTotal.setText("jLabel22");
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addComponent(jLabel9)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel21)
+                .addGap(26, 26, 26)
+                .addComponent(labelSubTotal)
+                .addGap(74, 74, 74))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel21)
+                            .addComponent(labelSubTotal))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+        );
+
+        jPanel10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel16.setText("Compra");
+
+        jLabel17.setText("ID COMPRA");
+
+        jLabel18.setText("FECHA");
+
+        jLabel19.setText("TOTAL");
+
+        lableIdCompra.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lableIdCompra.setText("jLabel20");
+
+        labelFechaC.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelFechaC.setText("jLabel21");
+
+        labelTotal.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelTotal.setText("jLabel22");
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jLabel16)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel17)
+                .addGap(18, 18, 18)
+                .addComponent(lableIdCompra)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel18)
+                .addGap(18, 18, 18)
+                .addComponent(labelFechaC)
+                .addGap(85, 85, 85)
+                .addComponent(jLabel19)
+                .addGap(21, 21, 21)
+                .addComponent(labelTotal)
+                .addContainerGap())
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jLabel16)
+                .addGap(30, 30, 30)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel18)
+                    .addComponent(jLabel19)
+                    .addComponent(lableIdCompra)
+                    .addComponent(labelFechaC)
+                    .addComponent(labelTotal))
+                .addGap(0, 43, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -491,6 +593,7 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -500,7 +603,9 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -513,8 +618,18 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         botonDetalle.setText("Detalle");
+        botonDetalle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonDetalleActionPerformed(evt);
+            }
+        });
 
         botonPagar.setText("Pagar");
+        botonPagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonPagarActionPerformed(evt);
+            }
+        });
 
         botonRegresar.setText("Regresar");
         botonRegresar.addActionListener(new java.awt.event.ActionListener() {
@@ -532,7 +647,7 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(botonDetalle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botonPagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonRegresar, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))
+                    .addComponent(botonRegresar, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -544,7 +659,7 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
                 .addComponent(botonPagar)
                 .addGap(54, 54, 54)
                 .addComponent(botonRegresar)
-                .addContainerGap(316, Short.MAX_VALUE))
+                .addContainerGap(351, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -552,9 +667,9 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tabbedCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tabbedCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -570,6 +685,11 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+private String fecha(){
+    LocalDate fecha1 = LocalDate.now();
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    return fecha1.format(dtf);
+    }
 private void cargarTablaId(String consulta, String parametro, String cadena, String id, String extra,String entrada,JTable tabla, String[] titulo){
     String campo = parametro;
         String where = "";
@@ -622,12 +742,93 @@ private void cargarTablaFecha(String consulta,JTable tabla, String[] titulo){
     }
     
 }
+
+private void datosProveedor(String idProveedor){
+    
+    conexion.EjecutarConsulta("select * from proveedor P  where id = "+idProveedor);
+    ResultSet rs = conexion.getResulSet();
+          try {
+              
+              ResultSetMetaData rsMd = rs.getMetaData();
+              while(rs.next()){
+                labelNombre.setText(rs.getString("nombre"));
+                labelTelefono.setText(rs.getString("telefono"));
+                labelCelular.setText(rs.getString("celular"));
+                labelDireccion.setText(rs.getString("direccion"));
+                labelCorreo.setText(rs.getString("correo"));
+                labelNumCuenta.setText(rs.getString("num_cuenta"));
+                labelIdProveedor.setText(rs.getString("id"));
+                
+                }
+          } catch (SQLException ex) {
+              Logger.getLogger(deudaHistoria.class.getName()).log(Level.SEVERE, null, ex);
+          }
+}
+private void consultaTablaCredito(String idCompra){
+   String  consulta = "select C.id,C.abono,C.fecha from credito_has_compra CC\n" +
+"inner join credito C on CC.credito_id = C.id\n" +
+"inner join compra Con on CC.compra_id = Con.id ";
+       cargarTablaId(consulta,idCompra," Con.no_factura ", " Con.id ",""," where ", tablaPago, tituloCredito);
+}
+private float sumaPagas(String idCompra){
+    float totalPago = 0;
+    try {
+            conexion.EjecutarConsulta("select sum(C.abono) as totalPagado from credito_has_compra CC\n" +
+"inner join credito C on CC.credito_id = C.id\n" +
+"inner join compra Con on CC.compra_id = Con.id where Con.id = "+idCompra);
+            ResultSet rs = conexion.getResulSet();
+            while(rs.next()){
+                totalPago= Float.parseFloat(rs.getString("totalPagado"));
+            }
+            
+        } catch (SQLException ex) {
+             System.out.println(ex.getMessage());
+        }
+    return totalPago;
+}
+private boolean esFlotante(String abono){
+     boolean entero = false;
+    try {
+        Float.parseFloat(abono);
+        entero = true;
+    } catch (Exception e) {
+    }
+    return entero;
+}
+private String getUltimoIdCredito(){
+  String id = "";
+       try {
+            conexion.EjecutarConsulta("SELECT MAX(id)As ultimo FROM credito");
+            ResultSet rs = conexion.getResulSet();
+            while(rs.next()){
+                id = rs.getString("ultimo");
+            }
+            
+        } catch (SQLException ex) {
+             System.out.println(ex.getMessage());
+        }
+        return id;
+}
+private void crearCredito_has_compra(String idCompra,String idCredito){
+    conexion.EjecutarInstruccion("insert into credito_has_compra(credito_id,compra_id)\n"+
+            "values("+idCredito+","+idCompra+")");
+}
+private void crearCredito(String abono, String fecha, String idProveedor){
+    conexion.EjecutarInstruccion("insert into credito(abono,fecha,proveedor_id)\n"+
+            "values("+abono+",'"+fecha+"',"+idProveedor+")");
+}
+
     private void radioDeudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioDeudaActionPerformed
-        botonPagar.setEnabled(true);
+       
     }//GEN-LAST:event_radioDeudaActionPerformed
 
     private void botonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegresarActionPerformed
-        // TODO add your handling code here:
+       tabbedCompra.setSelectedIndex(0);
+       tabbedCompra.setEnabledAt(1,false);
+       tabbedCompra.setEnabledAt(0,true);
+       botonRegresar.setEnabled(false);
+       botonDetalle.setEnabled(true);
+       botonPagar.setEnabled(false);
     }//GEN-LAST:event_botonRegresarActionPerformed
 
     private void botonCargarIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarIdActionPerformed
@@ -698,6 +899,65 @@ private void cargarTablaFecha(String consulta,JTable tabla, String[] titulo){
         cargarTablaFecha(consulta, tablaCompra, titulos);
     }//GEN-LAST:event_botonCragarFechaActionPerformed
 
+    private void botonDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDetalleActionPerformed
+       int fila = tablaCompra.getSelectedRow();
+       String idCompra,consulta;
+       //ver si es una compra en deuda 
+       if(fila>=0){
+           if(radioDeuda.isSelected()){
+               botonPagar.setEnabled(true);
+           }
+           
+       //datos especificos de la compra
+       idCompra =String.valueOf(tablaCompra.getValueAt(fila,0));
+       lableIdCompra.setText(idCompra);
+       labelTotal.setText(String.valueOf(tablaCompra.getValueAt(fila,2)));
+       labelFechaC.setText(String.valueOf(tablaCompra.getValueAt(fila,1)));
+       
+       labelSubTotal.setText(""+sumaPagas(lableIdCompra.getText()));
+       //activar el panel de detalle 
+       tabbedCompra.setSelectedIndex(1);
+       tabbedCompra.setEnabledAt(1,true);
+       tabbedCompra.setEnabledAt(0,false);
+       botonRegresar.setEnabled(true);
+       botonDetalle.setEnabled(false);
+       //datos del proveedor de la compra 
+       datosProveedor(String.valueOf(tablaCompra.getValueAt(fila,4)));
+       
+       consulta = "select M.id,M.nombre,M.alto,M.ancho,M.cantidad,M.color,M.tipo,M.costo,DC.cantidad as contidad_comprada from detalle_compra DC \n" +
+"inner join compra C on C.id = DC.compra_id\n" +
+"inner join material M on M.id = DC.material_id ";
+           cargarTablaId(consulta,idCompra," C.no_factura ", " C.id ",""," where ", tablaMat, titulosMat);
+           consultaTablaCredito(idCompra);
+       
+         
+       }
+       else{
+           JOptionPane.showMessageDialog(null,"Seleccione un compra","Advertencia",JOptionPane.WARNING_MESSAGE);
+       }
+    }//GEN-LAST:event_botonDetalleActionPerformed
+
+    private void botonPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonPagarActionPerformed
+        float totalCompra = Float.parseFloat(labelTotal.getText());
+         
+        String ultimoPagoId;
+        String pago = JOptionPane.showInputDialog("Ingrese el pago");
+        if(esFlotante(pago)){
+          crearCredito(pago,fecha(),labelIdProveedor.getText()); //crear el pago 
+          ultimoPagoId = getUltimoIdCredito();//obtener el ultimo id de pago
+          crearCredito_has_compra(lableIdCompra.getText(),ultimoPagoId);//hacer la relacion de pago con la compra 
+          if(sumaPagas(lableIdCompra.getText())>=totalCompra){//ver si el total de pago es mayor o igual al total de la compra 
+              JOptionPane.showMessageDialog(null,"La compra se ha pagado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+              botonPagar.setEnabled(false);//se bloque el boton de pago si la suma de los pagos es mayor igual al total de la compra
+          }
+            consultaTablaCredito(lableIdCompra.getText());//volvemos a cargar la tabla de pagos o credito
+            labelSubTotal.setText(""+sumaPagas(lableIdCompra.getText()));
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"El valor que ingreso no es un digito","Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_botonPagarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCargarId;
@@ -713,7 +973,13 @@ private void cargarTablaFecha(String consulta,JTable tabla, String[] titulo){
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -722,6 +988,7 @@ private void cargarTablaFecha(String consulta,JTable tabla, String[] titulo){
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -733,13 +1000,20 @@ private void cargarTablaFecha(String consulta,JTable tabla, String[] titulo){
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextPane jTextPane1;
     private javax.swing.JLabel labelCelular;
     private javax.swing.JLabel labelCorreo;
     private javax.swing.JLabel labelDireccion;
+    private javax.swing.JLabel labelFechaC;
+    private javax.swing.JLabel labelIdProveedor;
     private javax.swing.JLabel labelNombre;
     private javax.swing.JLabel labelNumCuenta;
+    private javax.swing.JLabel labelSubTotal;
     private javax.swing.JLabel labelTelefono;
+    private javax.swing.JLabel labelTotal;
+    private javax.swing.JLabel lableIdCompra;
     private javax.swing.JRadioButton radioDeuda;
     private javax.swing.JRadioButton radioSaldo;
     private javax.swing.JTabbedPane tabbedCompra;
