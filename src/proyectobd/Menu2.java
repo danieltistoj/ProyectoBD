@@ -61,17 +61,17 @@ public class Menu2 extends javax.swing.JFrame {
         panelEscritorio.setLayout(panelEscritorioLayout);
         panelEscritorioLayout.setHorizontalGroup(
             panelEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEscritorioLayout.createSequentialGroup()
-                .addContainerGap(323, Short.MAX_VALUE)
+            .addGroup(panelEscritorioLayout.createSequentialGroup()
+                .addGap(390, 390, 390)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(265, 265, 265))
+                .addContainerGap(391, Short.MAX_VALUE))
         );
         panelEscritorioLayout.setVerticalGroup(
             panelEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEscritorioLayout.createSequentialGroup()
-                .addGap(87, 87, 87)
+                .addGap(137, 137, 137)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(221, Short.MAX_VALUE))
+                .addContainerGap(250, Short.MAX_VALUE))
         );
 
         jMenu1.setText("Archivo");
@@ -117,7 +117,12 @@ public class Menu2 extends javax.swing.JFrame {
         });
         jMenu3.add(menuProveedor);
 
-        menuDeudas.setText("Deudas");
+        menuDeudas.setText("Deuda / Historial");
+        menuDeudas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuDeudasActionPerformed(evt);
+            }
+        });
         jMenu3.add(menuDeudas);
 
         jMenuBar1.add(jMenu3);
@@ -168,6 +173,12 @@ public class Menu2 extends javax.swing.JFrame {
         this.panelEscritorio.add(proveedor);
         proveedor.show();
     }//GEN-LAST:event_menuProveedorActionPerformed
+
+    private void menuDeudasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDeudasActionPerformed
+      deudaHistoria deuda = new deudaHistoria();
+      this.panelEscritorio.add(deuda);
+      deuda.show();
+    }//GEN-LAST:event_menuDeudasActionPerformed
 
     /**
      * @param args the command line arguments
