@@ -136,6 +136,11 @@ public class Menu2 extends javax.swing.JFrame {
         jMenu4.add(jMenuItem8);
 
         jMenuItem9.setText("Cliente");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem9);
 
         jMenuBar1.add(jMenu4);
@@ -179,6 +184,12 @@ public class Menu2 extends javax.swing.JFrame {
       this.panelEscritorio.add(deuda);
       deuda.show();
     }//GEN-LAST:event_menuDeudasActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+      Cliente2 cliente = new Cliente2();
+      this.panelEscritorio.add(cliente);
+      cliente.show();
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     /**
      * @param args the command line arguments
