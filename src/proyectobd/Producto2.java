@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public class Producto2 extends javax.swing.JInternalFrame {
 
     private ConexionMySQL conexion;
-    private  String[]  titulos = {"Id","descipcion","nombre","precio"},titulosMaterial = {"Id","Nombre","Existencias","Costo","Cantidad","Subtotal"};
+    private  String[]  titulos = {"Id","descipcion","nombre","precio","Costo Produccion"},titulosMaterial = {"Id","Nombre","Existencias","Costo","Cantidad","Subtotal"};
     private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",usuario ="root",contra = "xela2020";
      private DefaultTableModel  modelo;
     public Producto2() {
@@ -96,6 +96,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
         botonCancelar = new javax.swing.JButton();
         botonEditar = new javax.swing.JButton();
         botonReporte = new javax.swing.JButton();
+        botonDetalle = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -507,6 +508,8 @@ public class Producto2 extends javax.swing.JInternalFrame {
             }
         });
 
+        botonDetalle.setText("Detalle");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -518,9 +521,10 @@ public class Producto2 extends javax.swing.JInternalFrame {
                     .addComponent(botonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botonEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botonReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(botonDetalle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -530,13 +534,15 @@ public class Producto2 extends javax.swing.JInternalFrame {
                 .addComponent(botonNuevo)
                 .addGap(32, 32, 32)
                 .addComponent(botonEditar)
-                .addGap(32, 32, 32)
-                .addComponent(botonGuardar)
-                .addGap(43, 43, 43)
-                .addComponent(botonCancelar)
                 .addGap(38, 38, 38)
+                .addComponent(botonDetalle)
+                .addGap(86, 86, 86)
+                .addComponent(botonGuardar)
+                .addGap(18, 18, 18)
+                .addComponent(botonCancelar)
+                .addGap(94, 94, 94)
                 .addComponent(botonReporte)
-                .addContainerGap(316, Short.MAX_VALUE))
+                .addContainerGap(167, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -583,8 +589,10 @@ private void activarPanel(){
     botonEditar.setEnabled(false);
     botonNuevo.setEnabled(false);
     botonReporte.setEnabled(false);
+    botonDetalle.setEnabled(false);
     botonAnadir.setEnabled(false);
     botonRemover.setEnabled(false);
+    botonQuitar.setEnabled(false);
      
     botonCancelar.setEnabled(true);
     botonGuardar.setEnabled(true);
@@ -700,14 +708,43 @@ private  boolean esEntero(String id){
     }
     return entero;
 }
+private void nuevoRegistro(String colummnas, String parametro, String tabla){
+    conexion.EjecutarInstruccion("insert into "+tabla+" ("+colummnas+")\n"+
+              "values("+parametro+")");
+    
+}
+private String getUltimoIdProducto(){
+    String id = "";
+       try {
+            conexion.EjecutarConsulta("SELECT MAX(id)As ultimo FROM producto");
+            ResultSet rs = conexion.getResulSet();
+            while(rs.next()){
+                id = rs.getString("ultimo");
+            }
+            
+        } catch (SQLException ex) {
+             System.out.println(ex.getMessage());
+        }
+        return id;
+}
+private void relacionMaterialProducto(String idProducto){
+    int fila = tablaMateriales.getRowCount();
+    String colummnas = "producto_id,material_id,Cantidad",parametros;
+    for(int i = 0;i<fila;i++){
+        parametros =idProducto+","+String.valueOf(tablaMateriales.getValueAt(i,0))+","+String.valueOf(tablaMateriales.getValueAt(i,4));
+        nuevoRegistro(colummnas, parametros,"producto_has_material");
+    }
+}
     private void botonRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRemoverActionPerformed
      limpiarPanelMaterial();
+     botonRemover.setEnabled(false);
     }//GEN-LAST:event_botonRemoverActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
     botonEditar.setEnabled(true);
     botonNuevo.setEnabled(true);
     botonReporte.setEnabled(true);
+    botonDetalle.setEnabled(true);
     
     botonCancelar.setEnabled(false);
     botonGuardar.setEnabled(false);
@@ -716,6 +753,7 @@ private  boolean esEntero(String id){
     tabbed.setEnabledAt(0,true);
     tabbed.setSelectedIndex(0);
     limpiarPanelProducto();
+    limpiarPanelMaterial();
     if(tablaMateriales.getRowCount()>0){
         limpiarTabla(modelo,tablaMateriales);
     }
@@ -730,7 +768,44 @@ private  boolean esEntero(String id){
     }//GEN-LAST:event_botonEditarActionPerformed
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-        
+                  String idProducto;
+                    if(txtNombre.getText().length()>0&&txtPrecio.getText().length()>0&&tablaMateriales.getRowCount()>0){
+                     if(esFlotante(txtPrecio.getText())){
+                         if(!existeRegistro("'"+txtNombre.getText()+"'","producto","nombre")){
+                             String colummnasProducto = "descripcion,nombre,precio,costoProduccion",
+                                     parametrosProducto = "'"+txtDescripcion.getText()+"','"+txtNombre.getText()+"',"+txtPrecio.getText()+","+labelCostoProduccion.getText();
+                             
+                             nuevoRegistro(colummnasProducto,parametrosProducto,"producto");
+                             idProducto = getUltimoIdProducto();    
+                             relacionMaterialProducto(idProducto);
+                             JOptionPane.showMessageDialog(null,"Producto ingresado");
+                             
+                             limpiarPanelProducto();
+                             limpiarPanelMaterial();
+                             limpiarTabla(modelo, tablaMateriales);
+                             tabbed.setEnabledAt(1,false);
+                             tabbed.setEnabledAt(0,true);
+                             tabbed.setSelectedIndex(0);
+                             
+                                botonEditar.setEnabled(true);
+                                botonNuevo.setEnabled(true);
+                                botonReporte.setEnabled(true);
+                                botonDetalle.setEnabled(true);
+
+                                botonCancelar.setEnabled(false);
+                                botonGuardar.setEnabled(false);
+                         }
+                         else{
+                             JOptionPane.showMessageDialog(null,"El nombre ya pertenece a un producto","Advertencia",JOptionPane.WARNING_MESSAGE);
+                     }
+                     }
+                     else{
+                         JOptionPane.showMessageDialog(null,"Ingrese digitos en el campo de precio","Advertencia",JOptionPane.WARNING_MESSAGE);
+                     }
+                 }        
+                 else{
+                     JOptionPane.showMessageDialog(null,"Llene los campos de nombre y precio, e ingrese por lo menos un material","Advertencia",JOptionPane.WARNING_MESSAGE);
+                 }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteActionPerformed
@@ -749,6 +824,7 @@ private  boolean esEntero(String id){
                        if(existeRegistro(txtId.getText(),"material","id")){
                            txtId.setEnabled(false);
                            botonAnadir.setEnabled(true);
+                           botonRemover.setEnabled(true);
                            labelNombre.setText(getDato("id",txtId.getText(),"material","nombre"));
                            labelExistencia.setText(getDato("id",txtId.getText(),"material","cantidad"));
                            labelCosto.setText(getDato("id",txtId.getText(),"material","costo"));
@@ -782,7 +858,8 @@ private  boolean esEntero(String id){
                        labelCostoProduccion.setText(""+totalProduccion);
                        limpiarPanelMaterial();
                        botonAnadir.setEnabled(false);
-                       botonRemover.setEnabled(true);
+                       botonQuitar.setEnabled(true);
+                       botonRemover.setEnabled(false);
                        }
                        else{ // si la tabla no esta vacia, se berifica que no este en la tabla 
                            if(!existeEnTabla(txtId.getText())){ // si no existe en la tabla, se agrega el material 
@@ -791,6 +868,7 @@ private  boolean esEntero(String id){
                        labelCostoProduccion.setText(""+totalProduccion);
                        limpiarPanelMaterial();
                        botonAnadir.setEnabled(false);
+                       botonRemover.setEnabled(false);
                                
                            }
                            else{
@@ -814,7 +892,11 @@ private  boolean esEntero(String id){
     }//GEN-LAST:event_botonAnadirActionPerformed
 
     private void botonQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonQuitarActionPerformed
-     
+        eliminarRegistroTabla(tablaMateriales, modelo);
+        if(tablaMateriales.getRowCount() == 0){
+            botonQuitar.setEnabled(false);
+            labelCostoProduccion.setText("0");
+        }
     }//GEN-LAST:event_botonQuitarActionPerformed
 
 
@@ -823,6 +905,7 @@ private  boolean esEntero(String id){
     private javax.swing.JButton botonCancelar;
     private javax.swing.JButton botonCargar;
     private javax.swing.JButton botonCargarMaterial;
+    private javax.swing.JButton botonDetalle;
     private javax.swing.JButton botonEditar;
     private javax.swing.JButton botonGuardar;
     private javax.swing.JButton botonNuevo;
