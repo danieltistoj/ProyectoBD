@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public class Producto2 extends javax.swing.JInternalFrame {
 
     private ConexionMySQL conexion;
-    private  String[]  titulos = {"Id","descipcion","nombre","precio"},titulosMaterial = {"Id","Nombre","Existencias","Costo","Cantidad","Sub total"};
+    private  String[]  titulos = {"Id","descipcion","nombre","precio"},titulosMaterial = {"Id","Nombre","Existencias","Costo","Cantidad","Subtotal"};
     private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",usuario ="root",contra = "xela2020";
      private DefaultTableModel  modelo;
     public Producto2() {
@@ -34,7 +34,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
         labelNombre.setText("");
         labelExistencia.setText("");
         labelCosto.setText("");
-        labelCostoProduccion.setText("");
+        labelCostoProduccion.setText("0");
         modelo = new DefaultTableModel(null,titulosMaterial);
         this.tablaMateriales.setModel(modelo);
     }
@@ -87,7 +87,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
         botonAnadir = new javax.swing.JButton();
         botonQuitar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtCantidadMaterial = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         labelCostoProduccion = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -243,10 +243,11 @@ public class Producto2 extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel2)
+                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -412,7 +413,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
                 .addGap(23, 23, 23)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCantidadMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
                 .addComponent(botonAnadir)
                 .addGap(18, 18, 18)
@@ -435,7 +436,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
                     .addComponent(botonAnadir)
                     .addComponent(botonQuitar)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCantidadMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelCostoProduccion))
                 .addGap(20, 20, 20))
         );
@@ -565,12 +566,25 @@ private void limpiarPanelProducto(){
     txtDescripcion.setText("");
     txtNombre.setText("");
     txtPrecio.setText("");
+    labelCostoProduccion.setText("0");
+    
+}
+private void limpiarPanelMaterial(){
+    labelCosto.setText("");
+    labelNombre.setText("");
+    labelExistencia.setText("");
+    txtId.setText("");
+    txtId.setEnabled(true);
+    txtCantidadMaterial.setText("");
+   
 }
 
 private void activarPanel(){
     botonEditar.setEnabled(false);
     botonNuevo.setEnabled(false);
     botonReporte.setEnabled(false);
+    botonAnadir.setEnabled(false);
+    botonRemover.setEnabled(false);
      
     botonCancelar.setEnabled(true);
     botonGuardar.setEnabled(true);
@@ -599,7 +613,7 @@ private void cargarTablaId(String consulta, String parametroEntrada, String form
     tablaLlena.llenarTable(consulta, parametroEntrada, formaParametro, formaId, extra, entrada, titulo);
     tabla = tablaLlena.getTabla();
 }
-private boolean existeCliente(String parametro,String tabla, String formaParametro){
+private boolean existeRegistro(String parametro,String tabla, String formaParametro){
      boolean existe = false;
         try {
             conexion.EjecutarConsulta("SELECT COUNT(*) FROM "+tabla +" WHERE "+formaParametro+" = "+parametro+"");
@@ -613,27 +627,46 @@ private boolean existeCliente(String parametro,String tabla, String formaParamet
         }
         return existe;  
 }
-private void insertarEnTabla(String id, String nombre, String precio, String cantidad, String total){
-     String []info =new String[5];
+private void insertarEnTabla(String id, String nombre, String existencias, String costo, String cantidad,String subTotal){
+     String []info =new String[6];
                         info[0] = id;
                         info[1] = nombre;
-                        info[2] = precio;
-                        info[3] = cantidad;
-                        info[4] = total;
+                        info[2] = existencias;
+                        info[3] = costo;
+                        info[4] = cantidad;
+                        info[5] = subTotal;
                         modelo.addRow(info);
 }
 private void eliminarRegistroTabla(JTable tabla,DefaultTableModel modelo ){
     int fila = tabla.getSelectedRow();
-    float total = Float.parseFloat(txtTotal2.getText()),subTotal;
+    float total = Float.parseFloat(labelCostoProduccion.getText()),subTotal;
         if(fila>=0){
-            subTotal = Float.parseFloat(String.valueOf(tablaMat1.getValueAt(fila,4)));
+            subTotal = Float.parseFloat(String.valueOf(tablaMateriales.getValueAt(fila,5)));
             modelo.removeRow(fila);
             total = total - subTotal;
-            txtTotal2.setText(""+total);
+            labelCostoProduccion.setText(""+total);
         }
         else{
             JOptionPane.showMessageDialog(null,"Seleccione un material","Advertencia",JOptionPane.WARNING_MESSAGE);
         }
+        
+}
+private void limpiarTabla(DefaultTableModel modelo, JTable tabla){
+    int fila = tabla.getRowCount();
+    for(int i = fila-1;i>=0;i--){
+        modelo.removeRow(i);
+    }
+}
+private boolean existeEnTabla(String id){
+     boolean existe = false;
+     int iD;
+     iD = Integer.parseInt(id);
+        for(int i = 0; i<tablaMateriales.getRowCount();i++){
+            if(iD == Integer.parseInt(String.valueOf(tablaMateriales.getValueAt(i,0))) ){
+                existe = true;
+            }
+        }
+        return existe;
 }
 private String getDato(String formaId, String id, String tabla, String parametro){
     String dato = "";
@@ -649,10 +682,26 @@ private String getDato(String formaId, String id, String tabla, String parametro
             }
     return dato; 
 }
-
-
+private boolean esFlotante(String abono){
+     boolean entero = false;
+    try {
+        Float.parseFloat(abono);
+        entero = true;
+    } catch (Exception e) {
+    }
+    return entero;
+}
+private  boolean esEntero(String id){
+    boolean entero = false;
+    try {
+        Integer.parseInt(id);
+        entero = true;
+    } catch (Exception e) {
+    }
+    return entero;
+}
     private void botonRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRemoverActionPerformed
-     
+     limpiarPanelMaterial();
     }//GEN-LAST:event_botonRemoverActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
@@ -666,6 +715,10 @@ private String getDato(String formaId, String id, String tabla, String parametro
     tabbed.setEnabledAt(1,false);
     tabbed.setEnabledAt(0,true);
     tabbed.setSelectedIndex(0);
+    limpiarPanelProducto();
+    if(tablaMateriales.getRowCount()>0){
+        limpiarTabla(modelo,tablaMateriales);
+    }
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
@@ -690,11 +743,74 @@ private String getDato(String formaId, String id, String tabla, String parametro
     }//GEN-LAST:event_botonCargarActionPerformed
 
     private void botonCargarMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarMaterialActionPerformed
-     
+               String nombre, existencia, costo;
+                if(txtId.getText().length()>0){
+                   if(esEntero(txtId.getText())){
+                       if(existeRegistro(txtId.getText(),"material","id")){
+                           txtId.setEnabled(false);
+                           botonAnadir.setEnabled(true);
+                           labelNombre.setText(getDato("id",txtId.getText(),"material","nombre"));
+                           labelExistencia.setText(getDato("id",txtId.getText(),"material","cantidad"));
+                           labelCosto.setText(getDato("id",txtId.getText(),"material","costo"));
+                           
+                           
+                       }
+                       else{
+                           JOptionPane.showMessageDialog(null,"El material no existe","Advertencia",JOptionPane.WARNING_MESSAGE);
+                       }
+                   }
+                   else{
+                       JOptionPane.showMessageDialog(null,"Solo ingrese digitos","Advertencia",JOptionPane.WARNING_MESSAGE);
+                   }
+               }
+               else{
+                   JOptionPane.showMessageDialog(null,"Llene el campo de ID","Advertencia",JOptionPane.WARNING_MESSAGE);
+    }
+                   
     }//GEN-LAST:event_botonCargarMaterialActionPerformed
 
     private void botonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnadirActionPerformed
-        
+             float  totalProduccion =  Float.parseFloat(labelCostoProduccion.getText()), subTotal = 0;
+              if(txtCantidadMaterial.getText().length()>0){ //ver que el campo id este lleno
+                   if(esEntero(txtCantidadMaterial.getText())){//ver que sea un numero entero 
+                       if(Integer.parseInt(txtCantidadMaterial.getText())>0){//ver que la cantidad sea mayor a cero
+                           subTotal = Float.parseFloat(labelCosto.getText())*Float.parseFloat(txtCantidadMaterial.getText());
+                       totalProduccion = totalProduccion + subTotal;
+                       
+                       if(tablaMateriales.getRowCount() == 0){ // si la tabla esta vacia se ingresa directamente 
+                       insertarEnTabla(txtId.getText(),labelNombre.getText(),labelExistencia.getText(),labelCosto.getText(),txtCantidadMaterial.getText(),""+subTotal);
+                       labelCostoProduccion.setText(""+totalProduccion);
+                       limpiarPanelMaterial();
+                       botonAnadir.setEnabled(false);
+                       botonRemover.setEnabled(true);
+                       }
+                       else{ // si la tabla no esta vacia, se berifica que no este en la tabla 
+                           if(!existeEnTabla(txtId.getText())){ // si no existe en la tabla, se agrega el material 
+                             
+                       insertarEnTabla(txtId.getText(),labelNombre.getText(),labelExistencia.getText(),labelCosto.getText(),txtCantidadMaterial.getText(),""+subTotal);
+                       labelCostoProduccion.setText(""+totalProduccion);
+                       limpiarPanelMaterial();
+                       botonAnadir.setEnabled(false);
+                               
+                           }
+                           else{
+                               JOptionPane.showMessageDialog(null,"El material ya esta ingresado","Error",JOptionPane.ERROR_MESSAGE);
+                           }
+                       }
+                           
+                       }
+                       else{
+                           JOptionPane.showMessageDialog(null,"La cantidad debe de ser mayor a cero","Advertecia",JOptionPane.WARNING_MESSAGE);
+                       }
+                      
+                   }
+                   else{
+                       JOptionPane.showMessageDialog(null,"Ingrese solo digitos","Advertencia",JOptionPane.WARNING_MESSAGE);
+                   }
+               }        
+               else{
+                   JOptionPane.showMessageDialog(null,"Llene el campo de cantidad","Advertencia",JOptionPane.WARNING_MESSAGE);
+               }
     }//GEN-LAST:event_botonAnadirActionPerformed
 
     private void botonQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonQuitarActionPerformed
@@ -738,7 +854,6 @@ private String getDato(String formaId, String id, String tabla, String parametro
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel labelCosto;
     private javax.swing.JLabel labelCostoProduccion;
     private javax.swing.JLabel labelExistencia;
@@ -746,6 +861,7 @@ private String getDato(String formaId, String id, String tabla, String parametro
     private javax.swing.JTabbedPane tabbed;
     private javax.swing.JTable tablaMateriales;
     private javax.swing.JTable tablaProducto;
+    private javax.swing.JTextField txtCantidadMaterial;
     private javax.swing.JTextField txtCargar;
     private javax.swing.JTextArea txtDescripcion;
     private javax.swing.JTextField txtId;
