@@ -20,7 +20,8 @@ import javax.swing.table.DefaultTableModel;
 public class Producto2 extends javax.swing.JInternalFrame {
 
     private ConexionMySQL conexion;
-    private  String[]  titulos = {"Id","descipcion","nombre","precio","Costo Produccion"},titulosMaterial = {"Id","Nombre","Existencias","Costo","Cantidad","Subtotal"};
+    private  String[]  titulos = {"Id","descipcion","nombre","precio","Costo Produccion"},titulosMaterial = {"Id","Nombre","Existencias","Costo","Cantidad","Subtotal"},
+            tituloMaterialPro = {"Id","Nombre","Existencias","Tipo","Costo","Cantidad"};
     private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",usuario ="root",contra = "xela2020";
      private DefaultTableModel  modelo;
     public Producto2() {
@@ -29,8 +30,10 @@ public class Producto2 extends javax.swing.JInternalFrame {
         conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
         botonCancelar.setEnabled(false);
         botonGuardar.setEnabled(false);
+        botonRegresar.setEnabled(false);
         
         tabbed.setEnabledAt(1,false);
+        tabbed.setEnabledAt(2,false);
         labelNombre.setText("");
         labelExistencia.setText("");
         labelCosto.setText("");
@@ -90,6 +93,27 @@ public class Producto2 extends javax.swing.JInternalFrame {
         txtCantidadMaterial = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         labelCostoProduccion = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablaMaterialesPro = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        txtDescripcionPro = new javax.swing.JTextArea();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        labelIDPro = new javax.swing.JLabel();
+        labelNombrePro = new javax.swing.JLabel();
+        labelPresioPro = new javax.swing.JLabel();
+        labelCostoPro = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
+        jLabel21 = new javax.swing.JLabel();
+        labelCantiMateriales = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         botonNuevo = new javax.swing.JButton();
         botonGuardar = new javax.swing.JButton();
@@ -97,6 +121,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
         botonEditar = new javax.swing.JButton();
         botonReporte = new javax.swing.JButton();
         botonDetalle = new javax.swing.JButton();
+        botonRegresar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -130,7 +155,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -289,7 +314,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -471,6 +496,194 @@ public class Producto2 extends javax.swing.JInternalFrame {
 
         tabbed.addTab("Nuevo / Editar", jPanel2);
 
+        jPanel11.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        tablaMaterialesPro.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane4.setViewportView(tablaMaterialesPro);
+
+        jLabel10.setText("Materiales");
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addComponent(jLabel10)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jPanel12.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel13.setText("Producto");
+
+        jLabel14.setText("ID:");
+
+        jLabel17.setText("NOMBRE:");
+
+        jLabel19.setText("DESCRIPCION:");
+
+        txtDescripcionPro.setColumns(20);
+        txtDescripcionPro.setRows(5);
+        jScrollPane5.setViewportView(txtDescripcionPro);
+
+        jLabel18.setText("PRESIO: ");
+
+        jLabel20.setText("COSTO DE PRODUCCION:");
+
+        labelIDPro.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelIDPro.setText("jLabel21");
+
+        labelNombrePro.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelNombrePro.setText("jLabel22");
+
+        labelPresioPro.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelPresioPro.setText("jLabel23");
+
+        labelCostoPro.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelCostoPro.setText("jLabel24");
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel13))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel12Layout.createSequentialGroup()
+                                .addGap(58, 58, 58)
+                                .addComponent(labelIDPro)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel19))
+                            .addGroup(jPanel12Layout.createSequentialGroup()
+                                .addComponent(jLabel17)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(labelNombrePro)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel12Layout.createSequentialGroup()
+                                .addComponent(jLabel18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(labelPresioPro))
+                            .addGroup(jPanel12Layout.createSequentialGroup()
+                                .addComponent(jLabel20)
+                                .addGap(18, 18, 18)
+                                .addComponent(labelCostoPro)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel19)
+                            .addComponent(labelIDPro))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel17)
+                            .addComponent(labelNombrePro)))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(33, 33, 33)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(labelPresioPro))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(labelCostoPro))
+                .addGap(23, 23, 23))
+        );
+
+        jPanel13.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel21.setText("CANTIDAD MATERIALES:");
+
+        labelCantiMateriales.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelCantiMateriales.setText("jLabel22");
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelCantiMateriales)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                .addContainerGap(21, Short.MAX_VALUE)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(labelCantiMateriales))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tabbed.addTab("Detalle", jPanel10);
+
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         botonNuevo.setText("Nuevo");
@@ -509,6 +722,18 @@ public class Producto2 extends javax.swing.JInternalFrame {
         });
 
         botonDetalle.setText("Detalle");
+        botonDetalle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonDetalleActionPerformed(evt);
+            }
+        });
+
+        botonRegresar.setText("Regresar");
+        botonRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRegresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -524,7 +749,8 @@ public class Producto2 extends javax.swing.JInternalFrame {
                     .addComponent(botonDetalle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(botonRegresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -532,17 +758,19 @@ public class Producto2 extends javax.swing.JInternalFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(botonNuevo)
-                .addGap(32, 32, 32)
-                .addComponent(botonEditar)
-                .addGap(38, 38, 38)
-                .addComponent(botonDetalle)
-                .addGap(86, 86, 86)
-                .addComponent(botonGuardar)
                 .addGap(18, 18, 18)
+                .addComponent(botonEditar)
+                .addGap(86, 86, 86)
+                .addComponent(botonDetalle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(botonRegresar)
+                .addGap(55, 55, 55)
+                .addComponent(botonGuardar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botonCancelar)
-                .addGap(94, 94, 94)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
                 .addComponent(botonReporte)
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addGap(113, 113, 113))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -593,7 +821,8 @@ private void activarPanel(){
     botonAnadir.setEnabled(false);
     botonRemover.setEnabled(false);
     botonQuitar.setEnabled(false);
-     
+    botonRegresar.setEnabled(false);
+         
     botonCancelar.setEnabled(true);
     botonGuardar.setEnabled(true);
   
@@ -745,6 +974,7 @@ private void relacionMaterialProducto(String idProducto){
     botonNuevo.setEnabled(true);
     botonReporte.setEnabled(true);
     botonDetalle.setEnabled(true);
+
     
     botonCancelar.setEnabled(false);
     botonGuardar.setEnabled(false);
@@ -899,6 +1129,63 @@ private void relacionMaterialProducto(String idProducto){
         }
     }//GEN-LAST:event_botonQuitarActionPerformed
 
+    private void botonDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDetalleActionPerformed
+       int fila = tablaProducto.getSelectedRow();
+       String consulta = "select M.id,M.nombre,M.cantidad as exsitencias,M.tipo,M.costo,PM.Cantidad  from producto_has_material PM\n" +
+"inner join producto P on P.id = PM.producto_id\n" +
+"inner join material M on M.id = PM.material_id where P.id = ";
+       if(fila>=0){
+           labelNombrePro.setText(String.valueOf(tablaProducto.getValueAt(fila,2)));
+           labelIDPro.setText(String.valueOf(tablaProducto.getValueAt(fila,0)));
+           txtDescripcionPro.setText(String.valueOf(tablaProducto.getValueAt(fila,1)));
+           labelPresioPro.setText(String.valueOf(tablaProducto.getValueAt(fila,3)));
+           labelCostoPro.setText(String.valueOf(tablaProducto.getValueAt(fila,4)));
+           consulta = consulta+labelIDPro.getText();
+           TablaId tabla = new TablaId(tablaMaterialesPro);
+           tabla.llenarTable(consulta,"", "", "", "", "", tituloMaterialPro);
+           
+           labelCantiMateriales.setText(""+tablaMaterialesPro.getRowCount());
+           
+           botonDetalle.setEnabled(false);
+           botonNuevo.setEnabled(false);
+           botonEditar.setEnabled(false);
+           botonRegresar.setEnabled(false);
+           botonReporte.setEnabled(false);
+           
+           botonRegresar.setEnabled(true);
+           
+            tabbed.setEnabledAt(2,true);
+            tabbed.setEnabledAt(0,false);
+            tabbed.setSelectedIndex(2);
+           
+       }
+       else{
+           JOptionPane.showMessageDialog(null,"Seleccione un producto","Advertencia",JOptionPane.WARNING_MESSAGE);
+       }
+    }//GEN-LAST:event_botonDetalleActionPerformed
+
+    private void botonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegresarActionPerformed
+       labelNombrePro.setText("");
+       labelIDPro.setText("");
+       txtDescripcionPro.setText("");
+       labelPresioPro.setText("");
+       labelCostoPro.setText("");
+       labelCantiMateriales.setText("");
+       
+       limpiarTabla((DefaultTableModel) tablaMaterialesPro.getModel(), tablaMaterialesPro);
+       
+           botonDetalle.setEnabled(true);
+           botonRegresar.setEnabled(false);
+           botonNuevo.setEnabled(true);
+           botonEditar.setEnabled(true);
+           botonRegresar.setEnabled(false);
+           botonReporte.setEnabled(true);
+           
+            tabbed.setEnabledAt(2,false);
+            tabbed.setEnabledAt(0,true);
+            tabbed.setSelectedIndex(0);
+    }//GEN-LAST:event_botonRegresarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAnadir;
@@ -910,14 +1197,23 @@ private void relacionMaterialProducto(String idProducto){
     private javax.swing.JButton botonGuardar;
     private javax.swing.JButton botonNuevo;
     private javax.swing.JButton botonQuitar;
+    private javax.swing.JButton botonRegresar;
     private javax.swing.JButton botonRemover;
     private javax.swing.JButton botonReporte;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -926,6 +1222,10 @@ private void relacionMaterialProducto(String idProducto){
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -937,16 +1237,25 @@ private void relacionMaterialProducto(String idProducto){
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JLabel labelCantiMateriales;
     private javax.swing.JLabel labelCosto;
+    private javax.swing.JLabel labelCostoPro;
     private javax.swing.JLabel labelCostoProduccion;
     private javax.swing.JLabel labelExistencia;
+    private javax.swing.JLabel labelIDPro;
     private javax.swing.JLabel labelNombre;
+    private javax.swing.JLabel labelNombrePro;
+    private javax.swing.JLabel labelPresioPro;
     private javax.swing.JTabbedPane tabbed;
     private javax.swing.JTable tablaMateriales;
+    private javax.swing.JTable tablaMaterialesPro;
     private javax.swing.JTable tablaProducto;
     private javax.swing.JTextField txtCantidadMaterial;
     private javax.swing.JTextField txtCargar;
     private javax.swing.JTextArea txtDescripcion;
+    private javax.swing.JTextArea txtDescripcionPro;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecio;
