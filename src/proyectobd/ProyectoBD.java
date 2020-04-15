@@ -32,9 +32,10 @@ public class ProyectoBD {
         Producto producto = new Producto();
         producto.setVisible(false);
          
+        /*
         Menu menu=new Menu();
         menu.setVisible(false);
-        
+        */
         Venta venta = new Venta();
         venta.setVisible(false);
         

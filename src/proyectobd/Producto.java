@@ -1194,9 +1194,8 @@ private boolean buscarProductoEnTabla(String tabla, String idTabla, String id){
     }//GEN-LAST:event_txtPrecioKeyTyped
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    Menu ventana=new Menu();
-    ventana.show();
-    this.dispose();
+    
+    
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

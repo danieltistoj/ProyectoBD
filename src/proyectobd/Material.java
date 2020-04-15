@@ -679,9 +679,11 @@ private void aceptarBoton(int opcion1){
     }//GEN-LAST:event_botonEditarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        /*
         Menu ventana=new Menu();
         ventana.show();
         this.dispose();
+        */
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

@@ -473,9 +473,11 @@ private void relacionPagoFactura(String id_factura,String id_Pago){
     }//GEN-LAST:event_botonAbonoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        /*
         Menu ventana =new Menu();
         ventana.show();
         this.dispose();
+        */
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

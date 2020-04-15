@@ -1033,9 +1033,7 @@ public class Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_botonAceptarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       Menu ventana =new Menu();
-        ventana.show();
-        this.dispose();
+     
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtAbonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAbonoActionPerformed

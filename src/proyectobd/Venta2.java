@@ -5,17 +5,63 @@
  */
 package proyectobd;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Usuario
  */
 public class Venta2 extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form Venta2
-     */
+    private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
+             usuario ="root",contra = "xela2020", nombreAnterior, idProveedor;
+    private  String[]  titulos = {"Id","Nombre","Precio","Costo de produccion","Cantidad","Total"},datosInsertar;
+    private ConexionMySQL conexion;
+    private DefaultTableModel  modelo;
+    private Modulo venta;
     public Venta2() {
         initComponents();
+        venta = new Modulo();
+        conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+        
+        venta.generarCodigo(labelNo, "numFactura","factura","CD");
+        labelFecha.setText(venta.fecha());
+        
+        botonAnadir.setEnabled(false);
+        botonCancelar.setEnabled(false);
+        botonCargarClie.setEnabled(false);
+        botonCargarPro.setEnabled(false);
+        botonGuardar.setEnabled(false);
+        botonQuitar.setEnabled(false);
+        botonRemoverClie.setEnabled(false);
+        botonRemoverPro.setEnabled(false);
+        
+        txtAreaDescripcion.setEnabled(false);
+        txtCantidad.setEnabled(false);
+        txtIDproducto.setEnabled(false);
+        txtNit.setEnabled(false);
+        
+        labelApellido.setText("");
+        labelNombreClie.setText("");
+        labelNombrePro.setText("");
+        labelPrecio.setText("");
+        labelId.setText("");
+        labelPrecio.setText("");
+        labelSubTotal.setText("");
+        labelTotal.setText("");
+       // labelFecha.setText(fecha());
+        
+        modelo = new DefaultTableModel(null,titulos);
+        this.tablaProducto.setModel(modelo);
+        
     }
 
     /**
@@ -78,6 +124,7 @@ public class Venta2 extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Venta");
+        setPreferredSize(new java.awt.Dimension(600, 766));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -94,10 +141,11 @@ public class Venta2 extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(tablaProducto);
 
-        jLabel20.setText("TOTAL");
+        jLabel20.setText("TOTAL:");
 
         labelTotal.setBackground(new java.awt.Color(0, 0, 0));
-        labelTotal.setForeground(new java.awt.Color(255, 255, 255));
+        labelTotal.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelTotal.setForeground(new java.awt.Color(0, 0, 0));
         labelTotal.setText("jLabel19");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -128,6 +176,15 @@ public class Venta2 extends javax.swing.JInternalFrame {
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyTyped(evt);
+            }
+        });
 
         jLabel14.setText("CANTIDAD:");
 
@@ -185,8 +242,18 @@ public class Venta2 extends javax.swing.JInternalFrame {
         jLabel2.setText("Producto");
 
         botonCargarPro.setText("Cargar");
+        botonCargarPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCargarProActionPerformed(evt);
+            }
+        });
 
         botonRemoverPro.setText("Remover");
+        botonRemoverPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRemoverProActionPerformed(evt);
+            }
+        });
 
         jLabel10.setText("ID PRODUCTO:");
 
@@ -278,6 +345,11 @@ public class Venta2 extends javax.swing.JInternalFrame {
         jLabel3.setText("NIT:");
 
         botonCargarClie.setText("Cargar");
+        botonCargarClie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCargarClieActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("NOMBRE:");
 
@@ -295,6 +367,11 @@ public class Venta2 extends javax.swing.JInternalFrame {
         labelId.setText("jLabel9");
 
         botonRemoverClie.setText("Remover");
+        botonRemoverClie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRemoverClieActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -356,6 +433,11 @@ public class Venta2 extends javax.swing.JInternalFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         botonNuevo.setText("Nuevo");
+        botonNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonNuevoActionPerformed(evt);
+            }
+        });
 
         botonCancelar.setText("Cancelar");
 
@@ -430,7 +512,7 @@ public class Venta2 extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -439,8 +521,8 @@ public class Venta2 extends javax.swing.JInternalFrame {
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -463,6 +545,150 @@ public class Venta2 extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+//Comprobar que el pedido con el producto se puede realizar
+ private boolean comprabarExistenciasM(int cantidad,int id,String consulta){
+    boolean existencia = true;
+    int cantiRequerida, existenciasM;// cantidad que se requiere para hacer un producto / numero de existencias del material
+    try {
+            conexion.EjecutarConsulta(consulta+id);
+            ResultSet rs = conexion.getResulSet();
+            while(rs.next()){
+                cantiRequerida = Integer.parseInt(rs.getString("contidad_requerida"));//cantidad de un producto para hacer cierto material
+               
+                existenciasM = Integer.parseInt(rs.getString("num_existencias"));//cantidad del material (lo que tenemos en existencia de ese material)
+                System.out.println("cantidad requerida: "+cantiRequerida+"cantidad existencia: "+existenciasM);
+                /*
+                si la cantidad de un material para hacer un producto multiplicado por la cantidad de productos que se solicitan, 
+                es mayor a los productos en existencia, el pedido no podra realizarce
+                */
+                if(existenciasM<(cantiRequerida*cantidad)){
+                    existencia = false;
+                }
+                
+            }
+            
+        } catch (SQLException ex) {
+             System.out.println(ex.getMessage());
+        }
+    return existencia;
+}
+    private void botonCargarClieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarClieActionPerformed
+        if(txtNit.getText().length()>0){
+            if(venta.existeRegistro("'"+txtNit.getText()+"'","cliente","nit")){
+                  labelNombreClie.setText(venta.getDato("nit","'"+txtNit.getText()+"'","cliente","nombre"));
+                  labelApellido.setText(venta.getDato("nit","'"+txtNit.getText()+"'","cliente","apellido"));
+                  labelId.setText(venta.getDato("nit","'"+txtNit.getText()+"'","cliente","id"));
+                  
+                  botonCargarClie.setEnabled(false);
+                  botonRemoverClie.setEnabled(true);
+                  txtNit.setEnabled(false);
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"El cliente no existe","Advertencia",JOptionPane.WARNING_MESSAGE);
+                txtNit.setText("");
+            }
+            
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Llene el campo correspondiente","Advertencia",JOptionPane.WARNING_MESSAGE);
+        
+        }
+    }//GEN-LAST:event_botonCargarClieActionPerformed
+
+    private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
+       botonCargarClie.setEnabled(true);
+       botonCargarPro.setEnabled(true);
+      
+       
+       txtNit.setEnabled(true);
+       txtIDproducto.setEnabled(true);
+       
+    }//GEN-LAST:event_botonNuevoActionPerformed
+
+    private void botonRemoverClieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRemoverClieActionPerformed
+        txtNit.setEnabled(true);
+        txtNit.setText("");
+        
+        labelApellido.setText("");
+        labelNombreClie.setText("");
+        labelId.setText("");
+        
+        botonCargarClie.setEnabled(true);
+        botonRemoverClie.setEnabled(false);
+    }//GEN-LAST:event_botonRemoverClieActionPerformed
+
+    private void botonCargarProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarProActionPerformed
+        if(txtIDproducto.getText().length()>0){
+            if(venta.esEntero(txtIDproducto.getText())){
+                 if(venta.existeRegistro(txtIDproducto.getText(),"producto","id")){
+                 labelNombrePro.setText(venta.getDato("id",txtIDproducto.getText(),"producto","nombre"));
+                 labelPrecio.setText(venta.getDato("id",txtIDproducto.getText(),"producto","precio"));
+                 txtAreaDescripcion.setText(venta.getDato("id",txtIDproducto.getText(),"producto","descripcion"));
+                 
+                 txtIDproducto.setEnabled(false);
+                 botonCargarPro.setEnabled(false);
+                 botonRemoverPro.setEnabled(true);
+                 botonAnadir.setEnabled(true);
+                 txtCantidad.setEnabled(true);
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"El producto no existe","Advertencia",JOptionPane.WARNING_MESSAGE);
+                txtNit.setText("");
+            }
+                
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Ingrese solo digitos","Advertencia",JOptionPane.WARNING_MESSAGE);
+            } 
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Llene el campo correspondiente","Advertencia",JOptionPane.WARNING_MESSAGE);
+        
+        }
+    }//GEN-LAST:event_botonCargarProActionPerformed
+
+    private void botonRemoverProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRemoverProActionPerformed
+        botonCargarPro.setEnabled(true);
+        botonRemoverPro.setEnabled(false);
+        txtIDproducto.setEnabled(true);
+        txtIDproducto.setText("");
+        
+        labelNombrePro.setText("");
+        labelPrecio.setText("");
+        txtAreaDescripcion.setText("");
+        botonAnadir.setEnabled(false);
+        txtCantidad.setEnabled(false);
+        txtCantidad.setText("");
+    }//GEN-LAST:event_botonRemoverProActionPerformed
+
+    private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
+       float total;
+        if(txtCantidad.getText().equals("")==false){
+            if(venta.esEntero(txtCantidad.getText())){
+            total= Float.parseFloat(txtCantidad.getText())*Float.parseFloat(labelPrecio.getText());
+            labelSubTotal.setText(total+"");
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Ingrese solo valores enteros","Advertencia",JOptionPane.WARNING_MESSAGE);
+                txtCantidad.setText("");
+            }
+        }
+        else{
+            labelSubTotal.setText("");
+        }
+    }//GEN-LAST:event_txtCantidadKeyReleased
+
+    private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
+        char validar = evt.getKeyChar();
+      if(Character.isLetter(validar)){
+          getToolkit().beep();
+          evt.consume();
+          JOptionPane.showMessageDialog(null,"Solo ingrese solo digitos","Advertencia",JOptionPane.WARNING_MESSAGE);
+      }
+    }//GEN-LAST:event_txtCantidadKeyTyped
+
+
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
