@@ -22,11 +22,12 @@ import javax.swing.table.DefaultTableModel;
 public class Venta2 extends javax.swing.JInternalFrame {
 
     private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
-             usuario ="root",contra = "xela2020", nombreAnterior, idProveedor;
-    private  String[]  titulos = {"Id","Nombre","Precio","Costo de produccion","Cantidad","Total"},datosInsertar;
+             usuario ="root",contra = "xela2020",consultaMaterial;
+    private  String[]  titulos = {"Id","Nombre","Precio","Cantidad","Total"},datosInsertar;
     private ConexionMySQL conexion;
     private DefaultTableModel  modelo;
     private Modulo venta;
+    
     public Venta2() {
         initComponents();
         venta = new Modulo();
@@ -61,6 +62,11 @@ public class Venta2 extends javax.swing.JInternalFrame {
         
         modelo = new DefaultTableModel(null,titulos);
         this.tablaProducto.setModel(modelo);
+        
+        consultaMaterial = "SELECT M.id,M.cantidad As num_existencias ,PM.Cantidad As contidad_requerida FROM producto_has_material PM\n" +
+            "INNER JOIN producto P ON PM.producto_id = P.id\n" +
+            "INNER JOIN material M ON PM.material_id = M.id WHERE P.id = ";
+       
         
     }
 
@@ -114,15 +120,16 @@ public class Venta2 extends javax.swing.JInternalFrame {
         botonNuevo = new javax.swing.JButton();
         botonCancelar = new javax.swing.JButton();
         botonGuardar = new javax.swing.JButton();
+        botonCerrar = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         labelNo = new javax.swing.JLabel();
         labelFecha = new javax.swing.JLabel();
 
-        setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
+        setResizable(true);
         setTitle("Venta");
         setPreferredSize(new java.awt.Dimension(600, 766));
 
@@ -194,8 +201,18 @@ public class Venta2 extends javax.swing.JInternalFrame {
         labelSubTotal.setText("jLabel16");
 
         botonAnadir.setText("Añadir");
+        botonAnadir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAnadirActionPerformed(evt);
+            }
+        });
 
         botonQuitar.setText("Quitar");
+        botonQuitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonQuitarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -440,8 +457,20 @@ public class Venta2 extends javax.swing.JInternalFrame {
         });
 
         botonCancelar.setText("Cancelar");
+        botonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCancelarActionPerformed(evt);
+            }
+        });
 
         botonGuardar.setText("Guardar");
+
+        botonCerrar.setText("Cerrar");
+        botonCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCerrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -452,13 +481,16 @@ public class Venta2 extends javax.swing.JInternalFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(botonCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(botonNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botonCerrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(130, 130, 130)
+                .addContainerGap()
+                .addComponent(botonCerrar)
+                .addGap(92, 92, 92)
                 .addComponent(botonNuevo)
                 .addGap(63, 63, 63)
                 .addComponent(botonGuardar)
@@ -545,18 +577,86 @@ public class Venta2 extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private void limpiarModuloProducto() {
+        botonCargarPro.setEnabled(true);
+        botonRemoverPro.setEnabled(false);
+        txtIDproducto.setEnabled(true);
+        txtIDproducto.setText("");
+        
+        labelNombrePro.setText("");
+        labelPrecio.setText("");
+        labelSubTotal.setText("");
+        txtAreaDescripcion.setText("");
+        botonAnadir.setEnabled(false);
+        txtCantidad.setEnabled(false);
+        txtCantidad.setText("");
+    }   
+    private void limpiarModuloCliente(){
+        txtNit.setEnabled(false);
+        txtNit.setText("");
+        
+        labelApellido.setText("");
+        labelNombreClie.setText("");
+        labelId.setText("");
+        
+        botonCargarClie.setEnabled(false);
+        botonRemoverClie.setEnabled(false);
+    }
+            
+    private void sumarCantidadMaterial(String idProducto,int cantidad){
+       int cantiRequerida, existenciasM, cantidadModificada, idMaterial;
+        try {
+           
+            conexion.EjecutarConsulta(consultaMaterial+idProducto);
+            ResultSet rs = conexion.getResulSet();
+            while(rs.next()){
+                cantiRequerida = Integer.parseInt(rs.getString("contidad_requerida"));//cantidad de un producto para hacer cierto material
+                existenciasM = Integer.parseInt(rs.getString("num_existencias"));//cantidad del material (lo que tenemos en existencia de ese material)
+                idMaterial = Integer.parseInt(rs.getString("M.id"));
+                cantidadModificada = existenciasM+(cantiRequerida*cantidad);
+                //System.out.println("id material: "+idMaterial+" cantidad para el pedido: "+(cantiRequerida*cantidad)+" Cantidad del Material: "+existenciasM+" Cantidad modificada: "+cantidadModificada);
+                editarCantidadMaterial(idMaterial, cantidadModificada);
+            } 
+        } catch (SQLException ex) {
+             System.out.println(ex.getMessage());
+        } 
+    }
+    
+ private void restarCantidadMaterial(String idProducto,int cantidad){
+        int cantiRequerida, existenciasM, cantidadModificada, idMaterial;
+        try {
+            
+            conexion.EjecutarConsulta(consultaMaterial+idProducto);
+            ResultSet rs = conexion.getResulSet();
+            while(rs.next()){
+                cantiRequerida = Integer.parseInt(rs.getString("contidad_requerida"));//cantidad de un producto para hacer cierto material
+                existenciasM = Integer.parseInt(rs.getString("num_existencias"));//cantidad del material (lo que tenemos en existencia de ese material)
+                idMaterial = Integer.parseInt(rs.getString("M.id"));
+                cantidadModificada = existenciasM-(cantiRequerida*cantidad);
+                //System.out.println("id material: "+idMaterial+" cantidad para el pedido: "+(cantiRequerida*cantidad)+" Cantidad del Material: "+existenciasM+" Cantidad modificada: "+cantidadModificada);
+                editarCantidadMaterial(idMaterial, cantidadModificada);
+            } 
+        } catch (SQLException ex) {
+             System.out.println(ex.getMessage());
+        }
+    } 
+//editar la cantidad del material en la base de datos
+    private void editarCantidadMaterial(int idMaterial, int cantidad){
+         conexion.EjecutarInstruccion("UPDATE material SET cantidad = "+ cantidad+" WHERE id = "+idMaterial);
+    }
+
 //Comprobar que el pedido con el producto se puede realizar
- private boolean comprabarExistenciasM(int cantidad,int id,String consulta){
+ private boolean comprabarExistenciasM(int cantidad,String id){
     boolean existencia = true;
     int cantiRequerida, existenciasM;// cantidad que se requiere para hacer un producto / numero de existencias del material
     try {
-            conexion.EjecutarConsulta(consulta+id);
+            conexion.EjecutarConsulta(consultaMaterial+id);
             ResultSet rs = conexion.getResulSet();
             while(rs.next()){
                 cantiRequerida = Integer.parseInt(rs.getString("contidad_requerida"));//cantidad de un producto para hacer cierto material
                
                 existenciasM = Integer.parseInt(rs.getString("num_existencias"));//cantidad del material (lo que tenemos en existencia de ese material)
-                System.out.println("cantidad requerida: "+cantiRequerida+"cantidad existencia: "+existenciasM);
+                System.out.println("cantidad requerida: "+cantiRequerida+" Cantidad para el pedido: "+(cantiRequerida*cantidad)+" cantidad existencia: "+existenciasM);
                 /*
                 si la cantidad de un material para hacer un producto multiplicado por la cantidad de productos que se solicitan, 
                 es mayor a los productos en existencia, el pedido no podra realizarce
@@ -572,6 +672,55 @@ public class Venta2 extends javax.swing.JInternalFrame {
         }
     return existencia;
 }
+ 
+  private void obtenerTotal(int columna){
+        float total = 0;
+        int fila = tablaProducto.getRowCount();
+        if(fila>0){
+            
+          for(int i = 0; i<fila;i++){
+            total = total + Float.parseFloat(String.valueOf(tablaProducto.getValueAt(i,columna)));   
+        }
+          
+        }
+        
+        labelTotal.setText(total+"");
+    }
+   private void cancelarVenta(){
+        int filas = tablaProducto.getRowCount(), id,cantidad;
+        if(filas>0){
+            for(int i=filas-1;i>=0;i--){
+                
+                cantidad = Integer.parseInt(String.valueOf(tablaProducto.getValueAt(i,3)));
+                sumarCantidadMaterial(String.valueOf(tablaProducto.getValueAt(i,0)), cantidad);
+                venta.quitarFila(i,modelo);
+            }
+       }
+    
+    }
+   private void relacionProductoFactura(String idFactura){//va relacionando los productos que tenemos en la tabla con la factura
+        int fila = tablaProducto.getRowCount();
+        for(int i =0; i<fila;i++){  
+                                //id_factura            //id_producto                              //cantidad             
+           // insertarDetalle_Pro(idFactura,String.valueOf(tablaProducto.getValueAt(i,0)), String.valueOf(ta.getValueAt(i,2))
+                      //precio                                 //total   
+                   // , String.valueOf(tablaProV.getValueAt(i,3)),String.valueOf(tablaProV.getValueAt(i,4)));
+        }
+    }
+   private void cancelar(){
+        cancelarVenta();
+        limpiarModuloProducto();
+        limpiarModuloCliente();
+        
+        botonNuevo.setEnabled(true);
+        txtIDproducto.setEnabled(false);
+        botonCargarPro.setEnabled(false);
+        
+        botonGuardar.setEnabled(false);
+        botonCancelar.setEnabled(false);
+        botonQuitar.setEnabled(false);
+        labelTotal.setText("");
+   }
     private void botonCargarClieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarClieActionPerformed
         if(txtNit.getText().length()>0){
             if(venta.existeRegistro("'"+txtNit.getText()+"'","cliente","nit")){
@@ -598,7 +747,9 @@ public class Venta2 extends javax.swing.JInternalFrame {
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
        botonCargarClie.setEnabled(true);
        botonCargarPro.setEnabled(true);
-      
+       botonGuardar.setEnabled(true);
+       botonCancelar.setEnabled(true);
+       botonNuevo.setEnabled(false);
        
        txtNit.setEnabled(true);
        txtIDproducto.setEnabled(true);
@@ -606,15 +757,10 @@ public class Venta2 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_botonNuevoActionPerformed
 
     private void botonRemoverClieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRemoverClieActionPerformed
+        limpiarModuloCliente();
         txtNit.setEnabled(true);
-        txtNit.setText("");
-        
-        labelApellido.setText("");
-        labelNombreClie.setText("");
-        labelId.setText("");
-        
         botonCargarClie.setEnabled(true);
-        botonRemoverClie.setEnabled(false);
+        
     }//GEN-LAST:event_botonRemoverClieActionPerformed
 
     private void botonCargarProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarProActionPerformed
@@ -648,17 +794,7 @@ public class Venta2 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_botonCargarProActionPerformed
 
     private void botonRemoverProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRemoverProActionPerformed
-        botonCargarPro.setEnabled(true);
-        botonRemoverPro.setEnabled(false);
-        txtIDproducto.setEnabled(true);
-        txtIDproducto.setText("");
-        
-        labelNombrePro.setText("");
-        labelPrecio.setText("");
-        txtAreaDescripcion.setText("");
-        botonAnadir.setEnabled(false);
-        txtCantidad.setEnabled(false);
-        txtCantidad.setText("");
+       limpiarModuloProducto();
     }//GEN-LAST:event_botonRemoverProActionPerformed
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
@@ -671,6 +807,7 @@ public class Venta2 extends javax.swing.JInternalFrame {
             else{
                 JOptionPane.showMessageDialog(null,"Ingrese solo valores enteros","Advertencia",JOptionPane.WARNING_MESSAGE);
                 txtCantidad.setText("");
+                labelSubTotal.setText("");
             }
         }
         else{
@@ -687,6 +824,71 @@ public class Venta2 extends javax.swing.JInternalFrame {
       }
     }//GEN-LAST:event_txtCantidadKeyTyped
 
+    private void botonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnadirActionPerformed
+        int cantidad;
+        if(txtCantidad.getText().length()>0){//ver que la caja de cantidad este llena 
+            cantidad = Integer.parseInt(txtCantidad.getText());
+            if(cantidad > 0){//la cantidad debe de ser mayor a cero 
+                if(!venta.existeEnTabla(txtIDproducto.getText(), tablaProducto,0)){//ver que el producto no este en la tabla 
+                    if(comprabarExistenciasM(cantidad,txtIDproducto.getText())){//ver que la existan materiales para hacer 
+                         //anadir los datos a la tabla
+                    String[] datos = new String[titulos.length];
+                    datos[0] = txtIDproducto.getText();
+                    datos[1]= labelNombrePro.getText();
+                    datos[2] = labelPrecio.getText();
+                    datos[3] = txtCantidad.getText();
+                    datos[4] = labelSubTotal.getText();
+                    venta.insertarEnTabla(datos, modelo);
+                    //fin de insertar en tabla 
+                    
+                    //restar lo que se necesita para el pedido al material 
+                        restarCantidadMaterial(txtIDproducto.getText(), cantidad);
+                        obtenerTotal(titulos.length-1);
+                    //fin 
+                    limpiarModuloProducto();
+                    botonQuitar.setEnabled(true);
+                        
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null,"No hay materiales suficiente para realizar el pedido","Advertencia",JOptionPane.WARNING_MESSAGE);
+                    } 
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"La cantidad debe de ser mayor a cero","Advertencia",JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Ingrese la cantidad de material que necesita","Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_botonAnadirActionPerformed
+
+    private void botonQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonQuitarActionPerformed
+        int fila = tablaProducto.getSelectedRow(), cantidad;
+        if(fila>=0){
+           
+            cantidad = Integer.parseInt(String.valueOf(tablaProducto.getValueAt(fila,3)));
+            sumarCantidadMaterial(String.valueOf(tablaProducto.getValueAt(fila,0)), cantidad);
+            venta.quitarFila(fila, modelo);
+            obtenerTotal(titulos.length-1);
+            if(tablaProducto.getRowCount() == 0){
+                botonQuitar.setEnabled(false);
+            }
+        }
+        else{
+          JOptionPane.showMessageDialog(null,"Seleccione un producto","Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_botonQuitarActionPerformed
+
+    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
+        cancelar();
+    }//GEN-LAST:event_botonCancelarActionPerformed
+
+    private void botonCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCerrarActionPerformed
+       cancelar();
+       this.dispose();
+    }//GEN-LAST:event_botonCerrarActionPerformed
+
 
 
 
@@ -696,6 +898,7 @@ public class Venta2 extends javax.swing.JInternalFrame {
     private javax.swing.JButton botonCancelar;
     private javax.swing.JButton botonCargarClie;
     private javax.swing.JButton botonCargarPro;
+    private javax.swing.JButton botonCerrar;
     private javax.swing.JButton botonGuardar;
     private javax.swing.JButton botonNuevo;
     private javax.swing.JButton botonQuitar;

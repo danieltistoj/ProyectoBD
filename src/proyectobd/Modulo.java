@@ -111,6 +111,11 @@ public class Modulo {
         }
         return existe;   
 }
+    private void nuevoRegistro(String colummnas, String parametro, String tabla){//insertar un registro en cualquier tabla 
+    conexion.EjecutarInstruccion("insert into "+tabla+" ("+colummnas+")\n"+
+              "values("+parametro+")");
+    
+}
     public String getDato(String formaId, String id, String tabla, String parametro){
     String dato = "";
             conexion.EjecutarConsulta("SELECT * FROM "+tabla+" WHERE "+formaId+" = "+id);
@@ -124,7 +129,7 @@ public class Modulo {
             }
     return dato; 
 }
-    private String getUltimoId(String formaId,String tabla){
+    public String getUltimoId(String formaId,String tabla){
     String id = "";
        try {
             conexion.EjecutarConsulta("SELECT MAX("+formaId+")As ultimo FROM "+tabla);
@@ -139,20 +144,7 @@ public class Modulo {
         return id;
 }
     
-    private void eliminarRegistroTabla(JTable tabla,DefaultTableModel modelo,JLabel labelTotal,int columna){
-    int fila = tabla.getSelectedRow();
-    float total = Float.parseFloat(labelTotal.getText()),subTotal;
-        if(fila>=0){
-            subTotal = Float.parseFloat(String.valueOf(tabla.getValueAt(fila,columna)));
-            modelo.removeRow(fila);
-            total = total - subTotal;
-            labelTotal.setText(""+total);
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"Seleccione un material","Advertencia",JOptionPane.WARNING_MESSAGE);
-        }
-}
-    private boolean existeEnTabla(String id,JTable tabla,int columna){
+    public boolean existeEnTabla(String id,JTable tabla,int columna){
      boolean existe = false;
      int iD;
      iD = Integer.parseInt(id);
@@ -163,17 +155,21 @@ public class Modulo {
         }
         return existe;
 }
-private void limpiarTabla(DefaultTableModel modelo, JTable tabla){
+public void limpiarTabla(DefaultTableModel modelo, JTable tabla){
     int fila = tabla.getRowCount();
     for(int i = fila-1;i>=0;i--){
         modelo.removeRow(i);
     }
 }
  
-private void insertarEnTabla(String [] datos, DefaultTableModel  modelo){
+public void insertarEnTabla(String [] datos, DefaultTableModel  modelo){
      this.modelo = modelo;
      this.modelo.addRow(datos);     
 }
+
+public void quitarFila(int fila,DefaultTableModel  modelo){
+      modelo.removeRow(fila);
+    }
     public JTable getTabla() {
         return tabla;
     }
