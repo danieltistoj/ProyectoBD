@@ -5,6 +5,9 @@
  */
 package proyectobd;
 
+import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Usuario
@@ -18,6 +21,7 @@ public class Menu2 extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("");
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     }
 
     /**
@@ -52,6 +56,11 @@ public class Menu2 extends javax.swing.JFrame {
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/WhatsApp Image 2020-03-15 at 17_opt (4).jpg"))); // NOI18N
 
@@ -143,6 +152,11 @@ public class Menu2 extends javax.swing.JFrame {
         jMenu4.add(jMenuItem7);
 
         jMenuItem8.setText("Deudores");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem8);
 
         jMenuItem9.setText("Cliente");
@@ -170,7 +184,17 @@ public class Menu2 extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+private boolean verificarVentanasAbiertas(){
+    boolean cerrado = true;
+    JInternalFrame[] activos = this.panelEscritorio.getAllFrames();
+           if(activos.length>0){
+               JOptionPane.showMessageDialog(null,"Tiene ventanas abiertas, para salir cierrelas","Advertencia",JOptionPane.WARNING_MESSAGE);
+           }
+           else{
+               System.exit(0);
+           }
+    return cerrado;
+}
     private void menuMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMaterialActionPerformed
        Material_Interno material = new Material_Interno();
        this.panelEscritorio.add(material);
@@ -212,6 +236,14 @@ public class Menu2 extends javax.swing.JFrame {
        this.panelEscritorio.add(venta);
        venta.show();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+       verificarVentanasAbiertas();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+      
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     /**
      * @param args the command line arguments
