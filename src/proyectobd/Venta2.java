@@ -464,6 +464,11 @@ public class Venta2 extends javax.swing.JInternalFrame {
         });
 
         botonGuardar.setText("Guardar");
+        botonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGuardarActionPerformed(evt);
+            }
+        });
 
         botonCerrar.setText("Cerrar");
         botonCerrar.addActionListener(new java.awt.event.ActionListener() {
@@ -656,7 +661,7 @@ public class Venta2 extends javax.swing.JInternalFrame {
                 cantiRequerida = Integer.parseInt(rs.getString("contidad_requerida"));//cantidad de un producto para hacer cierto material
                
                 existenciasM = Integer.parseInt(rs.getString("num_existencias"));//cantidad del material (lo que tenemos en existencia de ese material)
-                System.out.println("cantidad requerida: "+cantiRequerida+" Cantidad para el pedido: "+(cantiRequerida*cantidad)+" cantidad existencia: "+existenciasM);
+               // System.out.println("cantidad requerida: "+cantiRequerida+" Cantidad para el pedido: "+(cantiRequerida*cantidad)+" cantidad existencia: "+existenciasM);
                 /*
                 si la cantidad de un material para hacer un producto multiplicado por la cantidad de productos que se solicitan, 
                 es mayor a los productos en existencia, el pedido no podra realizarce
@@ -700,11 +705,12 @@ public class Venta2 extends javax.swing.JInternalFrame {
     }
    private void relacionProductoFactura(String idFactura){//va relacionando los productos que tenemos en la tabla con la factura
         int fila = tablaProducto.getRowCount();
+        String datos,columnas;
+        columnas = "cantidad,precio,factura_id,producto_id,total";
         for(int i =0; i<fila;i++){  
-                                //id_factura            //id_producto                              //cantidad             
-           // insertarDetalle_Pro(idFactura,String.valueOf(tablaProducto.getValueAt(i,0)), String.valueOf(ta.getValueAt(i,2))
-                      //precio                                 //total   
-                   // , String.valueOf(tablaProV.getValueAt(i,3)),String.valueOf(tablaProV.getValueAt(i,4)));
+            datos =String.valueOf(tablaProducto.getValueAt(i,3))+","
+            +String.valueOf(tablaProducto.getValueAt(i,2))+","+idFactura+","+String.valueOf(tablaProducto.getValueAt(i,0))+","+String.valueOf(tablaProducto.getValueAt(i,4));
+            venta.nuevoRegistro(columnas,datos,"detalle_pro");
         }
     }
    private void cancelar(){
@@ -888,6 +894,67 @@ public class Venta2 extends javax.swing.JInternalFrame {
        cancelar();
        this.dispose();
     }//GEN-LAST:event_botonCerrarActionPerformed
+
+    private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
+        String abono, datos,parametros;
+        if(labelId.getText().length()>0&&tablaProducto.getRowCount()>0){
+             abono = JOptionPane.showInputDialog("Ingrese el abono");
+            if(abono!=null){
+                if(venta.esFlotante(abono)){
+                    if(Float.parseFloat(abono)>=Float.parseFloat(labelTotal.getText())/2){
+                        //1) nueva factura
+                       datos  = "'"+venta.fecha()+"',"+labelTotal.getText()+","+txtNit.getText()+",'"+labelNo.getText()+"',"+labelId.getText();//dato para la factura
+                       parametros = "fecha,total,nit,numFactura,cliente_id";
+                       venta.nuevoRegistro( parametros, datos,"factura");
+                        System.out.println("nueva factura");
+                        
+                       //2) relacion producto factura con la tabla detalle_pro
+                        relacionProductoFactura(venta.getUltimoId("id","factura"));
+                        System.out.println("relacion factura producto");
+                        
+                        //3) hacer primer pago 
+                        parametros = "abono,cliente_id,fecha";
+                        datos =abono+","+labelId.getText()+",'"+venta.fecha()+"'";
+                        venta.nuevoRegistro( parametros,datos,"pago");
+                        System.out.println("primer pago");
+                        
+                        //4) relacion pago factura 
+                        parametros = "factura_id,pago_id";
+                        datos = venta.getUltimoId("id","factura")+","+venta.getUltimoId("id","pago");
+                        venta.nuevoRegistro(parametros,datos,"factura_has_pago");
+                        System.out.println("primer pago relacionado con factura");
+                        
+                        JOptionPane.showMessageDialog(null,"Venta completada","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+                        limpiarModuloCliente();
+                        limpiarModuloProducto();
+                        venta.limpiarTabla(modelo, tablaProducto);
+                        
+                        botonNuevo.setEnabled(true);
+                        txtIDproducto.setEnabled(false);
+                        botonCargarPro.setEnabled(false);
+
+                        botonGuardar.setEnabled(false);
+                        botonCancelar.setEnabled(false);
+                        botonQuitar.setEnabled(false);
+                        labelTotal.setText("");
+                        
+                        venta.generarCodigo(labelNo, "numFactura","factura","CD");
+                        
+                    }
+                    else{
+                         JOptionPane.showMessageDialog(null,"El abono debe de ser mayor o igual al 50% del total","Advertencia",JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"Solo ingrese digitos","Advertencia",JOptionPane.WARNING_MESSAGE);
+                }
+            }
+           
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Llene los campos obligatorios","Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_botonGuardarActionPerformed
 
 
 

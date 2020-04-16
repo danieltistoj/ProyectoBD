@@ -111,7 +111,7 @@ public class Modulo {
         }
         return existe;   
 }
-    private void nuevoRegistro(String colummnas, String parametro, String tabla){//insertar un registro en cualquier tabla 
+    public void nuevoRegistro(String colummnas, String parametro, String tabla){//insertar un registro en cualquier tabla 
     conexion.EjecutarInstruccion("insert into "+tabla+" ("+colummnas+")\n"+
               "values("+parametro+")");
     
