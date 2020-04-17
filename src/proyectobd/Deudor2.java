@@ -63,6 +63,7 @@ public class Deudor2 extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -195,12 +196,19 @@ public class Deudor2 extends javax.swing.JInternalFrame {
         });
 
         botonCargarFecha.setText("Cargar");
+        botonCargarFecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCargarFechaActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("FECHA INICIAL");
 
         jLabel3.setText("FECHA FINAL");
 
         jLabel5.setText("Forma de busqueda");
+
+        jLabel31.setText("FORMATO: Anio / Mes/ Dia");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -222,13 +230,16 @@ public class Deudor2 extends javax.swing.JInternalFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jSeparator1)
-                                .addComponent(txtFechaInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jSeparator1)
+                                    .addComponent(txtFechaInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
+                                .addGap(42, 42, 42)
+                                .addComponent(jLabel31))
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 62, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -254,7 +265,9 @@ public class Deudor2 extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtFechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtFechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel31))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -651,7 +664,7 @@ public class Deudor2 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_comboTiposActionPerformed
 
     private void botonCargarNitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarNitActionPerformed
-        String consulta, condicion="";
+        String consulta="", condicion="";
         TablaId tabla = new TablaId(tablaFactura);
         if(radioSaldado.isSelected()){
              consulta = "select F.id,F.total,count(P.id) as Pagos,sum(P.abono)TotalPagos,F.fecha,C.nombre as cliente,C.nit as nit_cliente  from  factura_has_pago FP\n" +
@@ -659,18 +672,8 @@ public class Deudor2 extends javax.swing.JInternalFrame {
 " inner join pago P on FP.pago_id = P.id \n" +
 " inner join cliente C on F.cliente_id = C.id\n" +
 " group by F.id having F.total<=TotalPagos ";
-            if(comboTipos.getSelectedIndex() == 0){//si busca por nit del cliente
-                if(txtNitCliente.getText().length()>0){//si hay un numero de nit en especifico 
-                    condicion = "and C.nit = '"+txtNitCliente.getText()+"'";
-                }
-            }
-            else{//si busca por rango de fecha 
-                if(txtFechaFinal.getText().length()>0 && txtFechaInicial.getText().length()>0){
-                    
-                }
-            }
-            tabla.llenarTable(consulta,"", "","",condicion, consulta, tituloFactura);
-            tablaFactura = tabla.getTabla();
+             
+               
         }
         if(radioDeudor.isSelected()){//si es deudor
             consulta = "select F.id,F.total,count(P.id) as Pagos,sum(P.abono)TotalPagos,F.fecha,C.nombre as cliente,C.nit as nit_cliente  from  factura_has_pago FP\n" +
@@ -678,22 +681,41 @@ public class Deudor2 extends javax.swing.JInternalFrame {
 " inner join pago P on FP.pago_id = P.id \n" +
 " inner join cliente C on F.cliente_id = C.id\n" +
 " group by F.id having F.total>TotalPagos ";
-            
-            if(comboTipos.getSelectedIndex() == 0){
-                 if(txtNitCliente.getText().length()>0){//si hay un numero de nit en especifico 
+        }
+         if(txtNitCliente.getText().length()>0){//si hay un numero de nit en especifico 
                     condicion = "and C.nit = '"+txtNitCliente.getText()+"'";
                 }
-            }
-            else{
-                if(txtFechaFinal.getText().length()>0 && txtFechaInicial.getText().length()>0){
-                    
-                }
-            }
-              tabla.llenarTable(consulta,"", "","",condicion, consulta, tituloFactura);
-              tablaFactura = tabla.getTabla();
+        tabla.llenarTable(consulta,"", "","",condicion, consulta, tituloFactura);
+        tablaFactura = tabla.getTabla();  
+        
+        
+    }//GEN-LAST:event_botonCargarNitActionPerformed
+
+    private void botonCargarFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarFechaActionPerformed
+       String consulta = "",condicion = "";
+        TablaId tabla = new TablaId(tablaFactura);
+        if(radioSaldado.isSelected()){
+              consulta = "select F.id,F.total,count(P.id) as Pagos,sum(P.abono)TotalPagos,F.fecha,C.nombre as cliente,C.nit as nit_cliente  from  factura_has_pago FP\n" +
+" inner join factura F on FP.factura_id = F.id\n" +
+" inner join pago P on FP.pago_id = P.id \n" +
+" inner join cliente C on F.cliente_id = C.id\n" +
+" group by F.id having F.total<=TotalPagos ";
+              
             
         }
-    }//GEN-LAST:event_botonCargarNitActionPerformed
+        if(radioDeudor.isSelected()){
+            consulta = "select F.id,F.total,count(P.id) as Pagos,sum(P.abono)TotalPagos,F.fecha,C.nombre as cliente,C.nit as nit_cliente  from  factura_has_pago FP\n" +
+" inner join factura F on FP.factura_id = F.id\n" +
+" inner join pago P on FP.pago_id = P.id \n" +
+" inner join cliente C on F.cliente_id = C.id\n" +
+" group by F.id having F.total>TotalPagos ";
+        }
+        if(txtFechaInicial.getText().length()>0&&txtFechaFinal.getText().length()>0){
+            condicion = "and F.fecha between '"+txtFechaInicial.getText()+"' and '"+txtFechaFinal.getText()+"'";
+        }
+        tabla.llenarTable(consulta,"", "","",condicion, consulta, tituloFactura);
+        tablaFactura = tabla.getTabla(); 
+    }//GEN-LAST:event_botonCargarFechaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -727,6 +749,7 @@ public class Deudor2 extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
