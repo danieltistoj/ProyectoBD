@@ -6,6 +6,7 @@
 package proyectobd;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,7 +16,10 @@ import javax.swing.ButtonGroup;
 public class Deudor2 extends javax.swing.JInternalFrame {
 
     private ButtonGroup grupoDeRadio;
-    private String [] tituloFactura = {"Id","Total","Cantidad Pagos","Total de pagos","Fecha","Cliente","Nit"};
+    private String [] tituloFactura = {"Id","Total","Cantidad Pagos","Total de pagos","Fecha","Cliente","Nit"},
+            tituloProducto = {"Id","Nombre","Cantidad","Precio","Total"},
+            tituloPago = {"Id","Abono","Fecha"};
+    private Modulo deudor;
     public Deudor2() {
         initComponents();
         grupoDeRadio = new ButtonGroup();
@@ -30,6 +34,8 @@ public class Deudor2 extends javax.swing.JInternalFrame {
         botonAbono.setEnabled(false);
         txtFechaInicial.setEnabled(false);
         txtFechaFinal.setEnabled(false);
+        
+        deudor = new Modulo();
     }
 
     /**
@@ -70,15 +76,15 @@ public class Deudor2 extends javax.swing.JInternalFrame {
         tablaProducto = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
-        jLabel28 = new javax.swing.JLabel();
+        labelCantidadProducto = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaPago = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
-        jLabel30 = new javax.swing.JLabel();
+        labelTotalPagos = new javax.swing.JLabel();
+        labelCantidadPagos = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -86,17 +92,19 @@ public class Deudor2 extends javax.swing.JInternalFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
+        labelNombre = new javax.swing.JLabel();
+        labelApellido = new javax.swing.JLabel();
+        labelNit = new javax.swing.JLabel();
+        labelTelefono = new javax.swing.JLabel();
+        labelCorreo = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
+        labelTotal = new javax.swing.JLabel();
+        labelFecha = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        labelNumFactura = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         botonDetalle = new javax.swing.JButton();
         botonAbono = new javax.swing.JButton();
@@ -322,8 +330,8 @@ public class Deudor2 extends javax.swing.JInternalFrame {
 
         jLabel27.setText("CANTIDAD:");
 
-        jLabel28.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel28.setText("jLabel28");
+        labelCantidadProducto.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelCantidadProducto.setText("jLabel28");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -340,7 +348,7 @@ public class Deudor2 extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel27)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel28)
+                .addComponent(labelCantidadProducto)
                 .addGap(114, 114, 114))
         );
         jPanel3Layout.setVerticalGroup(
@@ -350,7 +358,7 @@ public class Deudor2 extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel27)
-                    .addComponent(jLabel28))
+                    .addComponent(labelCantidadProducto))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
@@ -377,11 +385,11 @@ public class Deudor2 extends javax.swing.JInternalFrame {
 
         jLabel26.setText("CANTIDAD:");
 
-        jLabel29.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel29.setText("jLabel29");
+        labelTotalPagos.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelTotalPagos.setText("jLabel29");
 
-        jLabel30.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel30.setText("jLabel30");
+        labelCantidadPagos.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelCantidadPagos.setText("jLabel30");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -399,8 +407,8 @@ public class Deudor2 extends javax.swing.JInternalFrame {
                     .addComponent(jLabel26))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel29)
-                    .addComponent(jLabel30))
+                    .addComponent(labelTotalPagos)
+                    .addComponent(labelCantidadPagos))
                 .addGap(107, 107, 107))
         );
         jPanel4Layout.setVerticalGroup(
@@ -412,11 +420,11 @@ public class Deudor2 extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel25)
-                            .addComponent(jLabel29))))
+                            .addComponent(labelTotalPagos))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel26)
-                    .addComponent(jLabel30))
+                    .addComponent(labelCantidadPagos))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -436,20 +444,20 @@ public class Deudor2 extends javax.swing.JInternalFrame {
 
         jLabel15.setText("CORREO:");
 
-        jLabel16.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel16.setText("jLabel16");
+        labelNombre.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelNombre.setText("jLabel16");
 
-        jLabel17.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel17.setText("jLabel17");
+        labelApellido.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelApellido.setText("jLabel17");
 
-        jLabel18.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel18.setText("jLabel18");
+        labelNit.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelNit.setText("jLabel18");
 
-        jLabel19.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel19.setText("jLabel19");
+        labelTelefono.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelTelefono.setText("jLabel19");
 
-        jLabel20.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel20.setText("jLabel20");
+        labelCorreo.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelCorreo.setText("jLabel20");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -465,27 +473,27 @@ public class Deudor2 extends javax.swing.JInternalFrame {
                     .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelApellido, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel16)
+                        .addComponent(labelNombre)
                         .addGap(69, 69, 69)))
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(54, 54, 54)
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel19)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(labelTelefono)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(93, 93, 93)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel18)
+                        .addComponent(labelNit)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
-                        .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel20)
-                        .addGap(64, 64, 64))))
+                        .addComponent(jLabel15)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelCorreo)
+                .addGap(64, 64, 64))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -496,15 +504,15 @@ public class Deudor2 extends javax.swing.JInternalFrame {
                     .addComponent(jLabel11)
                     .addComponent(jLabel13)
                     .addComponent(jLabel15)
-                    .addComponent(jLabel16)
-                    .addComponent(jLabel18)
-                    .addComponent(jLabel20))
+                    .addComponent(labelNombre)
+                    .addComponent(labelNit)
+                    .addComponent(labelCorreo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(jLabel14)
-                    .addComponent(jLabel17)
-                    .addComponent(jLabel19))
+                    .addComponent(labelApellido)
+                    .addComponent(labelTelefono))
                 .addGap(25, 25, 25))
         );
 
@@ -516,11 +524,16 @@ public class Deudor2 extends javax.swing.JInternalFrame {
 
         jLabel22.setText("FECHA:");
 
-        jLabel23.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel23.setText("jLabel23");
+        labelTotal.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelTotal.setText("jLabel23");
 
-        jLabel24.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel24.setText("jLabel24");
+        labelFecha.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelFecha.setText("jLabel24");
+
+        jLabel16.setText("No. Factura:");
+
+        labelNumFactura.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelNumFactura.setText("jLabel17");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -530,15 +543,19 @@ public class Deudor2 extends javax.swing.JInternalFrame {
                 .addComponent(jLabel8)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(142, 142, 142)
+                .addGap(73, 73, 73)
                 .addComponent(jLabel21)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel23)
+                .addComponent(labelTotal)
+                .addGap(92, 92, 92)
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelNumFactura)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel22)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel24)
-                .addGap(139, 139, 139))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(labelFecha)
+                .addGap(28, 28, 28))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -548,8 +565,10 @@ public class Deudor2 extends javax.swing.JInternalFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
                     .addComponent(jLabel22)
-                    .addComponent(jLabel23)
-                    .addComponent(jLabel24))
+                    .addComponent(labelTotal)
+                    .addComponent(labelFecha)
+                    .addComponent(jLabel16)
+                    .addComponent(labelNumFactura))
                 .addGap(0, 22, Short.MAX_VALUE))
         );
 
@@ -584,10 +603,25 @@ public class Deudor2 extends javax.swing.JInternalFrame {
         jPanel10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         botonDetalle.setText("Detalle");
+        botonDetalle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonDetalleActionPerformed(evt);
+            }
+        });
 
         botonAbono.setText("Abono");
+        botonAbono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAbonoActionPerformed(evt);
+            }
+        });
 
         botonRegresar.setText("Regresar");
+        botonRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRegresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -713,9 +747,69 @@ public class Deudor2 extends javax.swing.JInternalFrame {
         if(txtFechaInicial.getText().length()>0&&txtFechaFinal.getText().length()>0){
             condicion = "and F.fecha between '"+txtFechaInicial.getText()+"' and '"+txtFechaFinal.getText()+"'";
         }
-        tabla.llenarTable(consulta,"", "","",condicion, consulta, tituloFactura);
+        tabla.llenarTable(consulta,"", "","",condicion,"", tituloFactura);
         tablaFactura = tabla.getTabla(); 
     }//GEN-LAST:event_botonCargarFechaActionPerformed
+
+    private void botonDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDetalleActionPerformed
+        int fila = tablaFactura.getSelectedRow();
+        TablaId tablaPro = new TablaId(tablaProducto);
+        TablaId tablaPago1 = new TablaId(tablaPago);
+        String consulta;
+        if(fila>=0){
+            //datos del cliente 
+            labelNombre.setText(deudor.getDato("nit","'"+String.valueOf(tablaFactura.getValueAt(fila,6))+"'","cliente","nombre"));
+            labelApellido.setText(deudor.getDato("nit","'"+String.valueOf(tablaFactura.getValueAt(fila,6))+"'","cliente","apellido"));
+            labelTelefono.setText(deudor.getDato("nit","'"+String.valueOf(tablaFactura.getValueAt(fila,6))+"'","cliente","telefono"));
+            labelCorreo.setText(deudor.getDato("nit","'"+String.valueOf(tablaFactura.getValueAt(fila,6))+"'","cliente","correo"));
+            labelNit.setText(String.valueOf(tablaFactura.getValueAt(fila,6)));
+            //datos de la factura 
+            labelTotal.setText(String.valueOf(tablaFactura.getValueAt(fila,1)));
+            labelFecha.setText(String.valueOf(tablaFactura.getValueAt(fila,4)));
+            labelCantidadPagos.setText(String.valueOf(tablaFactura.getValueAt(fila, 2)));
+            labelTotalPagos.setText(String.valueOf(tablaFactura.getValueAt(fila,3)));
+            labelNumFactura.setText(deudor.getDato("id",String.valueOf(tablaFactura.getValueAt(fila,0)),"factura","numFactura"));
+            //llenar tabla producto.
+           consulta = " select  P.id,P.nombre,DP.cantidad,DP.precio,DP.total from  detalle_pro DP\n" +
+" inner join factura F on DP.factura_id = F.id\n" +
+" inner join producto P on DP.producto_id = P.id \n" +
+" inner join cliente C on F.cliente_id = C.id\n" +
+" where  F.id = "+String.valueOf(tablaFactura.getValueAt(fila,0));
+            tablaPro.llenarTable(consulta,"","","","","", tituloProducto); 
+            labelCantidadProducto.setText(tablaProducto.getRowCount()+"");
+            //llenar tabla pagos.
+            consulta = "select P.id,P.abono,P.fecha from factura_has_pago FP\n" +
+" inner join factura F on FP.factura_id = F.id\n" +
+" inner join pago P on FP.pago_id = P.id where F.id = "+String.valueOf(tablaFactura.getValueAt(fila,0));
+            tablaPago1.llenarTable(consulta,"","","","","", tituloPago);
+            
+            //moverse al panel de detalle 
+            tabbed.setSelectedIndex(1);
+            tabbed.setEnabledAt(1,true);
+            tabbed.setEnabledAt(0,false);
+            botonRegresar.setEnabled(true);
+            botonDetalle.setEnabled(false);
+            if(Float.parseFloat(labelTotal.getText())>Float.parseFloat(labelTotalPagos.getText())){
+                botonAbono.setEnabled(true);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Seleccione una factura","Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_botonDetalleActionPerformed
+
+    private void botonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegresarActionPerformed
+            tabbed.setSelectedIndex(0);
+            tabbed.setEnabledAt(0,true);
+            tabbed.setEnabledAt(1,false);
+            botonRegresar.setEnabled(false);
+            botonDetalle.setEnabled(true);
+            botonAbono.setEnabled(false);
+    }//GEN-LAST:event_botonRegresarActionPerformed
+
+    private void botonAbonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAbonoActionPerformed
+       
+    }//GEN-LAST:event_botonAbonoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -733,22 +827,13 @@ public class Deudor2 extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -770,6 +855,17 @@ public class Deudor2 extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel labelApellido;
+    private javax.swing.JLabel labelCantidadPagos;
+    private javax.swing.JLabel labelCantidadProducto;
+    private javax.swing.JLabel labelCorreo;
+    private javax.swing.JLabel labelFecha;
+    private javax.swing.JLabel labelNit;
+    private javax.swing.JLabel labelNombre;
+    private javax.swing.JLabel labelNumFactura;
+    private javax.swing.JLabel labelTelefono;
+    private javax.swing.JLabel labelTotal;
+    private javax.swing.JLabel labelTotalPagos;
     private javax.swing.JRadioButton radioDeudor;
     private javax.swing.JRadioButton radioSaldado;
     private javax.swing.JTabbedPane tabbed;
