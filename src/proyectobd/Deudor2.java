@@ -765,9 +765,7 @@ public class Deudor2 extends javax.swing.JInternalFrame {
             labelNit.setText(String.valueOf(tablaFactura.getValueAt(fila,6)));
             //datos de la factura 
             labelTotal.setText(String.valueOf(tablaFactura.getValueAt(fila,1)));
-            labelFecha.setText(String.valueOf(tablaFactura.getValueAt(fila,4)));
-            labelCantidadPagos.setText(String.valueOf(tablaFactura.getValueAt(fila, 2)));
-            labelTotalPagos.setText(String.valueOf(tablaFactura.getValueAt(fila,3)));
+            labelFecha.setText(String.valueOf(tablaFactura.getValueAt(fila,4)));  
             labelNumFactura.setText(deudor.getDato("id",String.valueOf(tablaFactura.getValueAt(fila,0)),"factura","numFactura"));
             //llenar tabla producto.
            consulta = " select  P.id,P.nombre,DP.cantidad,DP.precio,DP.total from  detalle_pro DP\n" +
@@ -782,6 +780,8 @@ public class Deudor2 extends javax.swing.JInternalFrame {
 " inner join factura F on FP.factura_id = F.id\n" +
 " inner join pago P on FP.pago_id = P.id where F.id = "+String.valueOf(tablaFactura.getValueAt(fila,0));
             tablaPago1.llenarTable(consulta,"","","","","", tituloPago);
+            labelTotalPagos.setText(""+tablaPago1.sumaFlotanteColumna(1));
+            labelCantidadPagos.setText(tablaPago.getRowCount()+"");
             
             //moverse al panel de detalle 
             tabbed.setSelectedIndex(1);
@@ -808,6 +808,55 @@ public class Deudor2 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_botonRegresarActionPerformed
 
     private void botonAbonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAbonoActionPerformed
+        String cantiCadena,idCliente,idFactura,columnas,datos,idPago,consulta;
+         TablaId tablaPago1 = new TablaId(tablaPago);
+        cantiCadena = JOptionPane.showInputDialog("Ingrese el pago");
+       if(cantiCadena!=null){
+           if(deudor.esFlotante(cantiCadena)){
+               if(Float.parseFloat(cantiCadena)>0){
+                    //obtener id de cliente y de factura 
+               idCliente = deudor.getDato("nit","'"+labelNit.getText()+"'","cliente","id");
+               System.out.println(idCliente);
+               idFactura = deudor.getDato("numFactura","'"+labelNumFactura.getText()+"'","factura","id");
+               System.out.println(idFactura);
+               //realizar el pago que esta relacionado con el cliente 
+               columnas = "abono,cliente_id,fecha";
+               datos = cantiCadena+","+idCliente+",'"+deudor.fecha()+"'";
+               deudor.nuevoRegistro(columnas,datos,"pago");
+               
+               //obtener el ultimo id de pago
+               idPago = deudor.getUltimoId("id","pago");
+               System.out.println(idPago);
+               
+              
+               //relacionar el ultimo pago con la factura
+               columnas = "factura_id,pago_id";
+               datos = idFactura+","+idPago;
+               deudor.nuevoRegistro(columnas,datos,"factura_has_pago");
+               
+               //consulta a los pagos de la factura, para actualizar
+               consulta = "select P.id,P.abono,P.fecha from factura_has_pago FP\n" +
+               " inner join factura F on FP.factura_id = F.id\n" +
+               " inner join pago P on FP.pago_id = P.id where F.id = "+idFactura;
+               tablaPago1.llenarTable(consulta,"","","","","", tituloPago);
+               //actualizar el label donde esta el total o suma de los pagos 
+               labelTotalPagos.setText(""+tablaPago1.sumaFlotanteColumna(1));
+               labelCantidadPagos.setText(""+tablaPago.getRowCount());
+               if(tablaPago1.sumaFlotanteColumna(1)>=Float.parseFloat(labelTotal.getText())){//si el total de los pagos es mayor igual al total de la factura el boton de abono se bloquea
+                  botonAbono.setEnabled(false);
+             }
+               }
+               else{
+                   JOptionPane.showMessageDialog(null,"El pago debe de ser mayor a cero","Advertencia",JOptionPane.WARNING_MESSAGE);
+               }
+              
+
+               
+           }
+           else{
+              JOptionPane.showMessageDialog(null,"Solo ingrese digitos","Adverttencia",JOptionPane.WARNING_MESSAGE);
+           }
+       }
        
     }//GEN-LAST:event_botonAbonoActionPerformed
 

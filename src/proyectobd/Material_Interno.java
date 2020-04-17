@@ -643,7 +643,7 @@ private void guardarEdicionMaterial(){
 //boton de reporte 
     private void botonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteActionPerformed
        try {
-            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+            //ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
               Connection con = conexion.getConexion();
              InputStream archivo=getClass().getResourceAsStream("/Reporte/Material.jrxml");
              JasperDesign dise = JRXmlLoader.load(archivo);

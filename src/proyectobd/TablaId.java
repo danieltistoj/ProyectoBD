@@ -53,6 +53,15 @@ public class TablaId {
         
     }
     }
+    public float sumaFlotanteColumna(int columna){
+        int filas = tabla.getRowCount();
+        float total;
+        total = 0;
+        for(int i=0;i<filas;i++){
+            total =  total + Float.parseFloat(String.valueOf(tabla.getValueAt(i,columna)));
+        }
+        return total;
+    }
 
     public JTable getTabla() {
         return tabla;
