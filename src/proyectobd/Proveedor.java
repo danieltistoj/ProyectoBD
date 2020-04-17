@@ -436,7 +436,7 @@ private int getId(String nombreBuscar){
                   id = Integer.parseInt(rs.getString("id"));
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Proveedor.class.getName()).log(Level.SEVERE, null, ex);
             }
      return id;
  }

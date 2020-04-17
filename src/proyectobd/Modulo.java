@@ -125,7 +125,7 @@ public class Modulo {
                   dato = rs.getString(parametro);
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Modulo.class.getName()).log(Level.SEVERE, null, ex);
             }
     return dato; 
 }

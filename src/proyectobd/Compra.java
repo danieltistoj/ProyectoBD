@@ -701,7 +701,7 @@ private String getDato(String formaId, String id, String tabla, String parametro
                   dato = rs.getString(parametro);
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
             }
     return dato; 
 }

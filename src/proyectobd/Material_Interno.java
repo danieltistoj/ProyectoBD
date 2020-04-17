@@ -449,7 +449,7 @@ private int getId(String nombreBuscar){
                   id = Integer.parseInt(rs.getString("id"));
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Material_Interno.class.getName()).log(Level.SEVERE, null, ex);
             }
      return id;
  } // retorna el id del material
@@ -651,7 +651,7 @@ private void guardarEdicionMaterial(){
              JasperPrint jp = JasperFillManager.fillReport(jr,null,con);
              JasperViewer.viewReport(jp,false); 
          } catch (JRException ex) {
-             Logger.getLogger(Material.class.getName()).log(Level.SEVERE, null, ex);
+             Logger.getLogger(Material_Interno.class.getName()).log(Level.SEVERE, null, ex);
          }
     }//GEN-LAST:event_botonReporteActionPerformed
 // boton cargar 

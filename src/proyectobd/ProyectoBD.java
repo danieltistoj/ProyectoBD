@@ -29,18 +29,13 @@ public class ProyectoBD {
         material.setVisible(true);
         */
         
-        Producto producto = new Producto();
-        producto.setVisible(false);
+      
          
         /*
         Menu menu=new Menu();
         menu.setVisible(false);
         */
-        Venta venta = new Venta();
-        venta.setVisible(false);
         
-        Deudor deudor = new Deudor();
-        deudor.setVisible(false);
         
         Menu2  menu2 = new Menu2();
         menu2.setVisible(true);
