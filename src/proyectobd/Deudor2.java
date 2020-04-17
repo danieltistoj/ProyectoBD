@@ -5,17 +5,31 @@
  */
 package proyectobd;
 
+import javax.swing.ButtonGroup;
+
 /**
  *
  * @author Usuario
  */
+/******/
 public class Deudor2 extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form Deudor2
-     */
+    private ButtonGroup grupoDeRadio;
+    private String [] tituloFactura = {"Id","Total","Cantidad Pagos","Total de pagos","Fecha","Cliente","Nit"};
     public Deudor2() {
         initComponents();
+        grupoDeRadio = new ButtonGroup();
+        grupoDeRadio.add(radioDeudor);
+        grupoDeRadio.add(radioSaldado);
+        radioSaldado.setSelected(true);
+        
+        tabbed.setEnabledAt(1,false);
+        botonDetalle.setEnabled(true);
+        botonRegresar.setEnabled(false);
+        botonCargarFecha.setEnabled(false);
+        botonAbono.setEnabled(false);
+        txtFechaInicial.setEnabled(false);
+        txtFechaFinal.setEnabled(false);
     }
 
     /**
@@ -165,10 +179,20 @@ public class Deudor2 extends javax.swing.JInternalFrame {
         jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         botonCargarNit.setText("Cargar");
+        botonCargarNit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCargarNitActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("NIT CLIENTE");
 
         comboTipos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nit cliente", "Rango Fecha", " " }));
+        comboTipos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboTiposActionPerformed(evt);
+            }
+        });
 
         botonCargarFecha.setText("Cargar");
 
@@ -603,6 +627,73 @@ public class Deudor2 extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void comboTiposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTiposActionPerformed
+        if(comboTipos.getSelectedIndex() == 0){
+            botonCargarNit.setEnabled(true);
+            txtNitCliente.setEnabled(true);
+            
+            botonCargarFecha.setEnabled(false);
+            txtFechaInicial.setEnabled(false);
+            txtFechaInicial.setText("");
+            txtFechaFinal.setEnabled(false);
+            txtFechaFinal.setText("");
+        }
+        else{
+            botonCargarNit.setEnabled(false);
+            txtNitCliente.setEnabled(false);
+            txtNitCliente.setText("");
+            
+            botonCargarFecha.setEnabled(true);
+            txtFechaInicial.setEnabled(true);
+            txtFechaFinal.setEnabled(true);
+        }
+    }//GEN-LAST:event_comboTiposActionPerformed
+
+    private void botonCargarNitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarNitActionPerformed
+        String consulta, condicion="";
+        TablaId tabla = new TablaId(tablaFactura);
+        if(radioSaldado.isSelected()){
+             consulta = "select F.id,F.total,count(P.id) as Pagos,sum(P.abono)TotalPagos,F.fecha,C.nombre as cliente,C.nit as nit_cliente  from  factura_has_pago FP\n" +
+" inner join factura F on FP.factura_id = F.id\n" +
+" inner join pago P on FP.pago_id = P.id \n" +
+" inner join cliente C on F.cliente_id = C.id\n" +
+" group by F.id having F.total<=TotalPagos ";
+            if(comboTipos.getSelectedIndex() == 0){//si busca por nit del cliente
+                if(txtNitCliente.getText().length()>0){//si hay un numero de nit en especifico 
+                    condicion = "and C.nit = '"+txtNitCliente.getText()+"'";
+                }
+            }
+            else{//si busca por rango de fecha 
+                if(txtFechaFinal.getText().length()>0 && txtFechaInicial.getText().length()>0){
+                    
+                }
+            }
+            tabla.llenarTable(consulta,"", "","",condicion, consulta, tituloFactura);
+            tablaFactura = tabla.getTabla();
+        }
+        if(radioDeudor.isSelected()){//si es deudor
+            consulta = "select F.id,F.total,count(P.id) as Pagos,sum(P.abono)TotalPagos,F.fecha,C.nombre as cliente,C.nit as nit_cliente  from  factura_has_pago FP\n" +
+" inner join factura F on FP.factura_id = F.id\n" +
+" inner join pago P on FP.pago_id = P.id \n" +
+" inner join cliente C on F.cliente_id = C.id\n" +
+" group by F.id having F.total>TotalPagos ";
+            
+            if(comboTipos.getSelectedIndex() == 0){
+                 if(txtNitCliente.getText().length()>0){//si hay un numero de nit en especifico 
+                    condicion = "and C.nit = '"+txtNitCliente.getText()+"'";
+                }
+            }
+            else{
+                if(txtFechaFinal.getText().length()>0 && txtFechaInicial.getText().length()>0){
+                    
+                }
+            }
+              tabla.llenarTable(consulta,"", "","",condicion, consulta, tituloFactura);
+              tablaFactura = tabla.getTabla();
+            
+        }
+    }//GEN-LAST:event_botonCargarNitActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

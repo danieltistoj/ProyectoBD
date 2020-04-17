@@ -49,7 +49,7 @@ public class Menu2 extends javax.swing.JFrame {
         menuDeudas = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
+        deudores = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
 
         jCheckBoxMenuItem1.setSelected(true);
@@ -151,13 +151,13 @@ public class Menu2 extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem7);
 
-        jMenuItem8.setText("Deudores");
-        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+        deudores.setText("Deudores");
+        deudores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem8ActionPerformed(evt);
+                deudoresActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem8);
+        jMenu4.add(deudores);
 
         jMenuItem9.setText("Cliente");
         jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
@@ -241,9 +241,11 @@ private boolean verificarVentanasAbiertas(){
        verificarVentanasAbiertas();
     }//GEN-LAST:event_formWindowClosing
 
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-      
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
+    private void deudoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deudoresActionPerformed
+         Deudor2 deudor = new Deudor2();
+         this.panelEscritorio.add(deudor);
+         deudor.show();
+    }//GEN-LAST:event_deudoresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -281,6 +283,7 @@ private boolean verificarVentanasAbiertas(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem deudores;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
@@ -292,7 +295,6 @@ private boolean verificarVentanasAbiertas(){
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JMenuItem menuCompra;
     private javax.swing.JMenuItem menuDeudas;
