@@ -5,8 +5,20 @@
  */
 package proyectobd;
 
+import java.io.InputStream;
+import java.sql.Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -15,6 +27,8 @@ import javax.swing.JOptionPane;
 /******/
 public class Deudor2 extends javax.swing.JInternalFrame {
 
+    private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
+             usuario ="root",contra = "xela2020",consultaMaterial;
     private ButtonGroup grupoDeRadio;
     private String [] tituloFactura = {"Id","Total","Cantidad Pagos","Total de pagos","Fecha","Cliente","Nit"},
             tituloProducto = {"Id","Nombre","Cantidad","Precio","Total"},
@@ -53,6 +67,7 @@ public class Deudor2 extends javax.swing.JInternalFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaFactura = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
+        botonReporteFact = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         radioDeudor = new javax.swing.JRadioButton();
         radioSaldado = new javax.swing.JRadioButton();
@@ -131,6 +146,13 @@ public class Deudor2 extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Facturas");
 
+        botonReporteFact.setText("Reporte");
+        botonReporteFact.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonReporteFactActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -141,13 +163,21 @@ public class Deudor2 extends javax.swing.JInternalFrame {
                 .addContainerGap())
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addComponent(jLabel6)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(botonReporteFact)
+                .addGap(21, 21, 21))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(0, 22, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(botonReporteFact)))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -860,6 +890,36 @@ public class Deudor2 extends javax.swing.JInternalFrame {
        
     }//GEN-LAST:event_botonAbonoActionPerformed
 
+    private void botonReporteFactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteFactActionPerformed
+        if(radioDeudor.isSelected()){
+            try {
+            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+              Connection con = conexion.getConexion();
+             InputStream archivo=getClass().getResourceAsStream("/Reporte/deudoresVenta.jrxml");
+             JasperDesign dise = JRXmlLoader.load(archivo);
+             JasperReport jr = JasperCompileManager.compileReport(dise);
+             JasperPrint jp = JasperFillManager.fillReport(jr,null,con);
+             JasperViewer.viewReport(jp,false); 
+         } catch (JRException ex) {
+             Logger.getLogger(Deudor2.class.getName()).log(Level.SEVERE, null, ex);
+         }  
+        }
+        else{
+             try {
+            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+              Connection con = conexion.getConexion();
+             InputStream archivo=getClass().getResourceAsStream("/Reporte/deudoresVenta2.jrxml");
+             JasperDesign dise = JRXmlLoader.load(archivo);
+             JasperReport jr = JasperCompileManager.compileReport(dise);
+             JasperPrint jp = JasperFillManager.fillReport(jr,null,con);
+             JasperViewer.viewReport(jp,false); 
+         } catch (JRException ex) {
+             Logger.getLogger(Deudor2.class.getName()).log(Level.SEVERE, null, ex);
+         } 
+        }
+
+    }//GEN-LAST:event_botonReporteFactActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAbono;
@@ -867,6 +927,7 @@ public class Deudor2 extends javax.swing.JInternalFrame {
     private javax.swing.JButton botonCargarNit;
     private javax.swing.JButton botonDetalle;
     private javax.swing.JButton botonRegresar;
+    private javax.swing.JButton botonReporteFact;
     private javax.swing.JComboBox<String> comboTipos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
