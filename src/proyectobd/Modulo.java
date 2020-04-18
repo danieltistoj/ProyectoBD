@@ -41,10 +41,11 @@ public class Modulo {
     }
     
     
-    public void generarCodigo(JLabel label,String formaParametro, String tabla,String letra){
+    public String generarCodigo(String formaParametro, String tabla,String letra){
     int entero;
     String numero = "";
     String ultimoNum = "";
+    String nuevoCodigo = "";
        try {
             conexion.EjecutarConsulta("SELECT MAX("+formaParametro+") FROM "+tabla);
             ResultSet rs = conexion.getResulSet();
@@ -53,7 +54,7 @@ public class Modulo {
                 ultimoNum = rs.getString(1);
             }   
             if(ultimoNum == null){
-                label.setText(letra+"0001");
+                nuevoCodigo=letra+"0001";
             }
             else{
                 char r1 = ultimoNum.charAt(2);
@@ -66,12 +67,12 @@ public class Modulo {
                    entero = Integer.parseInt(cadena);
                    Codigo codigo = new Codigo();
                    codigo.generarCodigo(entero);
-                   label.setText(letra+codigo.getCodigo());
+                   nuevoCodigo=letra+codigo.getCodigo();
             }
         } catch (SQLException ex) {
              System.out.println(ex.getMessage());
         }
-       
+       return nuevoCodigo;
 }
     public String fecha(){
     LocalDate fecha1 = LocalDate.now();

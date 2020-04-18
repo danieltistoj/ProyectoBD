@@ -48,7 +48,7 @@
 		<queryString>
 			<![CDATA[select  P.id,P.nombre,DP.cantidad,DP.precio,DP.total from  detalle_pro DP
  inner join factura F on DP.factura_id = F.id
- inner join producto P on DP.producto_id = P.id where F.id = $P{iddataset};]]>
+ inner join producto P on DP.producto_id = P.id where F.numFactura = $P{iddataset};]]>
 		</queryString>
 		<field name="id" class="java.lang.Integer">
 			<fieldDescription><![CDATA[]]></fieldDescription>
@@ -71,7 +71,7 @@
 		<queryString>
 			<![CDATA[select P.id,P.abono,P.fecha from factura_has_pago FP
  inner join factura F on FP.factura_id = F.id
- inner join pago P on FP.pago_id = P.id where F.id = $P{idpagodata};]]>
+ inner join pago P on FP.pago_id = P.id where F.numFactura = $P{idpagodata};]]>
 		</queryString>
 		<field name="id" class="java.lang.Integer">
 			<fieldDescription><![CDATA[]]></fieldDescription>
@@ -85,6 +85,11 @@
 	</subDataset>
 	<parameter name="id" class="java.lang.String"/>
 	<parameter name="idpago" class="java.lang.String"/>
+	<parameter name="nit" class="java.lang.String"/>
+	<parameter name="nombre" class="java.lang.String"/>
+	<parameter name="apellido" class="java.lang.String"/>
+	<parameter name="numFactura" class="java.lang.String"/>
+	<parameter name="total" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select 1]]>
 	</queryString>
@@ -109,39 +114,66 @@
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="372" y="109" width="33" height="26" uuid="a060e19c-5155-4383-b82a-6168fb6e1a59"/>
+				<reportElement x="201" y="135" width="33" height="26" uuid="a060e19c-5155-4383-b82a-6168fb6e1a59"/>
 				<textElement>
-					<font size="16"/>
+					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[NIT:]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="234" y="135" width="100" height="26" uuid="54551bb9-f8c2-4a64-b293-0c3296092e3d"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nit}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="372" y="135" width="81" height="23" uuid="477e806e-ed2a-4687-9a24-86a589ddcb7d"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="453" y="135" width="121" height="23" uuid="1320a33e-dfc4-4226-882f-d869c230e1d1"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="574" y="135" width="100" height="23" uuid="7c2efe1d-78fc-4ada-b90c-6d0cd91bbfb2"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{apellido}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="574" y="35" width="38" height="40" uuid="79756f96-84e2-460d-8f41-4a1efebbafab"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="632" y="35" width="124" height="40" uuid="06a5b9e5-0994-43a8-9d21-ccee638bb9c2"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numFactura}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="50" splitType="Stretch">
-			<staticText>
-				<reportElement x="154" y="28" width="99" height="22" uuid="0dc7056e-7f20-4b1e-a54a-94bf9f338b5f"/>
-				<textElement>
-					<font size="16"/>
-				</textElement>
-				<text><![CDATA[Productos]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="423" y="27" width="49" height="23" uuid="aaefa85b-9e6f-4d24-9780-afc8599fb9fe"/>
-				<textElement>
-					<font size="16"/>
-				</textElement>
-				<text><![CDATA[Total:]]></text>
-			</staticText>
-		</band>
+		<band height="50" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="153" splitType="Stretch">
+		<band height="155" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table" style="table" x="154" y="0" width="541" height="53" uuid="28835d93-936a-4173-b08b-a09f1d5a290f"/>
+				<reportElement key="table" style="table" x="0" y="35" width="344" height="88" uuid="28835d93-936a-4173-b08b-a09f1d5a290f"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="productos" uuid="2fc1f667-b2c3-4b01-86b8-f114f34b5240">
 						<datasetParameter name="iddataset">
@@ -256,7 +288,7 @@
 				</jr:table>
 			</componentElement>
 			<componentElement>
-				<reportElement key="table 1" style="table 1" x="154" y="104" width="541" height="49" uuid="a609fdf2-955d-4c7a-ac54-8fd77cefd661"/>
+				<reportElement key="table 1" style="table 1" x="499" y="34" width="303" height="89" uuid="a609fdf2-955d-4c7a-ac54-8fd77cefd661"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="pagos" uuid="cada2986-05dc-49f9-8f69-6e5ef78e9335">
 						<datasetParameter name="idpagodata">
@@ -275,6 +307,7 @@
 						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="7f975dc2-504c-4634-873c-7e4556cb948f"/>
+								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -290,6 +323,7 @@
 						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="01d3a82d-a45e-4ed4-919f-68e53ba2fb30"/>
+								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[$F{abono}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -305,6 +339,7 @@
 						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="1859711d-98bf-4c37-a94f-a4d90fac66d9"/>
+								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -312,16 +347,37 @@
 				</jr:table>
 			</componentElement>
 			<staticText>
-				<reportElement x="154" y="80" width="100" height="24" uuid="87f1113d-be03-471e-b862-ca5a2c24605c"/>
+				<reportElement x="499" y="10" width="100" height="24" uuid="87f1113d-be03-471e-b862-ca5a2c24605c"/>
 				<textElement>
-					<font size="16"/>
+					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Pago]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="12" width="99" height="22" uuid="0dc7056e-7f20-4b1e-a54a-94bf9f338b5f"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Productos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="217" y="10" width="49" height="25" uuid="aaefa85b-9e6f-4d24-9780-afc8599fb9fe"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="283" y="12" width="61" height="22" uuid="e0db7306-b8ff-41f4-a941-ff99063f27fe"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="1" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="54" splitType="Stretch">

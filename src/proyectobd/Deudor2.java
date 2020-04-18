@@ -7,6 +7,7 @@ package proyectobd;
 
 import java.io.InputStream;
 import java.sql.Connection;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
@@ -32,7 +33,7 @@ public class Deudor2 extends javax.swing.JInternalFrame {
     private ButtonGroup grupoDeRadio;
     private String [] tituloFactura = {"Id","Total","Cantidad Pagos","Total de pagos","Fecha","Cliente","Nit"},
             tituloProducto = {"Id","Nombre","Cantidad","Precio","Total"},
-            tituloPago = {"Id","Abono","Fecha"};
+            tituloPago = {"Id","Abono","No.","Fecha"};
     private Modulo deudor;
     public Deudor2() {
         initComponents();
@@ -100,6 +101,7 @@ public class Deudor2 extends javax.swing.JInternalFrame {
         jLabel26 = new javax.swing.JLabel();
         labelTotalPagos = new javax.swing.JLabel();
         labelCantidadPagos = new javax.swing.JLabel();
+        botonReportePago = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -421,6 +423,13 @@ public class Deudor2 extends javax.swing.JInternalFrame {
         labelCantidadPagos.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         labelCantidadPagos.setText("jLabel30");
 
+        botonReportePago.setText("Reporte");
+        botonReportePago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonReportePagoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -430,7 +439,11 @@ public class Deudor2 extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane2)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addComponent(jLabel10)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(botonReportePago)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel25)
@@ -451,10 +464,11 @@ public class Deudor2 extends javax.swing.JInternalFrame {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel25)
                             .addComponent(labelTotalPagos))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel26)
-                    .addComponent(labelCantidadPagos))
+                    .addComponent(labelCantidadPagos)
+                    .addComponent(botonReportePago))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -704,7 +718,25 @@ public class Deudor2 extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+private void generarRecibo(){
+    try {
+            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+              Connection con = conexion.getConexion();
+             InputStream archivo=getClass().getResourceAsStream("/Reporte/reciboPago.jrxml");
+            
+             HashMap parametros = new HashMap();
+             parametros.put("nit",labelNit.getText());
+             parametros.put("nombre",labelNombre.getText());
+             parametros.put("apellido",labelApellido.getText());
+             
+             JasperDesign dise = JRXmlLoader.load(archivo);
+             JasperReport jr = JasperCompileManager.compileReport(dise);
+             JasperPrint jp = JasperFillManager.fillReport(jr,parametros,con);
+             JasperViewer.viewReport(jp,false); 
+         } catch (JRException ex) {
+             Logger.getLogger(Deudor2.class.getName()).log(Level.SEVERE, null, ex);
+         }
+}
     private void comboTiposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTiposActionPerformed
         if(comboTipos.getSelectedIndex() == 0){
             botonCargarNit.setEnabled(true);
@@ -806,7 +838,7 @@ public class Deudor2 extends javax.swing.JInternalFrame {
             tablaPro.llenarTable(consulta,"","","","","", tituloProducto); 
             labelCantidadProducto.setText(tablaProducto.getRowCount()+"");
             //llenar tabla pagos.
-            consulta = "select P.id,P.abono,P.fecha from factura_has_pago FP\n" +
+            consulta = "select P.id,P.abono,P.numPago,P.fecha from factura_has_pago FP\n" +
 " inner join factura F on FP.factura_id = F.id\n" +
 " inner join pago P on FP.pago_id = P.id where F.id = "+String.valueOf(tablaFactura.getValueAt(fila,0));
             tablaPago1.llenarTable(consulta,"","","","","", tituloPago);
@@ -850,8 +882,8 @@ public class Deudor2 extends javax.swing.JInternalFrame {
                idFactura = deudor.getDato("numFactura","'"+labelNumFactura.getText()+"'","factura","id");
                System.out.println(idFactura);
                //realizar el pago que esta relacionado con el cliente 
-               columnas = "abono,cliente_id,fecha";
-               datos = cantiCadena+","+idCliente+",'"+deudor.fecha()+"'";
+               columnas = "abono,cliente_id,numPago,fecha";
+               datos = cantiCadena+","+idCliente+",'"+deudor.generarCodigo("numPago","pago","PD")+"','"+deudor.fecha()+"'";
                deudor.nuevoRegistro(columnas,datos,"pago");
                
                //obtener el ultimo id de pago
@@ -865,10 +897,12 @@ public class Deudor2 extends javax.swing.JInternalFrame {
                deudor.nuevoRegistro(columnas,datos,"factura_has_pago");
                
                //consulta a los pagos de la factura, para actualizar
-               consulta = "select P.id,P.abono,P.fecha from factura_has_pago FP\n" +
+               consulta = "select P.id,P.abono,P.numPago,P.fecha from factura_has_pago FP\n" +
                " inner join factura F on FP.factura_id = F.id\n" +
                " inner join pago P on FP.pago_id = P.id where F.id = "+idFactura;
                tablaPago1.llenarTable(consulta,"","","","","", tituloPago);
+               //obtener el recibo de pago
+               generarRecibo();
                //actualizar el label donde esta el total o suma de los pagos 
                labelTotalPagos.setText(""+tablaPago1.sumaFlotanteColumna(1));
                labelCantidadPagos.setText(""+tablaPago.getRowCount());
@@ -920,6 +954,30 @@ public class Deudor2 extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_botonReporteFactActionPerformed
 
+    private void botonReportePagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReportePagoActionPerformed
+       try {
+            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+              Connection con = conexion.getConexion();
+             InputStream archivo=getClass().getResourceAsStream("/Reporte/factura.jrxml");
+            
+             HashMap parametros = new HashMap();
+             parametros.put("id",labelNumFactura.getText());
+             parametros.put("idpago",labelNumFactura.getText());
+             parametros.put("nit",labelNit.getText());
+             parametros.put("nombre",labelNombre.getText());
+             parametros.put("apellido",labelApellido.getText());
+             parametros.put("numFactura",labelNumFactura.getText());
+             parametros.put("total",labelTotal.getText());
+             
+             JasperDesign dise = JRXmlLoader.load(archivo);
+             JasperReport jr = JasperCompileManager.compileReport(dise);
+             JasperPrint jp = JasperFillManager.fillReport(jr,parametros,con);
+             JasperViewer.viewReport(jp,false); 
+         } catch (JRException ex) {
+             Logger.getLogger(Deudor2.class.getName()).log(Level.SEVERE, null, ex);
+         }
+    }//GEN-LAST:event_botonReportePagoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAbono;
@@ -928,6 +986,7 @@ public class Deudor2 extends javax.swing.JInternalFrame {
     private javax.swing.JButton botonDetalle;
     private javax.swing.JButton botonRegresar;
     private javax.swing.JButton botonReporteFact;
+    private javax.swing.JButton botonReportePago;
     private javax.swing.JComboBox<String> comboTipos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

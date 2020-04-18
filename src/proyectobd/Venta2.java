@@ -5,15 +5,26 @@
  */
 package proyectobd;
 
+import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -33,7 +44,7 @@ public class Venta2 extends javax.swing.JInternalFrame {
         venta = new Modulo();
         conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
         
-        venta.generarCodigo(labelNo, "numFactura","factura","CD");
+        labelNo.setText(venta.generarCodigo("numFactura","factura","CD"));
         labelFecha.setText(venta.fecha());
         
         botonAnadir.setEnabled(false);
@@ -727,6 +738,29 @@ public class Venta2 extends javax.swing.JInternalFrame {
         botonQuitar.setEnabled(false);
         labelTotal.setText("");
    }
+   private void generarFactura(){
+       try {
+           
+             Connection con = conexion.getConexion();
+             InputStream archivo=getClass().getResourceAsStream("/Reporte/factura.jrxml");
+            
+             HashMap parametros = new HashMap();
+             parametros.put("id",labelNo.getText());
+             parametros.put("idpago",labelNo.getText());
+             parametros.put("nit",txtNit.getText());
+             parametros.put("nombre",labelNombreClie.getText());
+             parametros.put("apellido",labelApellido.getText());
+             parametros.put("numFactura",labelNo.getText());
+             parametros.put("total",labelTotal.getText());
+             
+             JasperDesign dise = JRXmlLoader.load(archivo);
+             JasperReport jr = JasperCompileManager.compileReport(dise);
+             JasperPrint jp = JasperFillManager.fillReport(jr,parametros,con);
+             JasperViewer.viewReport(jp,false); 
+         } catch (JRException ex) {
+             Logger.getLogger(Venta2.class.getName()).log(Level.SEVERE, null, ex);
+         }
+   }
     private void botonCargarClieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarClieActionPerformed
         if(txtNit.getText().length()>0){
             if(venta.existeRegistro("'"+txtNit.getText()+"'","cliente","nit")){
@@ -913,8 +947,8 @@ public class Venta2 extends javax.swing.JInternalFrame {
                         System.out.println("relacion factura producto");
                         
                         //3) hacer primer pago 
-                        parametros = "abono,cliente_id,fecha";
-                        datos =abono+","+labelId.getText()+",'"+venta.fecha()+"'";
+                        parametros = "abono,cliente_id,numPago,fecha";
+                        datos =abono+","+labelId.getText()+",'"+venta.generarCodigo("numPago","pago","PD")+"','"+venta.fecha()+"'";
                         venta.nuevoRegistro( parametros,datos,"pago");
                         System.out.println("primer pago");
                         
@@ -925,6 +959,7 @@ public class Venta2 extends javax.swing.JInternalFrame {
                         System.out.println("primer pago relacionado con factura");
                         
                         JOptionPane.showMessageDialog(null,"Venta completada","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+                        generarFactura();
                         limpiarModuloCliente();
                         limpiarModuloProducto();
                         venta.limpiarTabla(modelo, tablaProducto);
@@ -938,7 +973,8 @@ public class Venta2 extends javax.swing.JInternalFrame {
                         botonQuitar.setEnabled(false);
                         labelTotal.setText("");
                         
-                        venta.generarCodigo(labelNo, "numFactura","factura","CD");
+                        labelNo.setText(venta.generarCodigo("numFactura","factura","CD"));
+                        
                         
                     }
                     else{
