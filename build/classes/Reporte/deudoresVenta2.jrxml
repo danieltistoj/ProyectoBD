@@ -249,7 +249,7 @@
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch">
+		<band height="39" splitType="Stretch">
 			<textField>
 				<reportElement x="320" y="19" width="80" height="20" uuid="b02b0c49-7ceb-4d12-9f97-d1f182f80a7d"/>
 				<textElement textAlignment="Right"/>
