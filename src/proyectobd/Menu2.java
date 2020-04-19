@@ -36,21 +36,24 @@ public class Menu2 extends javax.swing.JFrame {
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         panelEscritorio = new javax.swing.JDesktopPane();
         jLabel1 = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        menuMaterial = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        menuCompra = new javax.swing.JMenuItem();
-        menuProveedor = new javax.swing.JMenuItem();
-        menuDeudas = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        deudores = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
+        barraMenu = new javax.swing.JMenuBar();
+        menuArchivo = new javax.swing.JMenu();
+        itemIniciarSesion = new javax.swing.JMenuItem();
+        itemCerrarSesion = new javax.swing.JMenuItem();
+        menuAlmacen = new javax.swing.JMenu();
+        itemMaterial = new javax.swing.JMenuItem();
+        itemProducto = new javax.swing.JMenuItem();
+        menunCompras = new javax.swing.JMenu();
+        itemCompra = new javax.swing.JMenuItem();
+        itemProveedor = new javax.swing.JMenuItem();
+        itemDeudas = new javax.swing.JMenuItem();
+        menuVentas = new javax.swing.JMenu();
+        itemVenta = new javax.swing.JMenuItem();
+        itemDeudores = new javax.swing.JMenuItem();
+        itemCliente = new javax.swing.JMenuItem();
+        menuUsuario = new javax.swing.JMenu();
+        itemUsuario = new javax.swing.JMenuItem();
+        itemOpciones = new javax.swing.JMenuItem();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -83,93 +86,108 @@ public class Menu2 extends javax.swing.JFrame {
                 .addContainerGap(230, Short.MAX_VALUE))
         );
 
-        jMenu1.setText("Archivo");
+        menuArchivo.setText("Archivo");
 
-        jMenuItem1.setText("Iniciar Sesion");
-        jMenu1.add(jMenuItem1);
+        itemIniciarSesion.setText("Iniciar Sesion");
+        menuArchivo.add(itemIniciarSesion);
 
-        jMenuItem2.setText("Cerrar Sesion");
-        jMenu1.add(jMenuItem2);
+        itemCerrarSesion.setText("Cerrar Sesion");
+        menuArchivo.add(itemCerrarSesion);
 
-        jMenuBar1.add(jMenu1);
+        barraMenu.add(menuArchivo);
 
-        jMenu2.setText("Almacen");
+        menuAlmacen.setText("Almacen");
 
-        menuMaterial.setText("Material");
-        menuMaterial.addActionListener(new java.awt.event.ActionListener() {
+        itemMaterial.setText("Material");
+        itemMaterial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuMaterialActionPerformed(evt);
+                itemMaterialActionPerformed(evt);
             }
         });
-        jMenu2.add(menuMaterial);
+        menuAlmacen.add(itemMaterial);
 
-        jMenuItem4.setText("Producto");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        itemProducto.setText("Producto");
+        itemProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                itemProductoActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem4);
+        menuAlmacen.add(itemProducto);
 
-        jMenuBar1.add(jMenu2);
+        barraMenu.add(menuAlmacen);
 
-        jMenu3.setText("Compras");
+        menunCompras.setText("Compras");
 
-        menuCompra.setText("Compra");
-        menuCompra.addActionListener(new java.awt.event.ActionListener() {
+        itemCompra.setText("Compra");
+        itemCompra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuCompraActionPerformed(evt);
+                itemCompraActionPerformed(evt);
             }
         });
-        jMenu3.add(menuCompra);
+        menunCompras.add(itemCompra);
 
-        menuProveedor.setText("Proveedor ");
-        menuProveedor.addActionListener(new java.awt.event.ActionListener() {
+        itemProveedor.setText("Proveedor ");
+        itemProveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuProveedorActionPerformed(evt);
+                itemProveedorActionPerformed(evt);
             }
         });
-        jMenu3.add(menuProveedor);
+        menunCompras.add(itemProveedor);
 
-        menuDeudas.setText("Deuda / Historial");
-        menuDeudas.addActionListener(new java.awt.event.ActionListener() {
+        itemDeudas.setText("Deuda / Historial");
+        itemDeudas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuDeudasActionPerformed(evt);
+                itemDeudasActionPerformed(evt);
             }
         });
-        jMenu3.add(menuDeudas);
+        menunCompras.add(itemDeudas);
 
-        jMenuBar1.add(jMenu3);
+        barraMenu.add(menunCompras);
 
-        jMenu4.setText("Ventas ");
+        menuVentas.setText("Ventas ");
 
-        jMenuItem7.setText("Venta");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+        itemVenta.setText("Venta");
+        itemVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
+                itemVentaActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem7);
+        menuVentas.add(itemVenta);
 
-        deudores.setText("Deudores");
-        deudores.addActionListener(new java.awt.event.ActionListener() {
+        itemDeudores.setText("Deudores");
+        itemDeudores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deudoresActionPerformed(evt);
+                itemDeudoresActionPerformed(evt);
             }
         });
-        jMenu4.add(deudores);
+        menuVentas.add(itemDeudores);
 
-        jMenuItem9.setText("Cliente");
-        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+        itemCliente.setText("Cliente");
+        itemCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem9ActionPerformed(evt);
+                itemClienteActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem9);
+        menuVentas.add(itemCliente);
 
-        jMenuBar1.add(jMenu4);
+        barraMenu.add(menuVentas);
 
-        setJMenuBar(jMenuBar1);
+        menuUsuario.setText("Usuario");
+
+        itemUsuario.setText("Usuarios");
+        itemUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemUsuarioActionPerformed(evt);
+            }
+        });
+        menuUsuario.add(itemUsuario);
+
+        itemOpciones.setText("Opciones");
+        menuUsuario.add(itemOpciones);
+
+        barraMenu.add(menuUsuario);
+
+        setJMenuBar(barraMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -195,57 +213,61 @@ private boolean verificarVentanasAbiertas(){
            }
     return cerrado;
 }
-    private void menuMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMaterialActionPerformed
+    private void itemMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMaterialActionPerformed
        Material_Interno material = new Material_Interno();
        this.panelEscritorio.add(material);
        material.show();
-    }//GEN-LAST:event_menuMaterialActionPerformed
+    }//GEN-LAST:event_itemMaterialActionPerformed
 
-    private void menuCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCompraActionPerformed
+    private void itemCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCompraActionPerformed
      Compra compra = new Compra();
      this.panelEscritorio.add(compra);
      compra.show();
-    }//GEN-LAST:event_menuCompraActionPerformed
+    }//GEN-LAST:event_itemCompraActionPerformed
 
-    private void menuProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProveedorActionPerformed
+    private void itemProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemProveedorActionPerformed
         Proveedor proveedor = new Proveedor();
         this.panelEscritorio.add(proveedor);
         proveedor.show();
-    }//GEN-LAST:event_menuProveedorActionPerformed
+    }//GEN-LAST:event_itemProveedorActionPerformed
 
-    private void menuDeudasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDeudasActionPerformed
+    private void itemDeudasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDeudasActionPerformed
       deudaHistoria deuda = new deudaHistoria();
       this.panelEscritorio.add(deuda);
       deuda.show();
-    }//GEN-LAST:event_menuDeudasActionPerformed
+    }//GEN-LAST:event_itemDeudasActionPerformed
 
-    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+    private void itemClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemClienteActionPerformed
       Cliente2 cliente = new Cliente2();
       this.panelEscritorio.add(cliente);
       cliente.show();
-    }//GEN-LAST:event_jMenuItem9ActionPerformed
+    }//GEN-LAST:event_itemClienteActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void itemProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemProductoActionPerformed
         Producto2 producto = new Producto2();
         this.panelEscritorio.add(producto);
         producto.show();
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_itemProductoActionPerformed
 
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+    private void itemVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemVentaActionPerformed
        Venta2 venta = new Venta2();
        this.panelEscritorio.add(venta);
        venta.show();
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
+    }//GEN-LAST:event_itemVentaActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
        verificarVentanasAbiertas();
     }//GEN-LAST:event_formWindowClosing
 
-    private void deudoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deudoresActionPerformed
+    private void itemDeudoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDeudoresActionPerformed
          Deudor2 deudor = new Deudor2();
          this.panelEscritorio.add(deudor);
          deudor.show();
-    }//GEN-LAST:event_deudoresActionPerformed
+    }//GEN-LAST:event_itemDeudoresActionPerformed
+
+    private void itemUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itemUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -283,23 +305,26 @@ private boolean verificarVentanasAbiertas(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem deudores;
+    private javax.swing.JMenuBar barraMenu;
+    private javax.swing.JMenuItem itemCerrarSesion;
+    private javax.swing.JMenuItem itemCliente;
+    private javax.swing.JMenuItem itemCompra;
+    private javax.swing.JMenuItem itemDeudas;
+    private javax.swing.JMenuItem itemDeudores;
+    private javax.swing.JMenuItem itemIniciarSesion;
+    private javax.swing.JMenuItem itemMaterial;
+    private javax.swing.JMenuItem itemOpciones;
+    private javax.swing.JMenuItem itemProducto;
+    private javax.swing.JMenuItem itemProveedor;
+    private javax.swing.JMenuItem itemUsuario;
+    private javax.swing.JMenuItem itemVenta;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem9;
-    private javax.swing.JMenuItem menuCompra;
-    private javax.swing.JMenuItem menuDeudas;
-    private javax.swing.JMenuItem menuMaterial;
-    private javax.swing.JMenuItem menuProveedor;
+    private javax.swing.JMenu menuAlmacen;
+    private javax.swing.JMenu menuArchivo;
+    private javax.swing.JMenu menuUsuario;
+    private javax.swing.JMenu menuVentas;
+    private javax.swing.JMenu menunCompras;
     private javax.swing.JDesktopPane panelEscritorio;
     // End of variables declaration//GEN-END:variables
 }

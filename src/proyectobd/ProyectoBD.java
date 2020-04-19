@@ -38,7 +38,10 @@ public class ProyectoBD {
         
         
         Menu2  menu2 = new Menu2();
-        menu2.setVisible(true);
+        menu2.setVisible(false);
+        
+        InicioSesion inicio = new InicioSesion();
+        inicio.setVisible(true);
         
         /*
         try {
