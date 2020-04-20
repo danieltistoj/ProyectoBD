@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *
@@ -35,13 +36,24 @@ public class ProyectoBD {
         Menu menu=new Menu();
         menu.setVisible(false);
         */
-        
+        /*
+        String textoSinEncriptar="sergio"; 
+String textoEncriptadoConMD5=DigestUtils.md5Hex(textoSinEncriptar); 
+System.out.println("Texto Encriptado con MD5 : "+textoEncriptadoConMD5);
+
+    String encrip = DigestUtils.md5Hex("sergio");
+        System.out.println(encrip);
+    if(encrip.equals(textoEncriptadoConMD5)){
+        System.out.println("son iguales");
+    }
+        */
+
         
         Menu2  menu2 = new Menu2();
-        menu2.setVisible(false);
+        menu2.setVisible(true);
         
         InicioSesion inicio = new InicioSesion();
-        inicio.setVisible(true);
+        inicio.setVisible(false);
         
         /*
         try {

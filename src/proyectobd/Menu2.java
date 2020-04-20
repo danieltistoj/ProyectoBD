@@ -53,7 +53,7 @@ public class Menu2 extends javax.swing.JFrame {
         itemCliente = new javax.swing.JMenuItem();
         menuUsuario = new javax.swing.JMenu();
         itemUsuario = new javax.swing.JMenuItem();
-        itemOpciones = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -88,9 +88,11 @@ public class Menu2 extends javax.swing.JFrame {
 
         menuArchivo.setText("Archivo");
 
+        itemIniciarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Login_37128 (1).png"))); // NOI18N
         itemIniciarSesion.setText("Iniciar Sesion");
         menuArchivo.add(itemIniciarSesion);
 
+        itemCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Logout_37127 (2).png"))); // NOI18N
         itemCerrarSesion.setText("Cerrar Sesion");
         menuArchivo.add(itemCerrarSesion);
 
@@ -98,6 +100,7 @@ public class Menu2 extends javax.swing.JFrame {
 
         menuAlmacen.setText("Almacen");
 
+        itemMaterial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/_123034.png"))); // NOI18N
         itemMaterial.setText("Material");
         itemMaterial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,6 +109,7 @@ public class Menu2 extends javax.swing.JFrame {
         });
         menuAlmacen.add(itemMaterial);
 
+        itemProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/business_inventory_maintenance_product_box_boxes_2326 (1).png"))); // NOI18N
         itemProducto.setText("Producto");
         itemProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,6 +122,7 @@ public class Menu2 extends javax.swing.JFrame {
 
         menunCompras.setText("Compras");
 
+        itemCompra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/ic_shopping_cart_128_28698.png"))); // NOI18N
         itemCompra.setText("Compra");
         itemCompra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,6 +131,7 @@ public class Menu2 extends javax.swing.JFrame {
         });
         menunCompras.add(itemCompra);
 
+        itemProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/business-color_business-contact-86_icon-icons.com_53469.png"))); // NOI18N
         itemProveedor.setText("Proveedor ");
         itemProveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -134,6 +140,7 @@ public class Menu2 extends javax.swing.JFrame {
         });
         menunCompras.add(itemProveedor);
 
+        itemDeudas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/shoppaymentorderbuy-27_icon-icons.com_73879.png"))); // NOI18N
         itemDeudas.setText("Deuda / Historial");
         itemDeudas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,6 +153,7 @@ public class Menu2 extends javax.swing.JFrame {
 
         menuVentas.setText("Ventas ");
 
+        itemVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/cashier2_118191.png"))); // NOI18N
         itemVenta.setText("Venta");
         itemVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,6 +162,7 @@ public class Menu2 extends javax.swing.JFrame {
         });
         menuVentas.add(itemVenta);
 
+        itemDeudores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Sales-report_25411.png"))); // NOI18N
         itemDeudores.setText("Deudores");
         itemDeudores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,6 +171,7 @@ public class Menu2 extends javax.swing.JFrame {
         });
         menuVentas.add(itemDeudores);
 
+        itemCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Distributor-report_25402.png"))); // NOI18N
         itemCliente.setText("Cliente");
         itemCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -174,6 +184,7 @@ public class Menu2 extends javax.swing.JFrame {
 
         menuUsuario.setText("Usuario");
 
+        itemUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/contact_icon-icons.com_52354.png"))); // NOI18N
         itemUsuario.setText("Usuarios");
         itemUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,8 +193,14 @@ public class Menu2 extends javax.swing.JFrame {
         });
         menuUsuario.add(itemUsuario);
 
-        itemOpciones.setText("Opciones");
-        menuUsuario.add(itemOpciones);
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/businessregistration_signpen_negocio_inscripcio_2358.png"))); // NOI18N
+        jMenuItem2.setText("Editar contraseña");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        menuUsuario.add(jMenuItem2);
 
         barraMenu.add(menuUsuario);
 
@@ -269,6 +286,10 @@ private boolean verificarVentanasAbiertas(){
         // TODO add your handling code here:
     }//GEN-LAST:event_itemUsuarioActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -313,13 +334,13 @@ private boolean verificarVentanasAbiertas(){
     private javax.swing.JMenuItem itemDeudores;
     private javax.swing.JMenuItem itemIniciarSesion;
     private javax.swing.JMenuItem itemMaterial;
-    private javax.swing.JMenuItem itemOpciones;
     private javax.swing.JMenuItem itemProducto;
     private javax.swing.JMenuItem itemProveedor;
     private javax.swing.JMenuItem itemUsuario;
     private javax.swing.JMenuItem itemVenta;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenu menuAlmacen;
     private javax.swing.JMenu menuArchivo;
     private javax.swing.JMenu menuUsuario;

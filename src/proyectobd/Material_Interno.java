@@ -246,10 +246,10 @@ public class Material_Interno extends javax.swing.JInternalFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(10, 10, 10)
                 .addComponent(botonCargar)
-                .addGap(18, 18, 18)
-                .addComponent(txtCargar)
+                .addGap(9, 9, 9)
+                .addComponent(txtCargar, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
