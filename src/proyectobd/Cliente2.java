@@ -35,12 +35,18 @@ public class Cliente2 extends javax.swing.JInternalFrame {
              ,iDcliente = "",nitAnterior = "";
      private ConexionMySQL conexion;
      private int opcion;
-    public Cliente2() {
+    public Cliente2(int tipo) {
         initComponents();
         conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
         botonCancelar.setEnabled(false);
         botonGuardar.setEnabled(false);
         tabbed.setEnabledAt(1,false);
+        
+        if(tipo == 0){
+            botonNuevo.setEnabled(false);
+            botonEditar.setEnabled(false);
+            botonReporte.setEnabled(false);
+        }
     }
 
     /**

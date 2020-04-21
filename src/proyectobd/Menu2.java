@@ -13,13 +13,14 @@ import javax.swing.JOptionPane;
  * @author Usuario
  */
 public class Menu2 extends javax.swing.JFrame {
-    public int tipo;    
+    private int tipo;    
+    private String idUsuario;
     public Menu2() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("");
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        
+        itemIniciarSesion.setEnabled(false);
     }
 
     /**
@@ -88,10 +89,20 @@ public class Menu2 extends javax.swing.JFrame {
 
         itemIniciarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Login_37128 (1).png"))); // NOI18N
         itemIniciarSesion.setText("Iniciar Sesion");
+        itemIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemIniciarSesionActionPerformed(evt);
+            }
+        });
         menuArchivo.add(itemIniciarSesion);
 
         itemCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Logout_37127 (2).png"))); // NOI18N
         itemCerrarSesion.setText("Cerrar Sesion");
+        itemCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemCerrarSesionActionPerformed(evt);
+            }
+        });
         menuArchivo.add(itemCerrarSesion);
 
         barraMenu.add(menuArchivo);
@@ -230,9 +241,16 @@ private boolean verificarVentanasAbiertas(){
 }
 public void setTipo(int tipo){
     this.tipo = tipo;
+    if(this.tipo == 0){
+        menunCompras.setEnabled(false);
+        itemUsuario.setEnabled(false);
+    }
+}
+public void setIdUsuario(String id){
+    this.idUsuario = id;
 }
     private void itemMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMaterialActionPerformed
-       Material_Interno material = new Material_Interno();
+       Material_Interno material = new Material_Interno(tipo);
        this.panelEscritorio.add(material);
        material.show();
     }//GEN-LAST:event_itemMaterialActionPerformed
@@ -244,7 +262,7 @@ public void setTipo(int tipo){
     }//GEN-LAST:event_itemCompraActionPerformed
 
     private void itemProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemProveedorActionPerformed
-        Proveedor proveedor = new Proveedor();
+        Proveedor proveedor = new Proveedor(tipo);
         this.panelEscritorio.add(proveedor);
         proveedor.show();
     }//GEN-LAST:event_itemProveedorActionPerformed
@@ -256,13 +274,13 @@ public void setTipo(int tipo){
     }//GEN-LAST:event_itemDeudasActionPerformed
 
     private void itemClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemClienteActionPerformed
-      Cliente2 cliente = new Cliente2();
+      Cliente2 cliente = new Cliente2(tipo);
       this.panelEscritorio.add(cliente);
       cliente.show();
     }//GEN-LAST:event_itemClienteActionPerformed
 
     private void itemProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemProductoActionPerformed
-        Producto2 producto = new Producto2();
+        Producto2 producto = new Producto2(tipo);
         this.panelEscritorio.add(producto);
         producto.show();
     }//GEN-LAST:event_itemProductoActionPerformed
@@ -292,6 +310,22 @@ public void setTipo(int tipo){
     private void itemEditContraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEditContraActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_itemEditContraActionPerformed
+
+    private void itemCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCerrarSesionActionPerformed
+       menuAlmacen.setEnabled(false);
+       menuUsuario.setEnabled(false);
+       menuVentas.setEnabled(false);
+       menunCompras.setEnabled(false);
+       
+       itemCerrarSesion.setEnabled(false);
+       itemIniciarSesion.setEnabled(true);
+    }//GEN-LAST:event_itemCerrarSesionActionPerformed
+
+    private void itemIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemIniciarSesionActionPerformed
+       InicioSesion inicio = new InicioSesion();
+       inicio.setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_itemIniciarSesionActionPerformed
 
     /**
      * @param args the command line arguments

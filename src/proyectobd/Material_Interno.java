@@ -33,12 +33,19 @@ public class Material_Interno extends javax.swing.JInternalFrame {
              usuario ="root",contra = "xela2020";
     private ConexionMySQL conexion;
     private int opcion;
-    public Material_Interno() {
+    public Material_Interno(int tipoUsuario) {
         initComponents();
        botonCancelar.setEnabled(false);
        botonGuardar.setEnabled(false);
        tabbed.setEnabledAt(1,false);
        conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+       
+       if(tipoUsuario == 0){
+           botonNuevo.setEnabled(false);
+           botonBorrar.setEnabled(false);
+           botonEditar.setEnabled(false);
+           botonReporte.setEnabled(false);
+       }
     }
 
     /**

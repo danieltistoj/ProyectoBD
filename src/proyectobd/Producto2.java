@@ -33,8 +33,9 @@ public class Producto2 extends javax.swing.JInternalFrame {
     private  String[]  titulos = {"Id","descipcion","nombre","precio","Costo Produccion"},titulosMaterial = {"Id","Nombre","Existencias","Costo","Cantidad","Subtotal"},
             tituloMaterialPro = {"Id","Nombre","Existencias","Tipo","Costo","Cantidad"};
     private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",usuario ="root",contra = "xela2020";
-     private DefaultTableModel  modelo;
-    public Producto2() {
+    private DefaultTableModel  modelo;
+    private int tipoUsuario;
+    public Producto2(int tipo) {
         initComponents();
         
         conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
@@ -50,6 +51,13 @@ public class Producto2 extends javax.swing.JInternalFrame {
         labelCostoProduccion.setText("0");
         modelo = new DefaultTableModel(null,titulosMaterial);
         this.tablaMateriales.setModel(modelo);
+        this.tipoUsuario = tipo;
+        
+        if(this.tipoUsuario == 0){
+            botonNuevo.setEnabled(false);
+            botonEditar.setEnabled(false);
+            botonReporte.setEnabled(false);
+        }
     }
 
     /**
@@ -1193,13 +1201,15 @@ try {
        labelCantiMateriales.setText("");
        
        limpiarTabla((DefaultTableModel) tablaMaterialesPro.getModel(), tablaMaterialesPro);
-       
+       if(this.tipoUsuario == 1){
            botonDetalle.setEnabled(true);
            botonRegresar.setEnabled(false);
            botonNuevo.setEnabled(true);
            botonEditar.setEnabled(true);
            botonRegresar.setEnabled(false);
            botonReporte.setEnabled(true);
+       }
+          
            
             tabbed.setEnabledAt(2,false);
             tabbed.setEnabledAt(0,true);

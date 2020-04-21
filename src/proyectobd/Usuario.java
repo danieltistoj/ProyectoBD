@@ -472,7 +472,7 @@ private void nuevoUsuario(){
                     contraEncriptada = DigestUtils.md5Hex(txtContra1.getText());
                     columna ="usuario,password,nombre,correo,telefono,celular,dpi,sueldo,tipo";
                     datos="'"+usuario1+"','"+contraEncriptada+"','"+txtNombre.getText()+"','"+txtCorreo.getText()+"','"+txtTelefono.getText()+"','"+txtCelular.getText()+"','"+txtDPI.getText()+
-                            "','"+txtSueldo.getText()+"',"+tipo+"";
+                            "',"+txtSueldo.getText()+","+tipo+"";
                     usuario.nuevoRegistro(columna, datos,"usuario");
                     JOptionPane.showMessageDialog(null,"Usuario ingresado correctamente");
                     limpiarPanel();

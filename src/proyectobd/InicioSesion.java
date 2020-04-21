@@ -169,7 +169,7 @@ private void limpiarPanel(){
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
-        String contraEncrip, id,contra;
+        String contraEncrip,contra,id;
         int tipo;
         if(txtUsuario.getText().length()>0 && txtContra.getText().length()>0){
             if(inicio.existeRegistro("'"+txtUsuario.getText()+"'","usuario","nombre")){
@@ -179,8 +179,10 @@ private void limpiarPanel(){
                 
                 if(contra.equals(contraEncrip)){//entra al sistema
                     tipo = Integer.parseInt(inicio.getDato("nombre","'"+txtUsuario.getText()+"'","usuario","tipo"));
+                    id = inicio.getDato("nombre","'"+txtUsuario.getText()+"'","usuario","id");
                     Menu2 menu = new Menu2();
                     menu.setTipo(tipo);
+                    menu.setIdUsuario(id);
                     menu.setVisible(true);
                     this.dispose();
                 }

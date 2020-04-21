@@ -35,12 +35,17 @@ public class Proveedor extends javax.swing.JInternalFrame {
              usuario ="root",contra = "xela2020", nombreAnterior, idProveedor;
     private  String[] titulos = {"Id","Nombre","Telefono","Celular","Direccion","Correo","No. Cuenta"};
     private int opcion;
-    public Proveedor() {
+    public Proveedor(int tipo) {
         initComponents();
         botonCancelar.setEnabled(false);
         botonGuardar.setEnabled(false);
         tabbed.setEnabledAt(1,false);
         conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+        if(tipo == 0){
+            botonNuevo.setEnabled(false);
+            botonEditar.setEnabled(false);
+            botonReporte.setEnabled(false);
+        }
     }
 
     /**
