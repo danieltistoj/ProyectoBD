@@ -5,7 +5,19 @@
  */
 package proyectobd;
 
+import java.io.InputStream;
+import java.sql.Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
@@ -18,7 +30,7 @@ public class Usuario extends javax.swing.JInternalFrame {
     private TablaId tabla;
     private String[] titulo = {"Id","Usuario","Nombre","Correo"};
     private int accion;
-    private String idUsuario;
+    private  String idUsuario, localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",usuario2 ="root",contra = "xela2020";
     
     public Usuario() {
         initComponents();
@@ -562,7 +574,17 @@ private void editarUsuario(){
     }//GEN-LAST:event_txtContra2ActionPerformed
 
     private void botonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteActionPerformed
-        
+ try {
+            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario2,contra);
+              Connection con = conexion.getConexion();
+             InputStream archivo=getClass().getResourceAsStream("/Reporte/usuario.jrxml");
+             JasperDesign dise = JRXmlLoader.load(archivo);
+             JasperReport jr = JasperCompileManager.compileReport(dise);
+             JasperPrint jp = JasperFillManager.fillReport(jr,null,con);
+             JasperViewer.viewReport(jp,false); 
+         } catch (JRException ex) {
+             Logger.getLogger(Material_Interno.class.getName()).log(Level.SEVERE, null, ex);
+         }        
     }//GEN-LAST:event_botonReporteActionPerformed
 
 
