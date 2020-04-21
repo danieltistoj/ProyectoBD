@@ -283,7 +283,9 @@ private boolean verificarVentanasAbiertas(){
     }//GEN-LAST:event_itemDeudoresActionPerformed
 
     private void itemUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemUsuarioActionPerformed
-        // TODO add your handling code here:
+       Usuario usuario = new Usuario();
+       this.panelEscritorio.add(usuario);
+       usuario.show();
     }//GEN-LAST:event_itemUsuarioActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed

@@ -117,6 +117,9 @@ public class Modulo {
               "values("+parametro+")");
     
 }
+    public void modificarRegistro(String tabla, String datosModificar,String formaId,String id){
+         conexion.EjecutarInstruccion("UPDATE "+tabla+" SET "+datosModificar+" WHERE "+formaId+" = "+id); 
+    }
     public String getDato(String formaId, String id, String tabla, String parametro){
     String dato = "";
             conexion.EjecutarConsulta("SELECT * FROM "+tabla+" WHERE "+formaId+" = "+id);
@@ -129,6 +132,9 @@ public class Modulo {
                 Logger.getLogger(Modulo.class.getName()).log(Level.SEVERE, null, ex);
             }
     return dato; 
+}
+    public void eliminarRegistro(String idRegistro,String tabla, String formaId){
+     conexion.EjecutarInstruccion("DELETE FROM "+tabla+" WHERE "+formaId+" = "+idRegistro);
 }
     public String getUltimoId(String formaId,String tabla){
     String id = "";
