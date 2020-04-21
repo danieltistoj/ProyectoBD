@@ -49,11 +49,11 @@ System.out.println("Texto Encriptado con MD5 : "+textoEncriptadoConMD5);
         */
 
         
-        Menu2  menu2 = new Menu2();
-        menu2.setVisible(true);
+        //Menu2  menu2 = new Menu2();
+        //menu2.setVisible(false);
         
         InicioSesion inicio = new InicioSesion();
-        inicio.setVisible(false);
+        inicio.setVisible(true);
         
         /*
         try {

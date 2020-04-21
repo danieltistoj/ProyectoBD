@@ -13,15 +13,13 @@ import javax.swing.JOptionPane;
  * @author Usuario
  */
 public class Menu2 extends javax.swing.JFrame {
-
-    /**
-     * Creates new form Menu2
-     */
+    public int tipo;    
     public Menu2() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("");
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        
     }
 
     /**
@@ -53,7 +51,7 @@ public class Menu2 extends javax.swing.JFrame {
         itemCliente = new javax.swing.JMenuItem();
         menuUsuario = new javax.swing.JMenu();
         itemUsuario = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        itemEditContra = new javax.swing.JMenuItem();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -193,14 +191,14 @@ public class Menu2 extends javax.swing.JFrame {
         });
         menuUsuario.add(itemUsuario);
 
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/businessregistration_signpen_negocio_inscripcio_2358.png"))); // NOI18N
-        jMenuItem2.setText("Editar contraseña");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        itemEditContra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/businessregistration_signpen_negocio_inscripcio_2358.png"))); // NOI18N
+        itemEditContra.setText("Editar contraseña");
+        itemEditContra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                itemEditContraActionPerformed(evt);
             }
         });
-        menuUsuario.add(jMenuItem2);
+        menuUsuario.add(itemEditContra);
 
         barraMenu.add(menuUsuario);
 
@@ -229,6 +227,9 @@ private boolean verificarVentanasAbiertas(){
                System.exit(0);
            }
     return cerrado;
+}
+public void setTipo(int tipo){
+    this.tipo = tipo;
 }
     private void itemMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMaterialActionPerformed
        Material_Interno material = new Material_Interno();
@@ -288,9 +289,9 @@ private boolean verificarVentanasAbiertas(){
        usuario.show();
     }//GEN-LAST:event_itemUsuarioActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void itemEditContraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEditContraActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_itemEditContraActionPerformed
 
     /**
      * @param args the command line arguments
@@ -334,6 +335,7 @@ private boolean verificarVentanasAbiertas(){
     private javax.swing.JMenuItem itemCompra;
     private javax.swing.JMenuItem itemDeudas;
     private javax.swing.JMenuItem itemDeudores;
+    private javax.swing.JMenuItem itemEditContra;
     private javax.swing.JMenuItem itemIniciarSesion;
     private javax.swing.JMenuItem itemMaterial;
     private javax.swing.JMenuItem itemProducto;
@@ -342,7 +344,6 @@ private boolean verificarVentanasAbiertas(){
     private javax.swing.JMenuItem itemVenta;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenu menuAlmacen;
     private javax.swing.JMenu menuArchivo;
     private javax.swing.JMenu menuUsuario;
