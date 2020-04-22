@@ -203,7 +203,7 @@ public class Menu2 extends javax.swing.JFrame {
         menuUsuario.add(itemUsuario);
 
         itemEditContra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/businessregistration_signpen_negocio_inscripcio_2358.png"))); // NOI18N
-        itemEditContra.setText("Editar contraseña");
+        itemEditContra.setText("Cambiar contraseña");
         itemEditContra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemEditContraActionPerformed(evt);
@@ -308,7 +308,10 @@ public void setIdUsuario(String id){
     }//GEN-LAST:event_itemUsuarioActionPerformed
 
     private void itemEditContraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEditContraActionPerformed
-        // TODO add your handling code here:
+       CambioContra contra = new CambioContra(idUsuario);
+       contra.setVisible(true);
+       this.panelEscritorio.add(contra);
+       contra.show();
     }//GEN-LAST:event_itemEditContraActionPerformed
 
     private void itemCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCerrarSesionActionPerformed
