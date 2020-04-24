@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -33,7 +34,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
     private  String[]  titulos = {"Id","descipcion","nombre","precio","Costo Produccion"},titulosMaterial = {"Id","Nombre","Existencias","Costo","Cantidad","Subtotal"},
             tituloMaterialPro = {"Id","Nombre","Existencias","Tipo","Costo","Cantidad"};
     private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",usuario ="root",contra = "xela2020";
-    private DefaultTableModel  modelo;
+    private DefaultTableModel  modelo, modelo2;
     private int tipoUsuario, nuevoUeditar;
     private Modulo producto;
     public Producto2(int tipo) {
@@ -71,6 +72,12 @@ public class Producto2 extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        Cantidad = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        Eliminar = new javax.swing.JMenuItem();
+        jPopupMenu2 = new javax.swing.JPopupMenu();
+        menuItemQuitar = new javax.swing.JMenuItem();
         tabbed = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -99,13 +106,13 @@ public class Producto2 extends javax.swing.JInternalFrame {
         txtId = new javax.swing.JTextField();
         botonRemover = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        jPanel19 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         labelNombre = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
         labelExistencia = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
         labelCosto = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         botonAnadir = new javax.swing.JButton();
         botonQuitar = new javax.swing.JButton();
@@ -117,9 +124,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
         jPanel11 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tablaMaterialesPro = new javax.swing.JTable();
-        jLabel10 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -151,7 +156,6 @@ public class Producto2 extends javax.swing.JInternalFrame {
         labelCostoProEdit = new javax.swing.JLabel();
         jPanel16 = new javax.swing.JPanel();
         botonAnadirEditar = new javax.swing.JButton();
-        botonEliminarEditar = new javax.swing.JButton();
         txtIdMaterialEdit = new javax.swing.JTextField();
         botonCargarEdit = new javax.swing.JButton();
         jLabel29 = new javax.swing.JLabel();
@@ -165,12 +169,13 @@ public class Producto2 extends javax.swing.JInternalFrame {
         labelNombreMaterial = new javax.swing.JLabel();
         labelCostoMaterial = new javax.swing.JLabel();
         labelExistenciaMaterial = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        labelSubTotalEdit = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         tablaNuevoMaterial = new javax.swing.JTable();
-        jPanel19 = new javax.swing.JPanel();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        tablaMaterialActual = new javax.swing.JTable();
+        jLabel15 = new javax.swing.JLabel();
+        labelTotalEdit = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         botonNuevo = new javax.swing.JButton();
         botonGuardar = new javax.swing.JButton();
@@ -180,6 +185,26 @@ public class Producto2 extends javax.swing.JInternalFrame {
         botonDetalle = new javax.swing.JButton();
         botonRegresar = new javax.swing.JButton();
         botonEliminar = new javax.swing.JButton();
+
+        Cantidad.setText("Editar Cantidad");
+        Cantidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CantidadActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(Cantidad);
+        jPopupMenu1.add(jSeparator1);
+
+        Eliminar.setText("Eliminar");
+        jPopupMenu1.add(Eliminar);
+
+        menuItemQuitar.setText("Quitar");
+        menuItemQuitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemQuitarActionPerformed(evt);
+            }
+        });
+        jPopupMenu2.add(menuItemQuitar);
 
         setClosable(true);
         setIconifiable(true);
@@ -318,7 +343,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -372,7 +397,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -392,7 +417,9 @@ public class Producto2 extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel7.setText("ID:");
+        jLabel7.setText("ID MATERIAL :");
+
+        jPanel19.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Del Material"));
 
         jLabel9.setText("NOMBRE:");
 
@@ -401,69 +428,81 @@ public class Producto2 extends javax.swing.JInternalFrame {
 
         jLabel11.setText("EXISTENCIAS:");
 
-        jLabel12.setText("COSTO:");
-
         labelExistencia.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         labelExistencia.setText("jLabel13");
+
+        jLabel12.setText("COSTO:");
 
         labelCosto.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         labelCosto.setText("jLabel14");
 
-        jLabel15.setText("Datos Material");
+        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
+        jPanel19.setLayout(jPanel19Layout);
+        jPanel19Layout.setHorizontalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelExistencia))
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelNombre)))
+                .addGap(79, 79, 79)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelCosto)
+                .addContainerGap(60, Short.MAX_VALUE))
+        );
+        jPanel19Layout.setVerticalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(labelNombre)
+                    .addComponent(jLabel12)
+                    .addComponent(labelCosto))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(labelExistencia))
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addComponent(jLabel15)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(19, Short.MAX_VALUE)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel19, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(botonCargarMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanel8Layout.createSequentialGroup()
-                            .addComponent(labelNombre)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelExistencia))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createSequentialGroup()
-                            .addComponent(jLabel9)
-                            .addGap(97, 97, 97)
-                            .addComponent(jLabel11))))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(botonRemover)
-                    .addComponent(jLabel12)
-                    .addComponent(labelCosto))
-                .addGap(20, 20, 20))
+                        .addComponent(botonCargarMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)
+                        .addComponent(botonRemover)))
+                .addGap(71, 71, 71))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botonCargarMaterial)
-                            .addComponent(botonRemover)))
-                    .addComponent(jLabel15))
-                .addGap(24, 24, 24)
+                .addGap(5, 5, 5)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel12))
+                    .addComponent(jLabel7)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonCargarMaterial)
+                    .addComponent(botonRemover))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelNombre)
-                    .addComponent(labelExistencia)
-                    .addComponent(labelCosto))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -544,7 +583,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -554,7 +593,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
 
         tabbed.addTab("Nuevo", jPanel2);
 
-        jPanel11.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Materiales"));
 
         tablaMaterialesPro.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -567,9 +606,8 @@ public class Producto2 extends javax.swing.JInternalFrame {
 
             }
         ));
+        tablaMaterialesPro.setComponentPopupMenu(jPopupMenu1);
         jScrollPane4.setViewportView(tablaMaterialesPro);
-
-        jLabel10.setText("Materiales");
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -577,24 +615,18 @@ public class Producto2 extends javax.swing.JInternalFrame {
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addComponent(jLabel10)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel12.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabel13.setText("Producto");
+        jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Datos Producto"));
 
         jLabel14.setText("ID:");
 
@@ -627,9 +659,8 @@ public class Producto2 extends javax.swing.JInternalFrame {
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel13))
+                .addGap(38, 38, 38)
+                .addComponent(jLabel14)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
@@ -639,7 +670,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
                             .addGroup(jPanel12Layout.createSequentialGroup()
                                 .addGap(58, 58, 58)
                                 .addComponent(labelIDPro)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
                                 .addComponent(jLabel19))
                             .addGroup(jPanel12Layout.createSequentialGroup()
                                 .addComponent(jLabel17)
@@ -664,8 +695,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
-                .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(28, 28, 28)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -736,8 +766,8 @@ public class Producto2 extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         tabbed.addTab("Detalle", jPanel10);
@@ -838,8 +868,11 @@ public class Producto2 extends javax.swing.JInternalFrame {
         jPanel16.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         botonAnadirEditar.setText("Añadir");
-
-        botonEliminarEditar.setText("Eliminar");
+        botonAnadirEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAnadirEditarActionPerformed(evt);
+            }
+        });
 
         botonCargarEdit.setText("Cargar");
         botonCargarEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -851,8 +884,19 @@ public class Producto2 extends javax.swing.JInternalFrame {
         jLabel29.setText("ID MATERIAL:");
 
         botonRemoverEdit.setText("Remover");
+        botonRemoverEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRemoverEditActionPerformed(evt);
+            }
+        });
 
         jLabel31.setText("CANTIDAD:");
+
+        txtCantidadEdit.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCantidadEditKeyReleased(evt);
+            }
+        });
 
         jPanel17.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Datos Material"));
 
@@ -910,6 +954,11 @@ public class Producto2 extends javax.swing.JInternalFrame {
                 .addGap(20, 20, 20))
         );
 
+        jLabel10.setText("SUBTOTAL:");
+
+        labelSubTotalEdit.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelSubTotalEdit.setText("0");
+
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
         jPanel16Layout.setHorizontalGroup(
@@ -918,7 +967,8 @@ public class Producto2 extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel31)
-                    .addComponent(jLabel29))
+                    .addComponent(jLabel29)
+                    .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel16Layout.createSequentialGroup()
@@ -927,39 +977,42 @@ public class Producto2 extends javax.swing.JInternalFrame {
                         .addComponent(botonRemoverEdit))
                     .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(txtIdMaterialEdit)
-                        .addComponent(txtCantidadEdit, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)))
+                        .addComponent(txtCantidadEdit, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE))
+                    .addComponent(labelSubTotalEdit))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel16Layout.createSequentialGroup()
-                        .addComponent(botonAnadirEditar)
-                        .addGap(18, 18, 18)
-                        .addComponent(botonEliminarEditar))
-                    .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonAnadirEditar))
                 .addContainerGap())
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonEliminarEditar)
-                    .addComponent(botonAnadirEditar)
-                    .addComponent(botonCargarEdit)
-                    .addComponent(botonRemoverEdit))
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(botonCargarEdit)
+                        .addComponent(botonRemoverEdit))
+                    .addComponent(botonAnadirEditar, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel16Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(jPanel16Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel29)
                             .addComponent(txtIdMaterialEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(34, 34, 34)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel31)
-                            .addComponent(txtCantidadEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(33, Short.MAX_VALUE))
-                    .addGroup(jPanel16Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                            .addComponent(txtCantidadEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel31))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(labelSubTotalEdit))
+                        .addGap(24, 24, 24))))
         );
 
         jPanel18.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Nuevo Material"));
@@ -975,44 +1028,35 @@ public class Producto2 extends javax.swing.JInternalFrame {
 
             }
         ));
+        tablaNuevoMaterial.setComponentPopupMenu(jPopupMenu2);
         jScrollPane7.setViewportView(tablaNuevoMaterial);
+
+        jLabel15.setText("TOTAL:");
+
+        labelTotalEdit.setBackground(new java.awt.Color(0, 0, 0));
+        labelTotalEdit.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        labelTotalEdit.setText("0");
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane7)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelTotalEdit)
+                .addGap(35, 35, 35))
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
-        );
-
-        jPanel19.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Materiales Actuales"));
-
-        tablaMaterialActual.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        tablaMaterialActual.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane8.setViewportView(tablaMaterialActual);
-
-        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
-        jPanel19.setLayout(jPanel19Layout);
-        jPanel19Layout.setHorizontalGroup(
-            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane8)
-        );
-        jPanel19Layout.setVerticalGroup(
-            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(labelTotalEdit))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
@@ -1024,7 +1068,6 @@ public class Producto2 extends javax.swing.JInternalFrame {
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -1032,14 +1075,11 @@ public class Producto2 extends javax.swing.JInternalFrame {
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabbed.addTab("Editar", jPanel14);
@@ -1238,14 +1278,14 @@ private void insertarEnTabla(String id, String nombre, String existencias, Strin
                         info[5] = subTotal;
                         modelo.addRow(info);
 }
-private void eliminarRegistroTabla(JTable tabla,DefaultTableModel modelo ){
+private void eliminarRegistroTabla(JTable tabla,DefaultTableModel modelo,JLabel total1 ){
     int fila = tabla.getSelectedRow();
-    float total = Float.parseFloat(labelCostoProduccion.getText()),subTotal;
+    float total = Float.parseFloat(total1.getText()),subTotal;
         if(fila>=0){
-            subTotal = Float.parseFloat(String.valueOf(tablaMateriales.getValueAt(fila,5)));
+            subTotal = Float.parseFloat(String.valueOf(tabla.getValueAt(fila,5)));
             modelo.removeRow(fila);
             total = total - subTotal;
-            labelCostoProduccion.setText(""+total);
+            total1.setText(""+total);
         }
         else{
             JOptionPane.showMessageDialog(null,"Seleccione un material","Advertencia",JOptionPane.WARNING_MESSAGE);
@@ -1258,12 +1298,12 @@ private void limpiarTabla(DefaultTableModel modelo, JTable tabla){
         modelo.removeRow(i);
     }
 }
-private boolean existeEnTabla(String id){
+private boolean existeEnTabla(String id,JTable tabla){
      boolean existe = false;
      int iD;
      iD = Integer.parseInt(id);
-        for(int i = 0; i<tablaMateriales.getRowCount();i++){
-            if(iD == Integer.parseInt(String.valueOf(tablaMateriales.getValueAt(i,0))) ){
+        for(int i = 0; i<tabla.getRowCount();i++){
+            if(iD == Integer.parseInt(String.valueOf(tabla.getValueAt(i,0))) ){
                 existe = true;
             }
         }
@@ -1372,6 +1412,21 @@ private void guardarNuevoProducto(){
 private void editarProucto(){
     
 }
+private void limpiarPanelMaterialEditar(){
+        labelNombreMaterial.setText("null");
+        labelCostoMaterial.setText("null");
+        labelExistenciaMaterial.setText("null");
+        labelSubTotalEdit.setText("0");
+        
+        txtIdMaterialEdit.setText("");
+        txtCantidadEdit.setText("");
+        txtCantidadEdit.setEnabled(false);
+        txtIdMaterialEdit.setEnabled(true);
+        
+        botonAnadirEditar.setEnabled(false);
+        botonRemoverEdit.setEnabled(false);
+        botonCargarEdit.setEnabled(true);
+}
     private void botonRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRemoverActionPerformed
      limpiarPanelMaterial();
      botonRemover.setEnabled(false);
@@ -1383,7 +1438,7 @@ private void editarProucto(){
     botonNuevo.setEnabled(true);
     botonReporte.setEnabled(true);
     botonDetalle.setEnabled(true);
-    botonEliminarEditar.setEnabled(true);
+   
     
     botonCancelar.setEnabled(false);
     botonGuardar.setEnabled(false);
@@ -1416,9 +1471,7 @@ private void editarProucto(){
     txtPrecioEditar.setText("");
     txtAreaEditar.setText("");
     
-    if(tablaMaterialActual.getRowCount()>0){
-        limpiarTabla((DefaultTableModel) tablaMaterialActual.getModel(), tablaMaterialActual);
-    }
+   
     if(tablaNuevoMaterial.getRowCount()>0){
         limpiarTabla((DefaultTableModel) tablaNuevoMaterial.getModel(), tablaNuevoMaterial);
     }
@@ -1437,8 +1490,6 @@ private void editarProucto(){
 
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
           nuevoUeditar = 0;
-          TablaId tabla = new TablaId(tablaMaterialActual);
-          DefaultTableModel  modeloNuevo;
           String consulta = "select M.id,M.nombre,M.cantidad as exsitencias,M.tipo,M.costo,PM.Cantidad  from producto_has_material PM\n" +
 "inner join producto P on P.id = PM.producto_id\n" +
 "inner join material M on M.id = PM.material_id where P.id = ", idProducto;
@@ -1471,11 +1522,9 @@ private void editarProucto(){
                 idProducto = String.valueOf(tablaProducto.getValueAt(fila,0));
                 labelIdProEdit.setText(idProducto);
                 labelCostoProEdit.setText(String.valueOf(tablaProducto.getValueAt(fila,4)));
-                consulta = consulta+idProducto;
-                tabla.llenarTable(consulta,"","", "","","",tituloMaterialPro );//poner en la tabla de edicion los materiale relacionados con el producto
-                //tabla nuevo material
-                modeloNuevo = new DefaultTableModel(null,tituloMaterialPro);
-                tablaNuevoMaterial.setModel(modeloNuevo);
+               //tabla nuevo material
+                modelo2 = new DefaultTableModel(null,titulosMaterial);
+                tablaNuevoMaterial.setModel(modelo2);
                 
                 
                 
@@ -1558,7 +1607,7 @@ try {
                        botonRemover.setEnabled(false);
                        }
                        else{ // si la tabla no esta vacia, se berifica que no este en la tabla 
-                           if(!existeEnTabla(txtId.getText())){ // si no existe en la tabla, se agrega el material 
+                           if(!existeEnTabla(txtId.getText(),tablaMateriales)){ // si no existe en la tabla, se agrega el material 
                              
                        insertarEnTabla(txtId.getText(),labelNombre.getText(),labelExistencia.getText(),labelCosto.getText(),txtCantidadMaterial.getText(),""+subTotal);
                        labelCostoProduccion.setText(""+totalProduccion);
@@ -1588,7 +1637,7 @@ try {
     }//GEN-LAST:event_botonAnadirActionPerformed
 
     private void botonQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonQuitarActionPerformed
-        eliminarRegistroTabla(tablaMateriales, modelo);
+        eliminarRegistroTabla(tablaMateriales, modelo,labelCostoPro);
         if(tablaMateriales.getRowCount() == 0){
             botonQuitar.setEnabled(false);
             labelCostoProduccion.setText("0");
@@ -1659,6 +1708,7 @@ try {
         if(txtIdMaterialEdit.getText().length()>0){
             if(producto.esEntero(txtIdMaterialEdit.getText())){
                 if(producto.existeRegistro(txtIdMaterialEdit.getText(),"material","id")){
+                    if(!producto.existeRegistro(txtIdMaterialEdit.getText()+" and producto_id="+labelIdProEdit.getText(),"producto_has_material","material_id")){
                     labelNombreMaterial.setText(producto.getDato("id",txtIdMaterialEdit.getText(),"material","nombre"));
                     labelCostoMaterial.setText(producto.getDato("id",txtIdMaterialEdit.getText(),"material","costo"));
                     labelExistenciaMaterial.setText(producto.getDato("id",txtIdMaterialEdit.getText(),"material","cantidad"));
@@ -1668,10 +1718,15 @@ try {
                     botonRemoverEdit.setEnabled(true);
                     txtIdMaterialEdit.setEnabled(false);
                     txtCantidadEdit.setEnabled(true);
-                    
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null,"Este material ya esta asignado al producto","Advertencia",JOptionPane.WARNING_MESSAGE);
+                    }
+                  
                 }
                 else{
                     JOptionPane.showMessageDialog(null,"Este producto no existe","Advertencia",JOptionPane.WARNING_MESSAGE);
+                    txtIdMaterialEdit.setText("");
                 }
                 
             }
@@ -1685,8 +1740,91 @@ try {
         }
     }//GEN-LAST:event_botonCargarEditActionPerformed
 
+    private void botonRemoverEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRemoverEditActionPerformed
+      limpiarPanelMaterialEditar();
+      
+    }//GEN-LAST:event_botonRemoverEditActionPerformed
+
+    private void CantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CantidadActionPerformed
+       
+    }//GEN-LAST:event_CantidadActionPerformed
+
+    private void botonAnadirEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnadirEditarActionPerformed
+      String []info =new String[6];
+      float total;
+        if(txtCantidadEdit.getText().length()>0){
+         if(Float.parseFloat(txtCantidadEdit.getText())>0){
+            //String id, String nombre, String existencias, String costo, String cantidad,String subTotal
+            info[0] = txtIdMaterialEdit.getText();
+            info[1]=labelNombreMaterial.getText();
+            info[2]=labelExistenciaMaterial.getText();
+            info[3]=labelCostoMaterial.getText();
+            info[4]=txtCantidadEdit.getText();
+            info[5]=labelSubTotalEdit.getText();
+            
+            if(tablaNuevoMaterial.getRowCount()>0){
+                if(!existeEnTabla(txtIdMaterialEdit.getText(), tablaNuevoMaterial)){
+                    modelo2.addRow(info);
+                    total = Float.parseFloat(labelTotalEdit.getText());
+                    total = total + (Float.parseFloat(labelSubTotalEdit.getText())*Float.parseFloat(txtCantidadEdit.getText()));
+                    labelTotalEdit.setText(""+total);
+                    limpiarPanelMaterialEditar();
+                }
+                else{
+                 JOptionPane.showMessageDialog(null,"El material ya esta en la tabla","Advertencia",JOptionPane.WARNING_MESSAGE);
+                }
+                
+            }
+            else{
+                    modelo2.addRow(info);
+                    total = Float.parseFloat(labelTotalEdit.getText());
+                    total = total + (Float.parseFloat(labelSubTotalEdit.getText())*Float.parseFloat(txtCantidadEdit.getText()));
+                    labelTotalEdit.setText(""+total);
+                    limpiarPanelMaterialEditar();
+            }
+            
+            
+            
+               
+         }
+         else{
+             JOptionPane.showMessageDialog(null,"La cantidad debe de ser mayor a cero","Advertencia",JOptionPane.WARNING_MESSAGE);
+         }
+     }
+     else{
+         JOptionPane.showMessageDialog(null,"Ingrese la cantidad que necesita","Advertencia",JOptionPane.WARNING_MESSAGE);
+     }
+    }//GEN-LAST:event_botonAnadirEditarActionPerformed
+
+    private void txtCantidadEditKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadEditKeyReleased
+     float total;
+        if(txtCantidadEdit.getText().equals("")==false){
+            if(producto.esEntero(txtCantidadEdit.getText())){
+            total= Float.parseFloat(txtCantidadEdit.getText())*Float.parseFloat(labelCostoMaterial.getText());
+            labelSubTotalEdit.setText(total+"");
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Ingrese solo valores enteros","Advertencia",JOptionPane.WARNING_MESSAGE);
+                txtCantidadEdit.setText("");
+                labelSubTotalEdit.setText("0");
+            }
+        }
+        else{
+            labelSubTotalEdit.setText("0");
+        }
+    }//GEN-LAST:event_txtCantidadEditKeyReleased
+
+    private void menuItemQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemQuitarActionPerformed
+        eliminarRegistroTabla(tablaNuevoMaterial, modelo2,labelTotalEdit);
+        if(tablaNuevoMaterial.getRowCount() == 0){
+            labelTotalEdit.setText("0");
+        }
+    }//GEN-LAST:event_menuItemQuitarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Cantidad;
+    private javax.swing.JMenuItem Eliminar;
     private javax.swing.JButton botonAnadir;
     private javax.swing.JButton botonAnadirEditar;
     private javax.swing.JButton botonCancelar;
@@ -1696,7 +1834,6 @@ try {
     private javax.swing.JButton botonDetalle;
     private javax.swing.JButton botonEditar;
     private javax.swing.JButton botonEliminar;
-    private javax.swing.JButton botonEliminarEditar;
     private javax.swing.JButton botonGuardar;
     private javax.swing.JButton botonNuevo;
     private javax.swing.JButton botonQuitar;
@@ -1708,7 +1845,6 @@ try {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -1756,6 +1892,8 @@ try {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1763,7 +1901,7 @@ try {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel labelCantiMateriales;
     private javax.swing.JLabel labelCosto;
     private javax.swing.JLabel labelCostoMaterial;
@@ -1778,8 +1916,10 @@ try {
     private javax.swing.JLabel labelNombreMaterial;
     private javax.swing.JLabel labelNombrePro;
     private javax.swing.JLabel labelPresioPro;
+    private javax.swing.JLabel labelSubTotalEdit;
+    private javax.swing.JLabel labelTotalEdit;
+    private javax.swing.JMenuItem menuItemQuitar;
     private javax.swing.JTabbedPane tabbed;
-    private javax.swing.JTable tablaMaterialActual;
     private javax.swing.JTable tablaMateriales;
     private javax.swing.JTable tablaMaterialesPro;
     private javax.swing.JTable tablaNuevoMaterial;
