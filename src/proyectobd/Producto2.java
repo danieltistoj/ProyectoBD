@@ -47,6 +47,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
         
         tabbed.setEnabledAt(1,false);
         tabbed.setEnabledAt(2,false);
+        tabbed.setEnabledAt(3, false);
         labelNombre.setText("");
         labelExistencia.setText("");
         labelCosto.setText("");
@@ -1360,11 +1361,11 @@ private String getUltimoIdProducto(){
         }
         return id;
 }
-private void relacionMaterialProducto(String idProducto){
-    int fila = tablaMateriales.getRowCount();
+private void relacionMaterialProducto(String idProducto,JTable tabla){
+    int fila = tabla.getRowCount();
     String colummnas = "producto_id,material_id,Cantidad",parametros;
     for(int i = 0;i<fila;i++){
-        parametros =idProducto+","+String.valueOf(tablaMateriales.getValueAt(i,0))+","+String.valueOf(tablaMateriales.getValueAt(i,4));
+        parametros =idProducto+","+String.valueOf(tabla.getValueAt(i,0))+","+String.valueOf(tabla.getValueAt(i,4));
         nuevoRegistro(colummnas, parametros,"producto_has_material");
     }
 }
@@ -1378,7 +1379,7 @@ private void guardarNuevoProducto(){
                              
                              nuevoRegistro(colummnasProducto,parametrosProducto,"producto");
                              idProducto = getUltimoIdProducto();    
-                             relacionMaterialProducto(idProducto);
+                             relacionMaterialProducto(idProducto,tablaMateriales);
                              JOptionPane.showMessageDialog(null,"Producto ingresado");
                              
                              limpiarPanelProducto();
@@ -1410,7 +1411,31 @@ private void guardarNuevoProducto(){
     
 }
 private void editarProucto(){
-    
+    float totalNuevoProducto = Float.parseFloat(labelTotalEdit.getText()), costoProduccion;
+    String costoProduccionText="";
+    if(txtNombreEditar.getText().length()>0 && txtPrecioEditar.getText().length()>0){//los campos de nombre y precio son obligatorios 
+        costoProduccion = Float.parseFloat(labelTotalEdit.getText())+Float.parseFloat(labelCostoProEdit.getText());//nuevo costo de produccion
+        
+        int confirmar = JOptionPane.showConfirmDialog(null,"¿Esta seguro de las modificaciones?"+"\nNombre: "+txtNombreEditar.getText()+
+                "\nPrecio: "+txtPrecioEditar.getText()+"\nDescripcion: "+txtAreaEditar.getText()+"\nMateriales nuevos: "+tablaNuevoMaterial.getRowCount()
+         +"\nCosto de produccion: "+costoProduccion,"",JOptionPane.YES_NO_OPTION);
+        
+        if(confirmar == 0){
+            if(totalNuevoProducto > 0){// con esto verificamos si ingreso nuevos materiales al producto
+            relacionMaterialProducto(labelIdProEdit.getText(), tablaNuevoMaterial);
+            costoProduccionText = ", costoProduccion = "+costoProduccion;
+        }
+            //realizamos la consulta, para modifcar
+        producto.modificarRegistro("producto","nombre = '"+txtNombreEditar.getText()+"',precio="+txtPrecioEditar.getText()+",descripcion='"+txtAreaEditar.getText()
+                +"'"+costoProduccionText,"id",labelIdProEdit.getText());
+        JOptionPane.showMessageDialog(null,"El producto se modifico con exito");
+        limpiarPanelEditar();
+        }
+        
+    }
+    else{
+        JOptionPane.showMessageDialog(null,"Llene los campos obligatorios","Advertencia",JOptionPane.WARNING_MESSAGE);
+    }
 }
 private void limpiarPanelMaterialEditar(){
         labelNombreMaterial.setText("null");
@@ -1426,6 +1451,32 @@ private void limpiarPanelMaterialEditar(){
         botonAnadirEditar.setEnabled(false);
         botonRemoverEdit.setEnabled(false);
         botonCargarEdit.setEnabled(true);
+}
+private void limpiarPanelEditar(){
+    botonEditar.setEnabled(true);
+    botonNuevo.setEnabled(true);
+    botonReporte.setEnabled(true);
+    botonDetalle.setEnabled(true);
+    botonEliminar.setEnabled(true);
+
+    
+    botonCancelar.setEnabled(false);
+    botonGuardar.setEnabled(false);
+    
+    tabbed.setEnabledAt(3,false);
+    tabbed.setEnabledAt(0,true);
+    tabbed.setSelectedIndex(0);
+    
+    txtNombreEditar.setText("");
+    txtPrecioEditar.setText("");
+    txtAreaEditar.setText("");
+    
+    labelTotalEdit.setText("0");
+    
+   
+    if(tablaNuevoMaterial.getRowCount()>0){
+        limpiarTabla((DefaultTableModel) tablaNuevoMaterial.getModel(), tablaNuevoMaterial);
+    }
 }
     private void botonRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRemoverActionPerformed
      limpiarPanelMaterial();
@@ -1453,32 +1504,7 @@ private void limpiarPanelMaterialEditar(){
     }
     }
     else{
-    botonEditar.setEnabled(true);
-    botonNuevo.setEnabled(true);
-    botonReporte.setEnabled(true);
-    botonDetalle.setEnabled(true);
-    botonEliminar.setEnabled(true);
-
-    
-    botonCancelar.setEnabled(false);
-    botonGuardar.setEnabled(false);
-    
-    tabbed.setEnabledAt(3,false);
-    tabbed.setEnabledAt(0,true);
-    tabbed.setSelectedIndex(0);
-    
-    txtNombreEditar.setText("");
-    txtPrecioEditar.setText("");
-    txtAreaEditar.setText("");
-    
-   
-    if(tablaNuevoMaterial.getRowCount()>0){
-        limpiarTabla((DefaultTableModel) tablaNuevoMaterial.getModel(), tablaNuevoMaterial);
-    }
-    if(tablaMateriales.getRowCount()>0){
-        limpiarTabla(modelo,tablaMateriales);
-    }
-        
+       limpiarPanelEditar();
     }
    
     }//GEN-LAST:event_botonCancelarActionPerformed
@@ -1539,7 +1565,7 @@ private void limpiarPanelMaterialEditar(){
                       guardarNuevoProducto();
                   }
                   else{
-                      
+                      editarProucto();
                   }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
@@ -1721,6 +1747,7 @@ try {
                     }
                     else{
                         JOptionPane.showMessageDialog(null,"Este material ya esta asignado al producto","Advertencia",JOptionPane.WARNING_MESSAGE);
+                       txtIdMaterialEdit.setText("");
                     }
                   
                 }
@@ -1766,7 +1793,7 @@ try {
                 if(!existeEnTabla(txtIdMaterialEdit.getText(), tablaNuevoMaterial)){
                     modelo2.addRow(info);
                     total = Float.parseFloat(labelTotalEdit.getText());
-                    total = total + (Float.parseFloat(labelSubTotalEdit.getText())*Float.parseFloat(txtCantidadEdit.getText()));
+                    total = total + (Float.parseFloat(labelSubTotalEdit.getText()));
                     labelTotalEdit.setText(""+total);
                     limpiarPanelMaterialEditar();
                 }
@@ -1778,7 +1805,7 @@ try {
             else{
                     modelo2.addRow(info);
                     total = Float.parseFloat(labelTotalEdit.getText());
-                    total = total + (Float.parseFloat(labelSubTotalEdit.getText())*Float.parseFloat(txtCantidadEdit.getText()));
+                    total = total + (Float.parseFloat(labelSubTotalEdit.getText()));
                     labelTotalEdit.setText(""+total);
                     limpiarPanelMaterialEditar();
             }
