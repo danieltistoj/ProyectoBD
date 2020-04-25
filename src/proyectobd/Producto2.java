@@ -1958,8 +1958,18 @@ try {
 
     private void eliminarProductoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarProductoItemActionPerformed
         int fila = tablaProducto.getSelectedRow(),confirmar;
+        String idProducto,consulta;
+        
         if(fila>=0){
             confirmar = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar este producto?","Confirmar",JOptionPane.YES_NO_OPTION);
+            if(confirmar == 0){
+                idProducto = String.valueOf(tablaProducto.getValueAt(fila,0));
+                producto.eliminarRegistro(idProducto,"producto","id");
+                JOptionPane.showMessageDialog(null,"Producto eliminado");
+           consulta = "select * from producto";
+       cargarTablaId(consulta, txtCargar.getText(),"nombre","id","", "where", tablaProducto, titulos);
+                
+            }
         }
         else{
             JOptionPane.showMessageDialog(null,"Seleccione un producto","Advertencia",JOptionPane.WARNING_MESSAGE);

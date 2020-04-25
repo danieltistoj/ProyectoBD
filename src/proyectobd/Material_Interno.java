@@ -575,21 +575,22 @@ private void guardarEdicionMaterial(){
 private void modificarCostoProducto(String idMaterial){
     int cantidad;
     float costoProduccion,costoMaterial,totalCosto;
-    
+           //con esta consulta obtenemos los id de los productos a los cuales esta relacionado el material 
             conexion.EjecutarConsulta("select * from producto_has_material PM where PM.material_id = "+idMaterial);
             ResultSet rs = conexion.getResulSet();
             try {
-                while(rs.next()){
+                while(rs.next()){//recorremos todas las filas, las cuales son el resultado de la consulta anterior 
                   System.out.println("id producto = "+rs.getString("producto_id")+" Id Material = "+rs.getString("material_id"));
-                  costoProduccion = Float.parseFloat(material.getDato("id",rs.getString("producto_id"),"producto","costoProduccion"));
+                  costoProduccion = Float.parseFloat(material.getDato("id",rs.getString("producto_id"),"producto","costoProduccion"));//obtenemos el costo de produccion
                   System.out.println("costo de produccion producto = "+costoProduccion);
-                  cantidad = Integer.parseInt(rs.getString("Cantidad"));
-                  costoMaterial = Float.parseFloat(material.getDato("id",rs.getString("material_id"),"material","costo"));
+                  cantidad = Integer.parseInt(rs.getString("Cantidad"));//obtenemos la cantidad que necesitamos del material, para producir el producto
+                  costoMaterial = Float.parseFloat(material.getDato("id",rs.getString("material_id"),"material","costo"));//obtenemos cunato cuesta una unidad del material
                   System.out.println("costo material = "+costoMaterial);
-                  totalCosto = cantidad*costoMaterial;
+                  totalCosto = cantidad*costoMaterial;//obtenemos el costo total del material que seria la cantidad por el costo del material
                   System.out.println("costo material para producto = "+totalCosto);
-                  costoProduccion = costoProduccion - totalCosto;
-                   System.out.println("nuevo costo de produccion del producto = "+costoProduccion+"\n");
+                  costoProduccion = costoProduccion - totalCosto;//al costo de produccion le restamos el total del material, que sera ahora nuestro nuevo costo de produccion
+                  material.modificarRegistro("producto","costoProduccion = "+costoProduccion,"id",rs.getString("producto_id"));//modificar el costo de produccion del producto sin el costo del material
+                  System.out.println("nuevo costo de produccion del producto = "+costoProduccion+"\n");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Modulo.class.getName()).log(Level.SEVERE, null, ex);
@@ -713,13 +714,20 @@ private void modificarCostoProducto(String idMaterial){
 
     private void menuEmergenteEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEmergenteEliminarActionPerformed
         int fila = tablaMaterial.getSelectedRow(),confirmar;
-        String idMaterial;
+        String idMaterial,consulta;
+        TablaId tabla = new TablaId(tablaMaterial);
         if(fila>=0){
             idMaterial = String.valueOf(tablaMaterial.getValueAt(fila,0));
             confirmar = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar este material?\n"+
                     "Si esta relacionado con un producto, el costo de produccion de este se modificara.","Confirmar",JOptionPane.YES_NO_OPTION);
             if(confirmar ==0){
-            modificarCostoProducto(idMaterial);    
+            modificarCostoProducto(idMaterial);  
+            material.eliminarRegistro(idMaterial,"material","id");
+            JOptionPane.showMessageDialog(null,"El material fue eliminado");
+            
+            consulta = "select * from material";
+            tabla.llenarTable(consulta, "", "", "", "", "", titulos);
+            
             }
             
         }
