@@ -37,6 +37,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
     private DefaultTableModel  modelo, modelo2;
     private int tipoUsuario, nuevoUeditar;
     private Modulo producto;
+    
     public Producto2(int tipo) {
         initComponents();
         
@@ -44,6 +45,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
         botonCancelar.setEnabled(false);
         botonGuardar.setEnabled(false);
         botonRegresar.setEnabled(false);
+        
         
         tabbed.setEnabledAt(1,false);
         tabbed.setEnabledAt(2,false);
@@ -61,6 +63,9 @@ public class Producto2 extends javax.swing.JInternalFrame {
             botonNuevo.setEnabled(false);
             botonEditar.setEnabled(false);
             botonReporte.setEnabled(false);
+            
+            Cantidad.setEnabled(false);
+            Eliminar.setEnabled(false);
         }
     }
 
@@ -185,7 +190,6 @@ public class Producto2 extends javax.swing.JInternalFrame {
         botonReporte = new javax.swing.JButton();
         botonDetalle = new javax.swing.JButton();
         botonRegresar = new javax.swing.JButton();
-        botonEliminar = new javax.swing.JButton();
 
         Cantidad.setText("Editar Cantidad");
         Cantidad.addActionListener(new java.awt.event.ActionListener() {
@@ -197,6 +201,11 @@ public class Producto2 extends javax.swing.JInternalFrame {
         jPopupMenu1.add(jSeparator1);
 
         Eliminar.setText("Eliminar");
+        Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(Eliminar);
 
         menuItemQuitar.setText("Quitar");
@@ -1136,8 +1145,6 @@ public class Producto2 extends javax.swing.JInternalFrame {
             }
         });
 
-        botonEliminar.setText("Eliminar");
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -1151,7 +1158,6 @@ public class Producto2 extends javax.swing.JInternalFrame {
                     .addComponent(botonReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botonDetalle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botonRegresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -1164,9 +1170,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
                 .addComponent(botonNuevo)
                 .addGap(18, 18, 18)
                 .addComponent(botonEditar)
-                .addGap(18, 18, 18)
-                .addComponent(botonEliminar)
-                .addGap(60, 60, 60)
+                .addGap(104, 104, 104)
                 .addComponent(botonDetalle)
                 .addGap(18, 18, 18)
                 .addComponent(botonRegresar)
@@ -1217,7 +1221,6 @@ private void limpiarPanelMaterial(){
     txtCantidadMaterial.setText("");
    
 }
-
 private void activarPanel(){
     botonEditar.setEnabled(false);
     botonNuevo.setEnabled(false);
@@ -1227,7 +1230,7 @@ private void activarPanel(){
     botonRemover.setEnabled(false);
     botonQuitar.setEnabled(false);
     botonRegresar.setEnabled(false);
-    botonEliminar.setEnabled(false);
+  
     botonCancelar.setEnabled(true);
     botonGuardar.setEnabled(true);
   
@@ -1457,7 +1460,7 @@ private void limpiarPanelEditar(){
     botonNuevo.setEnabled(true);
     botonReporte.setEnabled(true);
     botonDetalle.setEnabled(true);
-    botonEliminar.setEnabled(true);
+   
 
     
     botonCancelar.setEnabled(false);
@@ -1478,6 +1481,15 @@ private void limpiarPanelEditar(){
         limpiarTabla((DefaultTableModel) tablaNuevoMaterial.getModel(), tablaNuevoMaterial);
     }
 }
+private void cargarTablaDetalle(){
+    String consulta = "select M.id,M.nombre,M.cantidad as exsitencias,M.tipo,M.costo,PM.Cantidad  from producto_has_material PM\n" +
+                                "inner join producto P on P.id = PM.producto_id\n" +
+                                "inner join material M on M.id = PM.material_id where P.id = ";
+                               
+                               consulta = consulta+labelIDPro.getText();
+                               TablaId tabla = new TablaId(tablaMaterialesPro);
+                               tabla.llenarTable(consulta,"", "", "", "", "", tituloMaterialPro);
+}//cargar la tabla de detalle de producto
     private void botonRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRemoverActionPerformed
      limpiarPanelMaterial();
      botonRemover.setEnabled(false);
@@ -1506,6 +1518,8 @@ private void limpiarPanelEditar(){
     else{
        limpiarPanelEditar();
     }
+     String consulta = "select * from producto";
+     cargarTablaId(consulta,"","nombre","id","", "where", tablaProducto, titulos);
    
     }//GEN-LAST:event_botonCancelarActionPerformed
 
@@ -1526,7 +1540,7 @@ private void limpiarPanelEditar(){
                 botonNuevo.setEnabled(false);
                 botonReporte.setEnabled(false);
                 botonDetalle.setEnabled(false);
-                botonEliminar.setEnabled(false);
+                
                 botonRemoverEdit.setEnabled(false);
                 botonAnadirEditar.setEnabled(false);
                 
@@ -1585,7 +1599,7 @@ try {
 
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
       String consulta = "select * from producto";
-        cargarTablaId(consulta, txtCargar.getText(),"nombre","id","", "where", tablaProducto, titulos);
+       cargarTablaId(consulta, txtCargar.getText(),"nombre","id","", "where", tablaProducto, titulos);
     }//GEN-LAST:event_botonCargarActionPerformed
 
     private void botonCargarMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarMaterialActionPerformed
@@ -1722,11 +1736,11 @@ try {
            botonRegresar.setEnabled(false);
            botonReporte.setEnabled(true);
        }
-          
-           
             tabbed.setEnabledAt(2,false);
             tabbed.setEnabledAt(0,true);
             tabbed.setSelectedIndex(0);
+       String consulta = "select * from producto";
+       cargarTablaId(consulta, txtCargar.getText(),"nombre","id","", "where", tablaProducto, titulos);
     }//GEN-LAST:event_botonRegresarActionPerformed
 
     private void botonCargarEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarEditActionPerformed
@@ -1771,7 +1785,7 @@ try {
       limpiarPanelMaterialEditar();
       
     }//GEN-LAST:event_botonRemoverEditActionPerformed
-
+//cargar cantidad del material del producto
     private void CantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CantidadActionPerformed
        int fila = tablaMaterialesPro.getSelectedRow(),cantidadModificar;
        String cantidad,idMaterial;
@@ -1805,27 +1819,12 @@ try {
                               //modificar en el coste de produccion en el panel 
                               labelCostoPro.setText(""+costeProduccion);
                               //volver a cargar la tabla del panel 
-                               String consulta = "select M.id,M.nombre,M.cantidad as exsitencias,M.tipo,M.costo,PM.Cantidad  from producto_has_material PM\n" +
-                                "inner join producto P on P.id = PM.producto_id\n" +
-                                "inner join material M on M.id = PM.material_id where P.id = ";
-                               
-                               consulta = consulta+labelIDPro.getText();
-                               TablaId tabla = new TablaId(tablaMaterialesPro);
-                               tabla.llenarTable(consulta,"", "", "", "", "", tituloMaterialPro);
-                               
-                               
-                              
-                          }
-              
-                     
-                     
-                          
+                               cargarTablaDetalle();
+                          }  
                       }
                       else{
                           JOptionPane.showMessageDialog(null,"La cantidad debe de ser mayor a cero");
-                      }
-                    
-                      
+                      }   
                   }
                   else{
                       JOptionPane.showMessageDialog(null,"Ingrese solo digitos enteros","Advertencia",JOptionPane.WARNING_MESSAGE);
@@ -1916,6 +1915,36 @@ try {
         }
     }//GEN-LAST:event_menuItemQuitarActionPerformed
 
+    private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
+        int fila  = tablaMaterialesPro.getSelectedRow(),cantidadMaterial,numMateriales,continuar;
+        float precioMaterial,costoProduccion,costoMaterial;
+        
+        String idMaterial;
+        if(fila>=0){
+           
+            idMaterial = String.valueOf(tablaMaterialesPro.getValueAt(fila,0));
+            numMateriales = Integer.parseInt(labelCantiMateriales.getText());
+            
+            costoProduccion = Float.parseFloat(labelCostoPro.getText());
+            costoMaterial = Integer.parseInt(String.valueOf(tablaMaterialesPro.getValueAt(fila,5)))*Float.parseFloat(String.valueOf(tablaMaterialesPro.getValueAt(fila,4)));
+            costoProduccion = costoProduccion-costoMaterial;
+            continuar = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar este material?","Confirmar",JOptionPane.YES_NO_OPTION);
+            if(continuar == 0){
+                //eliminar la relacion de producto material
+            producto.eliminarRegistro(idMaterial,"producto_has_material","material_id");
+            //modificar el costo de produccion de producto
+            producto.modificarRegistro("producto","costoProduccion = "+costoProduccion,"id",labelIDPro.getText());
+            //modificar en el panel el costo de produccion
+            labelCostoPro.setText(""+costoProduccion);
+            labelCantiMateriales.setText(""+(numMateriales-1));//editar la cantidad de materiales en el panel
+            cargarTablaDetalle(); 
+            } 
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Seleccione un material","Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_EliminarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Cantidad;
@@ -1928,7 +1957,6 @@ try {
     private javax.swing.JButton botonCargarMaterial;
     private javax.swing.JButton botonDetalle;
     private javax.swing.JButton botonEditar;
-    private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonGuardar;
     private javax.swing.JButton botonNuevo;
     private javax.swing.JButton botonQuitar;
