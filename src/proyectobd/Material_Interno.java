@@ -32,6 +32,7 @@ public class Material_Interno extends javax.swing.JInternalFrame {
     private String ID = "", Tipo = "",Alto1 ="",nombreTemp = "", localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
              usuario ="root",contra = "xela2020";
     private ConexionMySQL conexion;
+    private Modulo material;
     private int opcion;
     public Material_Interno(int tipoUsuario) {
         initComponents();
@@ -39,10 +40,11 @@ public class Material_Interno extends javax.swing.JInternalFrame {
        botonGuardar.setEnabled(false);
        tabbed.setEnabledAt(1,false);
        conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+       material = new Modulo();
        
        if(tipoUsuario == 0){
            botonNuevo.setEnabled(false);
-           botonBorrar.setEnabled(false);
+           menuEmergenteEliminar.setEnabled(false);
            botonEditar.setEnabled(false);
            botonReporte.setEnabled(false);
        }
@@ -59,10 +61,9 @@ public class Material_Interno extends javax.swing.JInternalFrame {
 
         dialogNuevo = new javax.swing.JDialog();
         jPanel4 = new javax.swing.JPanel();
-        jPopupMenu1 = new javax.swing.JPopupMenu();
-        enviar1 = new javax.swing.JMenuItem();
+        eliminarMaterial = new javax.swing.JPopupMenu();
+        menuEmergenteEliminar = new javax.swing.JMenuItem();
         jPanel2 = new javax.swing.JPanel();
-        botonBorrar = new javax.swing.JButton();
         botonEditar = new javax.swing.JButton();
         botonReporte = new javax.swing.JButton();
         botonNuevo = new javax.swing.JButton();
@@ -117,8 +118,13 @@ public class Material_Interno extends javax.swing.JInternalFrame {
                 .addContainerGap(142, Short.MAX_VALUE))
         );
 
-        enviar1.setText("enviar");
-        jPopupMenu1.add(enviar1);
+        menuEmergenteEliminar.setText("Eliminar");
+        menuEmergenteEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuEmergenteEliminarActionPerformed(evt);
+            }
+        });
+        eliminarMaterial.add(menuEmergenteEliminar);
 
         setClosable(true);
         setIconifiable(true);
@@ -127,13 +133,6 @@ public class Material_Interno extends javax.swing.JInternalFrame {
         setToolTipText("");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        botonBorrar.setText("Borrar");
-        botonBorrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonBorrarActionPerformed(evt);
-            }
-        });
 
         botonEditar.setText("Editar");
         botonEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -177,7 +176,6 @@ public class Material_Interno extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonBorrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botonEditar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(botonReporte)
@@ -195,10 +193,8 @@ public class Material_Interno extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(botonNuevo)
                 .addGap(18, 18, 18)
-                .addComponent(botonBorrar)
-                .addGap(18, 18, 18)
                 .addComponent(botonEditar)
-                .addGap(44, 44, 44)
+                .addGap(88, 88, 88)
                 .addComponent(botonGuardar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botonCancelar)
@@ -220,6 +216,7 @@ public class Material_Interno extends javax.swing.JInternalFrame {
 
             }
         ));
+        tablaMaterial.setComponentPopupMenu(eliminarMaterial);
         jScrollPane1.setViewportView(tablaMaterial);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -423,7 +420,7 @@ private void limpiarPanel(){
     
      botonNuevo.setEnabled(true);
      botonReporte.setEnabled(true);
-     botonBorrar.setEnabled(true);
+     
      botonEditar.setEnabled(true);
      
      botonCancelar.setEnabled(false);
@@ -440,7 +437,7 @@ private void limpiarPanel(){
 private void activarBotones(){
      botonNuevo.setEnabled(false);
      botonReporte.setEnabled(false);
-     botonBorrar.setEnabled(false);
+     
      botonEditar.setEnabled(false);
      
      botonCancelar.setEnabled(true);
@@ -574,40 +571,30 @@ private void guardarEdicionMaterial(){
                 }
        }
     
-}//la accion que hace el boton guardar si modificamos un registro de material
-//boton borrar 
-    private void botonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBorrarActionPerformed
-        int fila = tablaMaterial.getSelectedRow(), respuesta = 0;
-       
-        if(fila>=0){
-            String idMaterial = String.valueOf(tablaMaterial.getValueAt(fila,0));
-            if(existeMaterial(idMaterial,"material","id")){
-                if(existeMaterial(idMaterial, "detalle_compra", "material_id")){
-               respuesta = JOptionPane.showConfirmDialog(null,"El material esta vinculado con uno a mas productos.\n"+"¿Desea eliminar este producto?","Advertencia",JOptionPane.YES_NO_OPTION);
-                
-            }
-                else{
-                  respuesta =  JOptionPane.showConfirmDialog(null,"El material se eliminara del inventario o de los registros de compra. ¿desea eliminar?","Advertencia",JOptionPane.YES_NO_OPTION);
-                    
+}//la accion que hace el boton guardar si modificamos un registro de material//la accion que hace el boton guardar si modificamos un registro de material//la accion que hace el boton guardar si modificamos un registro de material//la accion que hace el boton guardar si modificamos un registro de material
+private void modificarCostoProducto(String idMaterial){
+    int cantidad;
+    float costoProduccion,costoMaterial,totalCosto;
+    
+            conexion.EjecutarConsulta("select * from producto_has_material PM where PM.material_id = "+idMaterial);
+            ResultSet rs = conexion.getResulSet();
+            try {
+                while(rs.next()){
+                  System.out.println("id producto = "+rs.getString("producto_id")+" Id Material = "+rs.getString("material_id"));
+                  costoProduccion = Float.parseFloat(material.getDato("id",rs.getString("producto_id"),"producto","costoProduccion"));
+                  System.out.println("costo de produccion producto = "+costoProduccion);
+                  cantidad = Integer.parseInt(rs.getString("Cantidad"));
+                  costoMaterial = Float.parseFloat(material.getDato("id",rs.getString("material_id"),"material","costo"));
+                  System.out.println("costo material = "+costoMaterial);
+                  totalCosto = cantidad*costoMaterial;
+                  System.out.println("costo material para producto = "+totalCosto);
+                  costoProduccion = costoProduccion - totalCosto;
+                   System.out.println("nuevo costo de produccion del producto = "+costoProduccion+"\n");
                 }
-                if(respuesta == 0){
-                    eliminarMaterial(idMaterial,"producto_has_material","material_id");
-                    eliminarMaterial(idMaterial,"detalle_compra","material_id");
-                    eliminarMaterial(idMaterial,"material","id");
-                    JOptionPane.showMessageDialog(null,"Material eliminado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
-                }
-                    
+            } catch (SQLException ex) {
+                Logger.getLogger(Modulo.class.getName()).log(Level.SEVERE, null, ex);
             }
-            else{
-                JOptionPane.showMessageDialog(null,"El material no existe","Error",JOptionPane.ERROR_MESSAGE);
-            }
-            
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"Seleccione un material","Advertencia",JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_botonBorrarActionPerformed
-//boton editar
+}
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
         int fila = tablaMaterial.getSelectedRow();
         float alto1;
@@ -724,9 +711,25 @@ private void guardarEdicionMaterial(){
       }
     }//GEN-LAST:event_txtCostoKeyTyped
 
+    private void menuEmergenteEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEmergenteEliminarActionPerformed
+        int fila = tablaMaterial.getSelectedRow(),confirmar;
+        String idMaterial;
+        if(fila>=0){
+            idMaterial = String.valueOf(tablaMaterial.getValueAt(fila,0));
+            confirmar = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar este material?\n"+
+                    "Si esta relacionado con un producto, el costo de produccion de este se modificara.","Confirmar",JOptionPane.YES_NO_OPTION);
+            if(confirmar ==0){
+            modificarCostoProducto(idMaterial);    
+            }
+            
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Seleccione un material","Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_menuEmergenteEliminarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botonBorrar;
     private javax.swing.JButton botonCancelar;
     private javax.swing.JButton botonCargar;
     private javax.swing.JButton botonEditar;
@@ -735,7 +738,7 @@ private void guardarEdicionMaterial(){
     private javax.swing.JButton botonReporte;
     private javax.swing.JComboBox<String> comboTipo;
     private javax.swing.JDialog dialogNuevo;
-    private javax.swing.JMenuItem enviar1;
+    private javax.swing.JPopupMenu eliminarMaterial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
@@ -748,8 +751,8 @@ private void guardarEdicionMaterial(){
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem menuEmergenteEliminar;
     private javax.swing.JRadioButton radioTipo;
     private javax.swing.JTabbedPane tabbed;
     private javax.swing.JTable tablaMaterial;

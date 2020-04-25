@@ -78,12 +78,14 @@ public class Producto2 extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
+        menuEmergenteDetalle = new javax.swing.JPopupMenu();
         Cantidad = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         Eliminar = new javax.swing.JMenuItem();
-        jPopupMenu2 = new javax.swing.JPopupMenu();
+        menuEmergenteEditar = new javax.swing.JPopupMenu();
         menuItemQuitar = new javax.swing.JMenuItem();
+        menuEmergenteEliminar = new javax.swing.JPopupMenu();
+        eliminarProductoItem = new javax.swing.JMenuItem();
         tabbed = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -197,8 +199,8 @@ public class Producto2 extends javax.swing.JInternalFrame {
                 CantidadActionPerformed(evt);
             }
         });
-        jPopupMenu1.add(Cantidad);
-        jPopupMenu1.add(jSeparator1);
+        menuEmergenteDetalle.add(Cantidad);
+        menuEmergenteDetalle.add(jSeparator1);
 
         Eliminar.setText("Eliminar");
         Eliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -206,7 +208,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
                 EliminarActionPerformed(evt);
             }
         });
-        jPopupMenu1.add(Eliminar);
+        menuEmergenteDetalle.add(Eliminar);
 
         menuItemQuitar.setText("Quitar");
         menuItemQuitar.addActionListener(new java.awt.event.ActionListener() {
@@ -214,7 +216,15 @@ public class Producto2 extends javax.swing.JInternalFrame {
                 menuItemQuitarActionPerformed(evt);
             }
         });
-        jPopupMenu2.add(menuItemQuitar);
+        menuEmergenteEditar.add(menuItemQuitar);
+
+        eliminarProductoItem.setText("Eliminar");
+        eliminarProductoItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarProductoItemActionPerformed(evt);
+            }
+        });
+        menuEmergenteEliminar.add(eliminarProductoItem);
 
         setClosable(true);
         setIconifiable(true);
@@ -233,6 +243,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
 
             }
         ));
+        tablaProducto.setComponentPopupMenu(menuEmergenteEliminar);
         jScrollPane1.setViewportView(tablaProducto);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -616,7 +627,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
 
             }
         ));
-        tablaMaterialesPro.setComponentPopupMenu(jPopupMenu1);
+        tablaMaterialesPro.setComponentPopupMenu(menuEmergenteDetalle);
         jScrollPane4.setViewportView(tablaMaterialesPro);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
@@ -1007,7 +1018,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel16Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, 127, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel16Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
@@ -1038,7 +1049,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
 
             }
         ));
-        tablaNuevoMaterial.setComponentPopupMenu(jPopupMenu2);
+        tablaNuevoMaterial.setComponentPopupMenu(menuEmergenteEditar);
         jScrollPane7.setViewportView(tablaNuevoMaterial);
 
         jLabel15.setText("TOTAL:");
@@ -1945,6 +1956,16 @@ try {
         }
     }//GEN-LAST:event_EliminarActionPerformed
 
+    private void eliminarProductoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarProductoItemActionPerformed
+        int fila = tablaProducto.getSelectedRow(),confirmar;
+        if(fila>=0){
+            confirmar = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar este producto?","Confirmar",JOptionPane.YES_NO_OPTION);
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Seleccione un producto","Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_eliminarProductoItemActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Cantidad;
@@ -1964,6 +1985,7 @@ try {
     private javax.swing.JButton botonRemover;
     private javax.swing.JButton botonRemoverEdit;
     private javax.swing.JButton botonReporte;
+    private javax.swing.JMenuItem eliminarProductoItem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2015,8 +2037,6 @@ try {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JPopupMenu jPopupMenu1;
-    private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -2041,6 +2061,9 @@ try {
     private javax.swing.JLabel labelPresioPro;
     private javax.swing.JLabel labelSubTotalEdit;
     private javax.swing.JLabel labelTotalEdit;
+    private javax.swing.JPopupMenu menuEmergenteDetalle;
+    private javax.swing.JPopupMenu menuEmergenteEditar;
+    private javax.swing.JPopupMenu menuEmergenteEliminar;
     private javax.swing.JMenuItem menuItemQuitar;
     private javax.swing.JTabbedPane tabbed;
     private javax.swing.JTable tablaMateriales;
