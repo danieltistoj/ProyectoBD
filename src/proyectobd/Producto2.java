@@ -1773,7 +1773,75 @@ try {
     }//GEN-LAST:event_botonRemoverEditActionPerformed
 
     private void CantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CantidadActionPerformed
+       int fila = tablaMaterialesPro.getSelectedRow(),cantidadModificar;
+       String cantidad,idMaterial;
+       float precioMaterial,costeProduccion,costeMaterialP,cantidadActual;//El costeMaterialP es el coste o precio del material multiplicado por la cantidad que se necesita para hacer el producto
+       if(fila>=0){
+             cantidad = JOptionPane.showInputDialog("Ingrese la catidad que desea del material: ");
+            if(cantidad!=null){
+              if(!"".equals(cantidad)){
+                  if(producto.esEntero(cantidad)){
+                      if(Integer.parseInt(cantidad)>0){
+                          idMaterial = String.valueOf(tablaMaterialesPro.getValueAt(fila,0));
+                          cantidadModificar = Integer.parseInt(cantidad);//cantidad ingresada por el usuario
+                     
+                     cantidadActual = Float.parseFloat(String.valueOf(tablaMaterialesPro.getValueAt(fila,5)));//cantidad actual del material destinada al producto
+                     costeProduccion = Float.parseFloat(labelCostoPro.getText());//coste de produccion del producto 
+                     precioMaterial = Float.parseFloat(String.valueOf(tablaMaterialesPro.getValueAt(fila,4)));//precio del material o coto
+                     
+                     costeMaterialP = cantidadActual*precioMaterial;
+                     costeProduccion = costeProduccion - costeMaterialP;//coste de produccion sin el material seleccionado 
+                     
+                         costeMaterialP = precioMaterial*cantidadModificar;//coste del material con la nueva cantidad
+                          
+                          costeProduccion = costeProduccion+costeMaterialP;
+                          int confirmar = JOptionPane.showConfirmDialog(null,"Nuevo cantidad para el material: "+cantidadModificar+
+                                  "\nNuevo coste de produccion: "+costeProduccion+"\n¿Esta seguro de realizar esto cambios?","Confirmar",JOptionPane.YES_NO_OPTION);
+                          if(confirmar == 0){
+                              //modificar en la relacion producto material
+                              producto.modificarRegistro("producto_has_material","Cantidad = "+cantidadModificar,"producto_id",labelIDPro.getText()+" and material_id = "+idMaterial);
+                             //modificar el producto
+                              producto.modificarRegistro("producto","costoProduccion = "+costeProduccion,"id",labelIDPro.getText());
+                              //modificar en el coste de produccion en el panel 
+                              labelCostoPro.setText(""+costeProduccion);
+                              //volver a cargar la tabla del panel 
+                               String consulta = "select M.id,M.nombre,M.cantidad as exsitencias,M.tipo,M.costo,PM.Cantidad  from producto_has_material PM\n" +
+                                "inner join producto P on P.id = PM.producto_id\n" +
+                                "inner join material M on M.id = PM.material_id where P.id = ";
+                               
+                               consulta = consulta+labelIDPro.getText();
+                               TablaId tabla = new TablaId(tablaMaterialesPro);
+                               tabla.llenarTable(consulta,"", "", "", "", "", tituloMaterialPro);
+                               
+                               
+                              
+                          }
+              
+                     
+                     
+                          
+                      }
+                      else{
+                          JOptionPane.showMessageDialog(null,"La cantidad debe de ser mayor a cero");
+                      }
+                    
+                      
+                  }
+                  else{
+                      JOptionPane.showMessageDialog(null,"Ingrese solo digitos enteros","Advertencia",JOptionPane.WARNING_MESSAGE);
+                  }
+              }
+              else{
+                  JOptionPane.showMessageDialog(null,"Ingrese una cantidad","Advertencia",JOptionPane.WARNING_MESSAGE);
+              }
+            }
+            
+       }
+       else{
+           JOptionPane.showMessageDialog(null,"Seleccione un material","Advertencia",JOptionPane.WARNING_MESSAGE);
+       }
        
+      
     }//GEN-LAST:event_CantidadActionPerformed
 
     private void botonAnadirEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnadirEditarActionPerformed
