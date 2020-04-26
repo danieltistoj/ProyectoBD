@@ -35,12 +35,14 @@ public class Proveedor extends javax.swing.JInternalFrame {
              usuario ="root",contra = "xela2020", nombreAnterior, idProveedor;
     private  String[] titulos = {"Id","Nombre","Telefono","Celular","Direccion","Correo","No. Cuenta"};
     private int opcion;
+    private Modulo proveedor;
     public Proveedor(int tipo) {
         initComponents();
         botonCancelar.setEnabled(false);
         botonGuardar.setEnabled(false);
         tabbed.setEnabledAt(1,false);
         conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+        proveedor = new Modulo();
         if(tipo == 0){
             botonNuevo.setEnabled(false);
             botonEditar.setEnabled(false);
@@ -57,6 +59,8 @@ public class Proveedor extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        eliminarItem = new javax.swing.JPopupMenu();
+        menuEmergenteEliminarProveedor = new javax.swing.JMenuItem();
         tabbed = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -88,6 +92,14 @@ public class Proveedor extends javax.swing.JInternalFrame {
         botonCancelar = new javax.swing.JButton();
         botonReporte = new javax.swing.JButton();
 
+        menuEmergenteEliminarProveedor.setText("Eliminar");
+        menuEmergenteEliminarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuEmergenteEliminarProveedorActionPerformed(evt);
+            }
+        });
+        eliminarItem.add(menuEmergenteEliminarProveedor);
+
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
@@ -106,6 +118,7 @@ public class Proveedor extends javax.swing.JInternalFrame {
 
             }
         ));
+        tablaProveedor.setComponentPopupMenu(eliminarItem);
         jScrollPane1.setViewportView(tablaProveedor);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -471,7 +484,7 @@ private void nuevoProveedor(String nombre, String telefono, String celular, Stri
                              + "VALUES ('"+nombre+"','"+telefono+"','"+celular+"','"+direccion+"','"+correo+"','"+num_cuenta+"')"); 
                   
                 //Mensaje que describe que el proveedor ingreso en el sistema      
-                JOptionPane.showMessageDialog(null,"Material Ingresado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Proveedor Ingresado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
                 limpiarPanel();
                    }
 }
@@ -487,7 +500,7 @@ private void modificarProveedor(String nombre, String telefono, String celular, 
                              "celular = '"+celular+"',direccion = '"+direccion+"',correo = '"+correo+"', num_cuenta = '"+num_cuenta+"' WHERE id = "+idProveedor); 
                 
                 //Mensaje que describe que el material ingreso en el sistema      
-                JOptionPane.showMessageDialog(null,"Material Modificado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Proveedor Modificado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
                 limpiarPanel();
                    }
 }
@@ -595,6 +608,25 @@ private void guardarEdicion(){
          } 
     }//GEN-LAST:event_botonReporteActionPerformed
 
+    private void menuEmergenteEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEmergenteEliminarProveedorActionPerformed
+      int fila = tablaProveedor.getSelectedRow(),confirmar;
+      String idProveedor1;
+      if(fila>=0){
+          idProveedor1 = String.valueOf(tablaProveedor.getValueAt(fila,0));
+          confirmar = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar el proveedor?\n "+"Las compras relacionadas se eliminaran",
+                  "Advertencia",JOptionPane.YES_NO_OPTION);
+          if(confirmar == 0){
+              proveedor.eliminarRegistro(idProveedor1,"proveedor","id");
+             JOptionPane.showMessageDialog(null,"El proveedor fue eliminado");
+             String consulta = "SELECT * FROM proveedor";
+             cargarTabla(consulta,"","nombre","id","", tablaProveedor, titulos);
+          }
+      }
+      else{
+          JOptionPane.showMessageDialog(null,"Seleccione un proveedor","Advertencia",JOptionPane.WARNING_MESSAGE);
+      }
+    }//GEN-LAST:event_menuEmergenteEliminarProveedorActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCancelar;
@@ -603,6 +635,7 @@ private void guardarEdicion(){
     private javax.swing.JButton botonGuardar;
     private javax.swing.JButton botonNuevo;
     private javax.swing.JButton botonReporte;
+    private javax.swing.JPopupMenu eliminarItem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -618,6 +651,7 @@ private void guardarEdicion(){
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem menuEmergenteEliminarProveedor;
     private javax.swing.JTabbedPane tabbed;
     private javax.swing.JTable tablaProveedor;
     private javax.swing.JTextField txtCargar;

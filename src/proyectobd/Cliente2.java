@@ -558,10 +558,13 @@ try {
            idCliente = String.valueOf(tablaCliente.getValueAt(fila,0));
            confirmar = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar el cliente?\n"+"Se eliminaran las facturas relacionadas con el cliente",
                    "Advertenci",JOptionPane.YES_NO_OPTION);
-           cliente.eliminarRegistro(idCliente,"cliente","id");
+           if(confirmar == 0){
+            cliente.eliminarRegistro(idCliente,"cliente","id");
            JOptionPane.showMessageDialog(null,"El cliente se elimino");
            String consulta = "select * from cliente";
            cargarTablaId(consulta,"","nit","id","","where", tablaCliente, titulos);
+           }
+         
            
        }
        else{
