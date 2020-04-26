@@ -35,13 +35,14 @@ public class Cliente2 extends javax.swing.JInternalFrame {
              ,iDcliente = "",nitAnterior = "";
      private ConexionMySQL conexion;
      private int opcion;
+     private Modulo cliente;
     public Cliente2(int tipo) {
         initComponents();
         conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
         botonCancelar.setEnabled(false);
         botonGuardar.setEnabled(false);
         tabbed.setEnabledAt(1,false);
-        
+        cliente = new Modulo();
         if(tipo == 0){
             botonNuevo.setEnabled(false);
             botonEditar.setEnabled(false);
@@ -58,6 +59,8 @@ public class Cliente2 extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        menuEliminar = new javax.swing.JPopupMenu();
+        eliminarEmergenteCliente = new javax.swing.JMenuItem();
         tabbed = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -90,6 +93,14 @@ public class Cliente2 extends javax.swing.JInternalFrame {
         botonCancelar = new javax.swing.JButton();
         botonReporte = new javax.swing.JButton();
 
+        eliminarEmergenteCliente.setText("Eliminar");
+        eliminarEmergenteCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarEmergenteClienteActionPerformed(evt);
+            }
+        });
+        menuEliminar.add(eliminarEmergenteCliente);
+
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
@@ -108,6 +119,7 @@ public class Cliente2 extends javax.swing.JInternalFrame {
 
             }
         ));
+        tablaCliente.setComponentPopupMenu(menuEliminar);
         jScrollPane1.setViewportView(tablaCliente);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -539,6 +551,24 @@ try {
          }       
     }//GEN-LAST:event_botonReporteActionPerformed
 
+    private void eliminarEmergenteClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarEmergenteClienteActionPerformed
+       int fila = tablaCliente.getSelectedRow(),confirmar;
+       String idCliente;
+       if(fila>=0){
+           idCliente = String.valueOf(tablaCliente.getValueAt(fila,0));
+           confirmar = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar el cliente?\n"+"Se eliminaran las facturas relacionadas con el cliente",
+                   "Advertenci",JOptionPane.YES_NO_OPTION);
+           cliente.eliminarRegistro(idCliente,"cliente","id");
+           JOptionPane.showMessageDialog(null,"El cliente se elimino");
+           String consulta = "select * from cliente";
+           cargarTablaId(consulta,"","nit","id","","where", tablaCliente, titulos);
+           
+       }
+       else{
+           JOptionPane.showMessageDialog(null,"Seleccione un cliente","Advertencia",JOptionPane.WARNING_MESSAGE);
+       }
+    }//GEN-LAST:event_eliminarEmergenteClienteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCancelar;
@@ -547,6 +577,7 @@ try {
     private javax.swing.JButton botonGuardar;
     private javax.swing.JButton botonNuevo;
     private javax.swing.JButton botonReporte;
+    private javax.swing.JMenuItem eliminarEmergenteCliente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -564,6 +595,7 @@ try {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPopupMenu menuEliminar;
     private javax.swing.JTabbedPane tabbed;
     private javax.swing.JTable tablaCliente;
     private javax.swing.JTextField txtApellido;
