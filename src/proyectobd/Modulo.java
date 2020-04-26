@@ -112,6 +112,20 @@ public class Modulo {
         }
         return existe;   
 }
+    public int cantidadDeRegistros(String formaId, String tabla){
+        int numid=0;
+        try {
+            conexion.EjecutarConsulta("select count("+formaId+")num from "+tabla);
+            ResultSet rs = conexion.getResulSet();
+                while(rs.next()){
+                  numid = Integer.parseInt(rs.getString("num"));
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Modulo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+      
+        return numid;
+    }
     public void nuevoRegistro(String colummnas, String parametro, String tabla){//insertar un registro en cualquier tabla 
     conexion.EjecutarInstruccion("insert into "+tabla+" ("+colummnas+")\n"+
               "values("+parametro+")");

@@ -19,9 +19,11 @@ public class Cargador extends javax.swing.JFrame {
    private Timer tiempo;
    private final ActionListener ac;
    private int contador = 0;
+   private Modulo inicio;
     public Cargador() {
         initComponents();
          setLocationRelativeTo(null);
+         inicio = new Modulo();
          ac = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -30,14 +32,22 @@ public class Cargador extends javax.swing.JFrame {
                 barraProgreso.setValue(contador);
                 if(barraProgreso.getValue() == 100){
                     dispose();
-                    InicioSesion inicio = new InicioSesion();
+                    if(inicio.cantidadDeRegistros("id","usuario")>0){//verificamos si existe algun usuario 
+                     InicioSesion inicio = new InicioSesion();
                     inicio.setVisible(true);
+                    
+                    }
+                 else{//si no debemos crear el primer usuario, que sea administrador
+                       PrimerUsuario primero = new PrimerUsuario();
+                       primero.setVisible(true);
+                    }
                     tiempo.stop();
+                    
                 }
               
             }
         };
-         tiempo = new Timer(50, ac);
+         tiempo = new Timer(30, ac);
          tiempo.start();
     }
 
@@ -59,6 +69,7 @@ public class Cargador extends javax.swing.JFrame {
         setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 102, 0), 2));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/WhatsApp Image 2020-03-15 at 17_opt (4).jpg"))); // NOI18N
         jLabel1.setText("jLabel1");

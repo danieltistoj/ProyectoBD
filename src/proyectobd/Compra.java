@@ -879,7 +879,7 @@ private void modificarCantidadMaterial(String idMaterial, String cantidad){
     }//GEN-LAST:event_txtCantidadKeyTyped
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
-       float total;
+        float total;
         if(txtCantidad.getText().equals("")==false){
             if(esEntero(txtCantidad.getText())){
             total= Float.parseFloat(txtCantidad.getText())*Float.parseFloat(txtPrecio.getText());

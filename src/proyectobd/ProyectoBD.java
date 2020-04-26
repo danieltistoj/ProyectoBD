@@ -52,11 +52,14 @@ System.out.println("Texto Encriptado con MD5 : "+textoEncriptadoConMD5);
        // Menu2  menu2 = new Menu2();
         //menu2.setVisible(true);
         
-       // Cargador cargar = new Cargador();
-        //cargar.setVisible(false);
+         Cargador cargar = new Cargador();
+         cargar.setVisible(true);
         
-        InicioSesion inicio = new InicioSesion();
-        inicio.setVisible(true);
+        //InicioSesion inicio = new InicioSesion();
+        //inicio.setVisible(true);
+        
+        //PrimerUsuario primero = new PrimerUsuario();
+        //primero.setVisible(true);
         
         /*
         try {
