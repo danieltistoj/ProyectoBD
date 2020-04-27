@@ -438,6 +438,7 @@ private void limpiarPanel(){
     
     
     txtContra1.setEnabled(true);
+    txtNombre.setEnabled(true);
    
     
     comboTipoUsuario.setSelectedIndex(0);
@@ -573,6 +574,7 @@ private void cargarTabla(){
       txtContra1.setEnabled(false);
         if(fila>=0){
             txtNombre.setText(String.valueOf(tablaUsuario.getValueAt(fila,2)));
+            txtNombre.setEnabled(false);
             txtCorreo.setText(String.valueOf(tablaUsuario.getValueAt(fila,3)));
             txtTelefono.setText(String.valueOf(tablaUsuario.getValueAt(fila,4)));
             txtCelular.setText(String.valueOf(tablaUsuario.getValueAt(fila,5)));
