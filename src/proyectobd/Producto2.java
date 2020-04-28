@@ -229,6 +229,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
+        setTitle("Producto");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -1295,6 +1296,7 @@ private void insertarEnTabla(String id, String nombre, String existencias, Strin
 }
 private void eliminarRegistroTabla(JTable tabla,DefaultTableModel modelo,JLabel total1 ){
     int fila = tabla.getSelectedRow();
+    System.out.println(fila);
     float total = Float.parseFloat(total1.getText()),subTotal;
         if(fila>=0){
             subTotal = Float.parseFloat(String.valueOf(tabla.getValueAt(fila,5)));
@@ -1688,7 +1690,7 @@ try {
     }//GEN-LAST:event_botonAnadirActionPerformed
 
     private void botonQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonQuitarActionPerformed
-        eliminarRegistroTabla(tablaMateriales, modelo,labelCostoPro);
+        eliminarRegistroTabla(tablaMateriales, modelo,labelCostoProduccion);
         if(tablaMateriales.getRowCount() == 0){
             botonQuitar.setEnabled(false);
             labelCostoProduccion.setText("0");
