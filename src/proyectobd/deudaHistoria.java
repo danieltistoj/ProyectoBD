@@ -246,7 +246,7 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(255, 102, 0), new java.awt.Color(255, 102, 0)), "Forma de busqueda"));
 
         botonCargarId.setBackground(new java.awt.Color(255, 255, 255));
-        botonCargarId.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/cargar.png"))); // NOI18N
+        botonCargarId.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/cargar2.png"))); // NOI18N
         botonCargarId.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 botonCargarIdMouseEntered(evt);
@@ -281,7 +281,7 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
         jLabel3.setText("FECHA FINAL");
 
         botonCragarFecha.setBackground(new java.awt.Color(255, 255, 255));
-        botonCragarFecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/cargar.png"))); // NOI18N
+        botonCragarFecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/cargar2.png"))); // NOI18N
         botonCragarFecha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 botonCragarFechaMouseEntered(evt);
