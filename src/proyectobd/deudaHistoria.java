@@ -687,7 +687,7 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
         });
 
         botonRegresar.setBackground(new java.awt.Color(255, 255, 255));
-        botonRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/retornar.png"))); // NOI18N
+        botonRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/regresar2.png"))); // NOI18N
         botonRegresar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 botonRegresarMouseEntered(evt);
