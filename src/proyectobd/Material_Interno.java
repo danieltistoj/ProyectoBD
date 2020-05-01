@@ -5,6 +5,7 @@
  */
 package proyectobd;
 
+import java.awt.Color;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -48,6 +49,13 @@ public class Material_Interno extends javax.swing.JInternalFrame {
            botonEditar.setEnabled(false);
            botonReporte.setEnabled(false);
        }
+       
+       botonNuevo.setToolTipText("Nuevo");
+       botonEditar.setToolTipText("Editar");
+       botonGuardar.setToolTipText("Guardar");
+       botonCancelar.setToolTipText("Cancelar");
+       botonReporte.setToolTipText("Reporte");
+       botonCargar.setToolTipText("Cargar");
     }
 
     /**
@@ -126,43 +134,90 @@ public class Material_Interno extends javax.swing.JInternalFrame {
         });
         eliminarMaterial.add(menuEmergenteEliminar);
 
+        setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Materiales ");
         setToolTipText("");
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(255, 102, 51), new java.awt.Color(255, 102, 51)));
 
-        botonEditar.setText("Editar");
+        botonEditar.setBackground(new java.awt.Color(255, 255, 255));
+        botonEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/editar2.png"))); // NOI18N
+        botonEditar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                botonEditarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                botonEditarMouseExited(evt);
+            }
+        });
         botonEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEditarActionPerformed(evt);
             }
         });
 
-        botonReporte.setText("Reporte");
+        botonReporte.setBackground(new java.awt.Color(255, 255, 255));
+        botonReporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/reporte.png"))); // NOI18N
+        botonReporte.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                botonReporteMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                botonReporteMouseExited(evt);
+            }
+        });
         botonReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonReporteActionPerformed(evt);
             }
         });
 
-        botonNuevo.setText("Nuevo");
+        botonNuevo.setBackground(new java.awt.Color(255, 255, 255));
+        botonNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/nuevo2.png"))); // NOI18N
+        botonNuevo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                botonNuevoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                botonNuevoMouseExited(evt);
+            }
+        });
         botonNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonNuevoActionPerformed(evt);
             }
         });
 
-        botonGuardar.setText("Guardar");
+        botonGuardar.setBackground(new java.awt.Color(255, 255, 255));
+        botonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/guardar2.png"))); // NOI18N
+        botonGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                botonGuardarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                botonGuardarMouseExited(evt);
+            }
+        });
         botonGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonGuardarActionPerformed(evt);
             }
         });
 
-        botonCancelar.setText("Cancelar");
+        botonCancelar.setBackground(new java.awt.Color(255, 255, 255));
+        botonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/cancelar2.png"))); // NOI18N
+        botonCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                botonCancelarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                botonCancelarMouseExited(evt);
+            }
+        });
         botonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonCancelarActionPerformed(evt);
@@ -176,15 +231,16 @@ public class Material_Interno extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonEditar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(botonReporte)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(botonNuevo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(botonCancelar))
-                    .addComponent(botonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(botonReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(botonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(botonNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(botonEditar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -192,18 +248,21 @@ public class Material_Interno extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(botonNuevo)
-                .addGap(18, 18, 18)
-                .addComponent(botonEditar)
-                .addGap(88, 88, 88)
+                .addGap(24, 24, 24)
+                .addComponent(botonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
                 .addComponent(botonGuardar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(botonCancelar)
+                .addGap(18, 18, 18)
+                .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(botonReporte)
-                .addGap(35, 35, 35))
+                .addComponent(botonReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(255, 102, 51), new java.awt.Color(255, 102, 51)));
 
         tablaMaterial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -225,45 +284,59 @@ public class Material_Interno extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(255, 102, 51), new java.awt.Color(255, 102, 51)));
 
-        botonCargar.setText("Cargar");
+        botonCargar.setBackground(new java.awt.Color(255, 255, 255));
+        botonCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/cargar2.png"))); // NOI18N
+        botonCargar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                botonCargarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                botonCargarMouseExited(evt);
+            }
+        });
         botonCargar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonCargarActionPerformed(evt);
             }
         });
 
+        txtCargar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 102, 51), 2));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(botonCargar)
-                .addGap(9, 9, 9)
-                .addComponent(txtCargar, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(botonCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txtCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonCargar)
-                    .addComponent(txtCargar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(381, 381, 381))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(botonCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(txtCargar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9)))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -274,14 +347,14 @@ public class Material_Interno extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 444, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -289,20 +362,29 @@ public class Material_Interno extends javax.swing.JInternalFrame {
 
         tabbed.addTab("Material", jPanel6);
 
-        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setText("Nombre");
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(255, 102, 51), new java.awt.Color(255, 102, 51)));
 
-        jLabel3.setText("Color ");
+        jLabel1.setText("NOMBRE:");
 
-        jLabel5.setText("Costo");
+        txtNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 102, 51), 2));
 
+        jLabel3.setText("COLOR:");
+
+        jLabel5.setText("COSTO:");
+
+        txtColor.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 102, 51), 2));
+
+        txtCosto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 102, 0), 2));
         txtCosto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtCostoKeyTyped(evt);
             }
         });
 
+        radioTipo.setBackground(new java.awt.Color(255, 255, 255));
         radioTipo.setText("Tipo");
 
         comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Carta", "Oficio" }));
@@ -342,7 +424,7 @@ public class Material_Interno extends javax.swing.JInternalFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,7 +443,7 @@ public class Material_Interno extends javax.swing.JInternalFrame {
                     .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(radioTipo))
@@ -392,8 +474,8 @@ public class Material_Interno extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tabbed)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tabbed, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -735,6 +817,66 @@ private void modificarCostoProducto(String idMaterial){
             JOptionPane.showMessageDialog(null,"Seleccione un material","Advertencia",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_menuEmergenteEliminarActionPerformed
+
+    private void botonNuevoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonNuevoMouseEntered
+      if(botonNuevo.isEnabled()){
+             botonNuevo.setBackground(new Color(255,102,51));
+        }
+    }//GEN-LAST:event_botonNuevoMouseEntered
+
+    private void botonNuevoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonNuevoMouseExited
+        botonNuevo.setBackground(Color.WHITE);
+    }//GEN-LAST:event_botonNuevoMouseExited
+
+    private void botonEditarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEditarMouseEntered
+        if(botonEditar.isEnabled()){
+             botonEditar.setBackground(new Color(255,102,51));
+        }
+    }//GEN-LAST:event_botonEditarMouseEntered
+
+    private void botonEditarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEditarMouseExited
+         botonEditar.setBackground(Color.WHITE);
+    }//GEN-LAST:event_botonEditarMouseExited
+
+    private void botonGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonGuardarMouseEntered
+        if(botonGuardar.isEnabled()){
+             botonGuardar.setBackground(new Color(255,102,51));
+        }
+    }//GEN-LAST:event_botonGuardarMouseEntered
+
+    private void botonGuardarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonGuardarMouseExited
+       botonGuardar.setBackground(Color.WHITE);
+    }//GEN-LAST:event_botonGuardarMouseExited
+
+    private void botonCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCancelarMouseEntered
+        if(botonCancelar.isEnabled()){
+             botonCancelar.setBackground(new Color(255,102,51));
+        }
+    }//GEN-LAST:event_botonCancelarMouseEntered
+
+    private void botonCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCancelarMouseExited
+        botonCancelar.setBackground(Color.WHITE);
+    }//GEN-LAST:event_botonCancelarMouseExited
+
+    private void botonReporteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonReporteMouseEntered
+        if(botonReporte.isEnabled()){
+             botonReporte.setBackground(new Color(255,102,51));
+        }
+    }//GEN-LAST:event_botonReporteMouseEntered
+
+    private void botonReporteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonReporteMouseExited
+         botonReporte.setBackground(Color.WHITE);
+    }//GEN-LAST:event_botonReporteMouseExited
+
+    private void botonCargarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCargarMouseEntered
+        if(botonCargar.isEnabled()){
+             botonCargar.setBackground(new Color(255,102,51));
+        }
+    }//GEN-LAST:event_botonCargarMouseEntered
+
+    private void botonCargarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCargarMouseExited
+         botonCargar.setBackground(Color.WHITE);
+    }//GEN-LAST:event_botonCargarMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

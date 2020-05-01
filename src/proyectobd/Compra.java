@@ -1108,9 +1108,7 @@ private void modificarCantidadMaterial(String idMaterial, String cantidad){
     }//GEN-LAST:event_txtPrimerPagoKeyReleased
 
     private void txtIdMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdMaterialActionPerformed
-        if(botonNuevo.isEnabled()){
-             botonNuevo.setBackground(new Color(255,102,51));
-        }
+
     }//GEN-LAST:event_txtIdMaterialActionPerformed
 
     private void botonNuevoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonNuevoMouseEntered
@@ -1135,7 +1133,7 @@ private void modificarCantidadMaterial(String idMaterial, String cantidad){
 
     private void botonCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCancelarMouseEntered
         if(botonCancelar.isEnabled()){
-             botonGuardar.setBackground(new Color(255,102,51));
+             botonCancelar.setBackground(new Color(255,102,51));
         }
     }//GEN-LAST:event_botonCancelarMouseEntered
 
