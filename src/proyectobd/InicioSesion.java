@@ -174,7 +174,7 @@ private void limpiarPanel(){
         int tipo;
         if(txtUsuario.getText().length()>0 && txtContra.getText().length()>0){
             if(inicio.existeRegistro("'"+txtUsuario.getText()+"'","usuario","nombre")){
-                System.out.println("entro1");
+               
                 contraEncrip = DigestUtils.md5Hex(txtContra.getText());
                 contra = inicio.getDato("nombre","'"+txtUsuario.getText()+"'","usuario","password");
                 
@@ -186,7 +186,7 @@ private void limpiarPanel(){
                     menu.setTipo(tipo);
                     menu.setIdUsuario(id);
                     menu.setVisible(true);
-                    System.out.println("entro3");
+                   
                     this.dispose();
                 }
                 else{

@@ -23,7 +23,7 @@
     <Property name="maximizable" type="boolean" value="true"/>
     <Property name="title" type="java.lang.String" value="Deudas / Historia"/>
     <Property name="frameIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-      <Image iconType="3" name="/Img/Office_-18_icon-icons.com_74005.png"/>
+      <Image iconType="0" name="null"/>
     </Property>
   </Properties>
   <SyntheticProperties>
@@ -993,7 +993,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Img/detalle.png"/>
+              <Image iconType="3" name="/Img/detalle2.png"/>
             </Property>
           </Properties>
           <Events>

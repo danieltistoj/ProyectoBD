@@ -144,7 +144,7 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Deudas / Historia");
-        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Office_-18_icon-icons.com_74005.png"))); // NOI18N
+        setFrameIcon(null);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -655,7 +655,7 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
         jPanel5.setPreferredSize(new java.awt.Dimension(132, 728));
 
         botonDetalle.setBackground(new java.awt.Color(255, 255, 255));
-        botonDetalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/detalle.png"))); // NOI18N
+        botonDetalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/detalle2.png"))); // NOI18N
         botonDetalle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 botonDetalleMouseEntered(evt);
