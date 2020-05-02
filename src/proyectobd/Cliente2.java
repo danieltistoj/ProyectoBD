@@ -110,7 +110,6 @@ public class Cliente2 extends javax.swing.JInternalFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
         setTitle("Cliente");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));

@@ -64,7 +64,10 @@ public class Menu2 extends javax.swing.JFrame {
             }
         });
 
+        panelEscritorio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 102, 51), 3));
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/WhatsApp Image 2020-03-15 at 17_opt (4).jpg"))); // NOI18N
+        jLabel1.setText(" ");
 
         panelEscritorio.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -73,7 +76,7 @@ public class Menu2 extends javax.swing.JFrame {
         panelEscritorioLayout.setHorizontalGroup(
             panelEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEscritorioLayout.createSequentialGroup()
-                .addContainerGap(402, Short.MAX_VALUE)
+                .addContainerGap(396, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(379, 379, 379))
         );
@@ -82,7 +85,7 @@ public class Menu2 extends javax.swing.JFrame {
             .addGroup(panelEscritorioLayout.createSequentialGroup()
                 .addGap(214, 214, 214)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(230, Short.MAX_VALUE))
+                .addContainerGap(224, Short.MAX_VALUE))
         );
 
         menuArchivo.setText("Archivo");

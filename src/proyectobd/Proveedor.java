@@ -110,7 +110,6 @@ public class Proveedor extends javax.swing.JInternalFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
         setTitle("Proveedor");
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));

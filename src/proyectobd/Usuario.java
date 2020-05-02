@@ -102,7 +102,6 @@ public class Usuario extends javax.swing.JInternalFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
         setTitle("Usuarios");
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));

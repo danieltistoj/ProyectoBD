@@ -137,7 +137,6 @@ public class Material_Interno extends javax.swing.JInternalFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
         setTitle("Materiales ");
         setToolTipText("");
 

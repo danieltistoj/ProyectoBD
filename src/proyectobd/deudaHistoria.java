@@ -142,7 +142,6 @@ public class deudaHistoria extends javax.swing.JInternalFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
         setTitle("Deudas / Historia");
         setFrameIcon(null);
 
