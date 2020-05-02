@@ -169,7 +169,7 @@ public class Proveedor extends javax.swing.JInternalFrame {
 
         txtCargar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 102, 51), 2));
 
-        jLabel9.setText("ID:");
+        jLabel9.setText("ID/ NOMBRE:");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -632,8 +632,25 @@ private void guardarEdicion(){
 
 }
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
-        String consulta = "SELECT * FROM proveedor";
-        cargarTabla(consulta, txtCargar.getText(),"nombre","id","", tablaProveedor, titulos);
+        String consulta ;
+        if(txtCargar.getText().length()>0){
+             if(proveedor.esEntero(txtCargar.getText())){
+            consulta  = "SELECT * FROM proveedor";
+            cargarTabla(consulta, txtCargar.getText(),"nombre","id","", tablaProveedor, titulos);
+        }
+        else{
+            consulta = "select * from proveedor where nombre = '"+txtCargar.getText()+"'";
+            cargarTabla(consulta,"","","", "", tablaProveedor, titulos);
+            
+        }
+            
+        }
+        else{
+            consulta = "select * from proveedor";
+            cargarTabla(consulta,"","","", "", tablaProveedor, titulos);
+        }
+       
+        
     }//GEN-LAST:event_botonCargarActionPerformed
 
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
