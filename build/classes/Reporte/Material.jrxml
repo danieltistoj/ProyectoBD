@@ -52,49 +52,49 @@ ORDER BY
 	<columnHeader>
 		<band height="34" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="49" height="20" forecolor="#0099FF" uuid="96e728d9-60b8-41fa-b317-51249f3868d1"/>
+				<reportElement mode="Opaque" x="0" y="0" width="49" height="20" forecolor="#FFFFFF" backcolor="#000000" uuid="96e728d9-60b8-41fa-b317-51249f3868d1"/>
 				<textElement>
 					<font isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="49" y="0" width="100" height="20" forecolor="#0099FF" uuid="4e08be46-2116-4e96-83f5-4104bbe90b08"/>
+				<reportElement mode="Opaque" x="49" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#000000" uuid="4e08be46-2116-4e96-83f5-4104bbe90b08"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nombre]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="149" y="0" width="100" height="20" forecolor="#0099FF" uuid="2c182ded-342a-4acc-aa25-4a727928d86e"/>
+				<reportElement mode="Opaque" x="149" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#000000" uuid="2c182ded-342a-4acc-aa25-4a727928d86e"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Alto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="249" y="0" width="78" height="20" forecolor="#0099FF" uuid="ea5ff6d2-1b18-4200-8517-39e810e98ba5"/>
+				<reportElement mode="Opaque" x="249" y="0" width="78" height="20" forecolor="#FFFFFF" backcolor="#000000" uuid="ea5ff6d2-1b18-4200-8517-39e810e98ba5"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Ancho]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="327" y="0" width="56" height="20" forecolor="#0099FF" uuid="fc36bafe-825a-4105-afa3-d4bbbcf2b9f7"/>
+				<reportElement mode="Opaque" x="327" y="0" width="56" height="20" forecolor="#FFFFFF" backcolor="#000000" uuid="fc36bafe-825a-4105-afa3-d4bbbcf2b9f7"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cantidad]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="405" y="0" width="73" height="20" forecolor="#0099FF" uuid="b3e4fa12-9ea8-4959-92a9-bd747cedfc4d"/>
-				<textElement>
+				<reportElement mode="Opaque" x="383" y="0" width="95" height="20" forecolor="#FFFFFF" backcolor="#000000" uuid="b3e4fa12-9ea8-4959-92a9-bd747cedfc4d"/>
+				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Color]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="478" y="0" width="94" height="20" forecolor="#0099FF" uuid="269e356a-1f3e-4003-8038-e4c37319392a"/>
+				<reportElement mode="Opaque" x="478" y="0" width="94" height="20" forecolor="#FFFFFF" backcolor="#000000" uuid="269e356a-1f3e-4003-8038-e4c37319392a"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
