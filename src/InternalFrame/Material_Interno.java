@@ -5,9 +5,7 @@
  */
 package InternalFrame;
 
-import Clases.TablaId;
-import Clases.Modulo;
-import Clases.ConexionMySQL;
+import Clases.*;
 import java.awt.Color;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -32,33 +30,33 @@ import net.sf.jasperreports.view.JasperViewer;
  * @author Usuarios
  */
 public class Material_Interno extends javax.swing.JInternalFrame {
-    private  String[]  titulos = {"Id","Nombre","Alto","Ancho","Cantidad","Color","Tipo","Costo"};
-    private String ID = "", Tipo = "",Alto1 ="",nombreTemp = "", localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
-             usuario ="root",contra = "xela2020";
-    private ConexionMySQL conexion;
+
+    private String[] titulos = {"Id", "Nombre", "Alto", "Ancho", "Cantidad", "Color", "Tipo", "Costo"};
+    private String ID = "", nombreTemp = "";
     private Modulo material;
     private int opcion;
+    private VariableGlobal conexion;
+
     public Material_Interno(int tipoUsuario) {
         initComponents();
-       botonCancelar.setEnabled(false);
-       botonGuardar.setEnabled(false);
-       tabbed.setEnabledAt(1,false);
-       conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
-       material = new Modulo();
-       
-       if(tipoUsuario == 0){
-           botonNuevo.setEnabled(false);
-           menuEmergenteEliminar.setEnabled(false);
-           botonEditar.setEnabled(false);
-           botonReporte.setEnabled(false);
-       }
-       
-       botonNuevo.setToolTipText("Nuevo");
-       botonEditar.setToolTipText("Editar");
-       botonGuardar.setToolTipText("Guardar");
-       botonCancelar.setToolTipText("Cancelar");
-       botonReporte.setToolTipText("Reporte");
-       botonCargar.setToolTipText("Cargar");
+        botonCancelar.setEnabled(false);
+        botonGuardar.setEnabled(false);
+        tabbed.setEnabledAt(1, false);
+        material = new Modulo();
+        conexion = new VariableGlobal();
+        if (tipoUsuario == 0) {
+            botonNuevo.setEnabled(false);
+            menuEmergenteEliminar.setEnabled(false);
+            botonEditar.setEnabled(false);
+            botonReporte.setEnabled(false);
+        }
+
+        botonNuevo.setToolTipText("Nuevo");
+        botonEditar.setToolTipText("Editar");
+        botonGuardar.setToolTipText("Guardar");
+        botonCancelar.setToolTipText("Cancelar");
+        botonReporte.setToolTipText("Reporte");
+        botonCargar.setToolTipText("Cargar");
     }
 
     /**
@@ -495,334 +493,334 @@ public class Material_Interno extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-private void limpiarPanel(){
-    txtColor.setText("");
-    txtCosto.setText("");
-    txtNombre.setText("");
-    radioTipo.setSelected(false);
-    comboTipo.setSelectedIndex(0);
-    
-     botonNuevo.setEnabled(true);
-     botonReporte.setEnabled(true);
-     
-     botonEditar.setEnabled(true);
-     
-     botonCancelar.setEnabled(false);
-     botonGuardar.setEnabled(false);
-     
-     tabbed.setEnabledAt(1,false);
-     tabbed.setEnabledAt(0,true);
-     tabbed.setSelectedIndex(0);
-     
-     radioTipo.setSelected(false);
-     comboTipo.setSelectedIndex(0);
-    
-} //Limpiar el panel de nuevo y editar 
-private void activarBotones(){
-     botonNuevo.setEnabled(false);
-     botonReporte.setEnabled(false);
-     
-     botonEditar.setEnabled(false);
-     
-     botonCancelar.setEnabled(true);
-     botonGuardar.setEnabled(true);
-} // activar los botones guardar y cancelar 
-private int getId(String nombreBuscar){
+    private void limpiarPanel() {
+        txtColor.setText("");
+        txtCosto.setText("");
+        txtNombre.setText("");
+        radioTipo.setSelected(false);
+        comboTipo.setSelectedIndex(0);
+
+        botonNuevo.setEnabled(true);
+        botonReporte.setEnabled(true);
+
+        botonEditar.setEnabled(true);
+
+        botonCancelar.setEnabled(false);
+        botonGuardar.setEnabled(false);
+
+        tabbed.setEnabledAt(1, false);
+        tabbed.setEnabledAt(0, true);
+        tabbed.setSelectedIndex(0);
+
+        radioTipo.setSelected(false);
+        comboTipo.setSelectedIndex(0);
+
+    } //Limpiar el panel de nuevo y editar 
+
+    private void activarBotones() {
+        botonNuevo.setEnabled(false);
+        botonReporte.setEnabled(false);
+
+        botonEditar.setEnabled(false);
+
+        botonCancelar.setEnabled(true);
+        botonGuardar.setEnabled(true);
+    } // activar los botones guardar y cancelar 
+
+    private int getId(String nombreBuscar) {
         int id = -1;
-    ConexionMySQL conexion1 = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
-            conexion1.EjecutarConsulta("SELECT * FROM material WHERE nombre ="+"'"+nombreBuscar+"'");
-            ResultSet rs = conexion1.getResulSet();
-            try {
-                while(rs.next()){
-                  id = Integer.parseInt(rs.getString("id"));
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(Material_Interno.class.getName()).log(Level.SEVERE, null, ex);
-            }
-     return id;
- } // retorna el id del material
-private boolean existeMaterial(String parametro,String tabla, String formaParametro){
-    boolean existe = false;
-  
+        //ConexionMySQL conexion1 = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+        conexion.conexionMySQL.EjecutarConsulta("SELECT * FROM material WHERE nombre =" + "'" + nombreBuscar + "'");
+        ResultSet rs = conexion.conexionMySQL.getResulSet();
         try {
-           
-            conexion.EjecutarConsulta("SELECT COUNT(*) FROM "+tabla +" WHERE "+formaParametro+" = "+parametro+"");
-            ResultSet rs = conexion.getResulSet();
-            rs.next();
-            if(rs.getInt(1)>0){
-                existe = true;
-            }   
+            while (rs.next()) {
+                id = Integer.parseInt(rs.getString("id"));
+            }
         } catch (SQLException ex) {
-             System.out.println(ex.getMessage());
+            Logger.getLogger(Material_Interno.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return existe;   
-}//retorna booleano que nos indica si existe o no el material
-private void eliminarMaterial(String idMaterial,String tabla, String formaId){
-     conexion.EjecutarInstruccion("DELETE FROM "+tabla+" WHERE "+formaId+" = "+idMaterial);
-}// eliminamos los registros en donde este el material
-private void nuevoMaterial(String nombre, String alto, String ancho, String color, String tipo, String costo){//nuevo registro material 
-    //se pregunta si esta deacuerdo con los datos del material
-                   int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta deacuerdo con el material? \n"+"Nombre: "+nombre
-                    +"\nColor: "+color+"\nTipo: "+tipo+"\nDimensiones: "+alto+"cm x "+ancho+"cm"+"\nCosto: "+costo,"Advertencia",
-                    JOptionPane.YES_NO_OPTION);
-                   if(res == 0){//si esta deacuerdo con los datos del material 
-                     //se inserta el material en la base de datos.
-                     conexion.EjecutarInstruccion("INSERT INTO material(nombre,alto,ancho,cantidad,color,tipo,costo)"  
-                             + "VALUES ('"+nombre+"',"+alto+","+ancho+","+0+",'"+color+"' ,'"+tipo+"',"+costo+")"); 
-                  
-                //Mensaje que describe que el material ingreso en el sistema      
-                JOptionPane.showMessageDialog(null,"Material Ingresado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
-                limpiarPanel();
-                   }
-    
-}//insertamos un nuevo registro de material
-private void modificarMaterial(String nombre, String alto, String ancho, String color, String tipo, String costo){//modificar un registtro de material
-    //se pregunta si esta deacuerdo con los datos del material
-                   int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta deacuerdo con la modificacion del material? \n"+"Nombre: "+nombre
-                    +"\nColor: "+color+"\nTipo: "+tipo+"\nDimensiones: "+alto+"cm x "+ancho+"cm"+"\nCosto: "+costo,"Advertencia",
-                    JOptionPane.YES_NO_OPTION);
-                   if(res == 0){//si esta deacuerdo con los datos del material 
-                     //se inserta el material en la base de datos.
-                  
-                     conexion.EjecutarInstruccion("UPDATE material SET nombre = '"+nombre+"',"+"alto = "+alto+","+
-                             "ancho = "+ancho+",color = '"+color+"',tipo = '"+tipo+"', costo = "+costo+" WHERE id = "+ID); 
-                
-                //Mensaje que describe que el material ingreso en el sistema      
-                JOptionPane.showMessageDialog(null,"Material Modificado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
-                limpiarPanel();
-                   }
-    
-}//se modifica el registro del material seleccionado
-private void guardarNuevoMaterial(){
-    String tipo="NULL", nombre = "",alto = "NULL",ancho ="NULL";
+        return id;
+    } // retorna el id del material
+
+    private boolean existeMaterial(String parametro, String tabla, String formaParametro) {
+        boolean existe = false;
+
+        try {
+
+            conexion.conexionMySQL.EjecutarConsulta("SELECT COUNT(*) FROM " + tabla + " WHERE " + formaParametro + " = " + parametro + "");
+            ResultSet rs = conexion.conexionMySQL.getResulSet();
+            rs.next();
+            if (rs.getInt(1) > 0) {
+                existe = true;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return existe;
+    }//retorna booleano que nos indica si existe o no el material
+
+    private void eliminarMaterial(String idMaterial, String tabla, String formaId) {
+        conexion.conexionMySQL.EjecutarInstruccion("DELETE FROM " + tabla + " WHERE " + formaId + " = " + idMaterial);
+    }// eliminamos los registros en donde este el material
+
+    private void nuevoMaterial(String nombre, String alto, String ancho, String color, String tipo, String costo) {//nuevo registro material 
+        //se pregunta si esta deacuerdo con los datos del material
+        int res = JOptionPane.showConfirmDialog(rootPane, "¿Esta deacuerdo con el material? \n" + "Nombre: " + nombre
+                + "\nColor: " + color + "\nTipo: " + tipo + "\nDimensiones: " + alto + "cm x " + ancho + "cm" + "\nCosto: " + costo, "Advertencia",
+                JOptionPane.YES_NO_OPTION);
+        if (res == 0) {//si esta deacuerdo con los datos del material 
+            //se inserta el material en la base de datos.
+            conexion.conexionMySQL.EjecutarInstruccion("INSERT INTO material(nombre,alto,ancho,cantidad,color,tipo,costo)"
+                    + "VALUES ('" + nombre + "'," + alto + "," + ancho + "," + 0 + ",'" + color + "' ,'" + tipo + "'," + costo + ")");
+
+            //Mensaje que describe que el material ingreso en el sistema      
+            JOptionPane.showMessageDialog(null, "Material Ingresado", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            limpiarPanel();
+        }
+
+    }//insertamos un nuevo registro de material
+
+    private void modificarMaterial(String nombre, String alto, String ancho, String color, String tipo, String costo) {//modificar un registtro de material
+        //se pregunta si esta deacuerdo con los datos del material
+        int res = JOptionPane.showConfirmDialog(rootPane, "¿Esta deacuerdo con la modificacion del material? \n" + "Nombre: " + nombre
+                + "\nColor: " + color + "\nTipo: " + tipo + "\nDimensiones: " + alto + "cm x " + ancho + "cm" + "\nCosto: " + costo, "Advertencia",
+                JOptionPane.YES_NO_OPTION);
+        if (res == 0) {//si esta deacuerdo con los datos del material 
+            //se inserta el material en la base de datos.
+
+            conexion.conexionMySQL.EjecutarInstruccion("UPDATE material SET nombre = '" + nombre + "'," + "alto = " + alto + ","
+                    + "ancho = " + ancho + ",color = '" + color + "',tipo = '" + tipo + "', costo = " + costo + " WHERE id = " + ID);
+
+            //Mensaje que describe que el material ingreso en el sistema      
+            JOptionPane.showMessageDialog(null, "Material Modificado", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            limpiarPanel();
+        }
+
+    }//se modifica el registro del material seleccionado
+
+    private void guardarNuevoMaterial() {
+        String tipo = "NULL", nombre = "", alto = "NULL", ancho = "NULL";
         int idNombreActual, idNombreAnterior;
-            if(txtNombre.getText().length() == 0 || txtCosto.getText().length() == 0 ){ // ver si los campos nombre y costo estan llenos 
-                JOptionPane.showMessageDialog(null,"Llene los campos obligatorios","Advertencia",JOptionPane.WARNING_MESSAGE);
+        if (txtNombre.getText().length() == 0 || txtCosto.getText().length() == 0) { // ver si los campos nombre y costo estan llenos 
+            JOptionPane.showMessageDialog(null, "Llene los campos obligatorios", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        } else {//si los campos obligatorios estan llenos.  
+
+            if (!existeMaterial("'" + txtNombre.getText() + "'", "material", "nombre")) {//si el nombre del material no existe
+                if (radioTipo.isSelected()) {//Si la opcion tipo esta habilitada
+                    if (comboTipo.getSelectedIndex() == 0) {// si es carta 
+                        alto = "27.94";
+                        ancho = "21.59";
+                        tipo = "Carta";
+                    } else {// si es oficio
+                        alto = "33";
+                        ancho = "21.64";
+                        tipo = "Oficio";
+                    }
+
+                }
+
+                nuevoMaterial(txtNombre.getText(), alto, ancho, txtColor.getText(), tipo, txtCosto.getText());//insertamos los materiales 
+            }//fin del if(nombre == "")
+            else {
+                JOptionPane.showMessageDialog(null, "El nombre del producto ya existe", "Error", JOptionPane.WARNING_MESSAGE);
             }
-            else{//si los campos obligatorios estan llenos.  
-               
-                  if(!existeMaterial("'"+txtNombre.getText()+"'","material","nombre")){//si el nombre del material no existe
-                  if(radioTipo.isSelected()){//Si la opcion tipo esta habilitada
-                   if(comboTipo.getSelectedIndex() == 0){// si es carta 
-                       alto ="27.94";
-                       ancho ="21.59";
-                       tipo = "Carta";
-                   } 
-                   else{// si es oficio
-                       alto ="33";
-                       ancho ="21.64";
-                       tipo = "Oficio";     
-                   }
-                    
+        }
+    }//la accion que hace el boton guardar si se quiere un nuevo material
+
+    private void guardarEdicionMaterial() {
+        int idNombreActual, idNombreAnterior;
+        String tipo = "NULL", nombre = "", alto = "NULL", ancho = "NULL";
+        if (txtNombre.getText().length() == 0 || txtCosto.getText().length() == 0) { // ver si los campos nombre y costo estan llenos 
+            JOptionPane.showMessageDialog(null, "Llene los campos obligatorios", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        } else {
+            idNombreAnterior = getId(nombreTemp);
+            idNombreActual = getId(txtNombre.getText());
+
+            if ((idNombreAnterior == idNombreActual) || (idNombreAnterior != idNombreActual && idNombreActual < 0)) {//si el nombre del material no existe
+                if (radioTipo.isSelected()) {//Si la opcion tipo esta habilitada
+                    if (comboTipo.getSelectedIndex() == 0) {// si es carta 
+                        alto = "27.94";
+                        ancho = "21.59";
+                        tipo = "Carta";
+                    } else {// si es oficio
+                        alto = "33";
+                        ancho = "21.64";
+                        tipo = "Oficio";
+                    }
+
                 }
-                  
-                       nuevoMaterial(txtNombre.getText(), alto, ancho,txtColor.getText(), tipo,txtCosto.getText());//insertamos los materiales 
-                }//fin del if(nombre == "")
-                else{
-                    JOptionPane.showMessageDialog(null,"El nombre del producto ya existe","Error",JOptionPane.WARNING_MESSAGE);
-                } 
-               }
-}//la accion que hace el boton guardar si se quiere un nuevo material
-private void guardarEdicionMaterial(){
-     int idNombreActual, idNombreAnterior;
-       String tipo="NULL", nombre = "",alto = "NULL",ancho ="NULL";
-       if(txtNombre.getText().length() == 0 || txtCosto.getText().length() == 0 ){ // ver si los campos nombre y costo estan llenos 
-                JOptionPane.showMessageDialog(null,"Llene los campos obligatorios","Advertencia",JOptionPane.WARNING_MESSAGE);
+
+                modificarMaterial(txtNombre.getText(), alto, ancho, txtColor.getText(), tipo, txtCosto.getText());//insertamos los materiales 
+            }//fin del if(nombre == "")
+            else {
+                JOptionPane.showMessageDialog(null, "El nombre del producto ya existe", "Error", JOptionPane.WARNING_MESSAGE);
             }
-       else{
-     idNombreAnterior = getId(nombreTemp);
-     idNombreActual = getId(txtNombre.getText());
-     
-                 if((idNombreAnterior == idNombreActual) || (idNombreAnterior!=idNombreActual && idNombreActual <0)){//si el nombre del material no existe
-                  if(radioTipo.isSelected()){//Si la opcion tipo esta habilitada
-                   if(comboTipo.getSelectedIndex() == 0){// si es carta 
-                       alto ="27.94";
-                       ancho ="21.59";
-                       tipo = "Carta";
-                   } 
-                   else{// si es oficio
-                       alto ="33";
-                       ancho ="21.64";
-                       tipo = "Oficio";     
-                   }
-                    
-                }
-                  
-                   modificarMaterial(txtNombre.getText(), alto, ancho,txtColor.getText(), tipo,txtCosto.getText());//insertamos los materiales 
-                }//fin del if(nombre == "")
-                else{
-                    JOptionPane.showMessageDialog(null,"El nombre del producto ya existe","Error",JOptionPane.WARNING_MESSAGE);
-                }
-       }
-    
-}//la accion que hace el boton guardar si modificamos un registro de material//la accion que hace el boton guardar si modificamos un registro de material//la accion que hace el boton guardar si modificamos un registro de material//la accion que hace el boton guardar si modificamos un registro de material
-private void modificarCostoProducto(String idMaterial){
-    int cantidad;
-    float costoProduccion,costoMaterial,totalCosto;
-           //con esta consulta obtenemos los id de los productos a los cuales esta relacionado el material 
-            conexion.EjecutarConsulta("select * from producto_has_material PM where PM.material_id = "+idMaterial);
-            ResultSet rs = conexion.getResulSet();
-            try {
-                while(rs.next()){//recorremos todas las filas, las cuales son el resultado de la consulta anterior 
-                  System.out.println("id producto = "+rs.getString("producto_id")+" Id Material = "+rs.getString("material_id"));
-                  costoProduccion = Float.parseFloat(material.getDato("id",rs.getString("producto_id"),"producto","costoProduccion"));//obtenemos el costo de produccion
-                  System.out.println("costo de produccion producto = "+costoProduccion);
-                  cantidad = Integer.parseInt(rs.getString("Cantidad"));//obtenemos la cantidad que necesitamos del material, para producir el producto
-                  costoMaterial = Float.parseFloat(material.getDato("id",rs.getString("material_id"),"material","costo"));//obtenemos cunato cuesta una unidad del material
-                  System.out.println("costo material = "+costoMaterial);
-                  totalCosto = cantidad*costoMaterial;//obtenemos el costo total del material que seria la cantidad por el costo del material
-                  System.out.println("costo material para producto = "+totalCosto);
-                  costoProduccion = costoProduccion - totalCosto;//al costo de produccion le restamos el total del material, que sera ahora nuestro nuevo costo de produccion
-                  material.modificarRegistro("producto","costoProduccion = "+costoProduccion,"id",rs.getString("producto_id"));//modificar el costo de produccion del producto sin el costo del material
-                  System.out.println("nuevo costo de produccion del producto = "+costoProduccion+"\n");
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(Modulo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//la accion que hace el boton guardar si modificamos un registro de material//la accion que hace el boton guardar si modificamos un registro de material//la accion que hace el boton guardar si modificamos un registro de material//la accion que hace el boton guardar si modificamos un registro de material
+
+    private void modificarCostoProducto(String idMaterial) {
+        int cantidad;
+        float costoProduccion, costoMaterial, totalCosto;
+        //con esta consulta obtenemos los id de los productos a los cuales esta relacionado el material 
+        conexion.conexionMySQL.EjecutarConsulta("select * from producto_has_material PM where PM.material_id = " + idMaterial);
+        ResultSet rs = conexion.conexionMySQL.getResulSet();
+        try {
+            while (rs.next()) {//recorremos todas las filas, las cuales son el resultado de la consulta anterior 
+                System.out.println("id producto = " + rs.getString("producto_id") + " Id Material = " + rs.getString("material_id"));
+                costoProduccion = Float.parseFloat(material.getDato("id", rs.getString("producto_id"), "producto", "costoProduccion"));//obtenemos el costo de produccion
+                System.out.println("costo de produccion producto = " + costoProduccion);
+                cantidad = Integer.parseInt(rs.getString("Cantidad"));//obtenemos la cantidad que necesitamos del material, para producir el producto
+                costoMaterial = Float.parseFloat(material.getDato("id", rs.getString("material_id"), "material", "costo"));//obtenemos cunato cuesta una unidad del material
+                System.out.println("costo material = " + costoMaterial);
+                totalCosto = cantidad * costoMaterial;//obtenemos el costo total del material que seria la cantidad por el costo del material
+                System.out.println("costo material para producto = " + totalCosto);
+                costoProduccion = costoProduccion - totalCosto;//al costo de produccion le restamos el total del material, que sera ahora nuestro nuevo costo de produccion
+                material.modificarRegistro("producto", "costoProduccion = " + costoProduccion, "id", rs.getString("producto_id"));//modificar el costo de produccion del producto sin el costo del material
+                System.out.println("nuevo costo de produccion del producto = " + costoProduccion + "\n");
             }
-}
+        } catch (SQLException ex) {
+            Logger.getLogger(Modulo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
         int fila = tablaMaterial.getSelectedRow();
         float alto1;
         String alto;
         opcion = 0;
-        if(fila>=0){
-            
-         ID = String.valueOf(tablaMaterial.getValueAt(fila,0));
-         if(existeMaterial(ID,"material","id")){// ver que el material exista
-              nombreTemp = String.valueOf(tablaMaterial.getValueAt(fila,1));
-         txtNombre.setText(nombreTemp);
-         txtColor.setText(String.valueOf(tablaMaterial.getValueAt(fila,5)));
-         txtCosto.setText(String.valueOf(tablaMaterial.getValueAt(fila,7)));
-         alto = String.valueOf(tablaMaterial.getValueAt(fila,2));
-         
-      if(alto != "null"){
-          alto1 = (float) tablaMaterial.getValueAt(fila,2);
-          radioTipo.setSelected(true);
-               if(alto1 == 33.0){
-                   comboTipo.setSelectedIndex(1);
-               }
-          
-      }
+        if (fila >= 0) {
 
-         
-        tabbed.setSelectedIndex(1);
-        tabbed.setEnabledAt(1,true);
-        tabbed.setEnabledAt(0,false);
-        activarBotones();
-         }
-         else{
-             JOptionPane.showMessageDialog(null,"El material no existe","Advertencia",JOptionPane.WARNING_MESSAGE);
-         }
+            ID = String.valueOf(tablaMaterial.getValueAt(fila, 0));
+            if (existeMaterial(ID, "material", "id")) {// ver que el material exista
+                nombreTemp = String.valueOf(tablaMaterial.getValueAt(fila, 1));
+                txtNombre.setText(nombreTemp);
+                txtColor.setText(String.valueOf(tablaMaterial.getValueAt(fila, 5)));
+                txtCosto.setText(String.valueOf(tablaMaterial.getValueAt(fila, 7)));
+                alto = String.valueOf(tablaMaterial.getValueAt(fila, 2));
+
+                if (alto != "null") {
+                    alto1 = (float) tablaMaterial.getValueAt(fila, 2);
+                    radioTipo.setSelected(true);
+                    if (alto1 == 33.0) {
+                        comboTipo.setSelectedIndex(1);
+                    }
+
+                }
+
+                tabbed.setSelectedIndex(1);
+                tabbed.setEnabledAt(1, true);
+                tabbed.setEnabledAt(0, false);
+                activarBotones();
+            } else {
+                JOptionPane.showMessageDialog(null, "El material no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione un material", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-        else{
-            JOptionPane.showMessageDialog(null,"Seleccione un material","Advertencia",JOptionPane.WARNING_MESSAGE);
-    }
-        
+
     }//GEN-LAST:event_botonEditarActionPerformed
 //boton de reporte 
     private void botonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteActionPerformed
-       try {
+        try {
             //ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
-              Connection con = conexion.getConexion();
-             InputStream archivo=getClass().getResourceAsStream("/Reporte/Material.jrxml");
-             JasperDesign dise = JRXmlLoader.load(archivo);
-             JasperReport jr = JasperCompileManager.compileReport(dise);
-             JasperPrint jp = JasperFillManager.fillReport(jr,null,con);
-             JasperViewer.viewReport(jp,false); 
-         } catch (JRException ex) {
-             Logger.getLogger(Material_Interno.class.getName()).log(Level.SEVERE, null, ex);
-         }
+            Connection con = conexion.conexionMySQL.getConexion();
+            InputStream archivo = getClass().getResourceAsStream("/Reporte/Material.jrxml");
+            JasperDesign dise = JRXmlLoader.load(archivo);
+            JasperReport jr = JasperCompileManager.compileReport(dise);
+            JasperPrint jp = JasperFillManager.fillReport(jr, null, con);
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(Material_Interno.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_botonReporteActionPerformed
 // boton cargar 
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
-         String campo = txtCargar.getText();
+        String campo = txtCargar.getText();
         String where = "";
-        if(!"".equals(campo)){
-            where = "WHERE id = '"+campo+"' OR nombre = '"+campo+"'";
+        if (!"".equals(campo)) {
+            where = "WHERE id = '" + campo + "' OR nombre = '" + campo + "'";
         }
-         try {
-         DefaultTableModel modelo = new DefaultTableModel(null,titulos);
-         tablaMaterial.setModel(modelo);
-         conexion.EjecutarConsulta("SELECT * FROM material "+where+" "+"ORDER BY cantidad");
-            
-            ResultSet rs = conexion.getResulSet();
+        try {
+            DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+            tablaMaterial.setModel(modelo);
+            conexion.conexionMySQL.EjecutarConsulta("SELECT * FROM material " + where + " " + "ORDER BY cantidad");
+
+            ResultSet rs = conexion.conexionMySQL.getResulSet();
             ResultSetMetaData rsMd = rs.getMetaData();
             int cantidadColumnas = rsMd.getColumnCount();
-              
-            while(rs.next()){
+
+            while (rs.next()) {
                 Object[] fila = new Object[cantidadColumnas];
-                for(int i=0; i <cantidadColumnas ; i++){
-                    fila[i]=rs.getObject(i+1);
+                for (int i = 0; i < cantidadColumnas; i++) {
+                    fila[i] = rs.getObject(i + 1);
                 }
                 modelo.addRow(fila);
             }
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(rootPane,"Error de conexion","Advertencia",JOptionPane.WARNING_MESSAGE);
-         System.out.println(ex.getMessage());
-        
-    }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error de conexion", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            System.out.println(ex.getMessage());
+
+        }
     }//GEN-LAST:event_botonCargarActionPerformed
 // boton nuevo
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
-       opcion = 1;
-       tabbed.setSelectedIndex(1);
-       tabbed.setEnabledAt(1,true);
-       tabbed.setEnabledAt(0,false);
-       activarBotones();
-   
+        opcion = 1;
+        tabbed.setSelectedIndex(1);
+        tabbed.setEnabledAt(1, true);
+        tabbed.setEnabledAt(0, false);
+        activarBotones();
+
     }//GEN-LAST:event_botonNuevoActionPerformed
 //boton guardar
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-        if(opcion == 1){
+        if (opcion == 1) {
             guardarNuevoMaterial();
-        }
-        else{
-           guardarEdicionMaterial();
-            
+        } else {
+            guardarEdicionMaterial();
+
         }
     }//GEN-LAST:event_botonGuardarActionPerformed
 //boton cancelar 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
-       tabbed.setSelectedIndex(0);
-       limpiarPanel();
+        tabbed.setSelectedIndex(0);
+        limpiarPanel();
     }//GEN-LAST:event_botonCancelarActionPerformed
 //accion cuando ingresamos letras en la caja de costo
     private void txtCostoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCostoKeyTyped
-         char validar = evt.getKeyChar();
-      if(Character.isLetter(validar)){
-          getToolkit().beep();
-          evt.consume();
-          JOptionPane.showMessageDialog(null,"Solo ingrese numeros","Advertencia",JOptionPane.WARNING_MESSAGE);
-      }
+        char validar = evt.getKeyChar();
+        if (Character.isLetter(validar)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Solo ingrese numeros", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_txtCostoKeyTyped
 
     private void menuEmergenteEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEmergenteEliminarActionPerformed
-        int fila = tablaMaterial.getSelectedRow(),confirmar;
-        String idMaterial,consulta;
+        int fila = tablaMaterial.getSelectedRow(), confirmar;
+        String idMaterial, consulta;
         TablaId tabla = new TablaId(tablaMaterial);
-        if(fila>=0){
-            idMaterial = String.valueOf(tablaMaterial.getValueAt(fila,0));
-            confirmar = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar este material?\n"+
-                    "Si esta relacionado con un producto, el costo de produccion de este se modificara.","Confirmar",JOptionPane.YES_NO_OPTION);
-            if(confirmar ==0){
-            modificarCostoProducto(idMaterial);  
-            material.eliminarRegistro(idMaterial,"material","id");
-            JOptionPane.showMessageDialog(null,"El material fue eliminado");
-            
-            consulta = "select * from material";
-            tabla.llenarTable(consulta, "", "", "", "", "", titulos);
-            
+        if (fila >= 0) {
+            idMaterial = String.valueOf(tablaMaterial.getValueAt(fila, 0));
+            confirmar = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar este material?\n"
+                    + "Si esta relacionado con un producto, el costo de produccion de este se modificara.", "Confirmar", JOptionPane.YES_NO_OPTION);
+            if (confirmar == 0) {
+                modificarCostoProducto(idMaterial);
+                material.eliminarRegistro(idMaterial, "material", "id");
+                JOptionPane.showMessageDialog(null, "El material fue eliminado");
+
+                consulta = "select * from material";
+                tabla.llenarTable(consulta, "", "", "", "", "", titulos);
+
             }
-            
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"Seleccione un material","Advertencia",JOptionPane.WARNING_MESSAGE);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione un material", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_menuEmergenteEliminarActionPerformed
 
     private void botonNuevoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonNuevoMouseEntered
-      if(botonNuevo.isEnabled()){
-             botonNuevo.setBackground(new Color(255,102,51));
+        if (botonNuevo.isEnabled()) {
+            botonNuevo.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonNuevoMouseEntered
 
@@ -831,28 +829,28 @@ private void modificarCostoProducto(String idMaterial){
     }//GEN-LAST:event_botonNuevoMouseExited
 
     private void botonEditarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEditarMouseEntered
-        if(botonEditar.isEnabled()){
-             botonEditar.setBackground(new Color(255,102,51));
+        if (botonEditar.isEnabled()) {
+            botonEditar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonEditarMouseEntered
 
     private void botonEditarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEditarMouseExited
-         botonEditar.setBackground(Color.WHITE);
+        botonEditar.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonEditarMouseExited
 
     private void botonGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonGuardarMouseEntered
-        if(botonGuardar.isEnabled()){
-             botonGuardar.setBackground(new Color(255,102,51));
+        if (botonGuardar.isEnabled()) {
+            botonGuardar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonGuardarMouseEntered
 
     private void botonGuardarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonGuardarMouseExited
-       botonGuardar.setBackground(Color.WHITE);
+        botonGuardar.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonGuardarMouseExited
 
     private void botonCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCancelarMouseEntered
-        if(botonCancelar.isEnabled()){
-             botonCancelar.setBackground(new Color(255,102,51));
+        if (botonCancelar.isEnabled()) {
+            botonCancelar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonCancelarMouseEntered
 
@@ -861,23 +859,23 @@ private void modificarCostoProducto(String idMaterial){
     }//GEN-LAST:event_botonCancelarMouseExited
 
     private void botonReporteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonReporteMouseEntered
-        if(botonReporte.isEnabled()){
-             botonReporte.setBackground(new Color(255,102,51));
+        if (botonReporte.isEnabled()) {
+            botonReporte.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonReporteMouseEntered
 
     private void botonReporteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonReporteMouseExited
-         botonReporte.setBackground(Color.WHITE);
+        botonReporte.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonReporteMouseExited
 
     private void botonCargarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCargarMouseEntered
-        if(botonCargar.isEnabled()){
-             botonCargar.setBackground(new Color(255,102,51));
+        if (botonCargar.isEnabled()) {
+            botonCargar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonCargarMouseEntered
 
     private void botonCargarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCargarMouseExited
-         botonCargar.setBackground(Color.WHITE);
+        botonCargar.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonCargarMouseExited
 
 
