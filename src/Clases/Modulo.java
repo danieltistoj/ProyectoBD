@@ -27,7 +27,7 @@ public class Modulo {
     private DefaultTableModel modelo;
     private JLabel labelNum, labelFecha;
     // private ConexionMySQL conexion;
-    private VariableGlobal conexion;
+    public VariableGlobal conexion;
     /*
     private String localhost,puerto,baseDeDatos,
              usuario,contra, codigo;
@@ -36,6 +36,7 @@ public class Modulo {
 
     public Modulo() {
         conexion = new VariableGlobal();
+        System.out.println("construye2");
     }
 
     public String generarCodigo(String formaParametro, String tabla, String letra) {
@@ -188,6 +189,26 @@ public class Modulo {
         for (int i = fila - 1; i >= 0; i--) {
             modelo.removeRow(i);
         }
+    }
+    //Verifica que la base de datos que esta en el fichero es existe en el gestor de base de datos
+    public boolean existeLaBase(){
+        boolean existe = false;
+        try {
+            String baseDatos = "";
+            Fichero fichero = new Fichero();
+            baseDatos = fichero.obterBase();
+            conexion.conexionMySQL.EjecutarConsulta("show databases");
+            ResultSet rs = conexion.conexionMySQL.getResulSet();
+            while(rs.next()){
+                if(baseDatos.equals(rs.getString("Database"))){
+                    existe = true;
+                }
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Modulo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return existe;
     }
 
     public void insertarEnTabla(String[] datos, DefaultTableModel modelo) {

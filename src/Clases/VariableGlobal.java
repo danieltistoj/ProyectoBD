@@ -3,18 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Clases;
 
 /**
- * 
+ *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class VariableGlobal {
-   public  ConexionMySQL conexionMySQL;
-   private Fichero fichero;
+
+    public ConexionMySQL conexionMySQL;
+    private Fichero fichero;
+    private String host, puerto, usuario, contra;
+
     public VariableGlobal() {
+        host = "localhost";
+        puerto = "3305";
+        usuario = "root";
+        contra = "xela2020";
         fichero = new Fichero();
-        this.conexionMySQL =  new ConexionMySQL("localhost","3305",fichero.obterBase(),"root","xela2020");
+        this.conexionMySQL = new ConexionMySQL(host, puerto, fichero.obterBase(), usuario, contra);
     }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public String getContra() {
+        return contra;
+    }
+
 }

@@ -9,6 +9,7 @@ import Clases.Modulo;
 import java.awt.AWTEventMulticaster;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 /**
@@ -17,39 +18,49 @@ import javax.swing.Timer;
  */
 public class Cargador extends javax.swing.JFrame {
 
-   private Timer tiempo;
-   private final ActionListener ac;
-   private int contador = 0;
-   private Modulo inicio;
+    private Timer tiempo;
+    private final ActionListener ac;
+    private int contador = 0;
+    private Modulo inicio;
+
     public Cargador() {
         initComponents();
-         setLocationRelativeTo(null);
-         inicio = new Modulo();
-         ac = new ActionListener() {
+        setLocationRelativeTo(null);
+        inicio = new Modulo();
+        ac = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 contador = contador + 1;
-                labelPorcentaje.setText(contador+"%");
+                labelPorcentaje.setText(contador + "%");
                 barraProgreso.setValue(contador);
-                if(barraProgreso.getValue() == 100){
+                if (barraProgreso.getValue() == 100) {
                     dispose();
-                    if(inicio.cantidadDeRegistros("id","usuario")>0){//verificamos si existe algun usuario 
-                     InicioSesion inicio = new InicioSesion();
-                    inicio.setVisible(true);
-                    
+                    if (inicio.existeLaBase()) { ////verificamos que la base de datos existe 
+                        if (inicio.cantidadDeRegistros("id", "usuario") > 0) {//verificamos si existe algun usuario 
+                            InicioSesion inicio = new InicioSesion();
+                            inicio.setVisible(true);
+
+                        } else {//si no debemos crear el primer usuario, que sea administrador
+                            PrimerUsuario primero = new PrimerUsuario();
+                            primero.setVisible(true);
+                        }
+                    } else {//Si no existe la base de datos
+                        JOptionPane.showMessageDialog(null, "No se puede encontrar la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+                        int res = JOptionPane.showConfirmDialog(null,"¿Desea importar una base de datos?","",JOptionPane.YES_NO_OPTION);
+                        if(res == 0){
+                            System.out.println("importar");
+                        }
+                               
                     }
-                 else{//si no debemos crear el primer usuario, que sea administrador
-                       PrimerUsuario primero = new PrimerUsuario();
-                       primero.setVisible(true);
-                    }
+
                     tiempo.stop();
-                    
+
                 }
-              
+
             }
         };
-         tiempo = new Timer(30, ac);
-         tiempo.start();
+        tiempo = new Timer(30, ac);
+        tiempo.start();
     }
 
     /**
