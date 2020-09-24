@@ -11,9 +11,10 @@ package Clases;
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class VariableGlobal {
-public  ConexionMySQL conexionMySQL;
-
+   public  ConexionMySQL conexionMySQL;
+   private Fichero fichero;
     public VariableGlobal() {
-        this.conexionMySQL =  new ConexionMySQL("localhost","3305","proyectobd3","root","xela2020");
+        fichero = new Fichero();
+        this.conexionMySQL =  new ConexionMySQL("localhost","3305",fichero.obterBase(),"root","xela2020");
     }
 }
