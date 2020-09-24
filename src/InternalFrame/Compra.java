@@ -5,8 +5,7 @@
  */
 package InternalFrame;
 
-import Clases.Codigo;
-import Clases.ConexionMySQL;
+import Clases.*;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,16 +23,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Compra extends javax.swing.JInternalFrame {
 
-    private ConexionMySQL conexion;
-    private  String[]  titulos = {"Id","Nombre","Precio","Cantidad","Total"};
-    private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
-             usuario ="root",contra = "xela2020", nombreAnterior, idProveedor;
-    private DefaultTableModel  modelo;
+    private String[] titulos = {"Id", "Nombre", "Precio", "Cantidad", "Total"};
+    private DefaultTableModel modelo;
+    private VariableGlobal conexion;
     private float abono;
+
     public Compra() {
-        
+
         initComponents();
-        conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+        conexion = new VariableGlobal();
         generarCodigo();
         txtNombreProveedor.setEnabled(false);
         txtIdProveedor.setEnabled(false);
@@ -47,7 +45,7 @@ public class Compra extends javax.swing.JInternalFrame {
         txtTotal2.setEnabled(false);
         txtPrimerPago.setEnabled(false);
         txtFecha.setText(fecha());
-        
+
         botonAnadir.setEnabled(false);
         botonGuardar.setEnabled(false);
         botonCargarMat.setEnabled(false);
@@ -56,9 +54,9 @@ public class Compra extends javax.swing.JInternalFrame {
         botonCancelar.setEnabled(false);
         botonRemoverMaterial.setEnabled(false);
         botonRemoverProveedor.setEnabled(false);
-        modelo = new DefaultTableModel(null,titulos);
+        modelo = new DefaultTableModel(null, titulos);
         this.tablaMat1.setModel(modelo);
-        
+
         botonCargarMat.setToolTipText("Cargar Material");
         botonCargarPro.setToolTipText("Cargar Proveedor");
         botonRemoverMaterial.setToolTipText("Remover Material");
@@ -68,7 +66,7 @@ public class Compra extends javax.swing.JInternalFrame {
         botonNuevo.setToolTipText("Nuevo");
         botonGuardar.setToolTipText("Guardar");
         botonCancelar.setToolTipText("Cacelar");
-        
+
     }
 
     /**
@@ -649,408 +647,415 @@ public class Compra extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-private String fecha(){
-    LocalDate fecha1 = LocalDate.now();
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    return fecha1.format(dtf);
+private String fecha() {
+        LocalDate fecha1 = LocalDate.now();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return fecha1.format(dtf);
     }
-private void activarBasico(){
-    txtIdMaterial.setEnabled(true);
-    txtIdProveedor.setEnabled(true);
-    txtPrimerPago.setEnabled(true);
-    
-    botonCargarMat.setEnabled(true);
-    botonCargarPro.setEnabled(true);
-    botonCancelar.setEnabled(true);
-    botonGuardar.setEnabled(true);
-    botonAnadir.setEnabled(true);
-    botonQuitar.setEnabled(true);
-    botonRemoverMaterial.setEnabled(true);
-    botonRemoverProveedor.setEnabled(true);
-    
-    botonNuevo.setEnabled(false);
-}
-private void limpiarPanel(){
-    txtCantidad.setEnabled(false);
-    txtIdMaterial.setEnabled(false);
-    txtIdProveedor.setEnabled(false);
-    txtPrimerPago.setEnabled(false);
-    
-    txtCantidad.setText("");
-    txtIdMaterial.setText("");
-    txtIdProveedor.setText("");
-    txtNombre.setText("");
-    txtTotal.setText("");
-    txtPrecio.setText("");
-    txtExistencias.setText("");
-    txtNombreProveedor.setText("");
-    txtPrimerPago.setText("");
-    txtTotal2.setText("0.0");
-    
-    botonCargarMat.setEnabled(false);
-    botonCargarPro.setEnabled(false);
-    botonCancelar.setEnabled(false);
-    botonGuardar.setEnabled(false);
-     botonAnadir.setEnabled(false);
-    botonQuitar.setEnabled(false);
-    botonRemoverMaterial.setEnabled(false);
-    botonRemoverProveedor.setEnabled(false);
-    
-    botonNuevo.setEnabled(true);
-}
-private void limpiarTabla(DefaultTableModel modelo, JTable tabla){
-    int fila = tabla.getRowCount();
-    for(int i = fila-1;i>=0;i--){
-        modelo.removeRow(i);
+
+    private void activarBasico() {
+        txtIdMaterial.setEnabled(true);
+        txtIdProveedor.setEnabled(true);
+        txtPrimerPago.setEnabled(true);
+
+        botonCargarMat.setEnabled(true);
+        botonCargarPro.setEnabled(true);
+        botonCancelar.setEnabled(true);
+        botonGuardar.setEnabled(true);
+        botonAnadir.setEnabled(true);
+        botonQuitar.setEnabled(true);
+        botonRemoverMaterial.setEnabled(true);
+        botonRemoverProveedor.setEnabled(true);
+
+        botonNuevo.setEnabled(false);
     }
-}
-private void generarCodigo(){
-    int entero;
-    String numero = "";
-    String ultimoNum = "";
-       try {
-            conexion.EjecutarConsulta("SELECT MAX(no_factura) FROM compra");
-            ResultSet rs = conexion.getResulSet();
-           
-            if(rs.next()){
+
+    private void limpiarPanel() {
+        txtCantidad.setEnabled(false);
+        txtIdMaterial.setEnabled(false);
+        txtIdProveedor.setEnabled(false);
+        txtPrimerPago.setEnabled(false);
+
+        txtCantidad.setText("");
+        txtIdMaterial.setText("");
+        txtIdProveedor.setText("");
+        txtNombre.setText("");
+        txtTotal.setText("");
+        txtPrecio.setText("");
+        txtExistencias.setText("");
+        txtNombreProveedor.setText("");
+        txtPrimerPago.setText("");
+        txtTotal2.setText("0.0");
+
+        botonCargarMat.setEnabled(false);
+        botonCargarPro.setEnabled(false);
+        botonCancelar.setEnabled(false);
+        botonGuardar.setEnabled(false);
+        botonAnadir.setEnabled(false);
+        botonQuitar.setEnabled(false);
+        botonRemoverMaterial.setEnabled(false);
+        botonRemoverProveedor.setEnabled(false);
+
+        botonNuevo.setEnabled(true);
+    }
+
+    private void limpiarTabla(DefaultTableModel modelo, JTable tabla) {
+        int fila = tabla.getRowCount();
+        for (int i = fila - 1; i >= 0; i--) {
+            modelo.removeRow(i);
+        }
+    }
+
+    private void generarCodigo() {
+        int entero;
+        String numero = "";
+        String ultimoNum = "";
+        try {
+            conexion.conexionMySQL.EjecutarConsulta("SELECT MAX(no_factura) FROM compra");
+            ResultSet rs = conexion.conexionMySQL.getResulSet();
+
+            if (rs.next()) {
                 ultimoNum = rs.getString(1);
-            }   
-            if(ultimoNum == null){
-                labelCodigoCompra.setText("CC0001");
             }
-            else{
+            if (ultimoNum == null) {
+                labelCodigoCompra.setText("CC0001");
+            } else {
                 char r1 = ultimoNum.charAt(2);
-                 char r2 = ultimoNum.charAt(3);
-                  char r3 = ultimoNum.charAt(4);
-                   char r4 = ultimoNum.charAt(5);
-                   String cadena = "";
-                   cadena = ""+r1+r2+r3+r4;
-                   
-                   entero = Integer.parseInt(cadena);
-                   Codigo codigo = new Codigo();
-                   codigo.generarCodigo(entero);
-                   labelCodigoCompra.setText("CC"+codigo.getCodigo());
+                char r2 = ultimoNum.charAt(3);
+                char r3 = ultimoNum.charAt(4);
+                char r4 = ultimoNum.charAt(5);
+                String cadena = "";
+                cadena = "" + r1 + r2 + r3 + r4;
+
+                entero = Integer.parseInt(cadena);
+                Codigo codigo = new Codigo();
+                codigo.generarCodigo(entero);
+                labelCodigoCompra.setText("CC" + codigo.getCodigo());
             }
         } catch (SQLException ex) {
-             System.out.println(ex.getMessage());
+            System.out.println(ex.getMessage());
         }
-}
-private void limpiarAreaMaterial(){
+    }
+
+    private void limpiarAreaMaterial() {
         txtIdMaterial.setEnabled(true);
         txtIdMaterial.setText("");
         txtNombre.setText("");
-        
+
         txtCantidad.setText("");
         txtCantidad.setEnabled(false);
         txtTotal.setText("");
         txtPrecio.setText("");
         txtExistencias.setText("");
-}
-private  boolean esEntero(String id){
-    boolean entero = false;
-    try {
-        Integer.parseInt(id);
-        entero = true;
-    } catch (Exception e) {
     }
-    return entero;
-}
-private void eliminarRegistroTabla(JTable tabla,DefaultTableModel modelo ){
-    int fila = tabla.getSelectedRow();
-    float total = Float.parseFloat(txtTotal2.getText()),subTotal;
-        if(fila>=0){
-            subTotal = Float.parseFloat(String.valueOf(tablaMat1.getValueAt(fila,4)));
+
+    private boolean esEntero(String id) {
+        boolean entero = false;
+        try {
+            Integer.parseInt(id);
+            entero = true;
+        } catch (Exception e) {
+        }
+        return entero;
+    }
+
+    private void eliminarRegistroTabla(JTable tabla, DefaultTableModel modelo) {
+        int fila = tabla.getSelectedRow();
+        float total = Float.parseFloat(txtTotal2.getText()), subTotal;
+        if (fila >= 0) {
+            subTotal = Float.parseFloat(String.valueOf(tablaMat1.getValueAt(fila, 4)));
             modelo.removeRow(fila);
             total = total - subTotal;
-            txtTotal2.setText(""+total);
+            txtTotal2.setText("" + total);
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione un material", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-        else{
-            JOptionPane.showMessageDialog(null,"Seleccione un material","Advertencia",JOptionPane.WARNING_MESSAGE);
-        }
-}
-private void insertarEnTabla(String id, String nombre, String precio, String cantidad, String total){
-     String []info =new String[5];
-                        info[0] = id;
-                        info[1] = nombre;
-                        info[2] = precio;
-                        info[3] = cantidad;
-                        info[4] = total;
-                        modelo.addRow(info);
-        
-}
-private boolean existeEnTabla(String id){
-     boolean existe = false;
-     int iD;
-     iD = Integer.parseInt(id);
-        for(int i = 0; i<tablaMat1.getRowCount();i++){
-            if(iD == Integer.parseInt(String.valueOf(tablaMat1.getValueAt(i,0))) ){
+    }
+
+    private void insertarEnTabla(String id, String nombre, String precio, String cantidad, String total) {
+        String[] info = new String[5];
+        info[0] = id;
+        info[1] = nombre;
+        info[2] = precio;
+        info[3] = cantidad;
+        info[4] = total;
+        modelo.addRow(info);
+
+    }
+
+    private boolean existeEnTabla(String id) {
+        boolean existe = false;
+        int iD;
+        iD = Integer.parseInt(id);
+        for (int i = 0; i < tablaMat1.getRowCount(); i++) {
+            if (iD == Integer.parseInt(String.valueOf(tablaMat1.getValueAt(i, 0)))) {
                 existe = true;
             }
         }
         return existe;
-}
-private boolean existeRegistro(String parametro,String tabla, String formaParametro){
-    boolean existe = false;
-  
-        try {
-            conexion.EjecutarConsulta("SELECT COUNT(*) FROM "+tabla +" WHERE "+formaParametro+" = "+parametro+"");
-            ResultSet rs = conexion.getResulSet();
-            rs.next();
-            if(rs.getInt(1)>0){
-                existe = true;
-            }   
-        } catch (SQLException ex) {
-             System.out.println(ex.getMessage());
-        }
-        return existe;   
-}
-private String getDato(String formaId, String id, String tabla, String parametro){
-    String dato = "";
-    ConexionMySQL conexion1 = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
-            conexion1.EjecutarConsulta("SELECT * FROM "+tabla+" WHERE "+formaId+" = "+id);
-            ResultSet rs = conexion1.getResulSet();
-            try {
-                while(rs.next()){
-                  dato = rs.getString(parametro);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
-            }
-    return dato; 
-}
-private boolean esFlotante(String abono){
-     boolean entero = false;
-    try {
-        Float.parseFloat(abono);
-        entero = true;
-    } catch (Exception e) {
     }
-    return entero;
-}
-private void crearCompra(String fecha, String total, String codigo, String idProveedor){
-    conexion.EjecutarInstruccion("insert into compra(fecha,total,no_factura,proveedor_id)\n"+
-            "values('"+fecha+"',"+total+",'"+codigo+"',"+idProveedor+")");
-}
-private void crearDetalleCompra(String precio, String cantidad, String idCompra,String idMaterial){
-    conexion.EjecutarInstruccion("insert into detalle_compra(precio,cantidad,compra_id,material_id)\n"+
-              "values("+precio+","+cantidad+","+idCompra+","+idMaterial+")");
-    
-}
-private void crearCredito_has_compra(String idCompra,String idCredito){
-    conexion.EjecutarInstruccion("insert into credito_has_compra(credito_id,compra_id)\n"+
-            "values("+idCredito+","+idCompra+")");
-}
-private void crearCredito(String abono, String fecha, String idProveedor){
-    conexion.EjecutarInstruccion("insert into credito(abono,fecha,proveedor_id)\n"+
-            "values("+abono+",'"+fecha+"',"+idProveedor+")");
-}
-private String getUltimoIdCompra(){
-    String id = "";
-       try {
-            conexion.EjecutarConsulta("SELECT MAX(id)As ultimo FROM compra");
-            ResultSet rs = conexion.getResulSet();
-            while(rs.next()){
+
+    private boolean existeRegistro(String parametro, String tabla, String formaParametro) {
+        boolean existe = false;
+
+        try {
+            conexion.conexionMySQL.EjecutarConsulta("SELECT COUNT(*) FROM " + tabla + " WHERE " + formaParametro + " = " + parametro + "");
+            ResultSet rs = conexion.conexionMySQL.getResulSet();
+            rs.next();
+            if (rs.getInt(1) > 0) {
+                existe = true;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return existe;
+    }
+
+    private String getDato(String formaId, String id, String tabla, String parametro) {
+        String dato = "";
+
+        conexion.conexionMySQL.EjecutarConsulta("SELECT * FROM " + tabla + " WHERE " + formaId + " = " + id);
+        ResultSet rs = conexion.conexionMySQL.getResulSet();
+        try {
+            while (rs.next()) {
+                dato = rs.getString(parametro);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return dato;
+    }
+
+    private boolean esFlotante(String abono) {
+        boolean entero = false;
+        try {
+            Float.parseFloat(abono);
+            entero = true;
+        } catch (Exception e) {
+        }
+        return entero;
+    }
+
+    private void crearCompra(String fecha, String total, String codigo, String idProveedor) {
+        conexion.conexionMySQL.EjecutarInstruccion("insert into compra(fecha,total,no_factura,proveedor_id)\n"
+                + "values('" + fecha + "'," + total + ",'" + codigo + "'," + idProveedor + ")");
+    }
+
+    private void crearDetalleCompra(String precio, String cantidad, String idCompra, String idMaterial) {
+        conexion.conexionMySQL.EjecutarInstruccion("insert into detalle_compra(precio,cantidad,compra_id,material_id)\n"
+                + "values(" + precio + "," + cantidad + "," + idCompra + "," + idMaterial + ")");
+
+    }
+
+    private void crearCredito_has_compra(String idCompra, String idCredito) {
+        conexion.conexionMySQL.EjecutarInstruccion("insert into credito_has_compra(credito_id,compra_id)\n"
+                + "values(" + idCredito + "," + idCompra + ")");
+    }
+
+    private void crearCredito(String abono, String fecha, String idProveedor) {
+        conexion.conexionMySQL.EjecutarInstruccion("insert into credito(abono,fecha,proveedor_id)\n"
+                + "values(" + abono + ",'" + fecha + "'," + idProveedor + ")");
+    }
+
+    private String getUltimoIdCompra() {
+        String id = "";
+        try {
+            conexion.conexionMySQL.EjecutarConsulta("SELECT MAX(id)As ultimo FROM compra");
+            ResultSet rs = conexion.conexionMySQL.getResulSet();
+            while (rs.next()) {
                 id = rs.getString("ultimo");
             }
-            
+
         } catch (SQLException ex) {
-             System.out.println(ex.getMessage());
+            System.out.println(ex.getMessage());
         }
         return id;
-}
-private String getUltimoIdCredito(){
-  String id = "";
-       try {
-            conexion.EjecutarConsulta("SELECT MAX(id)As ultimo FROM credito");
-            ResultSet rs = conexion.getResulSet();
-            while(rs.next()){
+    }
+
+    private String getUltimoIdCredito() {
+        String id = "";
+        try {
+            conexion.conexionMySQL.EjecutarConsulta("SELECT MAX(id)As ultimo FROM credito");
+            ResultSet rs = conexion.conexionMySQL.getResulSet();
+            while (rs.next()) {
                 id = rs.getString("ultimo");
             }
-            
+
         } catch (SQLException ex) {
-             System.out.println(ex.getMessage());
+            System.out.println(ex.getMessage());
         }
         return id;
-}
-private String getCantidadMaterial(String idMaterial){
-    String id = "";
-       try {
-            conexion.EjecutarConsulta("select M.cantidad as cantidad from material M where id = "+idMaterial);
-            ResultSet rs = conexion.getResulSet();
-            while(rs.next()){
+    }
+
+    private String getCantidadMaterial(String idMaterial) {
+        String id = "";
+        try {
+            conexion.conexionMySQL.EjecutarConsulta("select M.cantidad as cantidad from material M where id = " + idMaterial);
+            ResultSet rs = conexion.conexionMySQL.getResulSet();
+            while (rs.next()) {
                 id = rs.getString("cantidad");
             }
-            
+
         } catch (SQLException ex) {
-             System.out.println(ex.getMessage());
+            System.out.println(ex.getMessage());
         }
         return id;
-    
-}
-private void relacionMaterialDetalle(String idCompra){
-    int fila = tablaMat1.getRowCount();
-        for(int i =0; i<fila;i++){  
-                                               //id_material                                        //cantidad                                           
-            crearDetalleCompra(String.valueOf(tablaMat1.getValueAt(i,2)), String.valueOf(tablaMat1.getValueAt(i,3)),
-                      //idCompra                                //idMaterial   
-                    idCompra, String.valueOf(tablaMat1.getValueAt(i,0)));
-            modificarCantidadMaterial(String.valueOf(tablaMat1.getValueAt(i,0)),String.valueOf(tablaMat1.getValueAt(i,3)));
+
+    }
+
+    private void relacionMaterialDetalle(String idCompra) {
+        int fila = tablaMat1.getRowCount();
+        for (int i = 0; i < fila; i++) {
+            //id_material                                        //cantidad                                           
+            crearDetalleCompra(String.valueOf(tablaMat1.getValueAt(i, 2)), String.valueOf(tablaMat1.getValueAt(i, 3)),
+                    //idCompra                                //idMaterial   
+                    idCompra, String.valueOf(tablaMat1.getValueAt(i, 0)));
+            modificarCantidadMaterial(String.valueOf(tablaMat1.getValueAt(i, 0)), String.valueOf(tablaMat1.getValueAt(i, 3)));
         }
-    
-}
-private void modificarCantidadMaterial(String idMaterial, String cantidad){
-    int cantiIngresar,ultimaCantidad,canti;
-    ultimaCantidad = Integer.parseInt(getCantidadMaterial(idMaterial));
-    cantiIngresar = Integer.parseInt(cantidad);
-    canti = ultimaCantidad+cantiIngresar;
-    
-    conexion.EjecutarInstruccion("UPDATE material SET cantidad = "+ canti+" WHERE id = "+idMaterial);
-    
-}
+
+    }
+
+    private void modificarCantidadMaterial(String idMaterial, String cantidad) {
+        int cantiIngresar, ultimaCantidad, canti;
+        ultimaCantidad = Integer.parseInt(getCantidadMaterial(idMaterial));
+        cantiIngresar = Integer.parseInt(cantidad);
+        canti = ultimaCantidad + cantiIngresar;
+
+        conexion.conexionMySQL.EjecutarInstruccion("UPDATE material SET cantidad = " + canti + " WHERE id = " + idMaterial);
+
+    }
     private void botonCargarProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarProActionPerformed
-      if(txtIdProveedor.getText().length()>0){
-          if(esEntero(txtIdProveedor.getText())){
-               if(existeRegistro(txtIdProveedor.getText(),"proveedor","id")){
-               txtNombreProveedor.setText(getDato("id",txtIdProveedor.getText(),"proveedor","nombre"));
-               txtIdProveedor.setEnabled(false);
-          }
-               else{
-                   JOptionPane.showMessageDialog(null,"El proveedor no existe","Advertencia",JOptionPane.WARNING_MESSAGE);
-               }
-          }
-          else{
-              JOptionPane.showMessageDialog(null,"Ingrese solo valores enteros","Advertencia",JOptionPane.WARNING_MESSAGE);
-          }
-      }
-      else{
-          JOptionPane.showMessageDialog(null,"Llene el campo de texto","Advertencia",JOptionPane.WARNING_MESSAGE);
-      }
+        if (txtIdProveedor.getText().length() > 0) {
+            if (esEntero(txtIdProveedor.getText())) {
+                if (existeRegistro(txtIdProveedor.getText(), "proveedor", "id")) {
+                    txtNombreProveedor.setText(getDato("id", txtIdProveedor.getText(), "proveedor", "nombre"));
+                    txtIdProveedor.setEnabled(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "El proveedor no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Ingrese solo valores enteros", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Llene el campo de texto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_botonCargarProActionPerformed
 
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
-        activarBasico();       
+        activarBasico();
     }//GEN-LAST:event_botonNuevoActionPerformed
 
     private void botonCargarMatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarMatActionPerformed
-      if(txtIdMaterial.getText().length()>0){
-          if(esEntero(txtIdMaterial.getText())){
-               if(existeRegistro(txtIdMaterial.getText(),"material","id")){
-               txtNombre.setText(getDato("id",txtIdMaterial.getText(),"material","nombre"));
-               txtExistencias.setText(getDato("id",txtIdMaterial.getText(),"material","cantidad"));
-               txtPrecio.setText(getDato("id",txtIdMaterial.getText(),"material","costo"));
-               
-               txtIdMaterial.setEnabled(false);
-               txtCantidad.setEnabled(true);
-          }
-               else{
-                   JOptionPane.showMessageDialog(null,"El material no existe","Advertencia",JOptionPane.WARNING_MESSAGE);
-               }
-          }
-          else{
-              JOptionPane.showMessageDialog(null,"Ingrese solo valores enteros","Advertencia",JOptionPane.WARNING_MESSAGE);
-          }
-      }
-      else{
-          JOptionPane.showMessageDialog(null,"Llene el campo de texto","Advertencia",JOptionPane.WARNING_MESSAGE);
-      }
+        if (txtIdMaterial.getText().length() > 0) {
+            if (esEntero(txtIdMaterial.getText())) {
+                if (existeRegistro(txtIdMaterial.getText(), "material", "id")) {
+                    txtNombre.setText(getDato("id", txtIdMaterial.getText(), "material", "nombre"));
+                    txtExistencias.setText(getDato("id", txtIdMaterial.getText(), "material", "cantidad"));
+                    txtPrecio.setText(getDato("id", txtIdMaterial.getText(), "material", "costo"));
+
+                    txtIdMaterial.setEnabled(false);
+                    txtCantidad.setEnabled(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "El material no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Ingrese solo valores enteros", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Llene el campo de texto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_botonCargarMatActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
         int numFilas = tablaMat1.getRowCount();
         limpiarPanel();
-        if(numFilas>0){
+        if (numFilas > 0) {
             limpiarTabla(modelo, tablaMat1);
         }
-        
+
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void txtIdProveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdProveedorKeyTyped
-         char validar = evt.getKeyChar();
-      if(Character.isLetter(validar)){
-          getToolkit().beep();
-          evt.consume();
-          JOptionPane.showMessageDialog(null,"Solo ingrese numeros","Advertencia",JOptionPane.WARNING_MESSAGE);
-      }
+        char validar = evt.getKeyChar();
+        if (Character.isLetter(validar)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Solo ingrese numeros", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_txtIdProveedorKeyTyped
 
     private void txtIdMaterialKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdMaterialKeyTyped
         char validar = evt.getKeyChar();
-      if(Character.isLetter(validar)){
-          getToolkit().beep();
-          evt.consume();
-          JOptionPane.showMessageDialog(null,"Solo ingrese numeros","Advertencia",JOptionPane.WARNING_MESSAGE);
-      }
+        if (Character.isLetter(validar)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Solo ingrese numeros", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_txtIdMaterialKeyTyped
 
     private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
         char validar = evt.getKeyChar();
-      if(Character.isLetter(validar)){
-          getToolkit().beep();
-          evt.consume();
-          JOptionPane.showMessageDialog(null,"Solo ingrese numeros","Advertencia",JOptionPane.WARNING_MESSAGE);
-      }
+        if (Character.isLetter(validar)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Solo ingrese numeros", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_txtCantidadKeyTyped
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
         float total;
-        if(txtCantidad.getText().equals("")==false){
-            if(esEntero(txtCantidad.getText())){
-            total= Float.parseFloat(txtCantidad.getText())*Float.parseFloat(txtPrecio.getText());
-            txtTotal.setText(total+"");
-            }
-            else{
-                JOptionPane.showMessageDialog(null,"Ingrese solo valores enteros","Advertencia",JOptionPane.WARNING_MESSAGE);
+        if (txtCantidad.getText().equals("") == false) {
+            if (esEntero(txtCantidad.getText())) {
+                total = Float.parseFloat(txtCantidad.getText()) * Float.parseFloat(txtPrecio.getText());
+                txtTotal.setText(total + "");
+            } else {
+                JOptionPane.showMessageDialog(null, "Ingrese solo valores enteros", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 txtCantidad.setText("");
             }
-        }
-        else{
+        } else {
             txtTotal.setText("");
         }
     }//GEN-LAST:event_txtCantidadKeyReleased
 
     private void botonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnadirActionPerformed
         float total = Float.parseFloat(txtTotal2.getText()), subTotal;
-        if((txtNombre.getText().length()>0&&txtCantidad.getText().length()>0)&&(txtIdMaterial.getText().length()>0)){
-            if(Float.parseFloat(txtTotal.getText())>0){//ve que el subTotal sea mayor a ceo
-                if(tablaMat1.getRowCount()>0){//vemos si ya hay algun material en la tabla
-                    
-                    if(!existeEnTabla(txtIdMaterial.getText())){//si el material no existe en la tabla lo insertamos 
-                subTotal = Float.parseFloat(txtTotal.getText());
-                insertarEnTabla(txtIdMaterial.getText(),txtNombre.getText(), txtPrecio.getText(),txtCantidad.getText(),txtTotal.getText());
-                total = total + subTotal;
-                txtTotal2.setText(""+total);
-                limpiarAreaMaterial();
+        if ((txtNombre.getText().length() > 0 && txtCantidad.getText().length() > 0) && (txtIdMaterial.getText().length() > 0)) {
+            if (Float.parseFloat(txtTotal.getText()) > 0) {//ve que el subTotal sea mayor a ceo
+                if (tablaMat1.getRowCount() > 0) {//vemos si ya hay algun material en la tabla
+
+                    if (!existeEnTabla(txtIdMaterial.getText())) {//si el material no existe en la tabla lo insertamos 
+                        subTotal = Float.parseFloat(txtTotal.getText());
+                        insertarEnTabla(txtIdMaterial.getText(), txtNombre.getText(), txtPrecio.getText(), txtCantidad.getText(), txtTotal.getText());
+                        total = total + subTotal;
+                        txtTotal2.setText("" + total);
+                        limpiarAreaMaterial();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El material ya esta en la tabla", "Advertencia", JOptionPane.WARNING_MESSAGE);
                     }
-                    else{
-                        JOptionPane.showMessageDialog(null,"El material ya esta en la tabla","Advertencia",JOptionPane.WARNING_MESSAGE);
-                    }
+                } else {//si la tabla esta vacia insertamos directamente 
+                    subTotal = Float.parseFloat(txtTotal.getText());
+                    insertarEnTabla(txtIdMaterial.getText(), txtNombre.getText(), txtPrecio.getText(), txtCantidad.getText(), txtTotal.getText());
+                    total = total + subTotal;
+                    txtTotal2.setText("" + total);
+                    limpiarAreaMaterial();
                 }
-                else{//si la tabla esta vacia insertamos directamente 
-                     subTotal = Float.parseFloat(txtTotal.getText());
-                insertarEnTabla(txtIdMaterial.getText(),txtNombre.getText(), txtPrecio.getText(),txtCantidad.getText(),txtTotal.getText());
-                total = total + subTotal;
-                txtTotal2.setText(""+total);
-                limpiarAreaMaterial();
-                }
-                
+
+            } else {
+                JOptionPane.showMessageDialog(null, "El total del material debe de ser mayor a cero", "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
-            else{
-                JOptionPane.showMessageDialog(null,"El total del material debe de ser mayor a cero","Advertencia",JOptionPane.WARNING_MESSAGE);
-            }
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"Por favor llene los campos de nombre del material y cantidad","Advertencia",JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor llene los campos de nombre del material y cantidad", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_botonAnadirActionPerformed
 
     private void botonRemoverMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRemoverMaterialActionPerformed
-       limpiarAreaMaterial();
+        limpiarAreaMaterial();
     }//GEN-LAST:event_botonRemoverMaterialActionPerformed
 
     private void botonRemoverProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRemoverProveedorActionPerformed
-      txtIdProveedor.setEnabled(true);
-      txtIdProveedor.setText("");
-      txtNombreProveedor.setText("");
+        txtIdProveedor.setEnabled(true);
+        txtIdProveedor.setText("");
+        txtNombreProveedor.setText("");
     }//GEN-LAST:event_botonRemoverProveedorActionPerformed
 
     private void botonQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonQuitarActionPerformed
@@ -1058,53 +1063,51 @@ private void modificarCantidadMaterial(String idMaterial, String cantidad){
     }//GEN-LAST:event_botonQuitarActionPerformed
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-     String fecha, total, codigo, iDproveedor, idCompra,idCredito;
-        if(tablaMat1.getRowCount()>0 && txtNombreProveedor.getText().length()>0&&txtPrimerPago.getText().length()>0){//comprobamos que los campos importante esten llenos 
-          int respuesta = JOptionPane.showConfirmDialog(null,"¿Desea completar la compra?","",JOptionPane.YES_NO_OPTION);//le preguntamos si esta de acuerdo en continuar la compra
-          if(respuesta == 0){
-              fecha = fecha();
-              total = txtTotal2.getText();
-              codigo = labelCodigoCompra.getText();
-              iDproveedor = txtIdProveedor.getText();
-              
-              crearCompra(fecha, total, codigo, iDproveedor);//  #1  primera fase 
-              
-              idCompra = getUltimoIdCompra();
-              relacionMaterialDetalle(idCompra);  //#2   segunda fase relacion material con compra
-              crearCredito(txtPrimerPago.getText(),fecha, iDproveedor);//#3  tercera fase crear el primer credito.
-              
-              idCredito = getUltimoIdCredito();
-              crearCredito_has_compra(idCompra, idCredito);//relacion credito con la compra 
-              limpiarPanel();
-              limpiarTabla(modelo, tablaMat1);
-              JOptionPane.showMessageDialog(null,"Compra realizada correctamente","Mensaje",JOptionPane.INFORMATION_MESSAGE);
-              generarCodigo();
-          }
-          
-      }
-      else{
-          JOptionPane.showMessageDialog(null,"La compra debe de tener un proveedor, un primer pago, y por lo menos un material","Advertencia",JOptionPane.WARNING_MESSAGE);
-      }
+        String fecha, total, codigo, iDproveedor, idCompra, idCredito;
+        if (tablaMat1.getRowCount() > 0 && txtNombreProveedor.getText().length() > 0 && txtPrimerPago.getText().length() > 0) {//comprobamos que los campos importante esten llenos 
+            int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea completar la compra?", "", JOptionPane.YES_NO_OPTION);//le preguntamos si esta de acuerdo en continuar la compra
+            if (respuesta == 0) {
+                fecha = fecha();
+                total = txtTotal2.getText();
+                codigo = labelCodigoCompra.getText();
+                iDproveedor = txtIdProveedor.getText();
+
+                crearCompra(fecha, total, codigo, iDproveedor);//  #1  primera fase 
+
+                idCompra = getUltimoIdCompra();
+                relacionMaterialDetalle(idCompra);  //#2   segunda fase relacion material con compra
+                crearCredito(txtPrimerPago.getText(), fecha, iDproveedor);//#3  tercera fase crear el primer credito.
+
+                idCredito = getUltimoIdCredito();
+                crearCredito_has_compra(idCompra, idCredito);//relacion credito con la compra 
+                limpiarPanel();
+                limpiarTabla(modelo, tablaMat1);
+                JOptionPane.showMessageDialog(null, "Compra realizada correctamente", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                generarCodigo();
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "La compra debe de tener un proveedor, un primer pago, y por lo menos un material", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void txtPrimerPagoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrimerPagoKeyTyped
-      char validar = evt.getKeyChar();
-      if(Character.isLetter(validar)){
-          getToolkit().beep();
-          evt.consume();
-          JOptionPane.showMessageDialog(null,"Solo ingrese numeros","Advertencia",JOptionPane.WARNING_MESSAGE);
-      }
+        char validar = evt.getKeyChar();
+        if (Character.isLetter(validar)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Solo ingrese numeros", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_txtPrimerPagoKeyTyped
 
     private void txtPrimerPagoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrimerPagoKeyReleased
-     float total;
-        if(txtPrimerPago.getText().equals("")==false){
-            if(!esFlotante(txtPrimerPago.getText())){
-                JOptionPane.showMessageDialog(null,"Ingrese solo digitoss","Advertencia",JOptionPane.WARNING_MESSAGE);
+        float total;
+        if (txtPrimerPago.getText().equals("") == false) {
+            if (!esFlotante(txtPrimerPago.getText())) {
+                JOptionPane.showMessageDialog(null, "Ingrese solo digitoss", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 txtPrimerPago.setText("");
             }
-        }
-        else{
+        } else {
             txtTotal.setText("");
         }
     }//GEN-LAST:event_txtPrimerPagoKeyReleased
@@ -1114,18 +1117,18 @@ private void modificarCantidadMaterial(String idMaterial, String cantidad){
     }//GEN-LAST:event_txtIdMaterialActionPerformed
 
     private void botonNuevoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonNuevoMouseEntered
-       if(botonNuevo.isEnabled()){
-             botonNuevo.setBackground(new Color(255,102,51));
+        if (botonNuevo.isEnabled()) {
+            botonNuevo.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonNuevoMouseEntered
 
     private void botonNuevoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonNuevoMouseExited
-      botonNuevo.setBackground(Color.WHITE);
+        botonNuevo.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonNuevoMouseExited
 
     private void botonGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonGuardarMouseEntered
-        if(botonGuardar.isEnabled()){
-             botonGuardar.setBackground(new Color(255,102,51));
+        if (botonGuardar.isEnabled()) {
+            botonGuardar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonGuardarMouseEntered
 
@@ -1134,38 +1137,38 @@ private void modificarCantidadMaterial(String idMaterial, String cantidad){
     }//GEN-LAST:event_botonGuardarMouseExited
 
     private void botonCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCancelarMouseEntered
-        if(botonCancelar.isEnabled()){
-             botonCancelar.setBackground(new Color(255,102,51));
+        if (botonCancelar.isEnabled()) {
+            botonCancelar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonCancelarMouseEntered
 
     private void botonCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCancelarMouseExited
-         botonCancelar.setBackground(Color.WHITE);
+        botonCancelar.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonCancelarMouseExited
 
     private void botonCargarProMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCargarProMouseEntered
-        if(botonCargarPro.isEnabled()){
-             botonCargarPro.setBackground(new Color(255,102,51));
+        if (botonCargarPro.isEnabled()) {
+            botonCargarPro.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonCargarProMouseEntered
 
     private void botonCargarProMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCargarProMouseExited
-         botonCargarPro.setBackground(Color.WHITE);
+        botonCargarPro.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonCargarProMouseExited
 
     private void botonRemoverProveedorMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonRemoverProveedorMouseEntered
-        if(botonRemoverProveedor.isEnabled()){
-             botonRemoverProveedor.setBackground(new Color(255,102,51));
+        if (botonRemoverProveedor.isEnabled()) {
+            botonRemoverProveedor.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonRemoverProveedorMouseEntered
 
     private void botonRemoverProveedorMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonRemoverProveedorMouseExited
-         botonRemoverProveedor.setBackground(Color.WHITE);
+        botonRemoverProveedor.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonRemoverProveedorMouseExited
 
     private void botonCargarMatMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCargarMatMouseEntered
-        if(botonCargarMat.isEnabled()){
-             botonCargarMat.setBackground(new Color(255,102,51));
+        if (botonCargarMat.isEnabled()) {
+            botonCargarMat.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonCargarMatMouseEntered
 
@@ -1174,8 +1177,8 @@ private void modificarCantidadMaterial(String idMaterial, String cantidad){
     }//GEN-LAST:event_botonCargarMatMouseExited
 
     private void botonRemoverMaterialMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonRemoverMaterialMouseEntered
-         if(botonRemoverMaterial.isEnabled()){
-             botonRemoverMaterial.setBackground(new Color(255,102,51));
+        if (botonRemoverMaterial.isEnabled()) {
+            botonRemoverMaterial.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonRemoverMaterialMouseEntered
 
@@ -1184,18 +1187,18 @@ private void modificarCantidadMaterial(String idMaterial, String cantidad){
     }//GEN-LAST:event_botonRemoverMaterialMouseExited
 
     private void botonAnadirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonAnadirMouseEntered
-      if(botonAnadir.isEnabled()){
-             botonAnadir.setBackground(new Color(255,102,51));
+        if (botonAnadir.isEnabled()) {
+            botonAnadir.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonAnadirMouseEntered
 
     private void botonAnadirMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonAnadirMouseExited
-         botonAnadir.setBackground(Color.WHITE);
+        botonAnadir.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonAnadirMouseExited
 
     private void botonQuitarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonQuitarMouseEntered
-        if(botonQuitar.isEnabled()){
-             botonQuitar.setBackground(new Color(255,102,51));
+        if (botonQuitar.isEnabled()) {
+            botonQuitar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonQuitarMouseEntered
 

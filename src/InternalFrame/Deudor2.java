@@ -5,9 +5,7 @@
  */
 package InternalFrame;
 
-import Clases.TablaId;
-import Clases.Modulo;
-import Clases.ConexionMySQL;
+import Clases.*;
 import java.awt.Color;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -29,39 +27,42 @@ import net.sf.jasperreports.view.JasperViewer;
  *
  * @author Usuario
  */
-/******/
+/**
+ * ***
+ */
 public class Deudor2 extends javax.swing.JInternalFrame {
 
-    private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
-             usuario ="root",contra = "xela2020",consultaMaterial;
     private ButtonGroup grupoDeRadio;
-    private String [] tituloFactura = {"Id","Total","Cantidad Pagos","Total de pagos","Fecha","Cliente","Nit"},
-            tituloProducto = {"Id","Nombre","Cantidad","Precio","Total"},
-            tituloPago = {"Id","Abono","No.","Fecha"};
+    private String[] tituloFactura = {"Id", "Total", "Cantidad Pagos", "Total de pagos", "Fecha", "Cliente", "Nit"},
+            tituloProducto = {"Id", "Nombre", "Cantidad", "Precio", "Total"},
+            tituloPago = {"Id", "Abono", "No.", "Fecha"};
     private Modulo deudor;
+    private VariableGlobal conexion;
+
     public Deudor2() {
         initComponents();
         grupoDeRadio = new ButtonGroup();
         grupoDeRadio.add(radioDeudor);
         grupoDeRadio.add(radioSaldado);
         radioSaldado.setSelected(true);
-        
-        tabbed.setEnabledAt(1,false);
+
+        tabbed.setEnabledAt(1, false);
         botonDetalle.setEnabled(true);
         botonRegresar.setEnabled(false);
         botonCargarFecha.setEnabled(false);
         botonAbono.setEnabled(false);
         txtFechaInicial.setEnabled(false);
         txtFechaFinal.setEnabled(false);
-        
+
         deudor = new Modulo();
-        
+        conexion = new VariableGlobal();
+
         botonDetalle.setToolTipText("Detalle");
         botonAbono.setToolTipText("Pago");
         botonRegresar.setToolTipText("Regresar");
         botonCargarFecha.setToolTipText("Cargar Por Rando De Fecha");
         botonCargarNit.setToolTipText("Cargar Por Nit");
-        
+
         botonReporteFact.setToolTipText("Reporte Facturas");
         botonReportePago.setToolTipText("Reporte Factura");
     }
@@ -768,41 +769,40 @@ public class Deudor2 extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-private void generarRecibo(){
-    try {
-            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
-              Connection con = conexion.getConexion();
-             InputStream archivo=getClass().getResourceAsStream("/Reporte/reciboPago.jrxml");
-            
-             HashMap parametros = new HashMap();
-             parametros.put("nit",labelNit.getText());
-             parametros.put("nombre",labelNombre.getText());
-             parametros.put("apellido",labelApellido.getText());
-             
-             JasperDesign dise = JRXmlLoader.load(archivo);
-             JasperReport jr = JasperCompileManager.compileReport(dise);
-             JasperPrint jp = JasperFillManager.fillReport(jr,parametros,con);
-             JasperViewer.viewReport(jp,false); 
-         } catch (JRException ex) {
-             Logger.getLogger(Deudor2.class.getName()).log(Level.SEVERE, null, ex);
-         }
-}
+private void generarRecibo() {
+        try {
+            // ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+            Connection con = conexion.conexionMySQL.getConexion();
+            InputStream archivo = getClass().getResourceAsStream("/Reporte/reciboPago.jrxml");
+
+            HashMap parametros = new HashMap();
+            parametros.put("nit", labelNit.getText());
+            parametros.put("nombre", labelNombre.getText());
+            parametros.put("apellido", labelApellido.getText());
+
+            JasperDesign dise = JRXmlLoader.load(archivo);
+            JasperReport jr = JasperCompileManager.compileReport(dise);
+            JasperPrint jp = JasperFillManager.fillReport(jr, parametros, con);
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(Deudor2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     private void comboTiposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTiposActionPerformed
-        if(comboTipos.getSelectedIndex() == 0){
+        if (comboTipos.getSelectedIndex() == 0) {
             botonCargarNit.setEnabled(true);
             txtNitCliente.setEnabled(true);
-            
+
             botonCargarFecha.setEnabled(false);
             txtFechaInicial.setEnabled(false);
             txtFechaInicial.setText("");
             txtFechaFinal.setEnabled(false);
             txtFechaFinal.setText("");
-        }
-        else{
+        } else {
             botonCargarNit.setEnabled(false);
             txtNitCliente.setEnabled(false);
             txtNitCliente.setText("");
-            
+
             botonCargarFecha.setEnabled(true);
             txtFechaInicial.setEnabled(true);
             txtFechaFinal.setEnabled(true);
@@ -810,57 +810,55 @@ private void generarRecibo(){
     }//GEN-LAST:event_comboTiposActionPerformed
 
     private void botonCargarNitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarNitActionPerformed
-        String consulta="", condicion="";
+        String consulta = "", condicion = "";
         TablaId tabla = new TablaId(tablaFactura);
-        if(radioSaldado.isSelected()){
-             consulta = "select F.id,F.total,count(P.id) as Pagos,sum(P.abono)TotalPagos,F.fecha,C.nombre as cliente,C.nit as nit_cliente  from  factura_has_pago FP\n" +
-" inner join factura F on FP.factura_id = F.id\n" +
-" inner join pago P on FP.pago_id = P.id \n" +
-" inner join cliente C on F.cliente_id = C.id\n" +
-" group by F.id having F.total<=TotalPagos ";
-             
-               
+        if (radioSaldado.isSelected()) {
+            consulta = "select F.id,F.total,count(P.id) as Pagos,sum(P.abono)TotalPagos,F.fecha,C.nombre as cliente,C.nit as nit_cliente  from  factura_has_pago FP\n"
+                    + " inner join factura F on FP.factura_id = F.id\n"
+                    + " inner join pago P on FP.pago_id = P.id \n"
+                    + " inner join cliente C on F.cliente_id = C.id\n"
+                    + " group by F.id having F.total<=TotalPagos ";
+
         }
-        if(radioDeudor.isSelected()){//si es deudor
-            consulta = "select F.id,F.total,count(P.id) as Pagos,sum(P.abono)TotalPagos,F.fecha,C.nombre as cliente,C.nit as nit_cliente  from  factura_has_pago FP\n" +
-" inner join factura F on FP.factura_id = F.id\n" +
-" inner join pago P on FP.pago_id = P.id \n" +
-" inner join cliente C on F.cliente_id = C.id\n" +
-" group by F.id having F.total>TotalPagos ";
+        if (radioDeudor.isSelected()) {//si es deudor
+            consulta = "select F.id,F.total,count(P.id) as Pagos,sum(P.abono)TotalPagos,F.fecha,C.nombre as cliente,C.nit as nit_cliente  from  factura_has_pago FP\n"
+                    + " inner join factura F on FP.factura_id = F.id\n"
+                    + " inner join pago P on FP.pago_id = P.id \n"
+                    + " inner join cliente C on F.cliente_id = C.id\n"
+                    + " group by F.id having F.total>TotalPagos ";
         }
-         if(txtNitCliente.getText().length()>0){//si hay un numero de nit en especifico 
-                    condicion = "and C.nit = '"+txtNitCliente.getText()+"'";
-                }
-        tabla.llenarTable(consulta,"", "","",condicion, consulta, tituloFactura);
-        tablaFactura = tabla.getTabla();  
-        
-        
+        if (txtNitCliente.getText().length() > 0) {//si hay un numero de nit en especifico 
+            condicion = "and C.nit = '" + txtNitCliente.getText() + "'";
+        }
+        tabla.llenarTable(consulta, "", "", "", condicion, consulta, tituloFactura);
+        tablaFactura = tabla.getTabla();
+
+
     }//GEN-LAST:event_botonCargarNitActionPerformed
 
     private void botonCargarFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarFechaActionPerformed
-       String consulta = "",condicion = "";
+        String consulta = "", condicion = "";
         TablaId tabla = new TablaId(tablaFactura);
-        if(radioSaldado.isSelected()){
-              consulta = "select F.id,F.total,count(P.id) as Pagos,sum(P.abono)TotalPagos,F.fecha,C.nombre as cliente,C.nit as nit_cliente  from  factura_has_pago FP\n" +
-" inner join factura F on FP.factura_id = F.id\n" +
-" inner join pago P on FP.pago_id = P.id \n" +
-" inner join cliente C on F.cliente_id = C.id\n" +
-" group by F.id having F.total<=TotalPagos ";
-              
-            
+        if (radioSaldado.isSelected()) {
+            consulta = "select F.id,F.total,count(P.id) as Pagos,sum(P.abono)TotalPagos,F.fecha,C.nombre as cliente,C.nit as nit_cliente  from  factura_has_pago FP\n"
+                    + " inner join factura F on FP.factura_id = F.id\n"
+                    + " inner join pago P on FP.pago_id = P.id \n"
+                    + " inner join cliente C on F.cliente_id = C.id\n"
+                    + " group by F.id having F.total<=TotalPagos ";
+
         }
-        if(radioDeudor.isSelected()){
-            consulta = "select F.id,F.total,count(P.id) as Pagos,sum(P.abono)TotalPagos,F.fecha,C.nombre as cliente,C.nit as nit_cliente  from  factura_has_pago FP\n" +
-" inner join factura F on FP.factura_id = F.id\n" +
-" inner join pago P on FP.pago_id = P.id \n" +
-" inner join cliente C on F.cliente_id = C.id\n" +
-" group by F.id having F.total>TotalPagos ";
+        if (radioDeudor.isSelected()) {
+            consulta = "select F.id,F.total,count(P.id) as Pagos,sum(P.abono)TotalPagos,F.fecha,C.nombre as cliente,C.nit as nit_cliente  from  factura_has_pago FP\n"
+                    + " inner join factura F on FP.factura_id = F.id\n"
+                    + " inner join pago P on FP.pago_id = P.id \n"
+                    + " inner join cliente C on F.cliente_id = C.id\n"
+                    + " group by F.id having F.total>TotalPagos ";
         }
-        if(txtFechaInicial.getText().length()>0&&txtFechaFinal.getText().length()>0){
-            condicion = "and F.fecha between '"+txtFechaInicial.getText()+"' and '"+txtFechaFinal.getText()+"'";
+        if (txtFechaInicial.getText().length() > 0 && txtFechaFinal.getText().length() > 0) {
+            condicion = "and F.fecha between '" + txtFechaInicial.getText() + "' and '" + txtFechaFinal.getText() + "'";
         }
-        tabla.llenarTable(consulta,"", "","",condicion,"", tituloFactura);
-        tablaFactura = tabla.getTabla(); 
+        tabla.llenarTable(consulta, "", "", "", condicion, "", tituloFactura);
+        tablaFactura = tabla.getTabla();
     }//GEN-LAST:event_botonCargarFechaActionPerformed
 
     private void botonDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDetalleActionPerformed
@@ -868,199 +866,192 @@ private void generarRecibo(){
         TablaId tablaPro = new TablaId(tablaProducto);
         TablaId tablaPago1 = new TablaId(tablaPago);
         String consulta;
-        if(fila>=0){
+        if (fila >= 0) {
             //datos del cliente 
-            labelNombre.setText(deudor.getDato("nit","'"+String.valueOf(tablaFactura.getValueAt(fila,6))+"'","cliente","nombre"));
-            labelApellido.setText(deudor.getDato("nit","'"+String.valueOf(tablaFactura.getValueAt(fila,6))+"'","cliente","apellido"));
-            labelTelefono.setText(deudor.getDato("nit","'"+String.valueOf(tablaFactura.getValueAt(fila,6))+"'","cliente","telefono"));
-            labelCorreo.setText(deudor.getDato("nit","'"+String.valueOf(tablaFactura.getValueAt(fila,6))+"'","cliente","correo"));
-            labelNit.setText(String.valueOf(tablaFactura.getValueAt(fila,6)));
+            labelNombre.setText(deudor.getDato("nit", "'" + String.valueOf(tablaFactura.getValueAt(fila, 6)) + "'", "cliente", "nombre"));
+            labelApellido.setText(deudor.getDato("nit", "'" + String.valueOf(tablaFactura.getValueAt(fila, 6)) + "'", "cliente", "apellido"));
+            labelTelefono.setText(deudor.getDato("nit", "'" + String.valueOf(tablaFactura.getValueAt(fila, 6)) + "'", "cliente", "telefono"));
+            labelCorreo.setText(deudor.getDato("nit", "'" + String.valueOf(tablaFactura.getValueAt(fila, 6)) + "'", "cliente", "correo"));
+            labelNit.setText(String.valueOf(tablaFactura.getValueAt(fila, 6)));
             //datos de la factura 
-            labelTotal.setText(String.valueOf(tablaFactura.getValueAt(fila,1)));
-            labelFecha.setText(String.valueOf(tablaFactura.getValueAt(fila,4)));  
-            labelNumFactura.setText(deudor.getDato("id",String.valueOf(tablaFactura.getValueAt(fila,0)),"factura","numFactura"));
+            labelTotal.setText(String.valueOf(tablaFactura.getValueAt(fila, 1)));
+            labelFecha.setText(String.valueOf(tablaFactura.getValueAt(fila, 4)));
+            labelNumFactura.setText(deudor.getDato("id", String.valueOf(tablaFactura.getValueAt(fila, 0)), "factura", "numFactura"));
             //llenar tabla producto.
-           consulta = " select  P.id,P.nombre,DP.cantidad,DP.precio,DP.total from  detalle_pro DP\n" +
-" inner join factura F on DP.factura_id = F.id\n" +
-" inner join producto P on DP.producto_id = P.id \n" +
-" inner join cliente C on F.cliente_id = C.id\n" +
-" where  F.id = "+String.valueOf(tablaFactura.getValueAt(fila,0));
-            tablaPro.llenarTable(consulta,"","","","","", tituloProducto); 
-            labelCantidadProducto.setText(tablaProducto.getRowCount()+"");
+            consulta = " select  P.id,P.nombre,DP.cantidad,DP.precio,DP.total from  detalle_pro DP\n"
+                    + " inner join factura F on DP.factura_id = F.id\n"
+                    + " inner join producto P on DP.producto_id = P.id \n"
+                    + " inner join cliente C on F.cliente_id = C.id\n"
+                    + " where  F.id = " + String.valueOf(tablaFactura.getValueAt(fila, 0));
+            tablaPro.llenarTable(consulta, "", "", "", "", "", tituloProducto);
+            labelCantidadProducto.setText(tablaProducto.getRowCount() + "");
             //llenar tabla pagos.
-            consulta = "select P.id,P.abono,P.numPago,P.fecha from factura_has_pago FP\n" +
-" inner join factura F on FP.factura_id = F.id\n" +
-" inner join pago P on FP.pago_id = P.id where F.id = "+String.valueOf(tablaFactura.getValueAt(fila,0));
-            tablaPago1.llenarTable(consulta,"","","","","", tituloPago);
-            labelTotalPagos.setText(""+tablaPago1.sumaFlotanteColumna(1));
-            labelCantidadPagos.setText(tablaPago.getRowCount()+"");
-            
+            consulta = "select P.id,P.abono,P.numPago,P.fecha from factura_has_pago FP\n"
+                    + " inner join factura F on FP.factura_id = F.id\n"
+                    + " inner join pago P on FP.pago_id = P.id where F.id = " + String.valueOf(tablaFactura.getValueAt(fila, 0));
+            tablaPago1.llenarTable(consulta, "", "", "", "", "", tituloPago);
+            labelTotalPagos.setText("" + tablaPago1.sumaFlotanteColumna(1));
+            labelCantidadPagos.setText(tablaPago.getRowCount() + "");
+
             //moverse al panel de detalle 
             tabbed.setSelectedIndex(1);
-            tabbed.setEnabledAt(1,true);
-            tabbed.setEnabledAt(0,false);
+            tabbed.setEnabledAt(1, true);
+            tabbed.setEnabledAt(0, false);
             botonRegresar.setEnabled(true);
             botonDetalle.setEnabled(false);
-            if(Float.parseFloat(labelTotal.getText())>Float.parseFloat(labelTotalPagos.getText())){
+            if (Float.parseFloat(labelTotal.getText()) > Float.parseFloat(labelTotalPagos.getText())) {
                 botonAbono.setEnabled(true);
             }
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"Seleccione una factura","Advertencia",JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione una factura", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_botonDetalleActionPerformed
 
     private void botonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegresarActionPerformed
-            tabbed.setSelectedIndex(0);
-            tabbed.setEnabledAt(0,true);
-            tabbed.setEnabledAt(1,false);
-            botonRegresar.setEnabled(false);
-            botonDetalle.setEnabled(true);
-            botonAbono.setEnabled(false);
+        tabbed.setSelectedIndex(0);
+        tabbed.setEnabledAt(0, true);
+        tabbed.setEnabledAt(1, false);
+        botonRegresar.setEnabled(false);
+        botonDetalle.setEnabled(true);
+        botonAbono.setEnabled(false);
     }//GEN-LAST:event_botonRegresarActionPerformed
 
     private void botonAbonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAbonoActionPerformed
-        String cantiCadena,idCliente,idFactura,columnas,datos,idPago,consulta;
-         TablaId tablaPago1 = new TablaId(tablaPago);
+        String cantiCadena, idCliente, idFactura, columnas, datos, idPago, consulta;
+        TablaId tablaPago1 = new TablaId(tablaPago);
         cantiCadena = JOptionPane.showInputDialog("Ingrese el pago");
-       if(cantiCadena!=null){
-           if(deudor.esFlotante(cantiCadena)){
-               if(Float.parseFloat(cantiCadena)>0){
+        if (cantiCadena != null) {
+            if (deudor.esFlotante(cantiCadena)) {
+                if (Float.parseFloat(cantiCadena) > 0) {
                     //obtener id de cliente y de factura 
-               idCliente = deudor.getDato("nit","'"+labelNit.getText()+"'","cliente","id");
-               System.out.println(idCliente);
-               idFactura = deudor.getDato("numFactura","'"+labelNumFactura.getText()+"'","factura","id");
-               System.out.println(idFactura);
-               //realizar el pago que esta relacionado con el cliente 
-               columnas = "abono,cliente_id,numPago,fecha";
-               datos = cantiCadena+","+idCliente+",'"+deudor.generarCodigo("numPago","pago","PD")+"','"+deudor.fecha()+"'";
-               deudor.nuevoRegistro(columnas,datos,"pago");
-               
-               //obtener el ultimo id de pago
-               idPago = deudor.getUltimoId("id","pago");
-               System.out.println(idPago);
-               
-              
-               //relacionar el ultimo pago con la factura
-               columnas = "factura_id,pago_id";
-               datos = idFactura+","+idPago;
-               deudor.nuevoRegistro(columnas,datos,"factura_has_pago");
-               
-               //consulta a los pagos de la factura, para actualizar
-               consulta = "select P.id,P.abono,P.numPago,P.fecha from factura_has_pago FP\n" +
-               " inner join factura F on FP.factura_id = F.id\n" +
-               " inner join pago P on FP.pago_id = P.id where F.id = "+idFactura;
-               tablaPago1.llenarTable(consulta,"","","","","", tituloPago);
-               //obtener el recibo de pago
-               generarRecibo();
-               //actualizar el label donde esta el total o suma de los pagos 
-               labelTotalPagos.setText(""+tablaPago1.sumaFlotanteColumna(1));
-               labelCantidadPagos.setText(""+tablaPago.getRowCount());
-               if(tablaPago1.sumaFlotanteColumna(1)>=Float.parseFloat(labelTotal.getText())){//si el total de los pagos es mayor igual al total de la factura el boton de abono se bloquea
-                  botonAbono.setEnabled(false);
-             }
-               }
-               else{
-                   JOptionPane.showMessageDialog(null,"El pago debe de ser mayor a cero","Advertencia",JOptionPane.WARNING_MESSAGE);
-               }
-              
+                    idCliente = deudor.getDato("nit", "'" + labelNit.getText() + "'", "cliente", "id");
+                    System.out.println(idCliente);
+                    idFactura = deudor.getDato("numFactura", "'" + labelNumFactura.getText() + "'", "factura", "id");
+                    System.out.println(idFactura);
+                    //realizar el pago que esta relacionado con el cliente 
+                    columnas = "abono,cliente_id,numPago,fecha";
+                    datos = cantiCadena + "," + idCliente + ",'" + deudor.generarCodigo("numPago", "pago", "PD") + "','" + deudor.fecha() + "'";
+                    deudor.nuevoRegistro(columnas, datos, "pago");
 
-               
-           }
-           else{
-              JOptionPane.showMessageDialog(null,"Solo ingrese digitos","Adverttencia",JOptionPane.WARNING_MESSAGE);
-           }
-       }
-       
+                    //obtener el ultimo id de pago
+                    idPago = deudor.getUltimoId("id", "pago");
+                    System.out.println(idPago);
+
+                    //relacionar el ultimo pago con la factura
+                    columnas = "factura_id,pago_id";
+                    datos = idFactura + "," + idPago;
+                    deudor.nuevoRegistro(columnas, datos, "factura_has_pago");
+
+                    //consulta a los pagos de la factura, para actualizar
+                    consulta = "select P.id,P.abono,P.numPago,P.fecha from factura_has_pago FP\n"
+                            + " inner join factura F on FP.factura_id = F.id\n"
+                            + " inner join pago P on FP.pago_id = P.id where F.id = " + idFactura;
+                    tablaPago1.llenarTable(consulta, "", "", "", "", "", tituloPago);
+                    //obtener el recibo de pago
+                    generarRecibo();
+                    //actualizar el label donde esta el total o suma de los pagos 
+                    labelTotalPagos.setText("" + tablaPago1.sumaFlotanteColumna(1));
+                    labelCantidadPagos.setText("" + tablaPago.getRowCount());
+                    if (tablaPago1.sumaFlotanteColumna(1) >= Float.parseFloat(labelTotal.getText())) {//si el total de los pagos es mayor igual al total de la factura el boton de abono se bloquea
+                        botonAbono.setEnabled(false);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "El pago debe de ser mayor a cero", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Solo ingrese digitos", "Adverttencia", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+
     }//GEN-LAST:event_botonAbonoActionPerformed
 
     private void botonReporteFactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteFactActionPerformed
-        if(radioDeudor.isSelected()){
+        if (radioDeudor.isSelected()) {
             try {
-            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
-              Connection con = conexion.getConexion();
-             InputStream archivo=getClass().getResourceAsStream("/Reporte/deudoresVenta.jrxml");
-             JasperDesign dise = JRXmlLoader.load(archivo);
-             JasperReport jr = JasperCompileManager.compileReport(dise);
-             JasperPrint jp = JasperFillManager.fillReport(jr,null,con);
-             JasperViewer.viewReport(jp,false); 
-         } catch (JRException ex) {
-             Logger.getLogger(Deudor2.class.getName()).log(Level.SEVERE, null, ex);
-         }  
-        }
-        else{
-             try {
-            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
-              Connection con = conexion.getConexion();
-             InputStream archivo=getClass().getResourceAsStream("/Reporte/deudoresVenta2.jrxml");
-             JasperDesign dise = JRXmlLoader.load(archivo);
-             JasperReport jr = JasperCompileManager.compileReport(dise);
-             JasperPrint jp = JasperFillManager.fillReport(jr,null,con);
-             JasperViewer.viewReport(jp,false); 
-         } catch (JRException ex) {
-             Logger.getLogger(Deudor2.class.getName()).log(Level.SEVERE, null, ex);
-         } 
+                //ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+                Connection con = conexion.conexionMySQL.getConexion();
+                InputStream archivo = getClass().getResourceAsStream("/Reporte/deudoresVenta.jrxml");
+                JasperDesign dise = JRXmlLoader.load(archivo);
+                JasperReport jr = JasperCompileManager.compileReport(dise);
+                JasperPrint jp = JasperFillManager.fillReport(jr, null, con);
+                JasperViewer.viewReport(jp, false);
+            } catch (JRException ex) {
+                Logger.getLogger(Deudor2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                //ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+                Connection con = conexion.conexionMySQL.getConexion();
+                InputStream archivo = getClass().getResourceAsStream("/Reporte/deudoresVenta2.jrxml");
+                JasperDesign dise = JRXmlLoader.load(archivo);
+                JasperReport jr = JasperCompileManager.compileReport(dise);
+                JasperPrint jp = JasperFillManager.fillReport(jr, null, con);
+                JasperViewer.viewReport(jp, false);
+            } catch (JRException ex) {
+                Logger.getLogger(Deudor2.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }//GEN-LAST:event_botonReporteFactActionPerformed
 
     private void botonReportePagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReportePagoActionPerformed
-       try {
-            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
-              Connection con = conexion.getConexion();
-             InputStream archivo=getClass().getResourceAsStream("/Reporte/factura.jrxml");
-            
-             HashMap parametros = new HashMap();
-             parametros.put("id",labelNumFactura.getText());
-             parametros.put("idpago",labelNumFactura.getText());
-             parametros.put("nit",labelNit.getText());
-             parametros.put("nombre",labelNombre.getText());
-             parametros.put("apellido",labelApellido.getText());
-             parametros.put("numFactura",labelNumFactura.getText());
-             parametros.put("total",labelTotal.getText());
-             
-             JasperDesign dise = JRXmlLoader.load(archivo);
-             JasperReport jr = JasperCompileManager.compileReport(dise);
-             JasperPrint jp = JasperFillManager.fillReport(jr,parametros,con);
-             JasperViewer.viewReport(jp,false); 
-         } catch (JRException ex) {
-             Logger.getLogger(Deudor2.class.getName()).log(Level.SEVERE, null, ex);
-         }
+        try {
+            //ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+            Connection con = conexion.conexionMySQL.getConexion();
+            InputStream archivo = getClass().getResourceAsStream("/Reporte/factura.jrxml");
+
+            HashMap parametros = new HashMap();
+            parametros.put("id", labelNumFactura.getText());
+            parametros.put("idpago", labelNumFactura.getText());
+            parametros.put("nit", labelNit.getText());
+            parametros.put("nombre", labelNombre.getText());
+            parametros.put("apellido", labelApellido.getText());
+            parametros.put("numFactura", labelNumFactura.getText());
+            parametros.put("total", labelTotal.getText());
+
+            JasperDesign dise = JRXmlLoader.load(archivo);
+            JasperReport jr = JasperCompileManager.compileReport(dise);
+            JasperPrint jp = JasperFillManager.fillReport(jr, parametros, con);
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(Deudor2.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_botonReportePagoActionPerformed
 
     private void botonDetalleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonDetalleMouseEntered
-          if(botonDetalle.isEnabled()){
-             botonDetalle.setBackground(new Color(255,102,51));
+        if (botonDetalle.isEnabled()) {
+            botonDetalle.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonDetalleMouseEntered
 
     private void botonDetalleMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonDetalleMouseExited
-         botonDetalle.setBackground(Color.WHITE);
+        botonDetalle.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonDetalleMouseExited
 
     private void botonAbonoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonAbonoMouseEntered
-        if(botonAbono.isEnabled()){
-             botonAbono.setBackground(new Color(255,102,51));
+        if (botonAbono.isEnabled()) {
+            botonAbono.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonAbonoMouseEntered
 
     private void botonAbonoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonAbonoMouseExited
-       botonAbono.setBackground(Color.WHITE);
+        botonAbono.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonAbonoMouseExited
 
     private void botonRegresarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonRegresarMouseEntered
-        if(botonRegresar.isEnabled()){
-             botonRegresar.setBackground(new Color(255,102,51));
+        if (botonRegresar.isEnabled()) {
+            botonRegresar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonRegresarMouseEntered
 
     private void botonRegresarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonRegresarMouseExited
-         botonRegresar.setBackground(Color.WHITE);
+        botonRegresar.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonRegresarMouseExited
 
     private void botonCargarNitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCargarNitMouseEntered
-       if(botonCargarNit.isEnabled()){
-             botonCargarNit.setBackground(new Color(255,102,51));
+        if (botonCargarNit.isEnabled()) {
+            botonCargarNit.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonCargarNitMouseEntered
 
@@ -1069,8 +1060,8 @@ private void generarRecibo(){
     }//GEN-LAST:event_botonCargarNitMouseExited
 
     private void botonCargarFechaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCargarFechaMouseEntered
-        if(botonCargarFecha.isEnabled()){
-             botonCargarFecha.setBackground(new Color(255,102,51));
+        if (botonCargarFecha.isEnabled()) {
+            botonCargarFecha.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonCargarFechaMouseEntered
 
@@ -1079,18 +1070,18 @@ private void generarRecibo(){
     }//GEN-LAST:event_botonCargarFechaMouseExited
 
     private void botonReporteFactMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonReporteFactMouseEntered
-        if(botonReporteFact.isEnabled()){
-             botonReporteFact.setBackground(new Color(255,102,51));
+        if (botonReporteFact.isEnabled()) {
+            botonReporteFact.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonReporteFactMouseEntered
 
     private void botonReporteFactMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonReporteFactMouseExited
-         botonReporteFact.setBackground(Color.WHITE);
+        botonReporteFact.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonReporteFactMouseExited
 
     private void botonReportePagoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonReportePagoMouseEntered
-        if(botonReportePago.isEnabled()){
-             botonReportePago.setBackground(new Color(255,102,51));
+        if (botonReportePago.isEnabled()) {
+            botonReportePago.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonReportePagoMouseEntered
 

@@ -5,9 +5,7 @@
  */
 package InternalFrame;
 
-import Clases.TablaId;
-import Clases.Modulo;
-import Clases.ConexionMySQL;
+import Clases.*;
 import java.awt.Color;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -34,20 +32,20 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class Cliente2 extends javax.swing.JInternalFrame {
 
-     private  String[]  titulos = {"Id","Nombre","Apellido","Nit","Telefono","Correo"}; 
-     private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",usuario ="root",contra = "xela2020"
-             ,iDcliente = "",nitAnterior = "";
-     private ConexionMySQL conexion;
-     private int opcion;
-     private Modulo cliente;
+    private String[] titulos = {"Id", "Nombre", "Apellido", "Nit", "Telefono", "Correo"};
+    private String iDcliente = "", nitAnterior = "";
+    private int opcion;
+    private Modulo cliente;
+    private VariableGlobal conexion;
+
     public Cliente2(int tipo) {
         initComponents();
-        conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+        conexion = new VariableGlobal();
         botonCancelar.setEnabled(false);
         botonGuardar.setEnabled(false);
-        tabbed.setEnabledAt(1,false);
+        tabbed.setEnabledAt(1, false);
         cliente = new Modulo();
-        if(tipo == 0){
+        if (tipo == 0) {
             botonNuevo.setEnabled(false);
             botonEditar.setEnabled(false);
             botonReporte.setEnabled(false);
@@ -473,203 +471,201 @@ public class Cliente2 extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-private void limpiarPanel(){
-    txtNombre.setText("");
-    txtApellido.setText("");
-    txtTelefono.setText("");
-    txtCorreo1.setText("");
-    txtNit.setText("");
-    
-    botonCancelar.setEnabled(false);
-    botonGuardar.setEnabled(false);
-    
-    botonNuevo.setEnabled(true);
-    botonEditar.setEnabled(true);
-    botonReporte.setEnabled(true);
-    
-    tabbed.setEnabledAt(1,false);
-    tabbed.setEnabledAt(0,true);
-    tabbed.setSelectedIndex(0);
-}
-private void activarBotones(){
-    botonCancelar.setEnabled(true);
-    botonGuardar.setEnabled(true);
-    
-    botonNuevo.setEnabled(false);
-    botonEditar.setEnabled(false);
-    botonReporte.setEnabled(false);
-    
-    tabbed.setEnabledAt(0,false);
-    tabbed.setEnabledAt(1,true);
-    tabbed.setSelectedIndex(1);
-}
-private void cargarTablaId(String consulta, String parametroEntrada, String formaParametro, String formaId, String extra,String entrada,JTable tabla, String[] titulo){
-    TablaId tablaLlena = new TablaId(tabla);
-    tablaLlena.llenarTable(consulta, parametroEntrada, formaParametro, formaId, extra, entrada, titulo);
-    tabla = tablaLlena.getTabla();
-}
-private void nuevoCliente(String nombre,String apellido, String nit, String telefono, String correo){
-    conexion.EjecutarInstruccion("insert into cliente (nombre,apellido,nit,telefono,correo)\n"+
-            "values('"+nombre+"','"+apellido+"','"+nit+"','"+telefono+"','"+correo+"')");
-}
-private void modificarCliente(String nombre,String apellido, String nit, String telefono, String correo,String idCliente){
-     conexion.EjecutarInstruccion("UPDATE cliente SET nombre = '"+nombre+"',apellido = '"+apellido+"',nit = '"+nit+"',telefono = '"+
-                telefono+"',correo = '"+correo+"'"+" WHERE id = "+idCliente);
-}
-private boolean existeCliente(String parametro,String tabla, String formaParametro){
-     boolean existe = false;
+private void limpiarPanel() {
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtTelefono.setText("");
+        txtCorreo1.setText("");
+        txtNit.setText("");
+
+        botonCancelar.setEnabled(false);
+        botonGuardar.setEnabled(false);
+
+        botonNuevo.setEnabled(true);
+        botonEditar.setEnabled(true);
+        botonReporte.setEnabled(true);
+
+        tabbed.setEnabledAt(1, false);
+        tabbed.setEnabledAt(0, true);
+        tabbed.setSelectedIndex(0);
+    }
+
+    private void activarBotones() {
+        botonCancelar.setEnabled(true);
+        botonGuardar.setEnabled(true);
+
+        botonNuevo.setEnabled(false);
+        botonEditar.setEnabled(false);
+        botonReporte.setEnabled(false);
+
+        tabbed.setEnabledAt(0, false);
+        tabbed.setEnabledAt(1, true);
+        tabbed.setSelectedIndex(1);
+    }
+
+    private void cargarTablaId(String consulta, String parametroEntrada, String formaParametro, String formaId, String extra, String entrada, JTable tabla, String[] titulo) {
+        TablaId tablaLlena = new TablaId(tabla);
+        tablaLlena.llenarTable(consulta, parametroEntrada, formaParametro, formaId, extra, entrada, titulo);
+        tabla = tablaLlena.getTabla();
+    }
+
+    private void nuevoCliente(String nombre, String apellido, String nit, String telefono, String correo) {
+        conexion.conexionMySQL.EjecutarInstruccion("insert into cliente (nombre,apellido,nit,telefono,correo)\n"
+                + "values('" + nombre + "','" + apellido + "','" + nit + "','" + telefono + "','" + correo + "')");
+    }
+
+    private void modificarCliente(String nombre, String apellido, String nit, String telefono, String correo, String idCliente) {
+        conexion.conexionMySQL.EjecutarInstruccion("UPDATE cliente SET nombre = '" + nombre + "',apellido = '" + apellido + "',nit = '" + nit + "',telefono = '"
+                + telefono + "',correo = '" + correo + "'" + " WHERE id = " + idCliente);
+    }
+
+    private boolean existeCliente(String parametro, String tabla, String formaParametro) {
+        boolean existe = false;
         try {
-            conexion.EjecutarConsulta("SELECT COUNT(*) FROM "+tabla +" WHERE "+formaParametro+" = "+parametro+"");
-            ResultSet rs = conexion.getResulSet();
+            conexion.conexionMySQL.EjecutarConsulta("SELECT COUNT(*) FROM " + tabla + " WHERE " + formaParametro + " = " + parametro + "");
+            ResultSet rs = conexion.conexionMySQL.getResulSet();
             rs.next();
-            if(rs.getInt(1)>0){
+            if (rs.getInt(1) > 0) {
                 existe = true;
-            }   
+            }
         } catch (SQLException ex) {
-             System.out.println(ex.getMessage());
+            System.out.println(ex.getMessage());
         }
-        return existe;  
-}
+        return existe;
+    }
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
-     String consulta = "select * from cliente";
-        cargarTablaId(consulta, txtCargar.getText(),"nit","id","","where", tablaCliente, titulos);
+        String consulta = "select * from cliente";
+        cargarTablaId(consulta, txtCargar.getText(), "nit", "id", "", "where", tablaCliente, titulos);
     }//GEN-LAST:event_botonCargarActionPerformed
 
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
-      activarBotones();
-      opcion = 1;
+        activarBotones();
+        opcion = 1;
     }//GEN-LAST:event_botonNuevoActionPerformed
 
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
-       int fila = tablaCliente.getSelectedRow();
-       if(fila>=0){
-          activarBotones();
-          opcion = 0;
-          iDcliente = String.valueOf(tablaCliente.getValueAt(fila,0));
-          txtNombre.setText(String.valueOf(tablaCliente.getValueAt(fila,1)));
-          txtApellido.setText(String.valueOf(tablaCliente.getValueAt(fila,2)));
-          txtNit.setText(String.valueOf(tablaCliente.getValueAt(fila,3)));
-          txtTelefono.setText(String.valueOf(tablaCliente.getValueAt(fila,4)));
-          txtCorreo1.setText(String.valueOf(tablaCliente.getValueAt(fila,5)));
-          
-          nitAnterior = txtNit.getText();
-       }
-       else{
-           JOptionPane.showMessageDialog(null,"Seleccione un cliente","Advertencia",JOptionPane.WARNING_MESSAGE);
-       }
-        
+        int fila = tablaCliente.getSelectedRow();
+        if (fila >= 0) {
+            activarBotones();
+            opcion = 0;
+            iDcliente = String.valueOf(tablaCliente.getValueAt(fila, 0));
+            txtNombre.setText(String.valueOf(tablaCliente.getValueAt(fila, 1)));
+            txtApellido.setText(String.valueOf(tablaCliente.getValueAt(fila, 2)));
+            txtNit.setText(String.valueOf(tablaCliente.getValueAt(fila, 3)));
+            txtTelefono.setText(String.valueOf(tablaCliente.getValueAt(fila, 4)));
+            txtCorreo1.setText(String.valueOf(tablaCliente.getValueAt(fila, 5)));
+
+            nitAnterior = txtNit.getText();
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione un cliente", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+
     }//GEN-LAST:event_botonEditarActionPerformed
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-        
-        if(txtNombre.getText().length()>0 && txtApellido.getText().length()>0 && txtNit.getText().length()>0){
-              
-                 if(opcion == 1){
-                     if(existeCliente("'"+txtNit.getText()+"'","cliente","nit")){
-                  JOptionPane.showMessageDialog(null,"Ya existe un cliente con el NIT ingresado","Error",JOptionPane.ERROR_MESSAGE);
-                  }
-                     else{
-                         int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta deacuerdo con el nuevo cliente? \n"+"Nombre: "+txtNombre.getText()
-                    +"\nApellido: "+txtApellido.getText()+"\nNIT: "+txtNit.getText()+"\nTelefono: "+txtTelefono.getText()+"\nCorreo: "+txtCorreo1.getText(),"Advertencia",
-                    JOptionPane.YES_NO_OPTION);
-                     
-                     if(res == 0){
-                       nuevoCliente(txtNombre.getText(),txtApellido.getText(),txtNit.getText(),txtTelefono.getText(),txtCorreo1.getText());
-                       JOptionPane.showMessageDialog(null,"Cliente ingresado correctamente");
-                       limpiarPanel();
-                     }
-                     
-                     } 
-                  }
-                  else{
-                     if(( txtNit.getText().equals(nitAnterior))||((!txtNit.getText().equals(nitAnterior)&&!existeCliente(txtNit.getText(),"cliente","nit")))){
-                         System.out.println("entro");
-                         
-                     int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta deacuerdo con la modificacion del cliente? \n"+"Nombre: "+txtNombre.getText()
-                    +"\nApellido: "+txtApellido.getText()+"\nNIT: "+txtNit.getText()+"\nTelefono: "+txtTelefono.getText()+"\nCorreo: "+txtCorreo1.getText(),"Advertencia",
-                    JOptionPane.YES_NO_OPTION);
-                     
-                     if(res == 0){
-                       modificarCliente(txtNombre.getText(),txtApellido.getText(),txtNit.getText(),txtTelefono.getText(),txtCorreo1.getText(),iDcliente);
-                       JOptionPane.showMessageDialog(null,"Cliente modificado");
-                       limpiarPanel();    
-                     }
-                     
-                     }
-                     else{
-                         JOptionPane.showMessageDialog(null,"Ya existe un cliente con el NIT ingresado","Error",JOptionPane.ERROR_MESSAGE); 
-                     }
-                      
-                  }
-             
-      }
-      else{
-        JOptionPane.showMessageDialog(null,"Llene los campos abligatorios","Advertencia",JOptionPane.WARNING_MESSAGE);
-    }
+
+        if (txtNombre.getText().length() > 0 && txtApellido.getText().length() > 0 && txtNit.getText().length() > 0) {
+
+            if (opcion == 1) {
+                if (existeCliente("'" + txtNit.getText() + "'", "cliente", "nit")) {
+                    JOptionPane.showMessageDialog(null, "Ya existe un cliente con el NIT ingresado", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    int res = JOptionPane.showConfirmDialog(rootPane, "¿Esta deacuerdo con el nuevo cliente? \n" + "Nombre: " + txtNombre.getText()
+                            + "\nApellido: " + txtApellido.getText() + "\nNIT: " + txtNit.getText() + "\nTelefono: " + txtTelefono.getText() + "\nCorreo: " + txtCorreo1.getText(), "Advertencia",
+                            JOptionPane.YES_NO_OPTION);
+
+                    if (res == 0) {
+                        nuevoCliente(txtNombre.getText(), txtApellido.getText(), txtNit.getText(), txtTelefono.getText(), txtCorreo1.getText());
+                        JOptionPane.showMessageDialog(null, "Cliente ingresado correctamente");
+                        limpiarPanel();
+                    }
+
+                }
+            } else {
+                if ((txtNit.getText().equals(nitAnterior)) || ((!txtNit.getText().equals(nitAnterior) && !existeCliente(txtNit.getText(), "cliente", "nit")))) {
+                    System.out.println("entro");
+
+                    int res = JOptionPane.showConfirmDialog(rootPane, "¿Esta deacuerdo con la modificacion del cliente? \n" + "Nombre: " + txtNombre.getText()
+                            + "\nApellido: " + txtApellido.getText() + "\nNIT: " + txtNit.getText() + "\nTelefono: " + txtTelefono.getText() + "\nCorreo: " + txtCorreo1.getText(), "Advertencia",
+                            JOptionPane.YES_NO_OPTION);
+
+                    if (res == 0) {
+                        modificarCliente(txtNombre.getText(), txtApellido.getText(), txtNit.getText(), txtTelefono.getText(), txtCorreo1.getText(), iDcliente);
+                        JOptionPane.showMessageDialog(null, "Cliente modificado");
+                        limpiarPanel();
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ya existe un cliente con el NIT ingresado", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Llene los campos abligatorios", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
-       limpiarPanel();
+        limpiarPanel();
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void botonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteActionPerformed
-try {
+        try {
             //ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
-              Connection con = conexion.getConexion();
-             InputStream archivo=getClass().getResourceAsStream("/Reporte/Cliente.jrxml");
-             JasperDesign dise = JRXmlLoader.load(archivo);
-             JasperReport jr = JasperCompileManager.compileReport(dise);
-             JasperPrint jp = JasperFillManager.fillReport(jr,null,con);
-             JasperViewer.viewReport(jp,false); 
-         } catch (JRException ex) {
-             Logger.getLogger(Cliente2.class.getName()).log(Level.SEVERE, null, ex);
-         }       
+            Connection con = conexion.conexionMySQL.getConexion();
+            InputStream archivo = getClass().getResourceAsStream("/Reporte/Cliente.jrxml");
+            JasperDesign dise = JRXmlLoader.load(archivo);
+            JasperReport jr = JasperCompileManager.compileReport(dise);
+            JasperPrint jp = JasperFillManager.fillReport(jr, null, con);
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(Cliente2.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_botonReporteActionPerformed
 
     private void eliminarEmergenteClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarEmergenteClienteActionPerformed
-       int fila = tablaCliente.getSelectedRow(),confirmar;
-       String idCliente;
-       if(fila>=0){
-           idCliente = String.valueOf(tablaCliente.getValueAt(fila,0));
-           confirmar = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar el cliente?\n"+"Se eliminaran las facturas relacionadas con el cliente",
-                   "Advertenci",JOptionPane.YES_NO_OPTION);
-           if(confirmar == 0){
-            cliente.eliminarRegistro(idCliente,"cliente","id");
-           JOptionPane.showMessageDialog(null,"El cliente se elimino");
-           String consulta = "select * from cliente";
-           cargarTablaId(consulta,"","nit","id","","where", tablaCliente, titulos);
-           }
-         
-           
-       }
-       else{
-           JOptionPane.showMessageDialog(null,"Seleccione un cliente","Advertencia",JOptionPane.WARNING_MESSAGE);
-       }
+        int fila = tablaCliente.getSelectedRow(), confirmar;
+        String idCliente;
+        if (fila >= 0) {
+            idCliente = String.valueOf(tablaCliente.getValueAt(fila, 0));
+            confirmar = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar el cliente?\n" + "Se eliminaran las facturas relacionadas con el cliente",
+                    "Advertenci", JOptionPane.YES_NO_OPTION);
+            if (confirmar == 0) {
+                cliente.eliminarRegistro(idCliente, "cliente", "id");
+                JOptionPane.showMessageDialog(null, "El cliente se elimino");
+                String consulta = "select * from cliente";
+                cargarTablaId(consulta, "", "nit", "id", "", "where", tablaCliente, titulos);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione un cliente", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_eliminarEmergenteClienteActionPerformed
 
     private void botonNuevoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonNuevoMouseEntered
-       if(botonNuevo.isEnabled()){
-             botonNuevo.setBackground(new Color(255,102,51));
+        if (botonNuevo.isEnabled()) {
+            botonNuevo.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonNuevoMouseEntered
 
     private void botonNuevoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonNuevoMouseExited
-          botonNuevo.setBackground(Color.WHITE);
+        botonNuevo.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonNuevoMouseExited
 
     private void botonEditarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEditarMouseEntered
-      if(botonEditar.isEnabled()){
-             botonEditar.setBackground(new Color(255,102,51));
+        if (botonEditar.isEnabled()) {
+            botonEditar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonEditarMouseEntered
 
     private void botonEditarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEditarMouseExited
-         botonEditar.setBackground(Color.WHITE);
+        botonEditar.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonEditarMouseExited
 
     private void botonGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonGuardarMouseEntered
-        if(botonGuardar.isEnabled()){
-             botonGuardar.setBackground(new Color(255,102,51));
+        if (botonGuardar.isEnabled()) {
+            botonGuardar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonGuardarMouseEntered
 
@@ -678,8 +674,8 @@ try {
     }//GEN-LAST:event_botonGuardarMouseExited
 
     private void botonCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCancelarMouseEntered
-        if(botonCancelar.isEnabled()){
-             botonCancelar.setBackground(new Color(255,102,51));
+        if (botonCancelar.isEnabled()) {
+            botonCancelar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonCancelarMouseEntered
 
@@ -688,8 +684,8 @@ try {
     }//GEN-LAST:event_botonCancelarMouseExited
 
     private void botonReporteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonReporteMouseEntered
-        if(botonReporte.isEnabled()){
-             botonReporte.setBackground(new Color(255,102,51));
+        if (botonReporte.isEnabled()) {
+            botonReporte.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonReporteMouseEntered
 
@@ -698,13 +694,13 @@ try {
     }//GEN-LAST:event_botonReporteMouseExited
 
     private void botonCargarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCargarMouseEntered
-        if(botonCargar.isEnabled()){
-             botonCargar.setBackground(new Color(255,102,51));
+        if (botonCargar.isEnabled()) {
+            botonCargar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonCargarMouseEntered
 
     private void botonCargarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCargarMouseExited
-         botonCargar.setBackground(Color.WHITE);
+        botonCargar.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonCargarMouseExited
 
 

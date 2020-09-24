@@ -5,8 +5,7 @@
  */
 package InternalFrame;
 
-import Clases.Modulo;
-import Clases.ConexionMySQL;
+import Clases.*;
 import java.awt.Color;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -33,20 +32,22 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class Proveedor extends javax.swing.JInternalFrame {
 
-    private ConexionMySQL conexion;
-    private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
-             usuario ="root",contra = "xela2020", nombreAnterior, idProveedor;
-    private  String[] titulos = {"Id","Nombre","Telefono","Celular","Direccion","Correo","No. Cuenta"};
+    //private ConexionMySQL conexion;
+    private String localhost = "localhost", puerto = "3305", baseDeDatos = "proyectobd3",
+            usuario = "root", contra = "xela2020", nombreAnterior, idProveedor;
+    private String[] titulos = {"Id", "Nombre", "Telefono", "Celular", "Direccion", "Correo", "No. Cuenta"};
     private int opcion;
     private Modulo proveedor;
+    private VariableGlobal conexion;
+
     public Proveedor(int tipo) {
         initComponents();
         botonCancelar.setEnabled(false);
         botonGuardar.setEnabled(false);
-        tabbed.setEnabledAt(1,false);
-        conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+        tabbed.setEnabledAt(1, false);
+        conexion = new VariableGlobal();
         proveedor = new Modulo();
-        if(tipo == 0){
+        if (tipo == 0) {
             botonNuevo.setEnabled(false);
             botonEditar.setEnabled(false);
             botonReporte.setEnabled(false);
@@ -482,261 +483,259 @@ public class Proveedor extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-private void activarBotones(){
-    botonNuevo.setEnabled(false);
-    botonEditar.setEnabled(false);
-    botonReporte.setEnabled(false);
-    
-    botonCancelar.setEnabled(true);
-    botonGuardar.setEnabled(true);
-}
-private void limpiarPanel(){
-    txtCelular.setText("");
-    txtCorreo.setText("");
-    txtDireccion.setText("");
-    txtNombre.setText("");
-    txtNumCuenta.setText("");
-    txtTelefono.setText("");
-    
-    botonNuevo.setEnabled(true);
-    botonEditar.setEnabled(true);
-    botonReporte.setEnabled(true);
-    
-    botonCancelar.setEnabled(false);
-    botonGuardar.setEnabled(false);
-    
-     tabbed.setEnabledAt(1,false);
-     tabbed.setEnabledAt(0,true);
-     tabbed.setSelectedIndex(0);
-     
-}
-private void cargarTabla(String consulta, String txt, String nombre, String id, String extra, JTable tabla, String[] titulo){
-    String campo = txt;
+private void activarBotones() {
+        botonNuevo.setEnabled(false);
+        botonEditar.setEnabled(false);
+        botonReporte.setEnabled(false);
+
+        botonCancelar.setEnabled(true);
+        botonGuardar.setEnabled(true);
+    }
+
+    private void limpiarPanel() {
+        txtCelular.setText("");
+        txtCorreo.setText("");
+        txtDireccion.setText("");
+        txtNombre.setText("");
+        txtNumCuenta.setText("");
+        txtTelefono.setText("");
+
+        botonNuevo.setEnabled(true);
+        botonEditar.setEnabled(true);
+        botonReporte.setEnabled(true);
+
+        botonCancelar.setEnabled(false);
+        botonGuardar.setEnabled(false);
+
+        tabbed.setEnabledAt(1, false);
+        tabbed.setEnabledAt(0, true);
+        tabbed.setSelectedIndex(0);
+
+    }
+
+    private void cargarTabla(String consulta, String txt, String nombre, String id, String extra, JTable tabla, String[] titulo) {
+        String campo = txt;
         String where = "";
-        if(!"".equals(campo)){
-            where = " WHERE "+id+ "= "+campo+" OR "+nombre+"= '"+campo+"'";
+        if (!"".equals(campo)) {
+            where = " WHERE " + id + "= " + campo + " OR " + nombre + "= '" + campo + "'";
         }
-         try {
-         DefaultTableModel modelo = new DefaultTableModel(null,titulo);
-         tabla.setModel(modelo);
-         conexion.EjecutarConsulta(consulta+where+" "+extra);
-            
-            ResultSet rs = conexion.getResulSet();
+        try {
+            DefaultTableModel modelo = new DefaultTableModel(null, titulo);
+            tabla.setModel(modelo);
+            conexion.conexionMySQL.EjecutarConsulta(consulta + where + " " + extra);
+
+            ResultSet rs = conexion.conexionMySQL.getResulSet();
             ResultSetMetaData rsMd = rs.getMetaData();
             int cantidadColumnas = rsMd.getColumnCount();
-              
-            while(rs.next()){
+
+            while (rs.next()) {
                 Object[] fila = new Object[cantidadColumnas];
-                for(int i=0; i <cantidadColumnas ; i++){
-                    fila[i]=rs.getObject(i+1);
+                for (int i = 0; i < cantidadColumnas; i++) {
+                    fila[i] = rs.getObject(i + 1);
                 }
                 modelo.addRow(fila);
             }
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(rootPane,"Error de conexion","Error",JOptionPane.ERROR_MESSAGE);
-         System.out.println(ex.getMessage());
-        
-    }
-}
-private boolean existeProveedor(String parametro,String tabla, String formaParametro){
-    boolean existe = false;
-  
-        try {
-           
-            conexion.EjecutarConsulta("SELECT COUNT(*) FROM "+tabla +" WHERE "+formaParametro+" = "+parametro+"");
-            ResultSet rs = conexion.getResulSet();
-            rs.next();
-            if(rs.getInt(1)>0){
-                existe = true;
-            }   
         } catch (SQLException ex) {
-             System.out.println(ex.getMessage());
-        }
-        return existe;   
-}
-private int getId(String nombreBuscar){
-        int id = -1;
-    ConexionMySQL conexion1 = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
-            conexion1.EjecutarConsulta("SELECT * FROM proveedor WHERE nombre ="+"'"+nombreBuscar+"'");
-            ResultSet rs = conexion1.getResulSet();
-            try {
-                while(rs.next()){
-                  id = Integer.parseInt(rs.getString("id"));
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(Proveedor.class.getName()).log(Level.SEVERE, null, ex);
-            }
-     return id;
- }
-private void nuevoProveedor(String nombre, String telefono, String celular, String direccion, String correo, String num_cuenta){
-    //se pregunta si esta deacuerdo con los datos del proveedor
-                   int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta deacuerdo con el proveedor? \n"+"Nombre: "+nombre
-                    +"\nTelefono: "+telefono+"\nCelular: "+celular+"\nDireccion: "+direccion+"\nCorreo: "+correo+"\nNo. Cuenta: "+num_cuenta,"Advertencia",
-                    JOptionPane.YES_NO_OPTION);
-                   if(res == 0){//si esta deacuerdo con los datos del proveedor 
-                     //se inserta el proveedor en la base de datos.
-                     conexion.EjecutarInstruccion("INSERT INTO proveedor(nombre,telefono,celular,direccion,correo,num_cuenta)"  
-                             + "VALUES ('"+nombre+"','"+telefono+"','"+celular+"','"+direccion+"','"+correo+"','"+num_cuenta+"')"); 
-                  
-                //Mensaje que describe que el proveedor ingreso en el sistema      
-                JOptionPane.showMessageDialog(null,"Proveedor Ingresado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
-                limpiarPanel();
-                   }
-}
-private void modificarProveedor(String nombre, String telefono, String celular, String direccion, String correo, String num_cuenta){
-     //se pregunta si esta deacuerdo con los datos del material
-                   int res = JOptionPane.showConfirmDialog(rootPane,"¿Esta deacuerdo con la modificacion del proveedor? \n"+"Nombre: "+nombre
-                    +"\nTelefono: "+telefono+"\nCelular: "+celular+"\nDireccion: "+direccion+"\nCorreo: "+correo+"\nNo. Cuenta: "+num_cuenta,"Advertencia",
-                    JOptionPane.YES_NO_OPTION);
-                   if(res == 0){//si esta deacuerdo con los datos del material 
-                     //se inserta el material en la base de datos.
-                  
-                     conexion.EjecutarInstruccion("UPDATE proveedor SET nombre = '"+nombre+"',"+"telefono = '"+telefono+"',"+
-                             "celular = '"+celular+"',direccion = '"+direccion+"',correo = '"+correo+"', num_cuenta = '"+num_cuenta+"' WHERE id = "+idProveedor); 
-                
-                //Mensaje que describe que el material ingreso en el sistema      
-                JOptionPane.showMessageDialog(null,"Proveedor Modificado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
-                limpiarPanel();
-                   }
-}
-private void guardarNuevo(){
-    if(txtNombre.getText().length() == 0){
-        JOptionPane.showMessageDialog(null,"Llene los campos obligatorios","Advertencia",JOptionPane.WARNING_MESSAGE);
-    }
-    else{
-        if(!existeProveedor("'"+txtNombre.getText()+"'","proveedor","nombre")){
-            nuevoProveedor(txtNombre.getText(), txtTelefono.getText(),txtCelular.getText(),txtDireccion.getText(),txtCorreo.getText(),txtNumCuenta.getText());
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"El nombre de este proveedor ya existe","Advertencia",JOptionPane.WARNING_MESSAGE);
-        }
-    }
-}
-private void guardarEdicion(){
-         int idNombreActual, idNombreAnterior;
-      
-       if(txtNombre.getText().length() == 0 ){ // ver si los campos nombre y costo estan llenos 
-                JOptionPane.showMessageDialog(null,"Llene los campos obligatorios","Advertencia",JOptionPane.WARNING_MESSAGE);
-            }
-       else{
-     idNombreAnterior = getId(nombreAnterior);
-     idNombreActual = getId(txtNombre.getText());
-     
-                 if((idNombreAnterior == idNombreActual) || (idNombreAnterior!=idNombreActual && idNombreActual <0)){//si el nombre del material no existe
-                  
-                     modificarProveedor(txtNombre.getText(),txtTelefono.getText(),txtCelular.getText(),txtDireccion.getText(),txtCorreo.getText(),txtNumCuenta.getText());//insertamos los materiales 
-                }//fin del if(nombre == "")
-                else{
-                    JOptionPane.showMessageDialog(null,"El nombre del producto ya existe","Error",JOptionPane.WARNING_MESSAGE);
-                }
-       }
-    
+            JOptionPane.showMessageDialog(rootPane, "Error de conexion", "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println(ex.getMessage());
 
-}
+        }
+    }
+
+    private boolean existeProveedor(String parametro, String tabla, String formaParametro) {
+        boolean existe = false;
+
+        try {
+
+            conexion.conexionMySQL.EjecutarConsulta("SELECT COUNT(*) FROM " + tabla + " WHERE " + formaParametro + " = " + parametro + "");
+            ResultSet rs = conexion.conexionMySQL.getResulSet();
+            rs.next();
+            if (rs.getInt(1) > 0) {
+                existe = true;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return existe;
+    }
+
+    private int getId(String nombreBuscar) {
+        int id = -1;
+        //ConexionMySQL conexion1 = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+        conexion.conexionMySQL.EjecutarConsulta("SELECT * FROM proveedor WHERE nombre =" + "'" + nombreBuscar + "'");
+        ResultSet rs = conexion.conexionMySQL.getResulSet();
+        try {
+            while (rs.next()) {
+                id = Integer.parseInt(rs.getString("id"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Proveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
+
+    private void nuevoProveedor(String nombre, String telefono, String celular, String direccion, String correo, String num_cuenta) {
+        //se pregunta si esta deacuerdo con los datos del proveedor
+        int res = JOptionPane.showConfirmDialog(rootPane, "¿Esta deacuerdo con el proveedor? \n" + "Nombre: " + nombre
+                + "\nTelefono: " + telefono + "\nCelular: " + celular + "\nDireccion: " + direccion + "\nCorreo: " + correo + "\nNo. Cuenta: " + num_cuenta, "Advertencia",
+                JOptionPane.YES_NO_OPTION);
+        if (res == 0) {//si esta deacuerdo con los datos del proveedor 
+            //se inserta el proveedor en la base de datos.
+            conexion.conexionMySQL.EjecutarInstruccion("INSERT INTO proveedor(nombre,telefono,celular,direccion,correo,num_cuenta)"
+                    + "VALUES ('" + nombre + "','" + telefono + "','" + celular + "','" + direccion + "','" + correo + "','" + num_cuenta + "')");
+
+            //Mensaje que describe que el proveedor ingreso en el sistema      
+            JOptionPane.showMessageDialog(null, "Proveedor Ingresado", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            limpiarPanel();
+        }
+    }
+
+    private void modificarProveedor(String nombre, String telefono, String celular, String direccion, String correo, String num_cuenta) {
+        //se pregunta si esta deacuerdo con los datos del material
+        int res = JOptionPane.showConfirmDialog(rootPane, "¿Esta deacuerdo con la modificacion del proveedor? \n" + "Nombre: " + nombre
+                + "\nTelefono: " + telefono + "\nCelular: " + celular + "\nDireccion: " + direccion + "\nCorreo: " + correo + "\nNo. Cuenta: " + num_cuenta, "Advertencia",
+                JOptionPane.YES_NO_OPTION);
+        if (res == 0) {//si esta deacuerdo con los datos del material 
+            //se inserta el material en la base de datos.
+
+            conexion.conexionMySQL.EjecutarInstruccion("UPDATE proveedor SET nombre = '" + nombre + "'," + "telefono = '" + telefono + "',"
+                    + "celular = '" + celular + "',direccion = '" + direccion + "',correo = '" + correo + "', num_cuenta = '" + num_cuenta + "' WHERE id = " + idProveedor);
+
+            //Mensaje que describe que el material ingreso en el sistema      
+            JOptionPane.showMessageDialog(null, "Proveedor Modificado", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            limpiarPanel();
+        }
+    }
+
+    private void guardarNuevo() {
+        if (txtNombre.getText().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Llene los campos obligatorios", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        } else {
+            if (!existeProveedor("'" + txtNombre.getText() + "'", "proveedor", "nombre")) {
+                nuevoProveedor(txtNombre.getText(), txtTelefono.getText(), txtCelular.getText(), txtDireccion.getText(), txtCorreo.getText(), txtNumCuenta.getText());
+            } else {
+                JOptionPane.showMessageDialog(null, "El nombre de este proveedor ya existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }
+
+    private void guardarEdicion() {
+        int idNombreActual, idNombreAnterior;
+
+        if (txtNombre.getText().length() == 0) { // ver si los campos nombre y costo estan llenos 
+            JOptionPane.showMessageDialog(null, "Llene los campos obligatorios", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        } else {
+            idNombreAnterior = getId(nombreAnterior);
+            idNombreActual = getId(txtNombre.getText());
+
+            if ((idNombreAnterior == idNombreActual) || (idNombreAnterior != idNombreActual && idNombreActual < 0)) {//si el nombre del material no existe
+
+                modificarProveedor(txtNombre.getText(), txtTelefono.getText(), txtCelular.getText(), txtDireccion.getText(), txtCorreo.getText(), txtNumCuenta.getText());//insertamos los materiales 
+            }//fin del if(nombre == "")
+            else {
+                JOptionPane.showMessageDialog(null, "El nombre del producto ya existe", "Error", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+
+    }
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
-        String consulta ;
-        if(txtCargar.getText().length()>0){
-             if(proveedor.esEntero(txtCargar.getText())){
-            consulta  = "SELECT * FROM proveedor";
-            cargarTabla(consulta, txtCargar.getText(),"nombre","id","", tablaProveedor, titulos);
-        }
-        else{
-            consulta = "select * from proveedor where nombre = '"+txtCargar.getText()+"'";
-            cargarTabla(consulta,"","","", "", tablaProveedor, titulos);
-            
-        }
-            
-        }
-        else{
+        String consulta;
+        if (txtCargar.getText().length() > 0) {
+            if (proveedor.esEntero(txtCargar.getText())) {
+                consulta = "SELECT * FROM proveedor";
+                cargarTabla(consulta, txtCargar.getText(), "nombre", "id", "", tablaProveedor, titulos);
+            } else {
+                consulta = "select * from proveedor where nombre = '" + txtCargar.getText() + "'";
+                cargarTabla(consulta, "", "", "", "", tablaProveedor, titulos);
+
+            }
+
+        } else {
             consulta = "select * from proveedor";
-            cargarTabla(consulta,"","","", "", tablaProveedor, titulos);
+            cargarTabla(consulta, "", "", "", "", tablaProveedor, titulos);
         }
-       
-        
+
+
     }//GEN-LAST:event_botonCargarActionPerformed
 
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
-       opcion = 1;
-       tabbed.setSelectedIndex(1);
-       tabbed.setEnabledAt(1,true);
-       tabbed.setEnabledAt(0,false);
-       activarBotones();
+        opcion = 1;
+        tabbed.setSelectedIndex(1);
+        tabbed.setEnabledAt(1, true);
+        tabbed.setEnabledAt(0, false);
+        activarBotones();
     }//GEN-LAST:event_botonNuevoActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
-     limpiarPanel();
+        limpiarPanel();
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-        if(opcion == 1){
+        if (opcion == 1) {
             guardarNuevo();
-        }
-        else{
+        } else {
             guardarEdicion();
         }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
-       opcion = 0;
-       int fila = tablaProveedor.getSelectedRow();
-       if(fila>=0){
-           if(existeProveedor("'"+String.valueOf(tablaProveedor.getValueAt(fila,0))+"'","proveedor","id")){
+        opcion = 0;
+        int fila = tablaProveedor.getSelectedRow();
+        if (fila >= 0) {
+            if (existeProveedor("'" + String.valueOf(tablaProveedor.getValueAt(fila, 0)) + "'", "proveedor", "id")) {
                 tabbed.setSelectedIndex(1);
-                tabbed.setEnabledAt(1,true);
-                tabbed.setEnabledAt(0,false);
-                activarBotones();   
-                
-                idProveedor = String.valueOf(tablaProveedor.getValueAt(fila,0));
-                txtNombre.setText(String.valueOf(tablaProveedor.getValueAt(fila,1)));
+                tabbed.setEnabledAt(1, true);
+                tabbed.setEnabledAt(0, false);
+                activarBotones();
+
+                idProveedor = String.valueOf(tablaProveedor.getValueAt(fila, 0));
+                txtNombre.setText(String.valueOf(tablaProveedor.getValueAt(fila, 1)));
                 nombreAnterior = txtNombre.getText();
-                txtTelefono.setText(String.valueOf(tablaProveedor.getValueAt(fila,2)));
-                txtCelular.setText(String.valueOf(tablaProveedor.getValueAt(fila,3)));
-                txtDireccion.setText(String.valueOf(tablaProveedor.getValueAt(fila,4)));
-                txtCorreo.setText(String.valueOf(tablaProveedor.getValueAt(fila,5)));
-                txtNumCuenta.setText(String.valueOf(tablaProveedor.getValueAt(fila,6)));
-           }
-           else{
-                JOptionPane.showMessageDialog(null,"El proveedor no existe","Advertencia",JOptionPane.WARNING_MESSAGE);
-           }
-        
-       }
-       else{
-           JOptionPane.showMessageDialog(null,"Seleccione un proveedor","Advertencia",JOptionPane.WARNING_MESSAGE);
-       }
-       
+                txtTelefono.setText(String.valueOf(tablaProveedor.getValueAt(fila, 2)));
+                txtCelular.setText(String.valueOf(tablaProveedor.getValueAt(fila, 3)));
+                txtDireccion.setText(String.valueOf(tablaProveedor.getValueAt(fila, 4)));
+                txtCorreo.setText(String.valueOf(tablaProveedor.getValueAt(fila, 5)));
+                txtNumCuenta.setText(String.valueOf(tablaProveedor.getValueAt(fila, 6)));
+            } else {
+                JOptionPane.showMessageDialog(null, "El proveedor no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione un proveedor", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+
     }//GEN-LAST:event_botonEditarActionPerformed
 
     private void botonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteActionPerformed
-      try {
+        try {
             //ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
-              Connection con = conexion.getConexion();
-             InputStream archivo=getClass().getResourceAsStream("/Reporte/Proveedor.jrxml");
-             JasperDesign dise = JRXmlLoader.load(archivo);
-             JasperReport jr = JasperCompileManager.compileReport(dise);
-             JasperPrint jp = JasperFillManager.fillReport(jr,null,con);
-             JasperViewer.viewReport(jp,false); 
-         } catch (JRException ex) {
-             Logger.getLogger(Proveedor.class.getName()).log(Level.SEVERE, null, ex);
-         } 
+            Connection con = conexion.conexionMySQL.getConexion();
+            InputStream archivo = getClass().getResourceAsStream("/Reporte/Proveedor.jrxml");
+            JasperDesign dise = JRXmlLoader.load(archivo);
+            JasperReport jr = JasperCompileManager.compileReport(dise);
+            JasperPrint jp = JasperFillManager.fillReport(jr, null, con);
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(Proveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_botonReporteActionPerformed
 
     private void menuEmergenteEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEmergenteEliminarProveedorActionPerformed
-      int fila = tablaProveedor.getSelectedRow(),confirmar;
-      String idProveedor1;
-      if(fila>=0){
-          idProveedor1 = String.valueOf(tablaProveedor.getValueAt(fila,0));
-          confirmar = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar el proveedor?\n "+"Las compras relacionadas se eliminaran",
-                  "Advertencia",JOptionPane.YES_NO_OPTION);
-          if(confirmar == 0){
-              proveedor.eliminarRegistro(idProveedor1,"proveedor","id");
-             JOptionPane.showMessageDialog(null,"El proveedor fue eliminado");
-             String consulta = "SELECT * FROM proveedor";
-             cargarTabla(consulta,"","nombre","id","", tablaProveedor, titulos);
-          }
-      }
-      else{
-          JOptionPane.showMessageDialog(null,"Seleccione un proveedor","Advertencia",JOptionPane.WARNING_MESSAGE);
-      }
+        int fila = tablaProveedor.getSelectedRow(), confirmar;
+        String idProveedor1;
+        if (fila >= 0) {
+            idProveedor1 = String.valueOf(tablaProveedor.getValueAt(fila, 0));
+            confirmar = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar el proveedor?\n " + "Las compras relacionadas se eliminaran",
+                    "Advertencia", JOptionPane.YES_NO_OPTION);
+            if (confirmar == 0) {
+                proveedor.eliminarRegistro(idProveedor1, "proveedor", "id");
+                JOptionPane.showMessageDialog(null, "El proveedor fue eliminado");
+                String consulta = "SELECT * FROM proveedor";
+                cargarTabla(consulta, "", "nombre", "id", "", tablaProveedor, titulos);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione un proveedor", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_menuEmergenteEliminarProveedorActionPerformed
 
     private void txtCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCelularActionPerformed
@@ -744,8 +743,8 @@ private void guardarEdicion(){
     }//GEN-LAST:event_txtCelularActionPerformed
 
     private void botonNuevoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonNuevoMouseEntered
-         if(botonNuevo.isEnabled()){
-             botonNuevo.setBackground(new Color(255,102,51));
+        if (botonNuevo.isEnabled()) {
+            botonNuevo.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonNuevoMouseEntered
 
@@ -754,28 +753,28 @@ private void guardarEdicion(){
     }//GEN-LAST:event_botonNuevoMouseExited
 
     private void botonEditarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEditarMouseEntered
-         if(botonEditar.isEnabled()){
-             botonEditar.setBackground(new Color(255,102,51));
+        if (botonEditar.isEnabled()) {
+            botonEditar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonEditarMouseEntered
 
     private void botonEditarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEditarMouseExited
-         botonEditar.setBackground(Color.WHITE);
+        botonEditar.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonEditarMouseExited
 
     private void botonGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonGuardarMouseEntered
-        if(botonGuardar.isEnabled()){
-             botonGuardar.setBackground(new Color(255,102,51));
+        if (botonGuardar.isEnabled()) {
+            botonGuardar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonGuardarMouseEntered
 
     private void botonGuardarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonGuardarMouseExited
-     botonGuardar.setBackground(Color.WHITE);
+        botonGuardar.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonGuardarMouseExited
 
     private void botonCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCancelarMouseEntered
-       if(botonCancelar.isEnabled()){
-             botonCancelar.setBackground(new Color(255,102,51));
+        if (botonCancelar.isEnabled()) {
+            botonCancelar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonCancelarMouseEntered
 
@@ -784,8 +783,8 @@ private void guardarEdicion(){
     }//GEN-LAST:event_botonCancelarMouseExited
 
     private void botonReporteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonReporteMouseEntered
-         if(botonReporte.isEnabled()){
-             botonReporte.setBackground(new Color(255,102,51));
+        if (botonReporte.isEnabled()) {
+            botonReporte.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonReporteMouseEntered
 
@@ -794,13 +793,13 @@ private void guardarEdicion(){
     }//GEN-LAST:event_botonReporteMouseExited
 
     private void botonCargarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCargarMouseEntered
-        if(botonCargar.isEnabled()){
-             botonCargar.setBackground(new Color(255,102,51));
+        if (botonCargar.isEnabled()) {
+            botonCargar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonCargarMouseEntered
 
     private void botonCargarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCargarMouseExited
-         botonCargar.setBackground(Color.WHITE);
+        botonCargar.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonCargarMouseExited
 
 
