@@ -7,9 +7,11 @@ package Clases;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -44,6 +46,19 @@ public class Fichero {
         }
         this.baseDatos = cadena;
         return this.baseDatos;
+    }
+
+    public void setFicheroBase(String nuevoNombreBase) {
+        try {
+            //FileWriter fw = new FileWriter("D:\\test\\holamundo.txt"); //Rura obsoluta.
+            FileWriter fw = new FileWriter("src\\Fichero\\" + baseDatos);//ruta relativa, el true añade texto, si se le quita sobreescribe
+            fw.write(nuevoNombreBase);
+            fw.close();
+            JOptionPane.showMessageDialog(null, "El nombre de la base de datos fue cammbiada", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException ex) {
+            Logger.getLogger(Fichero.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
 }

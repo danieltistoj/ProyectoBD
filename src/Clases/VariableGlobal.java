@@ -24,6 +24,15 @@ public class VariableGlobal {
         this.conexionMySQL = new ConexionMySQL(host, puerto, fichero.obterBase(), usuario, contra);
     }
 
+    public VariableGlobal(String base) {
+        host = "localhost";
+        puerto = "3305";
+        usuario = "root";
+        contra = "xela2020";
+        fichero = new Fichero();
+        this.conexionMySQL = new ConexionMySQL(host, puerto, base, usuario, contra);
+    }
+
     public String getUsuario() {
         return usuario;
     }

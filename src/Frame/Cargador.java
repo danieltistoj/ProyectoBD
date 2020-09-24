@@ -46,11 +46,12 @@ public class Cargador extends javax.swing.JFrame {
                         }
                     } else {//Si no existe la base de datos
                         JOptionPane.showMessageDialog(null, "No se puede encontrar la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
-                        int res = JOptionPane.showConfirmDialog(null,"¿Desea importar una base de datos?","",JOptionPane.YES_NO_OPTION);
-                        if(res == 0){
-                            System.out.println("importar");
+                        int res = JOptionPane.showConfirmDialog(null, "¿Desea importar una base de datos?", "", JOptionPane.YES_NO_OPTION);
+                        if (res == 0) {
+                            VentanaImportar importarVentana = new VentanaImportar();
+                            importarVentana.setVisible(true);
                         }
-                               
+
                     }
 
                     tiempo.stop();

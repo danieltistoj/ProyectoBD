@@ -23,7 +23,7 @@ public class Importar {
     public void ImportarBase(String ruta,String baseDeDatos){
         if(ruta.length()!=0){
             try {
-                comando = "cmd /c mysql -u "+usuario+" -p"+contra+" "+baseDeDatos+" < "+ruta;
+                comando = "cmd /c mysql -u "+usuario+" -p"+contra+" "+baseDeDatos+" < "+"\""+ ruta+"\"";
                 System.out.println(comando);
                 Runtime rt = Runtime.getRuntime();
                 rt.exec(comando);

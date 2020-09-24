@@ -36,7 +36,9 @@ public class Modulo {
 
     public Modulo() {
         conexion = new VariableGlobal();
-        System.out.println("construye2");
+    }
+    public Modulo(boolean sinBase) {
+        conexion = new VariableGlobal("");
     }
 
     public String generarCodigo(String formaParametro, String tabla, String letra) {
@@ -201,6 +203,22 @@ public class Modulo {
             ResultSet rs = conexion.conexionMySQL.getResulSet();
             while(rs.next()){
                 if(baseDatos.equals(rs.getString("Database"))){
+                    existe = true;
+                }
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Modulo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return existe;
+    }
+    public boolean existeLaBase(String nombreBase){
+        boolean existe = false;
+        try {
+            conexion.conexionMySQL.EjecutarConsulta("show databases");
+            ResultSet rs = conexion.conexionMySQL.getResulSet();
+            while(rs.next()){
+                if(nombreBase.equals(rs.getString("Database"))){
                     existe = true;
                 }
             }
