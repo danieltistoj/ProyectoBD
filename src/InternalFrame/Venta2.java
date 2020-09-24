@@ -7,6 +7,7 @@ package InternalFrame;
 
 import Clases.Modulo;
 import Clases.ConexionMySQL;
+import Clases.VariableGlobal;
 import java.awt.Color;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -35,21 +36,20 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class Venta2 extends javax.swing.JInternalFrame {
 
-    private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",
-             usuario ="root",contra = "xela2020",consultaMaterial;
-    private  String[]  titulos = {"Id","Nombre","Precio","Cantidad","Total"},datosInsertar;
-    private ConexionMySQL conexion;
-    private DefaultTableModel  modelo;
+    private String consultaMaterial;
+    private String[] titulos = {"Id", "Nombre", "Precio", "Cantidad", "Total"}, datosInsertar;
+    private DefaultTableModel modelo;
     private Modulo venta;
-    
+    private VariableGlobal conexion;
+
     public Venta2() {
         initComponents();
         venta = new Modulo();
-        conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
-        
-        labelNo.setText(venta.generarCodigo("numFactura","factura","CD"));
+        conexion = new VariableGlobal();
+
+        labelNo.setText(venta.generarCodigo("numFactura", "factura", "CD"));
         labelFecha.setText(venta.fecha());
-        
+
         botonAnadir.setEnabled(false);
         botonCancelar.setEnabled(false);
         botonCargarClie.setEnabled(false);
@@ -58,12 +58,12 @@ public class Venta2 extends javax.swing.JInternalFrame {
         botonQuitar.setEnabled(false);
         botonRemoverClie.setEnabled(false);
         botonRemoverPro.setEnabled(false);
-        
+
         txtAreaDescripcion.setEnabled(false);
         txtCantidad.setEnabled(false);
         txtIDproducto.setEnabled(false);
         txtNit.setEnabled(false);
-        
+
         labelApellido.setText("");
         labelNombreClie.setText("");
         labelNombrePro.setText("");
@@ -72,15 +72,15 @@ public class Venta2 extends javax.swing.JInternalFrame {
         labelPrecio.setText("");
         labelSubTotal.setText("");
         labelTotal.setText("");
-       // labelFecha.setText(fecha());
-        
-        modelo = new DefaultTableModel(null,titulos);
+        // labelFecha.setText(fecha());
+
+        modelo = new DefaultTableModel(null, titulos);
         this.tablaProducto.setModel(modelo);
-        
-        consultaMaterial = "SELECT M.id,M.cantidad As num_existencias ,PM.Cantidad As contidad_requerida FROM producto_has_material PM\n" +
-            "INNER JOIN producto P ON PM.producto_id = P.id\n" +
-            "INNER JOIN material M ON PM.material_id = M.id WHERE P.id = ";
-        
+
+        consultaMaterial = "SELECT M.id,M.cantidad As num_existencias ,PM.Cantidad As contidad_requerida FROM producto_has_material PM\n"
+                + "INNER JOIN producto P ON PM.producto_id = P.id\n"
+                + "INNER JOIN material M ON PM.material_id = M.id WHERE P.id = ";
+
         botonAnadir.setToolTipText("Añadir");
         botonQuitar.setToolTipText("Quita");
         botonCargarClie.setToolTipText("Cargar Cliente");
@@ -91,8 +91,7 @@ public class Venta2 extends javax.swing.JInternalFrame {
         botonNuevo.setToolTipText("Nuevo");
         botonGuardar.setToolTipText("Guardar");
         botonCancelar.setToolTipText("Cancelar");
-       
-        
+
     }
 
     /**
@@ -714,7 +713,7 @@ public class Venta2 extends javax.swing.JInternalFrame {
         botonRemoverPro.setEnabled(false);
         txtIDproducto.setEnabled(true);
         txtIDproducto.setText("");
-        
+
         labelNombrePro.setText("");
         labelPrecio.setText("");
         labelSubTotal.setText("");
@@ -722,317 +721,312 @@ public class Venta2 extends javax.swing.JInternalFrame {
         botonAnadir.setEnabled(false);
         txtCantidad.setEnabled(false);
         txtCantidad.setText("");
-    }   
-    private void limpiarModuloCliente(){
+    }
+
+    private void limpiarModuloCliente() {
         txtNit.setEnabled(false);
         txtNit.setText("");
-        
+
         labelApellido.setText("");
         labelNombreClie.setText("");
         labelId.setText("");
-        
+
         botonCargarClie.setEnabled(false);
         botonRemoverClie.setEnabled(false);
     }
-            
-    private void sumarCantidadMaterial(String idProducto,int cantidad){
-       int cantiRequerida, existenciasM, cantidadModificada, idMaterial;
-        try {
-           
-            conexion.EjecutarConsulta(consultaMaterial+idProducto);
-            ResultSet rs = conexion.getResulSet();
-            while(rs.next()){
-                cantiRequerida = Integer.parseInt(rs.getString("contidad_requerida"));//cantidad de un producto para hacer cierto material
-                existenciasM = Integer.parseInt(rs.getString("num_existencias"));//cantidad del material (lo que tenemos en existencia de ese material)
-                idMaterial = Integer.parseInt(rs.getString("M.id"));
-                cantidadModificada = existenciasM+(cantiRequerida*cantidad);
-                //System.out.println("id material: "+idMaterial+" cantidad para el pedido: "+(cantiRequerida*cantidad)+" Cantidad del Material: "+existenciasM+" Cantidad modificada: "+cantidadModificada);
-                editarCantidadMaterial(idMaterial, cantidadModificada);
-            } 
-        } catch (SQLException ex) {
-             System.out.println(ex.getMessage());
-        } 
-    }
-    
- private void restarCantidadMaterial(String idProducto,int cantidad){
+
+    private void sumarCantidadMaterial(String idProducto, int cantidad) {
         int cantiRequerida, existenciasM, cantidadModificada, idMaterial;
         try {
-            
-            conexion.EjecutarConsulta(consultaMaterial+idProducto);
-            ResultSet rs = conexion.getResulSet();
-            while(rs.next()){
+
+            conexion.conexionMySQL.EjecutarConsulta(consultaMaterial + idProducto);
+            ResultSet rs = conexion.conexionMySQL.getResulSet();
+            while (rs.next()) {
                 cantiRequerida = Integer.parseInt(rs.getString("contidad_requerida"));//cantidad de un producto para hacer cierto material
                 existenciasM = Integer.parseInt(rs.getString("num_existencias"));//cantidad del material (lo que tenemos en existencia de ese material)
                 idMaterial = Integer.parseInt(rs.getString("M.id"));
-                cantidadModificada = existenciasM-(cantiRequerida*cantidad);
+                cantidadModificada = existenciasM + (cantiRequerida * cantidad);
                 //System.out.println("id material: "+idMaterial+" cantidad para el pedido: "+(cantiRequerida*cantidad)+" Cantidad del Material: "+existenciasM+" Cantidad modificada: "+cantidadModificada);
                 editarCantidadMaterial(idMaterial, cantidadModificada);
-            } 
+            }
         } catch (SQLException ex) {
-             System.out.println(ex.getMessage());
+            System.out.println(ex.getMessage());
         }
-    } 
+    }
+
+    private void restarCantidadMaterial(String idProducto, int cantidad) {
+        int cantiRequerida, existenciasM, cantidadModificada, idMaterial;
+        try {
+
+            conexion.conexionMySQL.EjecutarConsulta(consultaMaterial + idProducto);
+            ResultSet rs = conexion.conexionMySQL.getResulSet();
+            while (rs.next()) {
+                cantiRequerida = Integer.parseInt(rs.getString("contidad_requerida"));//cantidad de un producto para hacer cierto material
+                existenciasM = Integer.parseInt(rs.getString("num_existencias"));//cantidad del material (lo que tenemos en existencia de ese material)
+                idMaterial = Integer.parseInt(rs.getString("M.id"));
+                cantidadModificada = existenciasM - (cantiRequerida * cantidad);
+                //System.out.println("id material: "+idMaterial+" cantidad para el pedido: "+(cantiRequerida*cantidad)+" Cantidad del Material: "+existenciasM+" Cantidad modificada: "+cantidadModificada);
+                editarCantidadMaterial(idMaterial, cantidadModificada);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 //editar la cantidad del material en la base de datos
-    private void editarCantidadMaterial(int idMaterial, int cantidad){
-         conexion.EjecutarInstruccion("UPDATE material SET cantidad = "+ cantidad+" WHERE id = "+idMaterial);
+
+    private void editarCantidadMaterial(int idMaterial, int cantidad) {
+        conexion.conexionMySQL.EjecutarInstruccion("UPDATE material SET cantidad = " + cantidad + " WHERE id = " + idMaterial);
     }
 
 //Comprobar que el pedido con el producto se puede realizar
- private boolean comprabarExistenciasM(int cantidad,String id){
-    boolean existencia = true;
-    int cantiRequerida, existenciasM;// cantidad que se requiere para hacer un producto / numero de existencias del material
-    try {
-            conexion.EjecutarConsulta(consultaMaterial+id);
-            ResultSet rs = conexion.getResulSet();
-            while(rs.next()){
+    private boolean comprabarExistenciasM(int cantidad, String id) {
+        boolean existencia = true;
+        int cantiRequerida, existenciasM;// cantidad que se requiere para hacer un producto / numero de existencias del material
+        try {
+            conexion.conexionMySQL.EjecutarConsulta(consultaMaterial + id);
+            ResultSet rs = conexion.conexionMySQL.getResulSet();
+            while (rs.next()) {
                 cantiRequerida = Integer.parseInt(rs.getString("contidad_requerida"));//cantidad de un producto para hacer cierto material
-               
+
                 existenciasM = Integer.parseInt(rs.getString("num_existencias"));//cantidad del material (lo que tenemos en existencia de ese material)
-               // System.out.println("cantidad requerida: "+cantiRequerida+" Cantidad para el pedido: "+(cantiRequerida*cantidad)+" cantidad existencia: "+existenciasM);
+                // System.out.println("cantidad requerida: "+cantiRequerida+" Cantidad para el pedido: "+(cantiRequerida*cantidad)+" cantidad existencia: "+existenciasM);
                 /*
                 si la cantidad de un material para hacer un producto multiplicado por la cantidad de productos que se solicitan, 
                 es mayor a los productos en existencia, el pedido no podra realizarce
-                */
-                if(existenciasM<(cantiRequerida*cantidad)){
+                 */
+                if (existenciasM < (cantiRequerida * cantidad)) {
                     existencia = false;
                 }
-                
+
             }
-            
+
         } catch (SQLException ex) {
-             System.out.println(ex.getMessage());
+            System.out.println(ex.getMessage());
         }
-    return existencia;
-}
- 
-  private void obtenerTotal(int columna){
+        return existencia;
+    }
+
+    private void obtenerTotal(int columna) {
         float total = 0;
         int fila = tablaProducto.getRowCount();
-        if(fila>0){
-            
-          for(int i = 0; i<fila;i++){
-            total = total + Float.parseFloat(String.valueOf(tablaProducto.getValueAt(i,columna)));   
-        }
-          
-        }
-        
-        labelTotal.setText(total+"");
-    }
-   private void cancelarVenta(){
-        int filas = tablaProducto.getRowCount(), id,cantidad;
-        if(filas>0){
-            for(int i=filas-1;i>=0;i--){
-                
-                cantidad = Integer.parseInt(String.valueOf(tablaProducto.getValueAt(i,3)));
-                sumarCantidadMaterial(String.valueOf(tablaProducto.getValueAt(i,0)), cantidad);
-                venta.quitarFila(i,modelo);
+        if (fila > 0) {
+
+            for (int i = 0; i < fila; i++) {
+                total = total + Float.parseFloat(String.valueOf(tablaProducto.getValueAt(i, columna)));
             }
-       }
-    
+
+        }
+
+        labelTotal.setText(total + "");
     }
-   private void relacionProductoFactura(String idFactura){//va relacionando los productos que tenemos en la tabla con la factura
+
+    private void cancelarVenta() {
+        int filas = tablaProducto.getRowCount(), id, cantidad;
+        if (filas > 0) {
+            for (int i = filas - 1; i >= 0; i--) {
+
+                cantidad = Integer.parseInt(String.valueOf(tablaProducto.getValueAt(i, 3)));
+                sumarCantidadMaterial(String.valueOf(tablaProducto.getValueAt(i, 0)), cantidad);
+                venta.quitarFila(i, modelo);
+            }
+        }
+
+    }
+
+    private void relacionProductoFactura(String idFactura) {//va relacionando los productos que tenemos en la tabla con la factura
         int fila = tablaProducto.getRowCount();
-        String datos,columnas;
+        String datos, columnas;
         columnas = "cantidad,precio,factura_id,producto_id,total";
-        for(int i =0; i<fila;i++){  
-            datos =String.valueOf(tablaProducto.getValueAt(i,3))+","
-            +String.valueOf(tablaProducto.getValueAt(i,2))+","+idFactura+","+String.valueOf(tablaProducto.getValueAt(i,0))+","+String.valueOf(tablaProducto.getValueAt(i,4));
-            venta.nuevoRegistro(columnas,datos,"detalle_pro");
+        for (int i = 0; i < fila; i++) {
+            datos = String.valueOf(tablaProducto.getValueAt(i, 3)) + ","
+                    + String.valueOf(tablaProducto.getValueAt(i, 2)) + "," + idFactura + "," + String.valueOf(tablaProducto.getValueAt(i, 0)) + "," + String.valueOf(tablaProducto.getValueAt(i, 4));
+            venta.nuevoRegistro(columnas, datos, "detalle_pro");
         }
     }
-   private void cancelar(){
+
+    private void cancelar() {
         cancelarVenta();
         limpiarModuloProducto();
         limpiarModuloCliente();
-        
+
         botonNuevo.setEnabled(true);
         txtIDproducto.setEnabled(false);
         botonCargarPro.setEnabled(false);
-        
+
         botonGuardar.setEnabled(false);
         botonCancelar.setEnabled(false);
         botonQuitar.setEnabled(false);
         labelTotal.setText("");
-   }
-   private void generarFactura(){
-       try {
-           
-             Connection con = conexion.getConexion();
-             InputStream archivo=getClass().getResourceAsStream("/Reporte/factura.jrxml");
-            
-             HashMap parametros = new HashMap();
-             parametros.put("id",labelNo.getText());
-             parametros.put("idpago",labelNo.getText());
-             parametros.put("nit",txtNit.getText());
-             parametros.put("nombre",labelNombreClie.getText());
-             parametros.put("apellido",labelApellido.getText());
-             parametros.put("numFactura",labelNo.getText());
-             parametros.put("total",labelTotal.getText());
-             
-             JasperDesign dise = JRXmlLoader.load(archivo);
-             JasperReport jr = JasperCompileManager.compileReport(dise);
-             JasperPrint jp = JasperFillManager.fillReport(jr,parametros,con);
-             JasperViewer.viewReport(jp,false); 
-         } catch (JRException ex) {
-             Logger.getLogger(Venta2.class.getName()).log(Level.SEVERE, null, ex);
-         }
-   }
+    }
+
+    private void generarFactura() {
+        try {
+
+            Connection con = conexion.conexionMySQL.getConexion();
+            InputStream archivo = getClass().getResourceAsStream("/Reporte/factura.jrxml");
+
+            HashMap parametros = new HashMap();
+            parametros.put("id", labelNo.getText());
+            parametros.put("idpago", labelNo.getText());
+            parametros.put("nit", txtNit.getText());
+            parametros.put("nombre", labelNombreClie.getText());
+            parametros.put("apellido", labelApellido.getText());
+            parametros.put("numFactura", labelNo.getText());
+            parametros.put("total", labelTotal.getText());
+
+            JasperDesign dise = JRXmlLoader.load(archivo);
+            JasperReport jr = JasperCompileManager.compileReport(dise);
+            JasperPrint jp = JasperFillManager.fillReport(jr, parametros, con);
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(Venta2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     private void botonCargarClieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarClieActionPerformed
-        if(txtNit.getText().length()>0){
-            if(venta.existeRegistro("'"+txtNit.getText()+"'","cliente","nit")){
-                  labelNombreClie.setText(venta.getDato("nit","'"+txtNit.getText()+"'","cliente","nombre"));
-                  labelApellido.setText(venta.getDato("nit","'"+txtNit.getText()+"'","cliente","apellido"));
-                  labelId.setText(venta.getDato("nit","'"+txtNit.getText()+"'","cliente","id"));
-                  
-                  botonCargarClie.setEnabled(false);
-                  botonRemoverClie.setEnabled(true);
-                  txtNit.setEnabled(false);
-            }
-            else{
-                JOptionPane.showMessageDialog(null,"El cliente no existe","Advertencia",JOptionPane.WARNING_MESSAGE);
+        if (txtNit.getText().length() > 0) {
+            if (venta.existeRegistro("'" + txtNit.getText() + "'", "cliente", "nit")) {
+                labelNombreClie.setText(venta.getDato("nit", "'" + txtNit.getText() + "'", "cliente", "nombre"));
+                labelApellido.setText(venta.getDato("nit", "'" + txtNit.getText() + "'", "cliente", "apellido"));
+                labelId.setText(venta.getDato("nit", "'" + txtNit.getText() + "'", "cliente", "id"));
+
+                botonCargarClie.setEnabled(false);
+                botonRemoverClie.setEnabled(true);
+                txtNit.setEnabled(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "El cliente no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 txtNit.setText("");
             }
-            
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"Llene el campo correspondiente","Advertencia",JOptionPane.WARNING_MESSAGE);
-        
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Llene el campo correspondiente", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
         }
     }//GEN-LAST:event_botonCargarClieActionPerformed
 
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
-       botonCargarClie.setEnabled(true);
-       botonCargarPro.setEnabled(true);
-       botonGuardar.setEnabled(true);
-       botonCancelar.setEnabled(true);
-       botonNuevo.setEnabled(false);
-       
-       txtNit.setEnabled(true);
-       txtIDproducto.setEnabled(true);
-       
+        botonCargarClie.setEnabled(true);
+        botonCargarPro.setEnabled(true);
+        botonGuardar.setEnabled(true);
+        botonCancelar.setEnabled(true);
+        botonNuevo.setEnabled(false);
+
+        txtNit.setEnabled(true);
+        txtIDproducto.setEnabled(true);
+
     }//GEN-LAST:event_botonNuevoActionPerformed
 
     private void botonRemoverClieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRemoverClieActionPerformed
         limpiarModuloCliente();
         txtNit.setEnabled(true);
         botonCargarClie.setEnabled(true);
-        
+
     }//GEN-LAST:event_botonRemoverClieActionPerformed
 
     private void botonCargarProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarProActionPerformed
-        if(txtIDproducto.getText().length()>0){
-            if(venta.esEntero(txtIDproducto.getText())){
-                 if(venta.existeRegistro(txtIDproducto.getText(),"producto","id")){
-                 labelNombrePro.setText(venta.getDato("id",txtIDproducto.getText(),"producto","nombre"));
-                 labelPrecio.setText(venta.getDato("id",txtIDproducto.getText(),"producto","precio"));
-                 txtAreaDescripcion.setText(venta.getDato("id",txtIDproducto.getText(),"producto","descripcion"));
-                 
-                 txtIDproducto.setEnabled(false);
-                 botonCargarPro.setEnabled(false);
-                 botonRemoverPro.setEnabled(true);
-                 botonAnadir.setEnabled(true);
-                 txtCantidad.setEnabled(true);
+        if (txtIDproducto.getText().length() > 0) {
+            if (venta.esEntero(txtIDproducto.getText())) {
+                if (venta.existeRegistro(txtIDproducto.getText(), "producto", "id")) {
+                    labelNombrePro.setText(venta.getDato("id", txtIDproducto.getText(), "producto", "nombre"));
+                    labelPrecio.setText(venta.getDato("id", txtIDproducto.getText(), "producto", "precio"));
+                    txtAreaDescripcion.setText(venta.getDato("id", txtIDproducto.getText(), "producto", "descripcion"));
+
+                    txtIDproducto.setEnabled(false);
+                    botonCargarPro.setEnabled(false);
+                    botonRemoverPro.setEnabled(true);
+                    botonAnadir.setEnabled(true);
+                    txtCantidad.setEnabled(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "El producto no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    txtNit.setText("");
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Ingrese solo digitos", "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
-            else{
-                JOptionPane.showMessageDialog(null,"El producto no existe","Advertencia",JOptionPane.WARNING_MESSAGE);
-                txtNit.setText("");
-            }
-                
-            }
-            else{
-                JOptionPane.showMessageDialog(null,"Ingrese solo digitos","Advertencia",JOptionPane.WARNING_MESSAGE);
-            } 
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"Llene el campo correspondiente","Advertencia",JOptionPane.WARNING_MESSAGE);
-        
+        } else {
+            JOptionPane.showMessageDialog(null, "Llene el campo correspondiente", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
         }
     }//GEN-LAST:event_botonCargarProActionPerformed
 
     private void botonRemoverProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRemoverProActionPerformed
-       limpiarModuloProducto();
+        limpiarModuloProducto();
     }//GEN-LAST:event_botonRemoverProActionPerformed
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
-       float total;
-        if(txtCantidad.getText().equals("")==false){
-            if(venta.esEntero(txtCantidad.getText())){
-            total= Float.parseFloat(txtCantidad.getText())*Float.parseFloat(labelPrecio.getText());
-            labelSubTotal.setText(total+"");
-            }
-            else{
-                JOptionPane.showMessageDialog(null,"Ingrese solo valores enteros","Advertencia",JOptionPane.WARNING_MESSAGE);
+        float total;
+        if (txtCantidad.getText().equals("") == false) {
+            if (venta.esEntero(txtCantidad.getText())) {
+                total = Float.parseFloat(txtCantidad.getText()) * Float.parseFloat(labelPrecio.getText());
+                labelSubTotal.setText(total + "");
+            } else {
+                JOptionPane.showMessageDialog(null, "Ingrese solo valores enteros", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 txtCantidad.setText("");
                 labelSubTotal.setText("");
             }
-        }
-        else{
+        } else {
             labelSubTotal.setText("");
         }
     }//GEN-LAST:event_txtCantidadKeyReleased
 
     private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
         char validar = evt.getKeyChar();
-      if(Character.isLetter(validar)){
-          getToolkit().beep();
-          evt.consume();
-          JOptionPane.showMessageDialog(null,"Solo ingrese solo digitos","Advertencia",JOptionPane.WARNING_MESSAGE);
-      }
+        if (Character.isLetter(validar)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Solo ingrese solo digitos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_txtCantidadKeyTyped
 
     private void botonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnadirActionPerformed
         int cantidad;
-        if(txtCantidad.getText().length()>0){//ver que la caja de cantidad este llena 
+        if (txtCantidad.getText().length() > 0) {//ver que la caja de cantidad este llena 
             cantidad = Integer.parseInt(txtCantidad.getText());
-            if(cantidad > 0){//la cantidad debe de ser mayor a cero 
-                if(!venta.existeEnTabla(txtIDproducto.getText(), tablaProducto,0)){//ver que el producto no este en la tabla 
-                    if(comprabarExistenciasM(cantidad,txtIDproducto.getText())){//ver que la existan materiales para hacer 
-                         //anadir los datos a la tabla
-                    String[] datos = new String[titulos.length];
-                    datos[0] = txtIDproducto.getText();
-                    datos[1]= labelNombrePro.getText();
-                    datos[2] = labelPrecio.getText();
-                    datos[3] = txtCantidad.getText();
-                    datos[4] = labelSubTotal.getText();
-                    venta.insertarEnTabla(datos, modelo);
-                    //fin de insertar en tabla 
-                    
-                    //restar lo que se necesita para el pedido al material 
+            if (cantidad > 0) {//la cantidad debe de ser mayor a cero 
+                if (!venta.existeEnTabla(txtIDproducto.getText(), tablaProducto, 0)) {//ver que el producto no este en la tabla 
+                    if (comprabarExistenciasM(cantidad, txtIDproducto.getText())) {//ver que la existan materiales para hacer 
+                        //anadir los datos a la tabla
+                        String[] datos = new String[titulos.length];
+                        datos[0] = txtIDproducto.getText();
+                        datos[1] = labelNombrePro.getText();
+                        datos[2] = labelPrecio.getText();
+                        datos[3] = txtCantidad.getText();
+                        datos[4] = labelSubTotal.getText();
+                        venta.insertarEnTabla(datos, modelo);
+                        //fin de insertar en tabla 
+
+                        //restar lo que se necesita para el pedido al material 
                         restarCantidadMaterial(txtIDproducto.getText(), cantidad);
-                        obtenerTotal(titulos.length-1);
-                    //fin 
-                    limpiarModuloProducto();
-                    botonQuitar.setEnabled(true);
-                        
+                        obtenerTotal(titulos.length - 1);
+                        //fin 
+                        limpiarModuloProducto();
+                        botonQuitar.setEnabled(true);
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No hay materiales suficiente para realizar el pedido", "Advertencia", JOptionPane.WARNING_MESSAGE);
                     }
-                    else{
-                        JOptionPane.showMessageDialog(null,"No hay materiales suficiente para realizar el pedido","Advertencia",JOptionPane.WARNING_MESSAGE);
-                    } 
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "La cantidad debe de ser mayor a cero", "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
-            else{
-                JOptionPane.showMessageDialog(null,"La cantidad debe de ser mayor a cero","Advertencia",JOptionPane.WARNING_MESSAGE);
-            }
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"Ingrese la cantidad de material que necesita","Advertencia",JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese la cantidad de material que necesita", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_botonAnadirActionPerformed
 
     private void botonQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonQuitarActionPerformed
         int fila = tablaProducto.getSelectedRow(), cantidad;
-        if(fila>=0){
-           
-            cantidad = Integer.parseInt(String.valueOf(tablaProducto.getValueAt(fila,3)));
-            sumarCantidadMaterial(String.valueOf(tablaProducto.getValueAt(fila,0)), cantidad);
+        if (fila >= 0) {
+
+            cantidad = Integer.parseInt(String.valueOf(tablaProducto.getValueAt(fila, 3)));
+            sumarCantidadMaterial(String.valueOf(tablaProducto.getValueAt(fila, 0)), cantidad);
             venta.quitarFila(fila, modelo);
-            obtenerTotal(titulos.length-1);
-            if(tablaProducto.getRowCount() == 0){
+            obtenerTotal(titulos.length - 1);
+            if (tablaProducto.getRowCount() == 0) {
                 botonQuitar.setEnabled(false);
             }
-        }
-        else{
-          JOptionPane.showMessageDialog(null,"Seleccione un producto","Error",JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione un producto", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botonQuitarActionPerformed
 
@@ -1041,45 +1035,45 @@ public class Venta2 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void botonCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCerrarActionPerformed
-       cancelar();
-       this.dispose();
+        cancelar();
+        this.dispose();
     }//GEN-LAST:event_botonCerrarActionPerformed
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-        String abono, datos,parametros;
-        if(labelId.getText().length()>0&&tablaProducto.getRowCount()>0){
-             abono = JOptionPane.showInputDialog("Ingrese el abono");
-            if(abono!=null){
-                if(venta.esFlotante(abono)){
-                    if(Float.parseFloat(abono)>=Float.parseFloat(labelTotal.getText())/2){
+        String abono, datos, parametros;
+        if (labelId.getText().length() > 0 && tablaProducto.getRowCount() > 0) {
+            abono = JOptionPane.showInputDialog("Ingrese el abono");
+            if (abono != null) {
+                if (venta.esFlotante(abono)) {
+                    if (Float.parseFloat(abono) >= Float.parseFloat(labelTotal.getText()) / 2) {
                         //1) nueva factura
-                       datos  = "'"+venta.fecha()+"',"+labelTotal.getText()+","+txtNit.getText()+",'"+labelNo.getText()+"',"+labelId.getText();//dato para la factura
-                       parametros = "fecha,total,nit,numFactura,cliente_id";
-                       venta.nuevoRegistro( parametros, datos,"factura");
+                        datos = "'" + venta.fecha() + "'," + labelTotal.getText() + "," + txtNit.getText() + ",'" + labelNo.getText() + "'," + labelId.getText();//dato para la factura
+                        parametros = "fecha,total,nit,numFactura,cliente_id";
+                        venta.nuevoRegistro(parametros, datos, "factura");
                         System.out.println("nueva factura");
-                        
-                       //2) relacion producto factura con la tabla detalle_pro
-                        relacionProductoFactura(venta.getUltimoId("id","factura"));
+
+                        //2) relacion producto factura con la tabla detalle_pro
+                        relacionProductoFactura(venta.getUltimoId("id", "factura"));
                         System.out.println("relacion factura producto");
-                        
+
                         //3) hacer primer pago 
                         parametros = "abono,cliente_id,numPago,fecha";
-                        datos =abono+","+labelId.getText()+",'"+venta.generarCodigo("numPago","pago","PD")+"','"+venta.fecha()+"'";
-                        venta.nuevoRegistro( parametros,datos,"pago");
+                        datos = abono + "," + labelId.getText() + ",'" + venta.generarCodigo("numPago", "pago", "PD") + "','" + venta.fecha() + "'";
+                        venta.nuevoRegistro(parametros, datos, "pago");
                         System.out.println("primer pago");
-                        
+
                         //4) relacion pago factura 
                         parametros = "factura_id,pago_id";
-                        datos = venta.getUltimoId("id","factura")+","+venta.getUltimoId("id","pago");
-                        venta.nuevoRegistro(parametros,datos,"factura_has_pago");
+                        datos = venta.getUltimoId("id", "factura") + "," + venta.getUltimoId("id", "pago");
+                        venta.nuevoRegistro(parametros, datos, "factura_has_pago");
                         System.out.println("primer pago relacionado con factura");
-                        
-                        JOptionPane.showMessageDialog(null,"Venta completada","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+
+                        JOptionPane.showMessageDialog(null, "Venta completada", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
                         generarFactura();
                         limpiarModuloCliente();
                         limpiarModuloProducto();
                         venta.limpiarTabla(modelo, tablaProducto);
-                        
+
                         botonNuevo.setEnabled(true);
                         txtIDproducto.setEnabled(false);
                         botonCargarPro.setEnabled(false);
@@ -1088,49 +1082,45 @@ public class Venta2 extends javax.swing.JInternalFrame {
                         botonCancelar.setEnabled(false);
                         botonQuitar.setEnabled(false);
                         labelTotal.setText("");
-                        
-                        labelNo.setText(venta.generarCodigo("numFactura","factura","CD"));
-                        
-                        
+
+                        labelNo.setText(venta.generarCodigo("numFactura", "factura", "CD"));
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El abono debe de ser mayor o igual al 50% del total", "Advertencia", JOptionPane.WARNING_MESSAGE);
                     }
-                    else{
-                         JOptionPane.showMessageDialog(null,"El abono debe de ser mayor o igual al 50% del total","Advertencia",JOptionPane.WARNING_MESSAGE);
-                    }
-                }
-                else{
-                    JOptionPane.showMessageDialog(null,"Solo ingrese digitos","Advertencia",JOptionPane.WARNING_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Solo ingrese digitos", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 }
             }
-           
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"Llene los campos obligatorios","Advertencia",JOptionPane.WARNING_MESSAGE);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Llene los campos obligatorios", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonCerrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCerrarMouseEntered
-        if(botonCerrar.isEnabled()){
-             botonCerrar.setBackground(new Color(255,102,51));
+        if (botonCerrar.isEnabled()) {
+            botonCerrar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonCerrarMouseEntered
 
     private void botonCerrarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCerrarMouseExited
-         botonCerrar.setBackground(Color.WHITE);
+        botonCerrar.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonCerrarMouseExited
 
     private void botonNuevoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonNuevoMouseEntered
-        if(botonNuevo.isEnabled()){
-             botonNuevo.setBackground(new Color(255,102,51));
+        if (botonNuevo.isEnabled()) {
+            botonNuevo.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonNuevoMouseEntered
 
     private void botonNuevoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonNuevoMouseExited
-         botonNuevo.setBackground(Color.WHITE);
+        botonNuevo.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonNuevoMouseExited
 
     private void botonGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonGuardarMouseEntered
-        if(botonGuardar.isEnabled()){
-             botonGuardar.setBackground(new Color(255,102,51));
+        if (botonGuardar.isEnabled()) {
+            botonGuardar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonGuardarMouseEntered
 
@@ -1139,8 +1129,8 @@ public class Venta2 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_botonGuardarMouseExited
 
     private void botonCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCancelarMouseEntered
-         if(botonCancelar.isEnabled()){
-             botonCancelar.setBackground(new Color(255,102,51));
+        if (botonCancelar.isEnabled()) {
+            botonCancelar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonCancelarMouseEntered
 
@@ -1149,67 +1139,64 @@ public class Venta2 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_botonCancelarMouseExited
 
     private void botonCargarClieMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCargarClieMouseEntered
-       if(botonCargarClie.isEnabled()){
-             botonCargarClie.setBackground(new Color(255,102,51));
+        if (botonCargarClie.isEnabled()) {
+            botonCargarClie.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonCargarClieMouseEntered
 
     private void botonCargarClieMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCargarClieMouseExited
-         botonCargarClie.setBackground(Color.WHITE);
+        botonCargarClie.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonCargarClieMouseExited
 
     private void botonRemoverClieMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonRemoverClieMouseEntered
-        if(botonRemoverClie.isEnabled()){
-             botonRemoverClie.setBackground(new Color(255,102,51));
+        if (botonRemoverClie.isEnabled()) {
+            botonRemoverClie.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonRemoverClieMouseEntered
 
     private void botonRemoverClieMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonRemoverClieMouseExited
-         botonRemoverClie.setBackground(Color.WHITE);
+        botonRemoverClie.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonRemoverClieMouseExited
 
     private void botonCargarProMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCargarProMouseEntered
-        if(botonCargarPro.isEnabled()){
-             botonCargarPro.setBackground(new Color(255,102,51));
+        if (botonCargarPro.isEnabled()) {
+            botonCargarPro.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonCargarProMouseEntered
 
     private void botonCargarProMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCargarProMouseExited
-          botonCargarPro.setBackground(Color.WHITE);
+        botonCargarPro.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonCargarProMouseExited
 
     private void botonRemoverProMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonRemoverProMouseEntered
-        if(botonRemoverPro.isEnabled()){
-             botonRemoverPro.setBackground(new Color(255,102,51));
+        if (botonRemoverPro.isEnabled()) {
+            botonRemoverPro.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonRemoverProMouseEntered
 
     private void botonRemoverProMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonRemoverProMouseExited
-         botonRemoverPro.setBackground(Color.WHITE);
+        botonRemoverPro.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonRemoverProMouseExited
 
     private void botonAnadirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonAnadirMouseEntered
-         if(botonAnadir.isEnabled()){
-             botonAnadir.setBackground(new Color(255,102,51));
+        if (botonAnadir.isEnabled()) {
+            botonAnadir.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonAnadirMouseEntered
 
     private void botonAnadirMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonAnadirMouseExited
-         botonAnadir.setBackground(Color.WHITE);
+        botonAnadir.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonAnadirMouseExited
 
     private void botonQuitarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonQuitarMouseEntered
-         if(botonQuitar.isEnabled()){
-             botonQuitar.setBackground(new Color(255,102,51));
+        if (botonQuitar.isEnabled()) {
+            botonQuitar.setBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_botonQuitarMouseEntered
 
     private void botonQuitarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonQuitarMouseExited
         botonQuitar.setBackground(Color.WHITE);
     }//GEN-LAST:event_botonQuitarMouseExited
-
-
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

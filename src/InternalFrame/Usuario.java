@@ -6,9 +6,7 @@
 package InternalFrame;
 
 import InternalFrame.Material_Interno;
-import Clases.TablaId;
-import Clases.Modulo;
-import Clases.ConexionMySQL;
+import Clases.*;
 import java.awt.Color;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -35,7 +33,8 @@ public class Usuario extends javax.swing.JInternalFrame {
     private TablaId tabla;
     private String[] titulo = {"Id","Usuario","Nombre","Correo","Telefono","Celular","DPI","Sueldo"};
     private int accion;
-    private  String idUsuario, localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",usuario2 ="root",contra = "xela2020";
+    private VariableGlobal conexion;
+    private  String idUsuario;
     
     public Usuario() {
         initComponents();
@@ -44,6 +43,7 @@ public class Usuario extends javax.swing.JInternalFrame {
         
         usuario = new Modulo();
         tabla = new TablaId(tablaUsuario);
+        conexion = new VariableGlobal();
        
         tabbed.setEnabledAt(1,false);
         
@@ -726,8 +726,7 @@ private void cargarTabla(){
 
     private void botonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteActionPerformed
  try {
-            ConexionMySQL conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario2,contra);
-              Connection con = conexion.getConexion();
+              Connection con = conexion.conexionMySQL.getConexion();
              InputStream archivo=getClass().getResourceAsStream("/Reporte/usuario.jrxml");
              JasperDesign dise = JRXmlLoader.load(archivo);
              JasperReport jr = JasperCompileManager.compileReport(dise);

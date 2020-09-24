@@ -17,6 +17,7 @@ public class CambioContra extends javax.swing.JInternalFrame {
 
     private String idUsuario;
     private Modulo usuario;
+
     public CambioContra(String idUsuario) {
         initComponents();
         this.idUsuario = idUsuario;
@@ -156,35 +157,33 @@ public class CambioContra extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
-       txtContraAnterior.setText("");
-       txtContraNueva.setText("");
+        txtContraAnterior.setText("");
+        txtContraNueva.setText("");
         this.dispose();
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
         String contraEncrip;
-        if(txtContraAnterior.getText().length()>0 && txtContraNueva.getText().length()>0){ // ver que los campos esten llenos 
+        if (txtContraAnterior.getText().length() > 0 && txtContraNueva.getText().length() > 0) { // ver que los campos esten llenos 
             contraEncrip = DigestUtils.md5Hex(txtContraAnterior.getText());
-            if(contraEncrip.equals(usuario.getDato("id",idUsuario,"usuario","password"))){//ver que la contra anterior concuerden 
-                contraEncrip =  DigestUtils.md5Hex(txtContraNueva.getText());
-                int confirmar = JOptionPane.showConfirmDialog(null,"¿Desea cambiar la contraseña?","",JOptionPane.YES_NO_OPTION);
-                if(confirmar == 0){
-                     usuario.modificarRegistro("usuario","password = '"+contraEncrip+"'","id",idUsuario);
-                     JOptionPane.showMessageDialog(null,"Nueva contraseña ingresada");
-                     
-                     txtContraAnterior.setText("");
-                     txtContraNueva.setText("");
-                     this.dispose();
-                     
+            if (contraEncrip.equals(usuario.getDato("id", idUsuario, "usuario", "password"))) {//ver que la contra anterior concuerden 
+                contraEncrip = DigestUtils.md5Hex(txtContraNueva.getText());
+                int confirmar = JOptionPane.showConfirmDialog(null, "¿Desea cambiar la contraseña?", "", JOptionPane.YES_NO_OPTION);
+                if (confirmar == 0) {
+                    usuario.modificarRegistro("usuario", "password = '" + contraEncrip + "'", "id", idUsuario);
+                    JOptionPane.showMessageDialog(null, "Nueva contraseña ingresada");
+
+                    txtContraAnterior.setText("");
+                    txtContraNueva.setText("");
+                    this.dispose();
+
                 }
-               
+
+            } else {
+                JOptionPane.showMessageDialog(null, "La contraseña actual no coincide con la contraseña ingresada", "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
-            else{
-                JOptionPane.showMessageDialog(null,"La contraseña actual no coincide con la contraseña ingresada","Advertencia",JOptionPane.WARNING_MESSAGE);
-            }
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"Llene los campos obligatorios","Advertencia",JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Llene los campos obligatorios", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_botonAceptarActionPerformed
 
