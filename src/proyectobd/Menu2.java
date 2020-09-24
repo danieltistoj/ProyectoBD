@@ -5,6 +5,16 @@
  */
 package proyectobd;
 
+import InternalFrame.deudaHistoria;
+import InternalFrame.Venta2;
+import InternalFrame.Usuario;
+import InternalFrame.Proveedor;
+import InternalFrame.Producto2;
+import InternalFrame.Material_Interno;
+import InternalFrame.Deudor2;
+import InternalFrame.Compra;
+import InternalFrame.Cliente2;
+import InternalFrame.CambioContra;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 

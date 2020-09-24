@@ -5,6 +5,7 @@
  */
 package proyectobd;
 
+import Clases.Modulo;
 import java.awt.AWTEventMulticaster;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
