@@ -16,20 +16,35 @@ public class VariableGlobal {
     private String host, puerto, usuario, contra;
 
     public VariableGlobal() {
+        /*
         host = "localhost";
         puerto = "3306";
         usuario = "root";
         contra = "hacker.net";
+        fichero = new Fichero();
+        */
+        host = "localhost";
+        puerto = "3305";
+        usuario = "root";
+        contra = "xela2020";
         fichero = new Fichero();
         this.conexionMySQL = new ConexionMySQL(host, puerto, fichero.obterBase(), usuario, contra);
     }
 
     public VariableGlobal(String base) {
+        /*
         host = "localhost";
         puerto = "3306";
         usuario = "root";
         contra = "hacker.net";
         fichero = new Fichero();
+*/
+        host = "localhost";
+        puerto = "3306";
+        usuario = "root";
+        contra = "xela2020";
+        fichero = new Fichero();
+        
         this.conexionMySQL = new ConexionMySQL(host, puerto, base, usuario, contra);
     }
 
