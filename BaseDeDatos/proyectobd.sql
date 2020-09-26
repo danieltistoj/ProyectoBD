@@ -51,12 +51,18 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER eliminarCliente
-BEFORE DELETE ON cliente
-FOR EACH ROW
-BEGIN
-DELETE FROM factura WHERE cliente_id = old.id;
-DELETE FROM pago WHERE cliente_id = old.id;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER eliminarCliente
+
+BEFORE DELETE ON cliente
+
+FOR EACH ROW
+
+BEGIN
+
+DELETE FROM factura WHERE cliente_id = old.id;
+
+DELETE FROM pago WHERE cliente_id = old.id;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -101,12 +107,18 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER eliminarCompra
-BEFORE DELETE ON compra
-FOR EACH ROW
-BEGIN
-DELETE FROM detalle_compra WHERE compra_id = old.id;
-DELETE FROM credito_has_compra WHERE compra_id = old.id;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER eliminarCompra
+
+BEFORE DELETE ON compra
+
+FOR EACH ROW
+
+BEGIN
+
+DELETE FROM detalle_compra WHERE compra_id = old.id;
+
+DELETE FROM credito_has_compra WHERE compra_id = old.id;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -150,11 +162,16 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER eliminarCredito
-BEFORE DELETE ON credito
-FOR EACH ROW
-BEGIN
-DELETE FROM credito_has_compra WHERE credito_id = old.id;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER eliminarCredito
+
+BEFORE DELETE ON credito
+
+FOR EACH ROW
+
+BEGIN
+
+DELETE FROM credito_has_compra WHERE credito_id = old.id;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -291,12 +308,18 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER eliminarFactura
-BEFORE DELETE ON factura
-FOR EACH ROW
-BEGIN
-DELETE FROM detalle_pro WHERE factura_id = old.id;
-DELETE FROM factura_has_pago WHERE factura_id = old.id;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER eliminarFactura
+
+BEFORE DELETE ON factura
+
+FOR EACH ROW
+
+BEGIN
+
+DELETE FROM detalle_pro WHERE factura_id = old.id;
+
+DELETE FROM factura_has_pago WHERE factura_id = old.id;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -370,12 +393,18 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER eliminarMaterial
-BEFORE DELETE ON material
-FOR EACH ROW
-BEGIN
-DELETE FROM producto_has_material WHERE material_id = old.id;
-DELETE FROM detalle_compra WHERE material_id = old.id;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER eliminarMaterial
+
+BEFORE DELETE ON material
+
+FOR EACH ROW
+
+BEGIN
+
+DELETE FROM producto_has_material WHERE material_id = old.id;
+
+DELETE FROM detalle_compra WHERE material_id = old.id;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -420,11 +449,16 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER eliminarPago
-BEFORE DELETE ON pago
-FOR EACH ROW
-BEGIN
-DELETE FROM factura_has_pago WHERE pago_id = old.id;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER eliminarPago
+
+BEFORE DELETE ON pago
+
+FOR EACH ROW
+
+BEGIN
+
+DELETE FROM factura_has_pago WHERE pago_id = old.id;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -467,14 +501,22 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 trigger eliminarProducto before delete
-on producto
-for each row
-begin
-
-delete from producto_has_material where producto_id = old.id;
-delete from detalle_pro where producto_id = old.id;
-
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 trigger eliminarProducto before delete
+
+on producto
+
+for each row
+
+begin
+
+
+
+delete from producto_has_material where producto_id = old.id;
+
+delete from detalle_pro where producto_id = old.id;
+
+
+
 end */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -548,12 +590,18 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER eliminarProveedor
-BEFORE DELETE ON proveedor
-FOR EACH ROW
-BEGIN
-DELETE FROM compra WHERE proveedor_id = old.id;
-DELETE FROM credito WHERE proveedor_id = old.id;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER eliminarProveedor
+
+BEFORE DELETE ON proveedor
+
+FOR EACH ROW
+
+BEGIN
+
+DELETE FROM compra WHERE proveedor_id = old.id;
+
+DELETE FROM credito WHERE proveedor_id = old.id;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
