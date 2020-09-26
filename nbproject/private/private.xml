@@ -3,21 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/InternalFrame/deudaHistoria.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Clases/ConexionMySQL.java</file>
             <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Clases/VariableGlobal.java</file>
             <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Frame/Cargador.java</file>
-            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Clases/ConexionDB.java</file>
-            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Frame/InicioSesion.java</file>
-            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Clases/ConexionMySQL.java</file>
-            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Frame/Menu2.java</file>
-            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Frame/PrimerUsuario.java</file>
-            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/InternalFrame/Deudor2.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Clases/Importar.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Fichero/BaseDatos.txt</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Clases/Fichero.java</file>
             <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Clases/Modulo.java</file>
-            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/InternalFrame/CambioContra.java</file>
             <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/ProyectoBD.java</file>
-            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/InternalFrame/Usuario.java</file>
-            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/InternalFrame/Venta2.java</file>
-            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/InternalFrame/Compra.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Frame/VentanaImportar.java</file>
         </group>
     </open-files>
 </project-private>
