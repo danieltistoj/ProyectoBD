@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-base
-=======
-proyectobd3
->>>>>>> b5f3a789ae3bb8e8faf40ec9d5fd7d112c8a1373
+proyectobd
