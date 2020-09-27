@@ -19,11 +19,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TablaId {
     private JTable tabla;
-    private ConexionMySQL conexion;
-     private String localhost = "localhost",puerto = "3305",baseDeDatos = "proyectobd3",usuario ="root",contra = "xela2020";
+    private VariableGlobal conexion;
     public TablaId(JTable tabla) {
         this.tabla = tabla;
-        conexion = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
+        conexion = new VariableGlobal();
     }
     public void llenarTable(String consulta, String parametroEntrada, String formaParametro, String formaId, String extra,String entrada, String[] titulo){
         String campo = parametroEntrada;
@@ -35,9 +34,9 @@ public class TablaId {
          try {
          DefaultTableModel modelo = new DefaultTableModel(null,titulo);
          tabla.setModel(modelo);
-         conexion.EjecutarConsulta(consulta+where+" "+extra);
+         conexion.conexionMySQL.EjecutarConsulta(consulta+where+" "+extra);
             
-            ResultSet rs = conexion.getResulSet();
+            ResultSet rs = conexion.conexionMySQL.getResulSet();
             ResultSetMetaData rsMd = rs.getMetaData();
             int cantidadColumnas = rsMd.getColumnCount();
               
