@@ -3,7 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/elmer/Desktop/ProyectoBD/src/Frame/VentanaExportar.java</file>
+=======
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Clases/ConexionDB.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Clases/ConexionMySQL.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Clases/VariableGlobal.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Frame/Cargador.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Clases/Importar.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Frame/VentanaExportar.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Fichero/BaseDatos.txt</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Clases/Fichero.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Clases/Modulo.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/proyectobd/ProyectoBD.java</file>
+            <file>file:/C:/Users/Usuario/Documents/Base%20De%20Datos%20I/ProyectoBD/src/Frame/VentanaImportar.java</file>
+>>>>>>> b5f3a789ae3bb8e8faf40ec9d5fd7d112c8a1373
         </group>
     </open-files>
 </project-private>
