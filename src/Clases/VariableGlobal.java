@@ -21,7 +21,7 @@ public class VariableGlobal {
         puerto = "3310";
         usuario = "root";
         contra = "hacker.net";
-        fichero = new Fichero();
+        
 
         /*host = "localhost";
         puerto = "3305";
@@ -80,7 +80,7 @@ public class VariableGlobal {
         usuario = "root";
         contra = "master502";
         */
-        fichero = new Fichero();
+        
         this.conexionMySQL = new ConexionMySQL(host, puerto, base, usuario, contra);
     }
 

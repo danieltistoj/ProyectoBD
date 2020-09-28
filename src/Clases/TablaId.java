@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public class TablaId {
     private JTable tabla;
     private VariableGlobal conexion;
+    
     public TablaId(JTable tabla) {
         this.tabla = tabla;
         conexion = new VariableGlobal();

@@ -16,6 +16,7 @@ import InternalFrame.Deudor2;
 import InternalFrame.Compra;
 import InternalFrame.Cliente2;
 import InternalFrame.CambioContra;
+import InternalFrame.ExportarBD;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
@@ -64,6 +65,8 @@ public class Menu2 extends javax.swing.JFrame {
         menuUsuario = new javax.swing.JMenu();
         itemUsuario = new javax.swing.JMenuItem();
         itemEditContra = new javax.swing.JMenuItem();
+        jMenuExportar = new javax.swing.JMenu();
+        jMenuItemExportar = new javax.swing.JMenuItem();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -227,6 +230,18 @@ public class Menu2 extends javax.swing.JFrame {
 
         barraMenu.add(menuUsuario);
 
+        jMenuExportar.setText("Exportar");
+
+        jMenuItemExportar.setText("Exporta Base de Datos");
+        jMenuItemExportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemExportarActionPerformed(evt);
+            }
+        });
+        jMenuExportar.add(jMenuItemExportar);
+
+        barraMenu.add(jMenuExportar);
+
         setJMenuBar(barraMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -344,6 +359,14 @@ public void setIdUsuario(String id){
        this.dispose();
     }//GEN-LAST:event_itemIniciarSesionActionPerformed
 
+    private void jMenuItemExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExportarActionPerformed
+        ExportarBD exportar = new ExportarBD();
+       this.panelEscritorio.add(exportar);
+       exportar.show();
+        
+        
+    }//GEN-LAST:event_jMenuItemExportarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -395,6 +418,8 @@ public void setIdUsuario(String id){
     private javax.swing.JMenuItem itemVenta;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenuExportar;
+    private javax.swing.JMenuItem jMenuItemExportar;
     private javax.swing.JMenu menuAlmacen;
     private javax.swing.JMenu menuArchivo;
     private javax.swing.JMenu menuUsuario;
