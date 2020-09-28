@@ -360,7 +360,8 @@ public void setIdUsuario(String id){
     }//GEN-LAST:event_itemIniciarSesionActionPerformed
 
     private void jMenuItemExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExportarActionPerformed
-        ExportarBD exportar = new ExportarBD();
+       ExportarBD exportar = new ExportarBD();
+       exportar.setVisible(true);
        this.panelEscritorio.add(exportar);
        exportar.show();
         

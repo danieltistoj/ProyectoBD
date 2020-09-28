@@ -21,7 +21,8 @@ import javax.swing.WindowConstants;
 public class ExportarBD extends javax.swing.JInternalFrame {
 
     private Exportar exportar;
-    private Fichero1 fichero;
+    //private Fichero1 fichero;
+    private Fichero fichero1;
     private VariableGlobal conexion;
 
     /**
@@ -29,6 +30,13 @@ public class ExportarBD extends javax.swing.JInternalFrame {
      */
     public ExportarBD() {
         initComponents();
+        txtRutaExp.setEnabled(false);
+        txtRutaExportacionP.setEnabled(false);
+        txtHoraExportacion.setEnabled(false);
+        System.out.println("entro");
+        fichero1 = new Fichero();
+        conexion = new VariableGlobal();
+        exportar = new Exportar(conexion.getContra(),conexion.getUsuario(),fichero1.obterBase());
 //        setVisible(true);
 //        
 //        conexion = new VariableGlobal(fichero.getBaseDatos());

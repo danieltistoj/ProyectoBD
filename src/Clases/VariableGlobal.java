@@ -16,18 +16,18 @@ public class VariableGlobal {
     private String host, puerto, usuario, contra;
 
     public VariableGlobal() {
-        
+        /*
         host = "localhost";
         puerto = "3310";
         usuario = "root";
         contra = "hacker.net";
-        
+        */
 
-        /*host = "localhost";
+        host = "localhost";
         puerto = "3305";
         usuario = "root";
         contra = "xela2020";
-        */
+        
 
        /*
         
@@ -51,21 +51,22 @@ public class VariableGlobal {
     }
 
     public VariableGlobal(String base) {
-        
+        /*
         host = "localhost";
         puerto = "3310";
         usuario = "root";
         contra = "hacker.net";
+        */
         fichero = new Fichero();
 
 
 
-        /*host = "localhost";
+        host = "localhost";
 
-        puerto = "3306";
+        puerto = "3305";
         usuario = "root";
         contra = "xela2020";
-        */
+        
 
        /*
         host = "localhost";
