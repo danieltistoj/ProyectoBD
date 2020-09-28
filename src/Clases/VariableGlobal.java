@@ -24,9 +24,9 @@ public class VariableGlobal {
         */
 
         host = "localhost";
-        puerto = "3305";
+        puerto = "3306";
         usuario = "root";
-        contra = "xela2020";
+        contra = "720cower";
         
 
        /*
@@ -63,9 +63,9 @@ public class VariableGlobal {
 
         host = "localhost";
 
-        puerto = "3305";
+        puerto = "3306";
         usuario = "root";
-        contra = "xela2020";
+        contra = "720cower";
         
 
        /*
@@ -92,5 +92,4 @@ public class VariableGlobal {
     public String getContra() {
         return contra;
     }
-
 }

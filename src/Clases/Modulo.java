@@ -6,6 +6,7 @@
 package Clases;
 
 import Clases.ConexionMySQL;
+import Clases.Bitacoratxt;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -24,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 public class Modulo {
 
     private JTable tabla;
+    private Bitacoratxt escribir;
     private DefaultTableModel modelo;
     private JLabel labelNum, labelFecha;
     // private ConexionMySQL conexion;
@@ -36,9 +38,11 @@ public class Modulo {
 
     public Modulo() {
         conexion = new VariableGlobal();
+        escribir = new Bitacoratxt();
     }
     public Modulo(boolean sinBase) {
         conexion = new VariableGlobal("");
+        escribir = new Bitacoratxt();
     }
 
     public String generarCodigo(String formaParametro, String tabla, String letra) {

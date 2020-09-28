@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.codec.digest.DigestUtils;
+import Clases.Bitacoratxt;
 
 /**
  *
@@ -21,10 +22,8 @@ import org.apache.commons.codec.digest.DigestUtils;
  */
 public class ProyectoBD {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
+         Bitacoratxt n = new Bitacoratxt();
          Cargador cargar = new Cargador();
          cargar.setVisible(true);
     } 

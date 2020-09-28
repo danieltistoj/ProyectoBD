@@ -11,6 +11,9 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -38,7 +41,8 @@ public class Producto2 extends javax.swing.JInternalFrame {
     private int tipoUsuario, nuevoUeditar;
     private Modulo producto;
     private VariableGlobal conexion;
-
+    private Date fecha;
+    private Bitacoratxt escribir;
     public Producto2(int tipo) {
         initComponents();
 
@@ -47,7 +51,7 @@ public class Producto2 extends javax.swing.JInternalFrame {
         botonCancelar.setEnabled(false);
         botonGuardar.setEnabled(false);
         botonRegresar.setEnabled(false);
-
+         escribir = new Bitacoratxt();
         tabbed.setEnabledAt(1, false);
         tabbed.setEnabledAt(2, false);
         tabbed.setEnabledAt(3, false);
@@ -1426,7 +1430,12 @@ private void limpiarPanelProducto() {
         labelCostoProduccion.setText("0");
 
     }
-
+private String obtenerfecha() {
+        fecha = new Date();
+        DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String convertido = fechaHora.format(fecha);
+        return convertido;
+    }
     private void limpiarPanelMaterial() {
         labelCosto.setText("");
         labelNombre.setText("");
@@ -1575,6 +1584,7 @@ private void limpiarPanelProducto() {
     private void nuevoRegistro(String colummnas, String parametro, String tabla) {
         conexion.conexionMySQL.EjecutarInstruccion("insert into " + tabla + " (" + colummnas + ")\n"
                 + "values(" + parametro + ")");
+        escribir.Escribirtxt("Se hizo un INSERT en la tabla producto ", obtenerfecha());
 
     }
 
@@ -1659,6 +1669,8 @@ private void limpiarPanelProducto() {
                 //realizamos la consulta, para modifcar
                 producto.modificarRegistro("producto", "nombre = '" + txtNombreEditar.getText() + "',precio=" + txtPrecioEditar.getText() + ",descripcion='" + txtAreaEditar.getText()
                         + "'" + costoProduccionText, "id", labelIdProEdit.getText());
+                
+                         escribir.Escribirtxt("Se hizo un  UPDATE en la tabla producto ", obtenerfecha());
                 JOptionPane.showMessageDialog(null, "El producto se modifico con exito");
                 limpiarPanelEditar();
             }
@@ -1743,17 +1755,23 @@ private void limpiarPanelProducto() {
         } else {
             limpiarPanelEditar();
         }
+        conexion.conexionMySQL.EjecutarInstruccion("ROLLBACK");
+        escribir.Escribirtxt("--TRANSACCION ABORTADA-- ", obtenerfecha());
         String consulta = "select * from producto";
         cargarTablaId(consulta, "", "nombre", "id", "", "where", tablaProducto, titulos);
 
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
+        conexion.conexionMySQL.EjecutarInstruccion("START TRANSACTION");
+        escribir.Escribirtxt("--INICIO TRANSACCION--",obtenerfecha());
         nuevoUeditar = 1;
         activarPanel();
     }//GEN-LAST:event_botonNuevoActionPerformed
 
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
+        conexion.conexionMySQL.EjecutarInstruccion("START TRANSACTION");
+        escribir.Escribirtxt("--INICIO TRANSACCION--",obtenerfecha());
         nuevoUeditar = 0;
         String consulta = "select M.id,M.nombre,M.cantidad as exsitencias,M.tipo,M.costo,PM.Cantidad  from producto_has_material PM\n"
                 + "inner join producto P on P.id = PM.producto_id\n"
@@ -1800,6 +1818,8 @@ private void limpiarPanelProducto() {
         } else {
             editarProucto();
         }
+        conexion.conexionMySQL.EjecutarInstruccion("COMMIT");
+        escribir.Escribirtxt("--TRANSACCION FINALIZADA--", obtenerfecha());
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteActionPerformed
