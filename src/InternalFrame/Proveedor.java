@@ -12,6 +12,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -39,7 +42,8 @@ public class Proveedor extends javax.swing.JInternalFrame {
     private int opcion;
     private Modulo proveedor;
     private VariableGlobal conexion;
-
+    private Date fecha;
+    private Bitacoratxt escribir;
     public Proveedor(int tipo) {
         initComponents();
         botonCancelar.setEnabled(false);
@@ -52,6 +56,7 @@ public class Proveedor extends javax.swing.JInternalFrame {
             botonEditar.setEnabled(false);
             botonReporte.setEnabled(false);
         }
+        escribir = new Bitacoratxt();
         botonNuevo.setToolTipText("Nuevo");
         botonEditar.setToolTipText("Editar");
         botonCancelar.setToolTipText("Cancelar");
@@ -491,7 +496,12 @@ private void activarBotones() {
         botonCancelar.setEnabled(true);
         botonGuardar.setEnabled(true);
     }
-
+private String obtenerfecha() {
+        fecha = new Date();
+        DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String convertido = fechaHora.format(fecha);
+        return convertido;
+    }
     private void limpiarPanel() {
         txtCelular.setText("");
         txtCorreo.setText("");
@@ -583,7 +593,7 @@ private void activarBotones() {
             //se inserta el proveedor en la base de datos.
             conexion.conexionMySQL.EjecutarInstruccion("INSERT INTO proveedor(nombre,telefono,celular,direccion,correo,num_cuenta)"
                     + "VALUES ('" + nombre + "','" + telefono + "','" + celular + "','" + direccion + "','" + correo + "','" + num_cuenta + "')");
-
+            escribir.Escribirtxt("Se hizo un INSERT en la tabla proveedor ", obtenerfecha());
             //Mensaje que describe que el proveedor ingreso en el sistema      
             JOptionPane.showMessageDialog(null, "Proveedor Ingresado", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
             limpiarPanel();
@@ -600,7 +610,7 @@ private void activarBotones() {
 
             conexion.conexionMySQL.EjecutarInstruccion("UPDATE proveedor SET nombre = '" + nombre + "'," + "telefono = '" + telefono + "',"
                     + "celular = '" + celular + "',direccion = '" + direccion + "',correo = '" + correo + "', num_cuenta = '" + num_cuenta + "' WHERE id = " + idProveedor);
-
+            escribir.Escribirtxt("Se hizo un UPDATE en la tabla proveedor ", obtenerfecha());
             //Mensaje que describe que el material ingreso en el sistema      
             JOptionPane.showMessageDialog(null, "Proveedor Modificado", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
             limpiarPanel();
@@ -664,10 +674,14 @@ private void activarBotones() {
         tabbed.setEnabledAt(1, true);
         tabbed.setEnabledAt(0, false);
         activarBotones();
+        conexion.conexionMySQL.EjecutarInstruccion("START TRANSACTION");
+        escribir.Escribirtxt("--INICIO TRANSACCION--",obtenerfecha());
     }//GEN-LAST:event_botonNuevoActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
         limpiarPanel();
+        conexion.conexionMySQL.EjecutarInstruccion("ROLLBACK");
+        escribir.Escribirtxt("--TRANSACCION ABORTADA-- ", obtenerfecha());
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
@@ -676,9 +690,13 @@ private void activarBotones() {
         } else {
             guardarEdicion();
         }
+         conexion.conexionMySQL.EjecutarInstruccion("COMMIT");
+         escribir.Escribirtxt("--TRANSACCION FINALIZADA--", obtenerfecha());
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
+        conexion.conexionMySQL.EjecutarInstruccion("START TRANSACTION");
+        escribir.Escribirtxt("--INICIO TRANSACCION--",obtenerfecha());
         opcion = 0;
         int fila = tablaProveedor.getSelectedRow();
         if (fila >= 0) {
@@ -687,7 +705,6 @@ private void activarBotones() {
                 tabbed.setEnabledAt(1, true);
                 tabbed.setEnabledAt(0, false);
                 activarBotones();
-
                 idProveedor = String.valueOf(tablaProveedor.getValueAt(fila, 0));
                 txtNombre.setText(String.valueOf(tablaProveedor.getValueAt(fila, 1)));
                 nombreAnterior = txtNombre.getText();
@@ -703,7 +720,7 @@ private void activarBotones() {
         } else {
             JOptionPane.showMessageDialog(null, "Seleccione un proveedor", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-
+        
     }//GEN-LAST:event_botonEditarActionPerformed
 
     private void botonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteActionPerformed

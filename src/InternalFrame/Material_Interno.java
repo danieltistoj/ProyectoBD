@@ -12,6 +12,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -36,6 +39,8 @@ public class Material_Interno extends javax.swing.JInternalFrame {
     private Modulo material;
     private int opcion;
     private VariableGlobal conexion;
+    private Date fecha;
+    private Bitacoratxt escribir;
 
     public Material_Interno(int tipoUsuario) {
         initComponents();
@@ -50,7 +55,7 @@ public class Material_Interno extends javax.swing.JInternalFrame {
             botonEditar.setEnabled(false);
             botonReporte.setEnabled(false);
         }
-
+        escribir = new Bitacoratxt();
         botonNuevo.setToolTipText("Nuevo");
         botonEditar.setToolTipText("Editar");
         botonGuardar.setToolTipText("Guardar");
@@ -517,6 +522,13 @@ public class Material_Interno extends javax.swing.JInternalFrame {
 
     } //Limpiar el panel de nuevo y editar 
 
+    private String obtenerfecha() {
+        fecha = new Date();
+        DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String convertido = fechaHora.format(fecha);
+        return convertido;
+    }
+
     private void activarBotones() {
         botonNuevo.setEnabled(false);
         botonReporte.setEnabled(false);
@@ -531,6 +543,7 @@ public class Material_Interno extends javax.swing.JInternalFrame {
         int id = -1;
         //ConexionMySQL conexion1 = new ConexionMySQL(localhost,puerto,baseDeDatos,usuario,contra);
         conexion.conexionMySQL.EjecutarConsulta("SELECT * FROM material WHERE nombre =" + "'" + nombreBuscar + "'");
+        
         ResultSet rs = conexion.conexionMySQL.getResulSet();
         try {
             while (rs.next()) {
@@ -561,6 +574,7 @@ public class Material_Interno extends javax.swing.JInternalFrame {
 
     private void eliminarMaterial(String idMaterial, String tabla, String formaId) {
         conexion.conexionMySQL.EjecutarInstruccion("DELETE FROM " + tabla + " WHERE " + formaId + " = " + idMaterial);
+        escribir.Escribirtxt("Se hizo un DELETE en la tabla Material ", obtenerfecha());
     }// eliminamos los registros en donde este el material
 
     private void nuevoMaterial(String nombre, String alto, String ancho, String color, String tipo, String costo) {//nuevo registro material 
@@ -572,7 +586,7 @@ public class Material_Interno extends javax.swing.JInternalFrame {
             //se inserta el material en la base de datos.
             conexion.conexionMySQL.EjecutarInstruccion("INSERT INTO material(nombre,alto,ancho,cantidad,color,tipo,costo)"
                     + "VALUES ('" + nombre + "'," + alto + "," + ancho + "," + 0 + ",'" + color + "' ,'" + tipo + "'," + costo + ")");
-
+            escribir.Escribirtxt("Se hizo un INSERT en la tabla Material ", obtenerfecha());
             //Mensaje que describe que el material ingreso en el sistema      
             JOptionPane.showMessageDialog(null, "Material Ingresado", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
             limpiarPanel();
@@ -590,7 +604,7 @@ public class Material_Interno extends javax.swing.JInternalFrame {
 
             conexion.conexionMySQL.EjecutarInstruccion("UPDATE material SET nombre = '" + nombre + "'," + "alto = " + alto + ","
                     + "ancho = " + ancho + ",color = '" + color + "',tipo = '" + tipo + "', costo = " + costo + " WHERE id = " + ID);
-
+            escribir.Escribirtxt("Se hizo un UPDATE en la tabla Material ", obtenerfecha());
             //Mensaje que describe que el material ingreso en el sistema      
             JOptionPane.showMessageDialog(null, "Material Modificado", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
             limpiarPanel();
@@ -684,6 +698,8 @@ public class Material_Interno extends javax.swing.JInternalFrame {
         }
     }
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
+        conexion.conexionMySQL.EjecutarInstruccion("START TRANSACTION");
+        escribir.Escribirtxt("--INICIO TRANSACCION--",obtenerfecha());
         int fila = tablaMaterial.getSelectedRow();
         float alto1;
         String alto;
@@ -744,7 +760,6 @@ public class Material_Interno extends javax.swing.JInternalFrame {
             DefaultTableModel modelo = new DefaultTableModel(null, titulos);
             tablaMaterial.setModel(modelo);
             conexion.conexionMySQL.EjecutarConsulta("SELECT * FROM material " + where + " " + "ORDER BY cantidad");
-
             ResultSet rs = conexion.conexionMySQL.getResulSet();
             ResultSetMetaData rsMd = rs.getMetaData();
             int cantidadColumnas = rsMd.getColumnCount();
@@ -764,6 +779,8 @@ public class Material_Interno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_botonCargarActionPerformed
 // boton nuevo
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
+        conexion.conexionMySQL.EjecutarInstruccion("START TRANSACTION");
+        escribir.Escribirtxt("--INICIO TRANSACCION--",obtenerfecha());
         opcion = 1;
         tabbed.setSelectedIndex(1);
         tabbed.setEnabledAt(1, true);
@@ -776,13 +793,19 @@ public class Material_Interno extends javax.swing.JInternalFrame {
         if (opcion == 1) {
             guardarNuevoMaterial();
         } else {
-            guardarEdicionMaterial();
-
+            guardarEdicionMaterial();;
         }
+        conexion.conexionMySQL.EjecutarInstruccion("COMMIT");
+        fecha = new Date();
+        DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String convertido = fechaHora.format(fecha);
+        escribir.Escribirtxt("--TRANSACCION FINALIZADA--", convertido);
     }//GEN-LAST:event_botonGuardarActionPerformed
 //boton cancelar 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
         tabbed.setSelectedIndex(0);
+        conexion.conexionMySQL.EjecutarInstruccion("ROLLBACK");
+        escribir.Escribirtxt("--TRANSACCION ABORTADA-- ", obtenerfecha());
         limpiarPanel();
     }//GEN-LAST:event_botonCancelarActionPerformed
 //accion cuando ingresamos letras en la caja de costo

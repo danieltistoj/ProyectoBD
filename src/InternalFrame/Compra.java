@@ -9,8 +9,11 @@ import Clases.*;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -27,7 +30,8 @@ public class Compra extends javax.swing.JInternalFrame {
     private DefaultTableModel modelo;
     private VariableGlobal conexion;
     private float abono;
-
+    private Bitacoratxt escribir;
+    private Date fechaxd;
     public Compra() {
 
         initComponents();
@@ -45,7 +49,7 @@ public class Compra extends javax.swing.JInternalFrame {
         txtTotal2.setEnabled(false);
         txtPrimerPago.setEnabled(false);
         txtFecha.setText(fecha());
-
+        escribir = new Bitacoratxt();
         botonAnadir.setEnabled(false);
         botonGuardar.setEnabled(false);
         botonCargarMat.setEnabled(false);
@@ -647,10 +651,16 @@ public class Compra extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-private String fecha() {
+    private String fecha() {
         LocalDate fecha1 = LocalDate.now();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return fecha1.format(dtf);
+    }
+    private String obtenerfecha() {
+        fechaxd = new Date();
+        DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String convertido = fechaHora.format(fechaxd);
+        return convertido;
     }
 
     private void activarBasico() {
@@ -839,22 +849,27 @@ private String fecha() {
     private void crearCompra(String fecha, String total, String codigo, String idProveedor) {
         conexion.conexionMySQL.EjecutarInstruccion("insert into compra(fecha,total,no_factura,proveedor_id)\n"
                 + "values('" + fecha + "'," + total + ",'" + codigo + "'," + idProveedor + ")");
+        escribir.Escribirtxt("Se hizo un INSERT en la tabla compra ", obtenerfecha());
     }
 
     private void crearDetalleCompra(String precio, String cantidad, String idCompra, String idMaterial) {
         conexion.conexionMySQL.EjecutarInstruccion("insert into detalle_compra(precio,cantidad,compra_id,material_id)\n"
                 + "values(" + precio + "," + cantidad + "," + idCompra + "," + idMaterial + ")");
+        escribir.Escribirtxt("Se hizo un INSERT en la tabla detalleCompra ", obtenerfecha());
 
     }
 
     private void crearCredito_has_compra(String idCompra, String idCredito) {
         conexion.conexionMySQL.EjecutarInstruccion("insert into credito_has_compra(credito_id,compra_id)\n"
                 + "values(" + idCredito + "," + idCompra + ")");
+        escribir.Escribirtxt("Se hizo un INSERT en la tabla Credito_compra ", obtenerfecha());
+        
     }
 
     private void crearCredito(String abono, String fecha, String idProveedor) {
         conexion.conexionMySQL.EjecutarInstruccion("insert into credito(abono,fecha,proveedor_id)\n"
                 + "values(" + abono + ",'" + fecha + "'," + idProveedor + ")");
+        escribir.Escribirtxt("Se hizo un Insert en la tabla Credito ", obtenerfecha());
     }
 
     private String getUltimoIdCompra() {
@@ -922,7 +937,7 @@ private String fecha() {
         canti = ultimaCantidad + cantiIngresar;
 
         conexion.conexionMySQL.EjecutarInstruccion("UPDATE material SET cantidad = " + canti + " WHERE id = " + idMaterial);
-
+        escribir.Escribirtxt("Se hizo un UPDATE en la tabla Material ", obtenerfecha());
     }
     private void botonCargarProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarProActionPerformed
         if (txtIdProveedor.getText().length() > 0) {
@@ -943,6 +958,8 @@ private String fecha() {
 
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
         activarBasico();
+        conexion.conexionMySQL.EjecutarInstruccion("START TRANSACTION");
+        escribir.Escribirtxt("--INICIO TRANSACCION--",obtenerfecha());
     }//GEN-LAST:event_botonNuevoActionPerformed
 
     private void botonCargarMatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarMatActionPerformed
@@ -972,6 +989,8 @@ private String fecha() {
         if (numFilas > 0) {
             limpiarTabla(modelo, tablaMat1);
         }
+        conexion.conexionMySQL.EjecutarInstruccion("ROLLBACK");
+        escribir.Escribirtxt("--TRANSACCION ABORTADA-- ", obtenerfecha());
 
     }//GEN-LAST:event_botonCancelarActionPerformed
 
@@ -1026,6 +1045,7 @@ private String fecha() {
                     if (!existeEnTabla(txtIdMaterial.getText())) {//si el material no existe en la tabla lo insertamos 
                         subTotal = Float.parseFloat(txtTotal.getText());
                         insertarEnTabla(txtIdMaterial.getText(), txtNombre.getText(), txtPrecio.getText(), txtCantidad.getText(), txtTotal.getText());
+                        
                         total = total + subTotal;
                         txtTotal2.setText("" + total);
                         limpiarAreaMaterial();
@@ -1073,7 +1093,8 @@ private String fecha() {
                 iDproveedor = txtIdProveedor.getText();
 
                 crearCompra(fecha, total, codigo, iDproveedor);//  #1  primera fase 
-
+                conexion.conexionMySQL.EjecutarInstruccion("COMMIT");
+                escribir.Escribirtxt("--TRANSACCION FINALIZADA--",obtenerfecha());
                 idCompra = getUltimoIdCompra();
                 relacionMaterialDetalle(idCompra);  //#2   segunda fase relacion material con compra
                 crearCredito(txtPrimerPago.getText(), fecha, iDproveedor);//#3  tercera fase crear el primer credito.

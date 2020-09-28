@@ -5,6 +5,7 @@
  */
 package InternalFrame;
 
+import Clases.Bitacoratxt;
 import Clases.Modulo;
 import Clases.ConexionMySQL;
 import Clases.VariableGlobal;
@@ -13,8 +14,11 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,6 +45,8 @@ public class Venta2 extends javax.swing.JInternalFrame {
     private DefaultTableModel modelo;
     private Modulo venta;
     private VariableGlobal conexion;
+    private Date fecha;
+    private Bitacoratxt escribir;
 
     public Venta2() {
         initComponents();
@@ -58,7 +64,7 @@ public class Venta2 extends javax.swing.JInternalFrame {
         botonQuitar.setEnabled(false);
         botonRemoverClie.setEnabled(false);
         botonRemoverPro.setEnabled(false);
-
+        escribir = new Bitacoratxt();
         txtAreaDescripcion.setEnabled(false);
         txtCantidad.setEnabled(false);
         txtIDproducto.setEnabled(false);
@@ -175,7 +181,6 @@ public class Venta2 extends javax.swing.JInternalFrame {
 
         labelTotal.setBackground(new java.awt.Color(0, 0, 0));
         labelTotal.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        labelTotal.setForeground(new java.awt.Color(0, 0, 0));
         labelTotal.setText("jLabel19");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -262,17 +267,15 @@ public class Venta2 extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(37, 37, 37)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(labelSubTotal))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel14)))
+                    .addComponent(jLabel14))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -723,6 +726,13 @@ public class Venta2 extends javax.swing.JInternalFrame {
         txtCantidad.setText("");
     }
 
+    private String obtenerfecha() {
+        fecha = new Date();
+        DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String convertido = fechaHora.format(fecha);
+        return convertido;
+    }
+
     private void limpiarModuloCliente() {
         txtNit.setEnabled(false);
         txtNit.setText("");
@@ -776,6 +786,7 @@ public class Venta2 extends javax.swing.JInternalFrame {
 
     private void editarCantidadMaterial(int idMaterial, int cantidad) {
         conexion.conexionMySQL.EjecutarInstruccion("UPDATE material SET cantidad = " + cantidad + " WHERE id = " + idMaterial);
+        escribir.Escribirtxt("Se hizo un UPDATE en la tabla Material ", obtenerfecha());
     }
 
 //Comprobar que el pedido con el producto se puede realizar
@@ -873,7 +884,7 @@ public class Venta2 extends javax.swing.JInternalFrame {
             parametros.put("apellido", labelApellido.getText());
             parametros.put("numFactura", labelNo.getText());
             parametros.put("total", labelTotal.getText());
-
+            
             JasperDesign dise = JRXmlLoader.load(archivo);
             JasperReport jr = JasperCompileManager.compileReport(dise);
             JasperPrint jp = JasperFillManager.fillReport(jr, parametros, con);
@@ -909,10 +920,10 @@ public class Venta2 extends javax.swing.JInternalFrame {
         botonGuardar.setEnabled(true);
         botonCancelar.setEnabled(true);
         botonNuevo.setEnabled(false);
-
         txtNit.setEnabled(true);
         txtIDproducto.setEnabled(true);
-
+        conexion.conexionMySQL.EjecutarInstruccion("START TRANSACTION");
+        escribir.Escribirtxt("--INICIO TRANSACCION--", obtenerfecha());
     }//GEN-LAST:event_botonNuevoActionPerformed
 
     private void botonRemoverClieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRemoverClieActionPerformed
@@ -1031,10 +1042,14 @@ public class Venta2 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_botonQuitarActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
+        conexion.conexionMySQL.EjecutarInstruccion("ROLLBACK");
+        escribir.Escribirtxt("--TRANSACCION ABORTADA-- ", obtenerfecha());
         cancelar();
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void botonCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCerrarActionPerformed
+        conexion.conexionMySQL.EjecutarInstruccion("ROLLBACK");
+        escribir.Escribirtxt("--TRANSACCION ABORTADA-- ", obtenerfecha());
         cancelar();
         this.dispose();
     }//GEN-LAST:event_botonCerrarActionPerformed
@@ -1051,7 +1066,12 @@ public class Venta2 extends javax.swing.JInternalFrame {
                         parametros = "fecha,total,nit,numFactura,cliente_id";
                         venta.nuevoRegistro(parametros, datos, "factura");
                         System.out.println("nueva factura");
-
+                        conexion.conexionMySQL.EjecutarInstruccion("COMMIT");
+                        fecha = new Date();
+                        escribir.Escribirtxt("Se hizo INSERT en la tabla venta ", obtenerfecha());
+                        DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String convertido = fechaHora.format(fecha);
+                        escribir.Escribirtxt("--TRANSACCION FINALIZADA--", convertido);
                         //2) relacion producto factura con la tabla detalle_pro
                         relacionProductoFactura(venta.getUltimoId("id", "factura"));
                         System.out.println("relacion factura producto");
