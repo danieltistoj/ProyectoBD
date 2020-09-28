@@ -71,6 +71,8 @@ public class Menu2 extends javax.swing.JFrame {
         itemEditContra = new javax.swing.JMenuItem();
         jMenuExportar = new javax.swing.JMenu();
         jMenuItemExportar = new javax.swing.JMenuItem();
+        MenuBitacora = new javax.swing.JMenu();
+        MenuItemBitacora = new javax.swing.JMenuItem();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -246,6 +248,18 @@ public class Menu2 extends javax.swing.JFrame {
 
         barraMenu.add(jMenuExportar);
 
+        MenuBitacora.setText("Bitacora");
+
+        MenuItemBitacora.setText("Ver bitacora");
+        MenuItemBitacora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuItemBitacoraActionPerformed(evt);
+            }
+        });
+        MenuBitacora.add(MenuItemBitacora);
+
+        barraMenu.add(MenuBitacora);
+
         setJMenuBar(barraMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -277,6 +291,8 @@ public void setTipo(int tipo){
     if(this.tipo == 0){
         menunCompras.setEnabled(false);
         itemUsuario.setEnabled(false);
+        jMenuExportar.setEnabled(false);
+        MenuBitacora.setEnabled(false);
     }
 }
 public void setIdUsuario(String id){
@@ -354,6 +370,8 @@ public void setIdUsuario(String id){
        menuUsuario.setEnabled(false);
        menuVentas.setEnabled(false);
        menunCompras.setEnabled(false);
+       MenuBitacora.setEnabled(false);
+       jMenuExportar.setEnabled(false);
        
        itemCerrarSesion.setEnabled(false);
        itemIniciarSesion.setEnabled(true);
@@ -373,6 +391,11 @@ public void setIdUsuario(String id){
         
         
     }//GEN-LAST:event_jMenuItemExportarActionPerformed
+
+    private void MenuItemBitacoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemBitacoraActionPerformed
+       Bitacoratxt bitacora = new Bitacoratxt();
+       bitacora.abrirBitacora();
+    }//GEN-LAST:event_MenuItemBitacoraActionPerformed
 
     /**
      * @param args the command line arguments
@@ -410,6 +433,8 @@ public void setIdUsuario(String id){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu MenuBitacora;
+    private javax.swing.JMenuItem MenuItemBitacora;
     private javax.swing.JMenuBar barraMenu;
     private javax.swing.JMenuItem itemCerrarSesion;
     private javax.swing.JMenuItem itemCliente;

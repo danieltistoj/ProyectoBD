@@ -231,7 +231,7 @@ public class VentanaImportar extends javax.swing.JFrame {
                             fichero.setFicheroBase(NuevaBase);
                             conexion = new VariableGlobal();
                             txtRupaImportar.setText("");
-                            int resp = JOptionPane.showConfirmDialog(null,"¿Desea reiniciar la el programa","",JOptionPane.YES_NO_OPTION);
+                            int resp = JOptionPane.showConfirmDialog(null,"¿Desea reiniciar el programa?","",JOptionPane.YES_NO_OPTION);
                             if(resp == 0){
                                 Cargador cargar = new Cargador();
                                 cargar.setVisible(true); 

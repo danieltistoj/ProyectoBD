@@ -34,5 +34,18 @@ public class Importar {
             
         }
     }
+    public void abrirBitacora(){
+        String cadena;
+        try
+        { 
+            // create a process and execute google-chrome 
+            Process process = Runtime.getRuntime().exec("google-chrome"); 
+            System.out.println("Google Chrome successfully started"); 
+        } 
+        catch (Exception e) 
+        { 
+            e.printStackTrace(); 
+        } 
+    }
    
 }

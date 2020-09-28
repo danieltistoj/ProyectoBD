@@ -6,11 +6,14 @@
 package Clases;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -56,5 +59,25 @@ public class Bitacoratxt {
         } catch (IOException ex) {
             Logger.getLogger(Bitacoratxt.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public void abrirBitacora(){
+        String cadena="";
+        int caracter;
+         try {  
+            FileReader fr = new FileReader("bitacora.txt");
+            caracter = fr.read();
+            while (caracter != -1) {
+               cadena+=(char)caracter;
+               
+                 
+                 caracter = fr.read();
+            }
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Bitacoratxt.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Bitacoratxt.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         JOptionPane.showMessageDialog(null,cadena,"Bitacora",JOptionPane.INFORMATION_MESSAGE);
     }
 }

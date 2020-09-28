@@ -22,14 +22,14 @@ public class VariableGlobal {
         usuario = "root";
         contra = "hacker.net";
         */
-
+        /*
         host = "localhost";
         puerto = "3306";
         usuario = "root";
         contra = "720cower";
-        
+        */
 
-       /*
+      // /*
         
         host = "localhost";
         puerto = "3305";
@@ -60,15 +60,15 @@ public class VariableGlobal {
         fichero = new Fichero();
 
 
-
+/*
         host = "localhost";
 
         puerto = "3306";
         usuario = "root";
         contra = "720cower";
-        
+        */
 
-       /*
+       ///*
         host = "localhost";
         puerto = "3305";
         usuario = "root";
