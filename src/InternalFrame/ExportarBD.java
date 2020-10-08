@@ -9,6 +9,7 @@ import Clases.Exportar;
 import Clases.Fichero;
 import Clases.Fichero1;
 import Clases.VariableGlobal;
+import java.awt.Color;
 import java.util.Locale;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -21,7 +22,6 @@ import javax.swing.WindowConstants;
 public class ExportarBD extends javax.swing.JInternalFrame {
 
     private Exportar exportar;
-    //private Fichero1 fichero;
     private Fichero fichero1;
     private VariableGlobal conexion;
 
@@ -31,8 +31,8 @@ public class ExportarBD extends javax.swing.JInternalFrame {
     public ExportarBD() {
         initComponents();
         txtRutaExp.setEnabled(false);
-        txtRutaExportacionP.setEnabled(false);
         txtHoraExportacion.setEnabled(false);
+        txtHoraExportacion1.setEnabled(false);
         System.out.println("entro");
         fichero1 = new Fichero();
         conexion = new VariableGlobal();
@@ -53,18 +53,26 @@ public class ExportarBD extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel7 = new javax.swing.JPanel();
-        btnExportar = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
-        jLabelBuscar = new javax.swing.JLabel();
         txtRutaExp = new javax.swing.JTextField();
+        panelArchivoExpIn = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        btnExportar = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        txtRutaExportacionP = new javax.swing.JTextField();
         txtHoraExportacion = new javax.swing.JTextField();
-        btnEditorModi = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
-        btnLimpiarHora = new javax.swing.JButton();
-        btnLimpiarRuta = new javax.swing.JButton();
-        jLabelBuscar1 = new javax.swing.JLabel();
+        txtHoraExportacion1 = new javax.swing.JTextField();
+        panelArchivoHora = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        btnEditar = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        btnLimpiar2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        btnLimpiar = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
@@ -72,145 +80,276 @@ public class ExportarBD extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
 
-        jPanel7.setBackground(new java.awt.Color(255, 51, 0));
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, " Exportacion inmediata", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 18), new java.awt.Color(255, 255, 255))); // NOI18N
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(252, 79, 39), 3), " Exportacion inmediata", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 18), new java.awt.Color(252, 79, 39))); // NOI18N
         jPanel7.setForeground(new java.awt.Color(19, 59, 92));
 
-        btnExportar.setBackground(new java.awt.Color(19, 59, 92));
-        btnExportar.setForeground(new java.awt.Color(255, 255, 255));
-        btnExportar.setText("Exportar");
-        btnExportar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnExportarClickRespaldo(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnExportarEntraRespaldo(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnExportarSaleRespaldo(evt);
-            }
-        });
-        btnExportar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExportarActionPerformed(evt);
-            }
-        });
-
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-        jLabelBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/exportar.png"))); // NOI18N
-        jLabelBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelBuscarMouseClicked(evt);
-            }
-        });
 
         txtRutaExp.setBackground(new java.awt.Color(255, 255, 255));
         txtRutaExp.setForeground(new java.awt.Color(0, 0, 0));
         txtRutaExp.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.black, java.awt.Color.black, java.awt.Color.black, java.awt.Color.black));
 
+        panelArchivoExpIn.setBackground(new java.awt.Color(255, 255, 255));
+        panelArchivoExpIn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AccionArchivo(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                EntrarPanel(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                SalirPanel(evt);
+            }
+        });
+
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/exportar.png"))); // NOI18N
+
+        javax.swing.GroupLayout panelArchivoExpInLayout = new javax.swing.GroupLayout(panelArchivoExpIn);
+        panelArchivoExpIn.setLayout(panelArchivoExpInLayout);
+        panelArchivoExpInLayout.setHorizontalGroup(
+            panelArchivoExpInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+        );
+        panelArchivoExpInLayout.setVerticalGroup(
+            panelArchivoExpInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+        );
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/databaseuntil_basededato_12919.png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+        );
+
+        btnExportar.setBackground(new java.awt.Color(252, 79, 39));
+        btnExportar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AccionBotones(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                EntrarBotones(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                SalirBotones(evt);
+            }
+        });
+
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Exportar");
+
+        javax.swing.GroupLayout btnExportarLayout = new javax.swing.GroupLayout(btnExportar);
+        btnExportar.setLayout(btnExportarLayout);
+        btnExportarLayout.setHorizontalGroup(
+            btnExportarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnExportarLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+        btnExportarLayout.setVerticalGroup(
+            btnExportarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(65, 65, 65)
+                .addComponent(btnExportar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(194, 194, 194))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(txtRutaExp, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnExportar, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(32, 32, 32)
-                .addComponent(jLabelBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addComponent(txtRutaExp, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(panelArchivoExpIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(txtRutaExp, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(jLabelBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+                        .addGap(8, 8, 8))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(txtRutaExp, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                        .addGap(121, 121, 121))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(btnExportar)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(btnExportar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(panelArchivoExpIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanel9.setBackground(new java.awt.Color(255, 51, 0));
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Programar Exportacion", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 18), new java.awt.Color(255, 255, 255))); // NOI18N
-
-        txtRutaExportacionP.setBackground(new java.awt.Color(60, 63, 65));
-        txtRutaExportacionP.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(252, 79, 39), 3), "Programar Exportacion", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 18), new java.awt.Color(252, 79, 39))); // NOI18N
+        jPanel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                EntrarPnl(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                SalirPnl(evt);
+            }
+        });
 
         txtHoraExportacion.setBackground(new java.awt.Color(255, 255, 255));
         txtHoraExportacion.setForeground(new java.awt.Color(0, 0, 0));
         txtHoraExportacion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.black, java.awt.Color.black, java.awt.Color.black, java.awt.Color.black));
-
-        btnEditorModi.setBackground(new java.awt.Color(19, 59, 92));
-        btnEditorModi.setForeground(new java.awt.Color(255, 255, 255));
-        btnEditorModi.setText("Editar");
-        btnEditorModi.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnEditorModiMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnEditorModiMouseExited(evt);
-            }
-        });
-        btnEditorModi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditorModiActionPerformed(evt);
-            }
-        });
 
         jLabel19.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setText("Hora de exportacion");
 
-        btnLimpiarHora.setBackground(new java.awt.Color(19, 59, 92));
-        btnLimpiarHora.setForeground(new java.awt.Color(255, 255, 255));
-        btnLimpiarHora.setText("Limpiar");
-        btnLimpiarHora.addMouseListener(new java.awt.event.MouseAdapter() {
+        txtHoraExportacion1.setBackground(new java.awt.Color(255, 255, 255));
+        txtHoraExportacion1.setForeground(new java.awt.Color(0, 0, 0));
+        txtHoraExportacion1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.black, java.awt.Color.black, java.awt.Color.black, java.awt.Color.black));
+
+        panelArchivoHora.setBackground(new java.awt.Color(255, 255, 255));
+        panelArchivoHora.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnLimpiarHorabtnLimpiarRutaMouseClicked(evt);
+                AccionArchivo(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnLimpiarHorabtnLimpiarRutaMouseEntered(evt);
+                EntrarPanel(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnLimpiarHorabtnLimpiarRutaMouseExited(evt);
+                SalirPanel(evt);
             }
         });
 
-        btnLimpiarRuta.setBackground(new java.awt.Color(19, 59, 92));
-        btnLimpiarRuta.setForeground(new java.awt.Color(255, 255, 255));
-        btnLimpiarRuta.setText("Limpiar");
-        btnLimpiarRuta.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/exportar.png"))); // NOI18N
+
+        javax.swing.GroupLayout panelArchivoHoraLayout = new javax.swing.GroupLayout(panelArchivoHora);
+        panelArchivoHora.setLayout(panelArchivoHoraLayout);
+        panelArchivoHoraLayout.setHorizontalGroup(
+            panelArchivoHoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+        );
+        panelArchivoHoraLayout.setVerticalGroup(
+            panelArchivoHoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
+        );
+
+        btnEditar.setBackground(new java.awt.Color(252, 79, 39));
+        btnEditar.setForeground(new java.awt.Color(252, 79, 39));
+        btnEditar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnLimpiarRutaMouseClicked(evt);
+                AccionBotones(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnLimpiarRutaMouseEntered(evt);
+                EntrarBotones(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnLimpiarRutaMouseExited(evt);
+                SalirBotones(evt);
             }
         });
 
-        jLabelBuscar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/exportar.png"))); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Editar");
+
+        javax.swing.GroupLayout btnEditarLayout = new javax.swing.GroupLayout(btnEditar);
+        btnEditar.setLayout(btnEditarLayout);
+        btnEditarLayout.setHorizontalGroup(
+            btnEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnEditarLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+        btnEditarLayout.setVerticalGroup(
+            btnEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+        );
+
+        btnLimpiar2.setBackground(new java.awt.Color(252, 79, 39));
+        btnLimpiar2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AccionBotones(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                EntrarBotones(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                SalirBotones(evt);
+            }
+        });
+
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Limpiar");
+
+        javax.swing.GroupLayout btnLimpiar2Layout = new javax.swing.GroupLayout(btnLimpiar2);
+        btnLimpiar2.setLayout(btnLimpiar2Layout);
+        btnLimpiar2Layout.setHorizontalGroup(
+            btnLimpiar2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnLimpiar2Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+        btnLimpiar2Layout.setVerticalGroup(
+            btnLimpiar2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+        );
+
+        btnLimpiar.setBackground(new java.awt.Color(252, 79, 39));
+        btnLimpiar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AccionBotones(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                EntrarBotones(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                SalirBotones(evt);
+            }
+        });
+
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Limpiar");
+
+        javax.swing.GroupLayout btnLimpiarLayout = new javax.swing.GroupLayout(btnLimpiar);
+        btnLimpiar.setLayout(btnLimpiarLayout);
+        btnLimpiarLayout.setHorizontalGroup(
+            btnLimpiarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnLimpiarLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+        btnLimpiarLayout.setVerticalGroup(
+            btnLimpiarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -219,52 +358,43 @@ public class ExportarBD extends javax.swing.JInternalFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel9Layout.createSequentialGroup()
-                                    .addGap(102, 102, 102)
-                                    .addComponent(btnLimpiarRuta))
-                                .addGroup(jPanel9Layout.createSequentialGroup()
-                                    .addGap(136, 136, 136)
-                                    .addComponent(btnLimpiarHora))
-                                .addComponent(txtRutaExportacionP, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
+                        .addGap(27, 27, 27)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnLimpiar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel9Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(btnEditorModi, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtHoraExportacion, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(45, Short.MAX_VALUE))
-            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                    .addContainerGap(291, Short.MAX_VALUE)
-                    .addComponent(jLabelBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(34, 34, 34)))
+                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtHoraExportacion)
+                                    .addComponent(txtHoraExportacion1, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel9Layout.createSequentialGroup()
+                                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(19, 19, 19)
+                                .addComponent(panelArchivoHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(120, 120, 120)
+                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addGap(4, 4, 4)
                 .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtHoraExportacion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEditorModi)
-                    .addComponent(btnLimpiarHora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                .addComponent(txtRutaExportacionP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnLimpiarRuta)
-                .addGap(54, 54, 54))
-            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                    .addContainerGap(139, Short.MAX_VALUE)
-                    .addComponent(jLabelBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(88, 88, 88)))
+                .addComponent(txtHoraExportacion1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelArchivoHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                        .addComponent(txtHoraExportacion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)))
+                .addComponent(btnLimpiar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -272,114 +402,149 @@ public class ExportarBD extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(48, Short.MAX_VALUE))
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+//color dentra del cursor al panel
+    private void EntrarPnl(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EntrarPnl
+   
+    }//GEN-LAST:event_EntrarPnl
+//color de salida del cursor del panel
+    private void SalirPnl(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SalirPnl
+     
+    }//GEN-LAST:event_SalirPnl
 
-    private void btnExportarClickRespaldo(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportarClickRespaldo
+    private void EntrarPanel(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EntrarPanel
+       if(evt.getSource() == panelArchivoHora){
+           panelArchivoHora.setBackground(new Color(253, 137, 111));
+       }
+       if(evt.getSource() == panelArchivoExpIn){
+      panelArchivoExpIn.setBackground(new Color(253, 137, 111));
+       }
+       
+    }//GEN-LAST:event_EntrarPanel
 
-    }//GEN-LAST:event_btnExportarClickRespaldo
+    private void SalirPanel(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SalirPanel
+       if(evt.getSource() == panelArchivoHora){
+            panelArchivoHora.setBackground(new Color(255, 255,255));
+       }
+       if(evt.getSource() == panelArchivoExpIn){
+           panelArchivoExpIn.setBackground(new Color(255,255,255));
+       }
+        
+    }//GEN-LAST:event_SalirPanel
 
-    private void btnExportarEntraRespaldo(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportarEntraRespaldo
+    private void EntrarBotones(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EntrarBotones
+       if(evt.getSource() == btnEditar){
+           btnEditar.setBackground(new Color(253, 137, 111));
+       }
+       if(evt.getSource() == btnLimpiar){
+            btnLimpiar.setBackground(new Color(253, 137, 111));
+       }
+       if(evt.getSource() == btnLimpiar2){
+            btnLimpiar2.setBackground(new Color(253, 137, 111));
+           
+       }
+       if(evt.getSource() == btnExportar){
+            btnExportar.setBackground(new Color(253, 137, 111));
+           
+       }
+    }//GEN-LAST:event_EntrarBotones
 
-    }//GEN-LAST:event_btnExportarEntraRespaldo
+    private void SalirBotones(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SalirBotones
+        if(evt.getSource() == btnEditar){
+           btnEditar.setBackground(new Color(252, 79, 39));
+       }
+       if(evt.getSource() == btnLimpiar){
+            btnLimpiar.setBackground(new Color(252, 79, 39));
+       }
+       if(evt.getSource() == btnLimpiar2){
+            btnLimpiar2.setBackground(new Color(252, 79, 39));
+           
+       }
+       if(evt.getSource() == btnExportar){
+            btnExportar.setBackground(new Color(252, 79, 39));
+           
+       }
+    }//GEN-LAST:event_SalirBotones
 
-    private void btnExportarSaleRespaldo(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportarSaleRespaldo
-
-    }//GEN-LAST:event_btnExportarSaleRespaldo
-
-    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
-
-        if (txtRutaExp.getText().length() != 0) {
-            exportar.setRuta(txtRutaExp.getText());
-            exportar.ExportarBase();
-            System.out.println(txtRutaExp.getText());
-        } else {
-            JOptionPane.showMessageDialog(null, "Seleccione un archivo", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }//GEN-LAST:event_btnExportarActionPerformed
-
-    private void btnEditorModiMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditorModiMouseEntered
-
-    }//GEN-LAST:event_btnEditorModiMouseEntered
-
-    private void btnEditorModiMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditorModiMouseExited
-
-    }//GEN-LAST:event_btnEditorModiMouseExited
-
-    private void btnEditorModiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditorModiActionPerformed
-
-    }//GEN-LAST:event_btnEditorModiActionPerformed
-
-    private void btnLimpiarHorabtnLimpiarRutaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarHorabtnLimpiarRutaMouseClicked
-
-    }//GEN-LAST:event_btnLimpiarHorabtnLimpiarRutaMouseClicked
-
-    private void btnLimpiarHorabtnLimpiarRutaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarHorabtnLimpiarRutaMouseEntered
-
-    }//GEN-LAST:event_btnLimpiarHorabtnLimpiarRutaMouseEntered
-
-    private void btnLimpiarHorabtnLimpiarRutaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarHorabtnLimpiarRutaMouseExited
-
-    }//GEN-LAST:event_btnLimpiarHorabtnLimpiarRutaMouseExited
-
-    private void btnLimpiarRutaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarRutaMouseClicked
-
-    }//GEN-LAST:event_btnLimpiarRutaMouseClicked
-
-    private void btnLimpiarRutaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarRutaMouseEntered
-
-    }//GEN-LAST:event_btnLimpiarRutaMouseEntered
-
-    private void btnLimpiarRutaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarRutaMouseExited
-
-    }//GEN-LAST:event_btnLimpiarRutaMouseExited
-
-    private void jLabelBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelBuscarMouseClicked
-
+    private void AccionBotones(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AccionBotones
+       if(evt.getSource() == btnExportar){
+           if(txtRutaExp.getText().length()>0){
+               exportar.setRuta(txtRutaExp.getText());
+              exportar.ExportarBase();
+           }
+           else{
+               JOptionPane.showMessageDialog(null,"Ingrese una ruta de exportacion","Error",JOptionPane.ERROR_MESSAGE);
+           }
+       }
+       if(evt.getSource() == btnEditar){
+           
+       }
+       if(evt.getSource()== btnLimpiar){
+           
+       }
+       if(evt.getSource() == btnLimpiar2){
+           
+       }
+    }//GEN-LAST:event_AccionBotones
+//Abre ventana para elegir una ruta de exportacion
+    private void AccionArchivo(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AccionArchivo
+        
         JFileChooser ch = new JFileChooser();
         ch.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int se = ch.showSaveDialog(null);
         if (se == JFileChooser.APPROVE_OPTION) {
             String ruta = ch.getSelectedFile().getPath();
-            txtRutaExp.setText(ruta);
-            // fichero.setFicheroRuta(ruta);
-
+            if(evt.getSource() == panelArchivoExpIn){
+                txtRutaExp.setText(ruta);
+            }
+            if(evt.getSource() == panelArchivoHora){
+                txtHoraExportacion.setText(ruta);
+            }
+            
         }
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLabelBuscarMouseClicked
+        
+        
+    }//GEN-LAST:event_AccionArchivo
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEditorModi;
-    private javax.swing.JButton btnExportar;
-    private javax.swing.JButton btnLimpiarHora;
-    private javax.swing.JButton btnLimpiarRuta;
+    private javax.swing.JPanel btnEditar;
+    private javax.swing.JPanel btnExportar;
+    private javax.swing.JPanel btnLimpiar;
+    private javax.swing.JPanel btnLimpiar2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabelBuscar;
-    private javax.swing.JLabel jLabelBuscar1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JPanel panelArchivoExpIn;
+    private javax.swing.JPanel panelArchivoHora;
     private javax.swing.JTextField txtHoraExportacion;
+    private javax.swing.JTextField txtHoraExportacion1;
     private javax.swing.JTextField txtRutaExp;
-    private javax.swing.JTextField txtRutaExportacionP;
     // End of variables declaration//GEN-END:variables
 }

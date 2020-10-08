@@ -28,13 +28,11 @@ public class Exportar {
         if(ruta.length()!=0){
             System.out.println("if");
             try {
-                System.out.println("try");
+                
             Process proceso = Runtime.getRuntime().exec("mysqldump -u "+usuario+" -p"+contra+" "+baseDatos);
-                System.out.println(":C");
             new HiloLector(proceso.getErrorStream()).start();
             InputStream is = proceso.getInputStream();
             FileOutputStream fos = new FileOutputStream(ruta+nombreRespaldo);
-                System.out.println(":v");
             byte[] buffer = new byte[1000];
             int leido = is.read(buffer);
             while (leido > 0) {
